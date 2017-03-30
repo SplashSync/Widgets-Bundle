@@ -1,10 +1,10 @@
 {% trans_default_domain "SplashWidgetsBundle" %}   
 
-{% if _W.Options.Footer %}
+{% if Widget.Options.Footer %}
     <div class="widget-footer padding-5 no-padding-bottom font-xs text-align-right">
-        {% if _W.Date is not empty %}{{ _W.Date | time_diff | default("Now") }}{% endif %}
+        {% if Widget.Date is not empty %}{{ Widget.Date | ago | default("Now") }}{% endif %}
         &nbsp;
-        {% if _W.Origin is not empty %}@{{ _W.Origin }}{% endif %}
+        {% if Widget.Origin is not empty %}@{{ Widget.Origin }}{% endif %}
     </div>    
 {% endif %}
                         
