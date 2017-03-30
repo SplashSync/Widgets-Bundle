@@ -1,0 +1,30 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+
+{% if Widget.Options.Header or Edit %}
+    
+    <div class="padding-5">
+        
+        {#
+            Widget Remove Btn
+        #}
+        {% include 'SplashWidgetsBundle:Widget:remove.btn.html.twig'%}  
+        {#
+            Widget Setup Btn
+        #}
+        {% include 'SplashWidgetsBundle:Widget:setup.btn.html.twig'%}  
+        {#
+            Widget Title
+        #}
+        <h6>
+            {% if Widget.icon is defined and not null %}<i class="{{ Widget.icon }}"></i>{% endif %}
+            &nbsp;{{ Widget.title | default ("Widget Title") }}
+            <small>&nbsp;{{ Widget.subtitle | default ("") }}</small>
+        </h6>
+
+    </div>    
+
+{% else %}
+{#    <a class="close font-sm visible-lg visible-md padding-10" href="#"><i class="fa fa-cog"></i></a>#}
+{% endif %}
+
+    

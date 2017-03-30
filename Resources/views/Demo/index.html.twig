@@ -1,0 +1,33 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+
+{#
+    Display Node Profile Title
+#}
+{% block page_title %}
+    <h1 class="page-title txt-color-blueDark"><i class="fa fa-fw fa-info-circle "></i>
+        OpenWidgets Demo Page
+    </h1>
+{% endblock %}    
+    
+{#
+    Display Node Profile Contents
+#}
+
+{% block page_content %}
+
+    {% include 'SplashWidgetsBundle:Demo:single.html.twig' %}  
+
+    
+    <h3 class="page-title txt-color-blueDark"><i class="fa fa-fw fa-info-circle "></i>
+        Simple Widget Displays
+    </h3>
+
+    
+    <h3 class="page-title txt-color-blueDark"><i class="fa fa-fw fa-info-circle "></i>
+        Simple Widget Displays
+    </h3>
+    
+
+{#    {{ dump(Widgets) }}#}
+{% endblock %}
+

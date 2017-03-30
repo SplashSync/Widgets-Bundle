@@ -1,0 +1,31 @@
+
+{% 
+    if Edit 
+    and _W.actions.delete is not empty 
+    and _W.parent is defined 
+%}
+    <div class="close visible-lg visible-md" style="opacity: 1;">
+        {% set EditAction = _W.actions.delete ~ "('" ~ _W.parent ~ "','" ~ _W.Identifier ~ "')" %}
+        
+        <!-- remove button -->
+        
+        <a id="{{ _W.Identifier ~ "-remove-btn" }}" 
+           class="btn btn-xs btn-link profile-link-btn" 
+           onclick="{{EditAction}}" 
+           rel="tooltip" data-placement="bottom" title="" data-original-title="{{"actions.delete" | trans}}" 
+           data-title="{{"actions.remove.title" | trans({},"SplashWidgetsBundle")}}" 
+           data-contents="{{"actions.remove.contents" | trans({},"SplashWidgetsBundle")}}" 
+           data-yes="{{"yes" | trans}}"
+           data-no="{{"no" | trans}}"
+           >
+            <i class="fa fa-minus-circle font-lg"></i>     
+        </a>        
+           
+        <!-- end remove button -->         
+        
+        
+    </div>  
+
+{% endif %}        
+
+    

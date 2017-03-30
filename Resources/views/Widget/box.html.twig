@@ -1,0 +1,18 @@
+<div class="{{ Widget.Options.Width  }} " id="{{ Widget.Identifier  }}" data-id="{{ Widget.Identifier  }}"> 
+    <div 
+        class="well well-sm no-padding {#{% if Edit %}bg-color-redLight{% endif %}#}" 
+        style="opacity: 1; {% if Edit %}box-shadow: 10px 10px 5px #B09B5B;{% endif %}">
+        {#
+            Widget Contents
+        #}
+        {% block widget_contents %}
+        {% endblock %}                 
+    </div> 
+</div> 
+
+
+ 
+
+        
+
+ 

@@ -1,0 +1,39 @@
+#    
+#    General String Translations
+#
+
+################################################################################    
+#    Widget Generic Names
+################################################################################  
+widget:
+    type:           Type de Widget 
+    name:           Nome du Widget
+    params:         Paramètres
+
+################################################################################    
+#    Widget Generic Actions
+################################################################################  
+actions:
+    remove:
+        title:      Supprimer ce Widget
+        contents:   Voulez-vous vraiment supprimer ce Widget?
+            
+################################################################################    
+#    Options Form Translations
+################################################################################    
+options:
+    width:
+        label:      Largeur
+        tooltip:    Select the perfect width of you widget and we will adjust its size on all your device.
+        xs:         Extra Small !!
+        sm:         Small...
+        m:          Meduim (Default) - 50% on large device
+        l:          Large
+        xl:         Extra Large - Always 100%
+    header:
+        label:      Display Title
+        tooltip:    Disable this option not to render widget Title
+    footer:
+        label:      Display Footer
+        tooltip:    Disable this option not to render widget Bottom block
+ 

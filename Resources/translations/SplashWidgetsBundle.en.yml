@@ -1,0 +1,50 @@
+#    
+#    General String Translations
+#
+
+################################################################################    
+#    Widget Generic Names
+################################################################################  
+widget:
+    type:           Widget Type 
+    name:           Widget Name
+    params:         Settings
+
+################################################################################    
+#    Widget Generic Actions
+################################################################################  
+actions:
+    remove:
+        title:      Remove this Widget
+        contents:   Do you really want to remove this widget?
+            
+################################################################################    
+#    Options Form Translations
+################################################################################    
+options:
+    width:
+        label:      Width
+        tooltip:    Select the perfect width of you widget and we will adjust its size on all your device.
+        xs:         Extra Small !!
+        sm:         Small...
+        m:          Meduim (Default) - 50% on large device
+        l:          Large
+        xl:         Extra Large - Always 100%
+    header:
+        label:      Display Title
+        tooltip:    Disable this option not to render widget Title
+    footer:
+        label:      Display Footer
+        tooltip:    Disable this option not to render widget Bottom block
+ 
+    dates:  
+        label:      Date Range
+        tooltip:    Select date range for live View 
+        day:        ToDay
+        week:       This Week
+        month:      This Month
+        year:       This Year
+        prev_day:   Yesteday
+        prev_week:  Last Week
+        prev_month: Last Month
+        prev_year:  Last Year

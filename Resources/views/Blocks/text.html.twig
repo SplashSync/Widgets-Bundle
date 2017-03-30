@@ -1,0 +1,17 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+{% extends "SplashWidgetsBundle:Blocks:base.html.twig" %}
+{% import "SplashWidgetsBundle:Macros:widgets.html.twig" as Wid %}
+
+{% block block_content %}
+    
+    {#
+        Widget Simple Text
+    #}
+    <p class="padding-10">
+        {{ Wid.Text(Block.text,Block.Options) }}
+    </p>
+    
+{% endblock %}
+
+    
+    

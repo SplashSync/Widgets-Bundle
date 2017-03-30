@@ -1,0 +1,58 @@
+
+
+        {#
+            Widget Header
+        #}
+        {% block widget_Header %}
+            <header>
+            {% include 'SplashWidgetsBundle:Widget:header.html.twig'%}  
+            </header>
+        {% endblock %}  
+
+        {#
+            Widget Contents
+        #}
+        {% block widget_contents %}
+            
+            <div class="row no-padding"
+
+                >
+                {% for Block in Widget.blocks %}
+                    
+                    {% if Block.type        == "TextBlock" %}
+                        {% include 'SplashWidgetsBundle:Blocks:text.html.twig'%}  
+
+                    {% elseif Block.type    == "NotificationsBlock" %}
+                        {% include 'SplashWidgetsBundle:Blocks:notifications.html.twig'%}    
+
+                    {% elseif Block.type    == "TableBlock" %}
+                        {% include 'SplashWidgetsBundle:Blocks:table.html.twig'%}  
+
+                    {% elseif Block.type    == "SparkInfoBlock" %}
+                        {% include 'SplashWidgetsBundle:Blocks:sparkinfo.html.twig'%}  
+                        
+{#                    {% elseif Block.type    == "SparkChartBlock" %}
+                        {% include 'SplashWidgetsBundle:Blocks:sparkchart.html.twig'%}  #}
+                        
+                    {% endif %}
+                    
+                {% endfor %}  
+            </div>                    
+        
+{#            {% include 'SplashWidgetsBundle:Widget:title.html.twig'%}  #}
+        {% endblock %}  
+        
+        
+        {#
+            Widget Footer
+        #}
+        {% block widget_footer %}
+            {% include 'SplashWidgetsBundle:Widget:footer.html.twig'%}  
+        {% endblock %}  
+        
+        
+{#    </div> #}
+{#</div> #}
+
+
+ 

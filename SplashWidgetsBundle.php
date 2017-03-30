@@ -1,6 +1,6 @@
 <?php
 
-namespace Splash\WidgetsBundle;
+namespace Splash\Widgets;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

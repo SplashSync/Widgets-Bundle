@@ -1,0 +1,20 @@
+services:
+
+# Widget Parser & Creation Service
+    Splash.Widgets.Factory:
+        class: Splash\Widgets\Services\FactoryService
+
+# Widgets Listing Service
+    Splash.Widgets.Listing:
+        class: Splash\Widgets\Services\ListingService
+        arguments: ["@event_dispatcher"]   
+
+# Demo Widgets Factroy Service
+    Splash.Widgets.Samples:
+        class: Splash\Widgets\Services\SamplesFactoryService
+        arguments: ["@Splash.Widgets.Factory"]   
+#        lazy: true             
+        tags:
+            - { name: kernel.event_listener, event: splash.widgets.list.user, method: onListingAction }
+            - { name: kernel.event_listener, event: splash.widgets.list.demo, method: onListingAction }
+
