@@ -1,0 +1,19 @@
+{
+    "name": "splash/widgets-bundle",
+    "description": "Generic Informations Widgets Bundle for Symfony Applications",
+
+    "license": "MIT",
+
+    "autoload": {
+        "psr-4": { "Splash\\Widgets\\": "" }
+    },
+    
+    "require": {
+        "php":                                          "^7.0",
+        "symfony/symfony":                              ">=2.8",
+        "doctrine/orm":                                 "^2.5",
+        "doctrine/doctrine-bundle":                     "^1.6",
+        "doctrine/doctrine-cache-bundle":               "^1.2"
+
+    }
+}
