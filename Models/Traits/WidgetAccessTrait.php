@@ -11,12 +11,7 @@
 
 namespace Splash\Widgets\Models\Traits;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
-use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
-
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @abstract Widget Access Trait - Defin access to a Widget 
@@ -27,17 +22,23 @@ trait WidgetAccessTrait
 {
     
     /**
-     * @var string
+     * @abstract    Widget Provider Service Name
+     * @var         string
+     * @ORM\Column(name="service", type="string", length=250)
      */
     protected $service   =   Null;
     
     /**
-     * @var string
+     * @abstract    Widget Type Name
+     * @var         string
+     * @ORM\Column(name="type", type="string", length=250)
      */
     protected $type;
 
     /**
-     * @var array
+     * @abstract    Widget Definition Extras
+     * @var         array
+     * @ORM\Column(name="Settings", type="array")
      */
     protected $extras;    
     

@@ -30,6 +30,8 @@
             <td width="70%">
                 <div class="row padding-10">
                     {{ render(controller('SplashWidgetsBundle:View:forced', { 'Service' : Widget.service,  'WidgetId' : Widget.identifier })) }}
+                    {{ render(controller('SplashWidgetsBundle:View:delayed', { 'Service' : Widget.service,  'WidgetId' : Widget.identifier })) }}
+{#                    {{ render(controller('SplashWidgetsBundle:View:forced', { 'Service' : Widget.service,  'WidgetId' : Widget.identifier })) }}#}
                 </div>
             </td>
         <tr>

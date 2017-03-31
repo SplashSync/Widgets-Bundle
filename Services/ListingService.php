@@ -4,7 +4,7 @@ namespace Splash\Widgets\Services;
 
 use ArrayObject;
 
-use Splash\Widgets\Models\Widget;
+use Splash\Widgets\Entity\Widget;
 
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

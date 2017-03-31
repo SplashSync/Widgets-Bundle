@@ -5,7 +5,7 @@ namespace Splash\Widgets\Services;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-use Splash\Widgets\Models\Widget;
+use Splash\Widgets\Entity\Widget;
 
 /*
  * Widget Factory Service
@@ -416,5 +416,26 @@ class FactoryService
 //        return "Not Found...";
 //    } 
 
+    public function buildErrorWidget($Service,$WidgetId,$Error)
+    {
+        $this
+                
+            //==============================================================================
+            // Create Widget 
+            ->Create($WidgetId)
+                ->setTitle($Service . " => " . $WidgetId)
+            ->end()
+                
+            //==============================================================================
+            // Create Notifications Block 
+            ->addBlock("NotificationsBlock")
+                ->setError($Error)
+            ->end()
+
+        ;
+        
+        return $this->getWidget();
+    }
+    
     
 }

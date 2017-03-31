@@ -4,7 +4,7 @@ namespace Splash\Widgets\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Splash\Widgets\Models\Widget;
+use Splash\Widgets\Entity\Widget;
 
 class ViewController extends Controller
 {
@@ -15,16 +15,31 @@ class ViewController extends Controller
      * @var Splash\Widgets\Services\FactoryService
      */    
     private $Factory;
-        
+
+    /**
+     * WidgetInterface Service
+     * 
+     * @var Splash\Widgets\Models\Interfaces\WidgetProviderInterface
+     */    
+    private $Service = Null;
+
     /**
      * Class Initialisation
      * 
+     * @param string    $Service        Widget Provider Interface Name
+     * 
      * @return bool 
      */    
-    public function initialize() {
+    public function initialize($Service = Null) {
         
         $this->Factory = $this->get("Splash.Widgets.Factory");
         
+        //==============================================================================
+        // Link to Widget Interface Service if Available 
+        if ( $Service && $this->has($Service)) {
+            $this->Service = $this->get($Service);
+        }
+
         return True;
     }        
     
@@ -35,32 +50,53 @@ class ViewController extends Controller
     {
         //==============================================================================
         // Init & Safety Check 
-        if (!$this->initialize()) {
+        if (!$this->initialize($Service)) {
             return new Response("Splash Widgets : Init Failed", 500);
         }
-
         //==============================================================================
-        // Load Widget & Contents 
-        $Widget     =   $this->loadWidgetFromInterface($Service, $WidgetId, $Parameters);
+        // Read Widget Contents 
+        if ( $this->Service ) {
+            $Widget =   $this->Service->getWidget($WidgetId, $Parameters);
+        } 
+        //==============================================================================
+        // Validate Widget Contents 
+        if ( empty($Widget) || !is_a($Widget, Widget::class)  ) {
+            $Widget =   $this->Factory->buildErrorWidget($Service, $WidgetId, "An Error Occured During Widget Loading");
+        }
+        //==============================================================================
+        // Overide Widget Options 
         if ( !empty($Options) ) {
             $Widget->setOptions($Options);
         } 
-        
+        //==============================================================================
+        // Render Response 
         return $this->render('SplashWidgetsBundle:View:forced.html.twig', array(
                 "Widget"    => $Widget,
                 "Edit"      => False
             ));
     }    
     
-    public function viewAction($Service, $WidgetId, $Options = array() , $Parameters = array())
+    public function delayedAction($Service, $WidgetId, $Options = array() , $Parameters = array())
     {
         //==============================================================================
         // Init & Safety Check 
-        if (!$this->initialize()) {
+        if (!$this->initialize($Service)) {
             return $this->redirectToRoute("fos_user_security_login");
         }
         
-        return $this->render('SplashWidgetsBundle:Render:normal.html.twig', $this->prepare($Service, $WidgetId, $Options, $Parameters));
+        //==============================================================================
+        // Verify Interface Service is Available 
+        if ( !$this->Service) {
+            $Options = Widget::OPTIONS;
+        } else {
+            $Options = $this->Service->getWidgetOptions($WidgetId);
+        }
+        
+        return $this->render('SplashWidgetsBundle:View:delayed.html.twig', array(
+                "Service"       =>  $Service,
+                "WidgetId"      =>  $WidgetId,
+                "Options"       =>  $Options,
+            ));
     }
     
     
@@ -69,8 +105,9 @@ class ViewController extends Controller
         //==============================================================================
         // Init & Safety Check 
         if (!$this->initialize()) {
-            return $this->redirectToRoute("fos_user_security_login");
+            return new Response("Splash Widgets : Init Failed", 500);
         }
+
         
         return $this->render('SplashWidgetsBundle:Render:index.html.twig', $this->prepare($Service, $WidgetId, $Options, $Parameters));
     }
@@ -98,35 +135,15 @@ class ViewController extends Controller
         //==============================================================================
         // Read Widget Contents 
         $Widget =   $this->get($Service)
-                ->getWidget($WidgetId, $this->User, $Parameters);
+                ->getWidget($WidgetId, $Parameters);
         
         if ( empty($Widget) || !is_a($Widget, Widget::class)  ) {
-            return $this->buildErrorWidget($Service, $WidgetId, "An Error Occured During Widget Loading");
+            return $this->Factory->buildErrorWidget($Service, $WidgetId, "An Error Occured During Widget Loading");
         }
         
         return $Widget;
     }    
     
   
-    public function buildErrorWidget($Service,$WidgetId,$Error)
-    {
-        $this->Factory
-                
-            //==============================================================================
-            // Create Widget 
-            ->Create($WidgetId)
-                ->setTitle($Service . " => " . $WidgetId)
-            ->end()
-                
-            //==============================================================================
-            // Create Notifications Block 
-            ->addBlock("NotificationsBlock")
-                ->setError($Error)
-            ->end()
-
-        ;
-        
-        return $this->Factory->getWidget();
-    }
     
 }

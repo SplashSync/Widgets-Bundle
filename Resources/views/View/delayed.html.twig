@@ -1,0 +1,26 @@
+{% extends "SplashWidgetsBundle:Widget:box.html.twig" %}
+
+{#{% import "SplashWidgetsBundle:Macros:widgets.html.twig" as Wid %}#}
+
+{#{{ Wid.Single(Widget, Edit) }}#}
+{#{{ Wid.Single(Widget, true) }}#}
+
+{#{{ dump(Widget.parent) }}#}
+
+{% block widget_contents %}
+    
+    <div class="text-center">
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"  aria-hidden="true"></i>
+        <span class="sr-only">Loading...</span>    
+    </div>
+    
+    <script>
+        $(document).ready(function() {
+            OWLoadWidget("{{ Service }}", "{{ WidgetId }}");
+        });
+    </script>
+    
+{% endblock %}
+        
+{#    {% include 'SplashWidgetsBundle:Widget:loading.html.twig' %}  #}
+    

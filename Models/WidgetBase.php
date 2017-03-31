@@ -27,7 +27,7 @@ use Splash\Widgets\Models\Traits\WidgetActionsTrait;
  * 
  * @author Bernard Paquier <pro@bernard-paquier.fr>
  */
-class Widget
+class WidgetBase
 {
     
     use WidgetAccessTrait;

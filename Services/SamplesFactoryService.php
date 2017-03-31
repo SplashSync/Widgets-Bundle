@@ -9,21 +9,23 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Nodes\CoreBundle\Entity\Node;    
 use OpenObject\CoreBundle\Document\OpenObjectFieldCore  as Field;
 
-use Splash\Widgets\Model\Widget         as Widget;
-use Splash\Widgets\Model\WidgetBlock    as Block;
+use Splash\Widgets\Entity\Widget;
+use Splash\Widgets\Models\WidgetBlock    as Block;
 
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 use Splash\Widgets\Services\FactoryService;
+
+use Splash\Widgets\Models\Interfaces\WidgetProviderInterface;
 
 use ArrayObject;
 
 /*
  * Demo Widgets Factory Service
  */
-class SamplesFactoryService 
+class SamplesFactoryService implements WidgetProviderInterface
 {
-    const SERVICE    =   "OpenWidgets.Core.SamplesFactory";
+    const SERVICE    =   "Splash.Widgets.Samples";
     
     const DEFAULT_WIDGET    =   array(
             "Identifier"    =>  Null,
@@ -109,6 +111,65 @@ class SamplesFactoryService
         
         return Null;
     }      
+    
+    /**
+     * @abstract   Return Widget Options Array 
+     * 
+     * @param      string   $WidgetId           Widgets Type Identifier 
+     * 
+     * @return     array
+     */    
+    public function getWidgetOptions($WidgetId) : array
+    {
+        return Widget::OPTIONS;
+    }
+
+    /**
+     * @abstract   Return Widget Parameters Array 
+     * 
+     * @param      string   $WidgetId           Widgets Type Identifier 
+     * 
+     * @return     array
+     */    
+    public function getWidgetParameters($WidgetId) : array
+    {
+        return array();
+    }
+        
+    
+    /**
+     * @abstract   Return Widget Parameters Array 
+     * 
+     * @param      string   $WidgetId           Widgets Type Identifier 
+     * @param      array    $Parameters         Updated Parameters 
+     * 
+     * @return     array
+     */    
+    public function setWidgetParameters($WidgetId, $Parameters) : bool 
+    {
+        return True;
+    }
+    
+    
+    /**
+     * @abstract   Return Widget Parameters Fields Array 
+     * 
+     * @param      string   $WidgetId           Widgets Type Identifier 
+     * 
+     * @return     array
+     */    
+    public function getWidgetParametersFields($WidgetId) : array
+    {
+        return array();
+    }
+    
+    
+//====================================================================//
+// *******************************************************************//
+//  DEMO WIDGETS FACTORY
+// *******************************************************************//
+//====================================================================//
+    
     
     public function TextWidget()
     {

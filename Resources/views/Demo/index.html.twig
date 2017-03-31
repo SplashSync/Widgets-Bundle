@@ -1,19 +1,18 @@
 {% trans_default_domain "SplashWidgetsBundle" %}   
+{% extends "base.html.twig" %}   
 
 {#
     Display Node Profile Title
 #}
-{% block page_title %}
-    <h1 class="page-title txt-color-blueDark"><i class="fa fa-fw fa-info-circle "></i>
-        OpenWidgets Demo Page
-    </h1>
+{% block headline %}
+    OpenWidgets Demo Page
 {% endblock %}    
     
 {#
     Display Node Profile Contents
 #}
 
-{% block page_content %}
+{% block content_row %}
 
     {% include 'SplashWidgetsBundle:Demo:single.html.twig' %}  
 

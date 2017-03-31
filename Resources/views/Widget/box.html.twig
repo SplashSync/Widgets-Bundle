@@ -1,7 +1,20 @@
-<div class="{{ Widget.Options.Width  }} " id="{{ Widget.Identifier  }}" data-id="{{ Widget.Identifier  }}"> 
+
+{% if Widget is defined %}
+    {% set Width = Widget.Options.Width %}
+{% elseif Options is defined %}
+    {% set Width = Options.Width %}
+{% else %}
+    {% set Width = "col-sm-12 col-md-6 col-lg-6" %}
+{% endif %}
+
+{% if Widget is defined %}
+    {% set WidgetId = Widget.Identifier %}
+{% endif %}
+
+<div class="{{ Width  }} " id="{{ WidgetId }}" data-id="{{ WidgetId }}"> 
     <div 
         class="well well-sm no-padding {#{% if Edit %}bg-color-redLight{% endif %}#}" 
-        style="opacity: 1; {% if Edit %}box-shadow: 10px 10px 5px #B09B5B;{% endif %}">
+        style="opacity: 1; {% if Edit | default(false) %}box-shadow: 10px 10px 5px #B09B5B;{% endif %}">
         {#
             Widget Contents
         #}
