@@ -21,6 +21,8 @@ use Splash\Widgets\Entity\Widget;
  */
 trait CollectionTrait
 {
+    static $SERVICE    =   "Splash.Widgets.Collection";
+
     //==============================================================================
     //      Constants  
     //==============================================================================
@@ -36,13 +38,19 @@ trait CollectionTrait
     protected $widgets;
     
     //==============================================================================
-    //      Widgets Ordering  
-    //==============================================================================
-
-    //==============================================================================
     //      Getters & Setters  
     //==============================================================================
 
+    /**
+     * Get Service Name
+     * 
+     * @return  String
+     */
+    public function getService()
+    {
+        return static::$SERVICE;
+    }
+    
     /**
      * Add Widget
      *
@@ -73,16 +81,16 @@ trait CollectionTrait
     }
 
     /**
-     * Get an Widget by Id
+     * Get an Widget by Type
      *
-     * @param   string      $Identifier        Widget Identifier
+     * @param   string      $Type        Widget Identifier
      * 
      * @return  Widget
      */
-    public function getWidget($Identifier)
+    public function getWidget($Type)
     {
-        foreach ($this->getWidgets() as $Widget ) {
-            if ( $Widget->getId() == $Identifier ) {
+        foreach ($this->widgets as $Widget ) {
+            if ( $Widget->getId() == $Type ) {
                 return $Widget;
             }
         }        
@@ -115,14 +123,14 @@ trait CollectionTrait
         }
         //==============================================================================
         // Check Widget Count is Similar
-        if ( count($OrderArray) !== $this->getAll()->count()) {
+        if ( count($OrderArray) !== $this->getWidgets()->count()) {
             return False;
         }        
         
         //==============================================================================
         // Re-Order Items
-        foreach ($OrderArray as $Index => $WidgetUnikId) {
-            $Widget = $this->get($WidgetUnikId);
+        foreach ($OrderArray as $Index => $Id) {
+            $Widget = $this->getWidget($Id);
             if ( $Widget ) {
                 $Widget->setPosition($Index);
             }

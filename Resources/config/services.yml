@@ -9,6 +9,12 @@ services:
         class: Splash\Widgets\Services\ListingService
         arguments: ["@event_dispatcher"]   
 
+# Widgets Collection Service
+    Splash.Widgets.Collection:
+        class: Splash\Widgets\Services\CollectionService
+        arguments: ["@Splash.Widgets.Factory", "@=service('doctrine.orm.entity_manager').getRepository('SplashWidgetsBundle:WidgetCollection')", "@service_container"]     
+
+
 # Demo Widgets Factroy Service
     Splash.Widgets.Samples:
         class: Splash\Widgets\Services\SamplesFactoryService

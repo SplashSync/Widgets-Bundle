@@ -18,9 +18,9 @@ use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
-use Splash\Widgets\Models\Traits\WidgetDefinitionTrait;
-use Splash\Widgets\Models\Traits\WidgetAccessTrait;
-use Splash\Widgets\Models\Traits\WidgetActionsTrait;
+use Splash\Widgets\Models\Traits\DefinitionTrait;
+use Splash\Widgets\Models\Traits\AccessTrait;
+use Splash\Widgets\Models\Traits\ActionsTrait;
 use Splash\Widgets\Models\Traits\LifecycleTrait;
 use Splash\Widgets\Models\Traits\OptionsTrait;
 use Splash\Widgets\Models\Traits\PositionTrait;
@@ -33,9 +33,9 @@ use Splash\Widgets\Models\Traits\PositionTrait;
 class WidgetBase
 {
     
-    use WidgetAccessTrait;
-    use WidgetDefinitionTrait;
-    use WidgetActionsTrait;
+    use AccessTrait;
+    use DefinitionTrait;
+    use ActionsTrait;
     use LifecycleTrait;
     use OptionsTrait;
     use PositionTrait;

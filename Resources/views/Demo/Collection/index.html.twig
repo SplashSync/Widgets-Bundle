@@ -1,11 +1,11 @@
 {% trans_default_domain "SplashWidgetsBundle" %}   
-{% extends "SplashWidgetsBundle:Demo:layout.html.twig" %}  
+{% extends "SplashWidgetsBundle:Demo:layout.html.twig" %}   
 
 {#
     Display Node Profile Title
 #}
 {% block headline %}
-    OpenWidgets Demo Page
+    OpenWidgets Collections Demo Page
 {% endblock %}    
     
 {#
@@ -13,8 +13,6 @@
 #}
 
 {% block content_row %}
-
-    {% include 'SplashWidgetsBundle:Demo/Single:contents.html.twig' %}  
 
     {% include 'SplashWidgetsBundle:Demo/Collection:contents.html.twig' %}  
     

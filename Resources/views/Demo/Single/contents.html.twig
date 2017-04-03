@@ -8,10 +8,10 @@
         
         <thead>
             <td>
-                Identifier
+                Service
             </td>
             <td>
-                Service
+                Type
             </td>
             <td>
                 Views (Forced / Normal / Cached)
@@ -22,15 +22,15 @@
 
         <tr>
             <td>
-                {{ Widget.identifier }}
+                {{ Widget.service }}
             </td>
             <td>
-                {{ Widget.service }}
+                {{ Widget.type }}
             </td>
             <td width="70%">
                 <div class="row padding-10">
-                    {{ render(controller('SplashWidgetsBundle:View:forced', { 'Service' : Widget.service,  'WidgetId' : Widget.identifier })) }}
-                    {{ render(controller('SplashWidgetsBundle:View:delayed', { 'Service' : Widget.service,  'WidgetId' : Widget.identifier })) }}
+                    {{ render(controller('SplashWidgetsBundle:View:forced', { 'Service' : Widget.service,  'Type' : Widget.type })) }}
+                    {{ render(controller('SplashWidgetsBundle:View:delayed', { 'Service' : Widget.service,  'Type' : Widget.type })) }}
 {#                    {{ render(controller('SplashWidgetsBundle:View:forced', { 'Service' : Widget.service,  'WidgetId' : Widget.identifier })) }}#}
                 </div>
             </td>

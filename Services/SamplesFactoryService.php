@@ -127,7 +127,7 @@ class SamplesFactoryService implements WidgetProviderInterface
             $Widget = $this->$WidgetId();
             return $Widget->getOptions();
         } 
-        return Widget::OPTIONS;
+        return Widget::getDefaultOptions();
     }
 
     /**
@@ -179,16 +179,12 @@ class SamplesFactoryService implements WidgetProviderInterface
     
     public function TextWidget()
     {
-        //==============================================================================
-        // Create Widget Options 
-        $WidgetOptions = array(
-            "Footer"          =>  True,
-        );
-
         $this->Factory
             //==============================================================================
             // Create Widget 
-            ->Create("Text-Wid",$WidgetOptions)
+            ->Create()
+                ->setService(self::SERVICE)
+                ->setType(__FUNCTION__)
                 ->setTitle('Simple Text Widget')
                 ->setSubTitle('Simple SubTitle Text!!')
                 ->setIcon('fa fa-binoculars')
@@ -210,9 +206,12 @@ class SamplesFactoryService implements WidgetProviderInterface
                 
             //==============================================================================
             // Create Widget 
-            ->Create("Notify-Wid")
+            ->Create()
+                ->setService(self::SERVICE)
+                ->setType(__FUNCTION__)
                 ->setTitle('My First Table Widget')
                 ->setWidth(Widget::$WIDTH_SM)
+                ->setOrigin("Sample Widgets Factory")
             ->end()
                 
             //==============================================================================
@@ -239,9 +238,12 @@ class SamplesFactoryService implements WidgetProviderInterface
                 
             //==============================================================================
             // Create Widget 
-            ->Create("Notify-Wid")
+            ->Create()
+                ->setService(self::SERVICE)
+                ->setType(__FUNCTION__)
                 ->setTitle('Notification Widget')
                 ->setWidth(Widget::$WIDTH_SM)
+                ->setOrigin("Sample Widgets Factory")
             ->end()
                 
             //==============================================================================
@@ -266,10 +268,10 @@ class SamplesFactoryService implements WidgetProviderInterface
     {
         //==============================================================================
         // Create Widget Options 
-        $WidgetOptions = array(
-            "Header"          =>  False,
-            "Footer"          =>  False,
-        );        
+//        $WidgetOptions = array(
+//            "Header"          =>  False,
+//            "Footer"          =>  False,
+//        );        
         
         //==============================================================================
         // Create Block Options 
@@ -281,9 +283,12 @@ class SamplesFactoryService implements WidgetProviderInterface
                 
             //==============================================================================
             // Create Widget 
-            ->Create("Spark-Wid", $WidgetOptions)
+            ->Create()
+                ->setService(self::SERVICE)
+                ->setType(__FUNCTION__)
                 ->setTitle('Spark Infos Widget')
                 ->setWidth(Widget::$WIDTH_DEFAULT)
+                ->setOrigin("Sample Widgets Factory")
             ->end()
                 
             //==============================================================================
@@ -343,9 +348,10 @@ class SamplesFactoryService implements WidgetProviderInterface
                 
             //==============================================================================
             // Create Widget 
-            ->Create("Composite-Wid")
+            ->Create()
                 ->setTitle('Composite Data Widget')
                 ->setWidth(Widget::$WIDTH_XL)
+                ->setOrigin("Sample Widgets Factory")
             ->end()
                 
             //==============================================================================

@@ -1,0 +1,17 @@
+splash_widgets_demo:
+    path:     /demo
+    defaults: { _controller: SplashWidgetsBundle:Demo:index }
+    
+    
+splash_widgets_single:
+    path:     /single
+    defaults: { _controller: SplashWidgetsBundle:Demo:single }    
+    
+    
+splash_widgets_collection:
+    path:     /collection
+    defaults: { _controller: SplashWidgetsBundle:Demo:collection }  
+    
+splash_widgets_collection_edit:
+    path:     /collection/edit
+    defaults: { _controller: SplashWidgetsBundle:Demo:collection_edit }      

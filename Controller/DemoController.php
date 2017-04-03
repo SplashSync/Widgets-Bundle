@@ -43,22 +43,87 @@ class DemoController extends Controller
             return new Response("Splash Widgets : Init Failed", 500);
         }
         
+        $Widgets        =   $this->get("Splash.Widgets.Listing")->getList(ListingService::DEMO_WIDGETS);
+        
+        $DemoCollection =   $this->getDemoCollection();
+        
+        return $this->render('SplashWidgetsBundle:Demo:index.html.twig', array(
+            'Widgets'       => $Widgets->getArguments(),
+            'Collection'    => $DemoCollection
+                ));
+    }
+
+    public function singleAction()
+    {
+        //==============================================================================
+        // Init & Safety Check 
+        if (!$this->initialize()) {
+            return new Response("Splash Widgets : Init Failed", 500);
+        }
+        
         $Widgets    =   $this->get("Splash.Widgets.Listing")->getList(ListingService::DEMO_WIDGETS);
         
+        return $this->render('SplashWidgetsBundle:Demo/Single:index.html.twig', array(
+            'Widgets'       => $Widgets->getArguments(),
+                ));
+    }    
+    
+    public function collectionAction()
+    {
+        //==============================================================================
+        // Init & Safety Check 
+        if (!$this->initialize()) {
+            return new Response("Splash Widgets : Init Failed", 500);
+        }
         
+        $Widgets        =   $this->get("Splash.Widgets.Listing")->getList(ListingService::DEMO_WIDGETS);
         
+        $DemoCollection =   $this->getDemoCollection();
         
+        return $this->render('SplashWidgetsBundle:Demo/Collection:index.html.twig', array(
+            'Widgets'       => $Widgets->getArguments(),
+            'Collection'    => $DemoCollection,
+            'Edit'          => False
+                ));
+    }    
+    
+    public function collection_editAction()
+    {
+        //==============================================================================
+        // Init & Safety Check 
+        if (!$this->initialize()) {
+            return new Response("Splash Widgets : Init Failed", 500);
+        }
+        
+        $Widgets        =   $this->get("Splash.Widgets.Listing")->getList(ListingService::DEMO_WIDGETS);
+        
+        $DemoCollection =   $this->getDemoCollection();
+        
+        return $this->render('SplashWidgetsBundle:Demo/Collection:index.html.twig', array(
+            'Widgets'       => $Widgets->getArguments(),
+            'Collection'    => $DemoCollection,
+            'Edit'          => True
+                ));
+    }      
+    
+    public function getDemoCollection()
+    {
+        //==============================================================================
+        // Load Collection 
         $DemoCollection =   $this->get("doctrine")
                 ->getManager()
                 ->getRepository("SplashWidgetsBundle:WidgetCollection")
                 ->findOneByType("demo-collection");
         
+        //==============================================================================
+        // Create Demo Collection
         if(!$DemoCollection) {
             $DemoCollection = new \Splash\Widgets\Entity\WidgetCollection();
             $DemoCollection
                     ->setName("Bundle Demonstration")
                     ->setType("demo-collection");
-            
+
+            $Widgets    =   $this->get("Splash.Widgets.Listing")->getList(ListingService::DEMO_WIDGETS);            
             foreach ($Widgets->getArguments() as $Widget) {
                 $DemoCollection->addWidget($Widget);
             }
@@ -68,13 +133,6 @@ class DemoController extends Controller
             $Em->flush();
         }
         
-        dump($DemoCollection);
-        
-        
-        return $this->render('SplashWidgetsBundle:Demo:index.html.twig', array(
-            'Widgets'       => $Widgets->getArguments(),
-            'Collection'    => $DemoCollection
-                ));
+        return $DemoCollection;
     }
-
 }

@@ -1,9 +1,5 @@
 
-{% 
-    if Edit 
-    and _W.actions.delete is not empty 
-    and _W.parent is defined 
-%}
+{% if Edit %}
     <div class="close visible-lg visible-md" style="opacity: 1;">
         {% set EditAction = _W.actions.delete ~ "('" ~ _W.parent ~ "','" ~ _W.Identifier ~ "')" %}
         

@@ -1,0 +1,17 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+
+    <h3 class="page-title txt-color-blueDark"><i class="fa fa-fw fa-info-circle "></i>
+        Widget Collections Displays
+    </h3>
+
+    {% if Edit %}
+        {{ render(controller('SplashWidgetsBundle:Collection:edit', { 'CollectionId' : Collection.id })) }}
+    {% else %}
+        {{ render(controller('SplashWidgetsBundle:Collection:view', { 'CollectionId' : Collection.id })) }}
+    {% endif %}
+
+    {{ dump(Edit) }}
+
+    {{ dump(Collection) }}
+{#    {{ dump(Widgets) }}#}
+

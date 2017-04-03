@@ -24,4 +24,8 @@ class WidgetCollection extends WidgetCollectionBase
      */
     protected $id;
 
+    public function getId()
+    {
+        return $this->id;
+    }        
 }

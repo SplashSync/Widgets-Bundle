@@ -2,14 +2,26 @@
 
 
 splash_widgets_render:
-    path:     /view/{Service}/{WidgetId}/{Options}/{Parameters}
+    path:     /view/{Service}/{Type}/{Edit}
     defaults: 
-        _controller: SplashWidgetsBundle:View:ajax
-        Options:    null
-        Parameters: null
+        _controller:    SplashWidgetsBundle:View:ajax
+        Edit:           false
     options:
         expose: true
-
-splash_widgets_demo:
-    path:     /demo
-    defaults: { _controller: SplashWidgetsBundle:Demo:index }
+        
+#################################################################################
+## WIDGET : AJAX EDIT MODAL
+splash_widgets_edit:
+    path:     /edit/{Service}/{Type}
+    defaults: 
+        _controller: SplashWidgetsBundle:Edit:modal
+    options:
+        expose: true
+        
+#################################################################################
+## COLLECTIONS : AJAX ORDERING UPDATE
+splash_widgets_ajax_reorder:
+    path:     /reorder/{CollectionId}/{Ordering}
+    defaults: { _controller: SplashWidgetsBundle:Collection:reorder }
+    options:
+        expose: true 

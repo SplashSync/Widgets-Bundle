@@ -6,15 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
-use Splash\Widgets\Models\Widget;
+use Splash\Widgets\Entity\Widget;
 
-class ConfigController extends Controller
+use Splash\Widgets\Form\WidgetFormType;
+
+class EditController extends Controller
 {
-    /**
-     * Current User
-     * @var User         User
-     */    
-    private $User;
 
     /**
      * WidgetFactory Service
@@ -23,25 +20,16 @@ class ConfigController extends Controller
      */    
     private $Factory;    
     
-    
     /**
      * Class Initialization
      * 
      * @return bool 
      */    
     public function initialize() {
-        //==============================================================================
-        // Load User Data
-        $this->User = $this->getUser();
-        //==============================================================================
-        // Safety Check 
-        if (is_null($this->User)) {
-            return new Response('You are Not Logged In!', 400);
-        }
         
         //====================================================================//
         // Get WidgetFactory Service
-        $this->Factory = $this->get("OpenWidgets.Core.Factory");
+        $this->Factory = $this->get("Splash.Widgets.Factory");
         
         return True;
     }
@@ -50,26 +38,25 @@ class ConfigController extends Controller
     // AJAX MODALS
     //==============================================================================
     
-//    /**
-//     * Displays a form to edit a Report Widget.
-//     *
-//     */
-//    public function modalAction(Request $request, $ReportId, $WidgetId)
-//    {
-//        //==============================================================================
-//        // Init & Safety Check 
-//        if (!$this->initialize()) {
-//            return new Response("You are not logged... ", 400);
-//        }   
-//        
-//        //==============================================================================
-//        // Import Form Data & Prepare Data for Form Display   
-//        $Params = $this->prepare($request, $ReportId, $WidgetId);
-//        
-//        //==============================================================================
-//        // Render Report Widget Edit Modal   
-//        return $this->render('OpenWidgetsReportsBundle:WidgetParameters:modal.html.twig', $Params );
-//    }
+    /**
+     * @abstract Displays a form to edit a Widget.
+     */
+    public function modalAction(Request $request, $Service, $Type)
+    {
+        //==============================================================================
+        // Init & Safety Check 
+        if (!$this->initialize()) {
+            return new Response("Error... ", 400);
+        }   
+        
+        //==============================================================================
+        // Import Form Data & Prepare Data for Form Display   
+        $Params = $this->prepare($request, $Service, $Type);
+//        $Params = array();
+        //==============================================================================
+        // Render Widget Edit Modal   
+        return $this->render('SplashWidgetsBundle:Edit:modal.html.twig', $Params );
+    }
 
     //==============================================================================
     // NON-AJAX ACTIONS
@@ -91,8 +78,8 @@ class ConfigController extends Controller
         $Params = $this->prepare($request, $Service, $WidgetId);
         
         //==============================================================================
-        // Render Report Widget Edit Modal   
-        return $this->render('SplashWidgetsBundle:Config:well.html.twig', $Params );
+        // Render Widget Edit Well   
+        return $this->render('SplashWidgetsBundle:Edit:well.html.twig', $Params );
     }    
     
     
@@ -103,7 +90,7 @@ class ConfigController extends Controller
     /**
      * @abstract Prepare Data to Display Edit form on a Widget
      */
-    public function prepare(Request $request, $Service, $WidgetId)
+    public function prepare(Request $request, $Service, $Type)
     {
         //==============================================================================
         // Verify Item Service is Available 
@@ -114,28 +101,29 @@ class ConfigController extends Controller
         //==============================================================================
         // Read Current Widget Options 
         $Options =   $this->get($Service)
-                ->getWidgetOptions($WidgetId, $this->User);
+                ->getWidgetOptions($Type);
 
         //==============================================================================
         // Read Current Widget Parameters 
         $Parameters =   $this->get($Service)
-                ->getWidgetParameters($WidgetId, $this->User);
+                ->getWidgetParameters($Type);
 
         //==============================================================================
         // Read Current Widget Parameters 
-        $Fields =   $this->get($Service)
-                ->getWidgetParametersFields($WidgetId, $this->User);
+//        $Fields =   $this->get($Service)
+//                ->getWidgetParametersFields($Type, $this->User);
         
         //==============================================================================
         // Create Widget Object for Form 
         $Widget = $this->Factory
-            ->Create($WidgetId)
+            ->Create($Type)
                 ->setOptions($Options)
-                ->setParameters($Parameters);
+                ->setParameters($Parameters)
+                ->getWidget();
         
         //==============================================================================
         // Create Edit Form
-        $this->EditForm = $this->createEditForm($Widget, $Fields);
+        $this->EditForm = $this->createEditForm($Widget);
         
         //==============================================================================
         // Handle User Posted Data
@@ -157,9 +145,9 @@ class ConfigController extends Controller
                 //==============================================================================
                 // Save Changes
                 $this->get($Service)
-                    ->setWidgetOptions($WidgetId, $this->User, $Widget->getOptions());
+                    ->setWidgetOptions($Type, $this->User, $Widget->getOptions());
                 $this->get($Service)
-                    ->setWidgetParameters($WidgetId, $this->User, $Widget->getParameters());
+                    ->setWidgetParameters($Type, $this->User, $Widget->getParameters());
             }
 //        }
         
@@ -178,11 +166,15 @@ class ConfigController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Widget $Widget, $Fields)
+    private function createEditForm(Widget $Widget, $Fields = array())
     {
+
+        
+        return $this->buildForm(new WidgetFormType());
+        
         //====================================================================//
         // Create Form Builder
-        $FormBuilder =   $this->createFormBuilder($Widget);
+        $FormBuilder =   $this->createFormBuilder($Widget, [], ["tabbed" => false]);
         
         //====================================================================//
         // Import Widget Option Form Fields

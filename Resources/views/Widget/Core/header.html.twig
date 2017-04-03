@@ -7,11 +7,17 @@
         {#
             Widget Remove Btn
         #}
-        {% include 'SplashWidgetsBundle:Widget/Buttons:remove.btn.html.twig'%}  
+{#        {% include 'SplashWidgetsBundle:Widget/Buttons:remove.btn.html.twig'%}  #}
         {#
             Widget Setup Btn
         #}
-        {% include 'SplashWidgetsBundle:Widget/Buttons:setup.btn.html.twig'%}  
+        {% if Edit %}
+                {% set EditAction = "SplashWidgets_LoadEditModal('" ~ Widget.Service ~ "','" ~ Widget.Type ~ "')" %}
+                <a href="javascript:void(0);" class="btn btn-link close visible-lg visible-md" onclick="{{ EditAction }}">
+                    <i class="fa fa-gear"></i>
+                </a>
+{#                {{ Base.JS_Action_SmBtn(_W.Identifier ~ "-edit-btn", EditAction, "cog font-lg", "actions.edit" | trans , "") }}    #}
+        {% endif %}
         {#
             Widget Title
         #}

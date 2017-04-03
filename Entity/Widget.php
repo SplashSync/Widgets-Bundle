@@ -34,4 +34,9 @@ class Widget extends WidgetBase
      */
     private $id;
     
+    public function getId()
+    {
+        return $this->id;
+    }    
+            
 }

@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  * 
  * @author Bernard Paquier <pro@bernard-paquier.fr>
  */
-trait WidgetAccessTrait
+trait AccessTrait
 {
     
     /**

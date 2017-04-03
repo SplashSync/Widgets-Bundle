@@ -25,7 +25,7 @@ use Doctrine\ORM\Mapping as ORM;
  * 
  * @author Bernard Paquier <pro@bernard-paquier.fr>
  */
-trait WidgetActionsTrait
+trait ActionsTrait
 {
     
     /**
@@ -34,7 +34,6 @@ trait WidgetActionsTrait
     protected $actions   =   array(
         "insert"                =>  "OWReports_InsertWidget",
         "delete"                =>  "OWReports_DeleteWidget",
-        "ordering"              =>  "OWReports_UpdateWidgetOrdering",
         "update_parameters"     =>  "OWReports_UpdateWidgetParameters",
         "update_options"        =>  "OWReports_UpdateWidgetOptions",
     );

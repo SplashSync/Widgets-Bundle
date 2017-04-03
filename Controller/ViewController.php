@@ -45,8 +45,15 @@ class ViewController extends Controller
     
     /*
      * @abstract    Render Widget without Using Cache & Ajax Loading
+     * 
+     * @param   string      $Service        Widget Provider Service Name
+     * @param   string      $Type           Widget Type Name
+     * @param   string      $Edit           Widget Edit Mode
+     * @param   array       $Options        Override Widget Options
+     * @param   array       $Parameters     Override Widget $Parameters
+     * 
      */
-    public function forcedAction($Service, $WidgetId, $Options = array() , $Parameters = array())
+    public function forcedAction($Service, $Type, $Edit = False, $Options = array() , $Parameters = array())
     {
         //==============================================================================
         // Init & Safety Check 
@@ -56,12 +63,12 @@ class ViewController extends Controller
         //==============================================================================
         // Read Widget Contents 
         if ( $this->Service ) {
-            $Widget =   $this->Service->getWidget($WidgetId, $Parameters);
+            $Widget =   $this->Service->getWidget($Type, $Parameters);
         } 
         //==============================================================================
         // Validate Widget Contents 
         if ( empty($Widget) || !is_a($Widget, Widget::class)  ) {
-            $Widget =   $this->Factory->buildErrorWidget($Service, $WidgetId, "An Error Occured During Widget Loading");
+            $Widget =   $this->Factory->buildErrorWidget($Service, $Type, "An Error Occured During Widget Loading");
         }
         //==============================================================================
         // Overide Widget Options 
@@ -72,11 +79,21 @@ class ViewController extends Controller
         // Render Response 
         return $this->render('SplashWidgetsBundle:Widget:base.html.twig', array(
                 "Widget"    => $Widget,
-                "Edit"      => False
+                "Edit"      => $Edit
             ));
     }    
     
-    public function delayedAction($Service, $WidgetId, $Options = array() , $Parameters = array())
+    /*
+     * @abstract    Render Widget Using Cache & Ajax Loading
+     * 
+     * @param   string      $Service        Widget Provider Service Name
+     * @param   string      $Type           Widget Type Name
+     * @param   string      $Edit           Widget Edit Mode
+     * @param   array       $Options        Override Widget Options
+     * @param   array       $Parameters     Override Widget $Parameters
+     * 
+     */    
+    public function delayedAction($Service, $Type, $Edit = False, $Options = array() , $Parameters = array())
     {
         //==============================================================================
         // Init & Safety Check 
@@ -89,18 +106,28 @@ class ViewController extends Controller
         if ( !$this->Service) {
             $Options = Widget::OPTIONS;
         } else {
-            $Options = $this->Service->getWidgetOptions($WidgetId);
+            $Options = $this->Service->getWidgetOptions($Type);
         }
         
         return $this->render('SplashWidgetsBundle:View:delayed.html.twig', array(
                 "Service"       =>  $Service,
-                "WidgetId"      =>  $WidgetId,
+                "WidgetType"    =>  $Type,
+                "Edit"          =>  $Edit,
                 "Options"       =>  $Options,
             ));
     }
-    
-    
-    public function ajaxAction($Service, $WidgetId, $Options = array() , $Parameters = array())
+     
+    /*
+     * @abstract    Render Widget Contents
+     * 
+     * @param   string      $Service        Widget Provider Service Name
+     * @param   string      $Type           Widget Type Name
+     * @param   string      $Edit           Widget Edit Mode
+     * @param   array       $Options        Override Widget Options
+     * @param   array       $Parameters     Override Widget $Parameters
+     * 
+     */       
+    public function ajaxAction($Service, $Type, $Edit = False, $Options = array() , $Parameters = array())
     {
         //==============================================================================
         // Init & Safety Check 
@@ -110,25 +137,25 @@ class ViewController extends Controller
         //==============================================================================
         // Read Widget Contents 
         if ( $this->Service ) {
-            $Widget =   $this->Service->getWidget($WidgetId, $Parameters);
+            $Widget =   $this->Service->getWidget($Type, $Parameters);
         } 
         //==============================================================================
         // Validate Widget Contents 
         if ( empty($Widget) || !is_a($Widget, Widget::class)  ) {
-            $Widget =   $this->Factory->buildErrorWidget($Service, $WidgetId, "An Error Occured During Widget Loading");
+            $Widget =   $this->Factory->buildErrorWidget($Service, $Type, "An Error Occured During Widget Loading");
         }
         //==============================================================================
         // Overide Widget Options 
         if ( !empty($Options) ) {
             $Widget->setOptions($Options);
-        } 
+        }
+        dump($Widget);
         //==============================================================================
         // Render Response 
         return $this->render('SplashWidgetsBundle:Widget:contents.html.twig', array(
                 "Widget"    => $Widget,
-                "Edit"      => False
+                "Edit"      => $Edit
             ));
     }
-    
     
 }

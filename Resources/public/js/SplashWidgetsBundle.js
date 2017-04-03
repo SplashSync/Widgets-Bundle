@@ -1,15 +1,15 @@
 /* 
  * Load OpenWidget Contents with Ajax ACtion
  */
-function OWLoadWidget(Service, Identifer)
+function SplashWidgets_LoadContents(Service, Type, Edit)
 {
     $.ajax({
         type:   "POST",
-        url:    Routing.generate("splash_widgets_render", {Service : Service, WidgetId : Identifer }),
+        url:    Routing.generate("splash_widgets_render", {Service : Service, Type : Type, Edit : Edit }),
         data:   false,
         cache:  true,
         success: function(data){
-            WidgetBlock = document.getElementById(Identifer);
+            WidgetBlock = document.getElementById(Type);
             if (WidgetBlock) {
                 WidgetBlock.innerHTML = data;
                 runAllCharts();
@@ -18,6 +18,48 @@ function OWLoadWidget(Service, Identifer)
         }
     }); 
 
+}
+
+/* 
+ * Load OpenWidget Contents with Ajax ACtion
+ */
+function SplashWidgets_LoadEditModal(Service, Type)
+{
+    $.ajax({
+        type:   "POST",
+        url:    Routing.generate("splash_widgets_edit", {Service : Service, Type : Type }),
+        data:   false,
+        cache:  true,
+        success: function(data){
+            Modal = document.getElementById("SplashWidgetModal");
+            if (!Modal) {
+                $('body').append('<div class="modal fade" tabindex="-1" role="dialog" id="SplashWidgetModal"></div>');
+                Modal = document.getElementById("SplashWidgetModal");
+            }
+            Modal.innerHTML = data;
+            $('#SplashWidgetModal').modal("show");
+            
+            return data;
+        }
+    }); 
+
+}
+
+/* 
+ * Update Widgets Collection Ordering with AJAX Requests
+ */
+function SplashWidgets_UpdatePositions(CollectionId,Ordering){
+
+    $.ajax({
+            type: "POST",
+            url: Routing.generate('splash_widgets_ajax_reorder', { CollectionId: CollectionId , Ordering: Ordering }),
+            data: false,
+            cache: true,
+            error: function(data){
+            },
+            success: function(data){
+            }
+        });         
 }
 
 /*

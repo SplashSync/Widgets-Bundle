@@ -23,39 +23,35 @@ use Doctrine\Common\Collections\ArrayCollection;
  * 
  * @author Bernard Paquier <pro@bernard-paquier.fr>
  */
-trait WidgetDefinitionTrait
+trait DefinitionTrait
 {
     
     /**
-     * @var string
-     */
-    protected $identifier   =   Null;
-    
-    /**
      * @abstract    Widget Human Readable Name
-     * 
      * @var string
      */
     protected $name;
 
     /**
      * @abstract    Widget Human Readable Description
-     * 
      * @var string
      */
     protected $description;    
     
     /**
+     * @abstract    Widget Header Title
      * @var string
      */
     protected $title;
     
     /**
+     * @abstract    Widget Header Sub-Title
      * @var string
      */
     protected $subtitle;    
     
     /**
+     * @abstract    Widget Header Icon
      * @var string
      */
     protected $icon;  
@@ -65,30 +61,6 @@ trait WidgetDefinitionTrait
     //  Widget Getter & Setter Functions
     // *******************************************************************//
     //====================================================================//
-    
-    /**
-     * Set Identifier
-     * 
-     * @param   $identifier
-     * @return  Widget
-     */
-    public function setIdentifier($identifier)
-    {
-        $this->identifier = $identifier;
-        
-        return $this;
-    }
-    
-    /**
-     * Get Identifier
-     * 
-     * @return  String
-     */
-    public function getIdentifier()
-    {
-        return $this->identifier;
-    } 
-    
     
     /**
      * Set name

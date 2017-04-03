@@ -172,7 +172,7 @@ trait OptionsTrait
      * 
      * @return  Array
      */
-    public function getDefaultOptions()
+    public static function getDefaultOptions()
     {
         return array(
             'Width'         =>  static::$WIDTH_DEFAULT,

@@ -1,0 +1,43 @@
+
+{% set CollectionId = "widgets-collection-" ~ Collection.id %}
+
+<div class="row padding-10 " id="{{ CollectionId }}">
+        {% for Widget in Collection.Widgets %}
+{#            {{ dump(Widget) }}#}
+
+            {% set Type = Widget.id ~ "@" ~ Collection.id %}
+            {{ render(controller('SplashWidgetsBundle:View:delayed', { 
+                        'Service' : Collection.service,  
+                        'Type' :    Type,
+                        'Edit' :    Edit 
+            })) }}
+{#            {{ render(controller('SplashWidgetsBundle:View:delayed', { 'Service' : Collection.service,  'Type' : Type })) }}#}
+            
+{#            {{ render(controller('SplashWidgetsBundle:Render:index', { 'Service' : Widget.service,  'WidgetId' : Widget.type })) }}#}
+{#            {{ _self.Single(Widget, Options, Edit) }}#}
+{#            {{ _self.Single(Widget,  Edit) }}#}
+{#            {{ _self.Render(Widget, Edit) }}#}
+        {% endfor %}
+</div>     
+    
+    {% if Edit %}
+        <script>
+
+            $(document).ready(function() {
+
+                $(function() {
+                    $('#{{ CollectionId }}').sortable({
+                        update: function(event, ui) {
+                            
+                            Ordering = JSON.stringify($("#{{ CollectionId }}").sortable('toArray', { attribute: 'data-id' }));
+                            console.log(Ordering);
+                            SplashWidgets_UpdatePositions("{{ Collection.id }}",Ordering);
+                        }                
+                    });
+                });
+
+            });
+
+        </script>    
+    {% endif %} 
+    
