@@ -43,9 +43,38 @@ class DemoController extends Controller
             return new Response("Splash Widgets : Init Failed", 500);
         }
         
-        $WidgetsList    =   $this->get("Splash.Widgets.Listing")->getList(ListingService::DEMO_WIDGETS);
+        $Widgets    =   $this->get("Splash.Widgets.Listing")->getList(ListingService::DEMO_WIDGETS);
         
-        return $this->render('SplashWidgetsBundle:Demo:index.html.twig', array('Widgets' => $WidgetsList->getArguments()));
+        
+        
+        
+        $DemoCollection =   $this->get("doctrine")
+                ->getManager()
+                ->getRepository("SplashWidgetsBundle:WidgetCollection")
+                ->findOneByType("demo-collection");
+        
+        if(!$DemoCollection) {
+            $DemoCollection = new \Splash\Widgets\Entity\WidgetCollection();
+            $DemoCollection
+                    ->setName("Bundle Demonstration")
+                    ->setType("demo-collection");
+            
+            foreach ($Widgets->getArguments() as $Widget) {
+                $DemoCollection->addWidget($Widget);
+            }
+            
+            $Em = $this->get("doctrine")->getManager();
+            $Em->persist($DemoCollection);
+            $Em->flush();
+        }
+        
+        dump($DemoCollection);
+        
+        
+        return $this->render('SplashWidgetsBundle:Demo:index.html.twig', array(
+            'Widgets'       => $Widgets->getArguments(),
+            'Collection'    => $DemoCollection
+                ));
     }
 
 }

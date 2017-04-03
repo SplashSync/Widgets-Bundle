@@ -121,6 +121,12 @@ class SamplesFactoryService implements WidgetProviderInterface
      */    
     public function getWidgetOptions($WidgetId) : array
     {
+        //====================================================================//
+        // If Widget Exists               
+        if ( method_exists($this, $WidgetId) ) {
+            $Widget = $this->$WidgetId();
+            return $Widget->getOptions();
+        } 
         return Widget::OPTIONS;
     }
 
@@ -206,7 +212,7 @@ class SamplesFactoryService implements WidgetProviderInterface
             // Create Widget 
             ->Create("Notify-Wid")
                 ->setTitle('My First Table Widget')
-                ->setWidth("sm")
+                ->setWidth(Widget::$WIDTH_SM)
             ->end()
                 
             //==============================================================================
@@ -235,7 +241,7 @@ class SamplesFactoryService implements WidgetProviderInterface
             // Create Widget 
             ->Create("Notify-Wid")
                 ->setTitle('Notification Widget')
-                ->setWidth("sm")
+                ->setWidth(Widget::$WIDTH_SM)
             ->end()
                 
             //==============================================================================
@@ -256,7 +262,6 @@ class SamplesFactoryService implements WidgetProviderInterface
         return $this->Factory->getWidget();
     }
     
-    
     public function SparkInfoWidget()
     {
         //==============================================================================
@@ -276,16 +281,16 @@ class SamplesFactoryService implements WidgetProviderInterface
                 
             //==============================================================================
             // Create Widget 
-            ->Create("Notify-Wid", $WidgetOptions)
+            ->Create("Spark-Wid", $WidgetOptions)
                 ->setTitle('Spark Infos Widget')
-                ->setWidth("xl")
+                ->setWidth(Widget::$WIDTH_DEFAULT)
             ->end()
                 
             //==============================================================================
             // Create SparkInfo Block 
             ->addBlock("SparkInfoBlock",$BlockOptions)
-                ->setTitle("Glyph Icon")
-                ->setGlyphIcon("asterisk")
+                ->setTitle("Fa Icon")
+                ->setFaIcon("magic")
                 ->setValue("100%")
                 ->setChart(array(1300, 1877, 2500, 400,240,220,310,220,300))
                 ->setSeparator(True)
@@ -294,8 +299,8 @@ class SamplesFactoryService implements WidgetProviderInterface
             //==============================================================================
             // Create SparkInfo Block 
             ->addBlock("SparkInfoBlock",$BlockOptions)
-                ->setTitle("Glyph Icon")
-                ->setGlyphIcon("asterisk")
+                ->setTitle("Fa Icon")
+                ->setFaIcon("magic")
                 ->setValue("100%")
                 ->setChart(array(1300, 1877, 2500, 400,240,220,310,220,300))
                 ->setSeparator(True)
@@ -304,8 +309,10 @@ class SamplesFactoryService implements WidgetProviderInterface
             //==============================================================================
             // Create SparkInfo Block 
             ->addBlock("SparkInfoBlock",$BlockOptions)
-                ->setTitle("Glyph Icon")
-                ->setGlyphIcon("asterisk")
+                ->setTitle("Fa Icon")
+                ->setFaIcon("magic")
+//                ->setTitle("Glyph Icon")
+//                ->setGlyphIcon("asterisk")
                 ->setValue("100%")
                 ->setChart(array(1300, 1877, 2500, 400,240,220,310,220,300))
                 ->setSeparator(True)
@@ -314,8 +321,10 @@ class SamplesFactoryService implements WidgetProviderInterface
             //==============================================================================
             // Create SparkInfo Block 
             ->addBlock("SparkInfoBlock",$BlockOptions)
-                ->setTitle("Glyph Icon")
-                ->setGlyphIcon("asterisk")
+                ->setTitle("Fa Icon")
+                ->setFaIcon("magic")
+//                ->setTitle("Glyph Icon")
+//                ->setGlyphIcon("asterisk")
                 ->setValue("100%")
                 ->setChart(array(1300, 1877, 2500, 400,240,220,310,220,300))
                 ->setSeparator(True)
@@ -336,7 +345,7 @@ class SamplesFactoryService implements WidgetProviderInterface
             // Create Widget 
             ->Create("Composite-Wid")
                 ->setTitle('Composite Data Widget')
-                ->setWidth("xl")
+                ->setWidth(Widget::$WIDTH_XL)
             ->end()
                 
             //==============================================================================

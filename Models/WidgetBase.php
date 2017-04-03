@@ -21,6 +21,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Splash\Widgets\Models\Traits\WidgetDefinitionTrait;
 use Splash\Widgets\Models\Traits\WidgetAccessTrait;
 use Splash\Widgets\Models\Traits\WidgetActionsTrait;
+use Splash\Widgets\Models\Traits\LifecycleTrait;
+use Splash\Widgets\Models\Traits\OptionsTrait;
+use Splash\Widgets\Models\Traits\PositionTrait;
 
 /**
  * Widget Model 
@@ -33,40 +36,15 @@ class WidgetBase
     use WidgetAccessTrait;
     use WidgetDefinitionTrait;
     use WidgetActionsTrait;
-    
-    //====================================================================//
-    // *******************************************************************//
-    //  WIDGET GENERICS PARAMETERS
-    // *******************************************************************//
-    //====================================================================//
-
-    const SIZE_XS       = "col-sm-6 col-md-4 col-lg-3";
-    const SIZE_SM       = "col-sm-6 col-md-6 col-lg-4";
-    const SIZE_DEFAULT  = "col-sm-12 col-md-6 col-lg-6";
-    const SIZE_M        = "col-sm-12 col-md-6 col-lg-6";
-    const SIZE_L        = "col-sm-12 col-md-6 col-lg-8";
-    const SIZE_XL       = "col-sm-12 col-md-12 col-lg-12";
-    
-    //====================================================================//
-    // Define Standard Options for this Widget Block
-    // Uncomment to override défault options
-    const OPTIONS       = array(
-            'Width'          =>      self::SIZE_DEFAULT,
-            'Header'         =>      True,
-            'Footer'         =>      True,
-            'DatePreset'     =>      "M",
-    );    
+    use LifecycleTrait;
+    use OptionsTrait;
+    use PositionTrait;
     
     //====================================================================//
     // *******************************************************************//
     //  Variables Definition
     // *******************************************************************//
     //====================================================================//
-    
-    /**
-     * @var Array
-     */
-    protected $options      =   self::OPTIONS;
     
     /**
      * @var array
@@ -91,47 +69,15 @@ class WidgetBase
 
     public function __construct()
     {
+        $this->setOptions();
         $this->blocks = new ArrayCollection();
     }    
 
     //====================================================================//
     // *******************************************************************//
-    //  Widget Dat Operations
+    //  Widget Data Operations
     // *******************************************************************//
     //====================================================================//
-
-    /**
-     * Set Width 
-     * 
-     * @param   $width
-     * @return  Widget
-     */
-    public function setWidth($width = self::SIZE_DEFAULT)
-    {
-        switch ($width)
-        {
-            case "xs":
-                $this->options["Width"]     =   self::SIZE_XS;
-                break;
-            case "sm":
-                $this->options["Width"]     =   self::SIZE_SM;
-                break;
-            case "m":
-                $this->options["Width"]     =   self::SIZE_M;
-                break;
-            case "l":
-                $this->options["Width"]     =   self::SIZE_L;
-                break;
-            case "xl":
-                $this->options["Width"]     =   self::SIZE_XL;
-                break;
-            default :
-                $this->options["Width"]     =   $width;
-                break;
-        }
-        
-        return $this;
-    }
     
     /**
      * Set Widget Contents
@@ -239,46 +185,6 @@ class WidgetBase
         return $this;         
     }
         
-    
-    /**
-     * Set Widget Options
-     *
-     * @param array $options        User Defined Options
-     *
-     * @return self
-     */
-    public function setOptions($options = Null)
-    {
-        //==============================================================================
-        //  Check Options is ArrayObject
-        if ( is_a($options, "ArrayObject") ) {
-            $options = $options->getArrayCopy();
-        } 
-            
-        //==============================================================================
-        //  Check Options Array not Empty or Not an Array
-        if ( empty($options) || !is_array($options) ) {
-            $this->options  =   self::OPTIONS;
-            return $this;
-        }         
-        //==============================================================================
-        //  Init Options Array using OptionResolver
-        $resolver = new OptionsResolver();
-        //==============================================================================
-        //  Configure OptionResolver
-        $resolver->setDefaults( self::OPTIONS );
-        //==============================================================================
-        //  Update Options Array using OptionResolver        
-        try {
-            $this->options  =   $resolver->resolve($options);
-        } catch (UndefinedOptionsException $ex) {
-            $this->options  =   self::OPTIONS;
-        } catch (InvalidOptionsException $ex) {
-            $this->options  =   self::OPTIONS;
-        }
-        return $this;
-    }    
-    
     /**
      * Get Widget Options
      * 

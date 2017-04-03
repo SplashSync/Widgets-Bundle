@@ -1,4 +1,4 @@
-{% extends "SplashWidgetsBundle:Widget:box.html.twig" %}
+{% extends "SplashWidgetsBundle:Widget:base.html.twig" %}
 
 {#{% import "SplashWidgetsBundle:Macros:widgets.html.twig" as Wid %}#}
 
@@ -7,18 +7,23 @@
 
 {#{{ dump(Widget.parent) }}#}
 
-{% block widget_contents %}
+{% block widget_box %}
     
-    <div class="text-center">
-        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"  aria-hidden="true"></i>
-        <span class="sr-only">Loading...</span>    
+    <div class="panel panel-warning">
+        
+        <div class="text-center">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"  aria-hidden="true"></i>
+            <span class="sr-only">Loading your widget...</span>    
+        </div>
+        
+        <script>
+            $(document).ready(function() {
+                OWLoadWidget("{{ Service }}", "{{ WidgetId }}");
+            });
+        </script>
+        
     </div>
     
-    <script>
-        $(document).ready(function() {
-            OWLoadWidget("{{ Service }}", "{{ WidgetId }}");
-        });
-    </script>
     
 {% endblock %}
         

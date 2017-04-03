@@ -1,0 +1,12 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+
+{% for Block in Widget.blocks %}
+    
+    <div class="{{ Block.Options.Width }}">
+        {% include 'SplashWidgetsBundle:Widget/Blocks:' ~ Block.type ~'.html.twig'%}  
+    </div>   
+        
+{% endfor %}  
+
+
+ 

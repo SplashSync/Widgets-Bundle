@@ -1,6 +1,16 @@
 {% trans_default_domain "SplashWidgetsBundle" %}   
 {% extends "base.html.twig" %}   
 
+{% block head_style %}
+    {{ parent() }}
+    {% include 'SplashWidgetsBundle:Layout:stylesheets.html.twig' %}  
+{% endblock head_style %}
+
+{% block foot_script %}
+    {{ parent() }}
+    {% include 'SplashWidgetsBundle:Layout:javascripts_bottom.html.twig' %}  
+{% endblock foot_script %}
+
 {#
     Display Node Profile Title
 #}
@@ -16,17 +26,7 @@
 
     {% include 'SplashWidgetsBundle:Demo:single.html.twig' %}  
 
+    {% include 'SplashWidgetsBundle:Demo:collections.html.twig' %}  
     
-    <h3 class="page-title txt-color-blueDark"><i class="fa fa-fw fa-info-circle "></i>
-        Simple Widget Displays
-    </h3>
-
-    
-    <h3 class="page-title txt-color-blueDark"><i class="fa fa-fw fa-info-circle "></i>
-        Simple Widget Displays
-    </h3>
-    
-
-{#    {{ dump(Widgets) }}#}
 {% endblock %}
 

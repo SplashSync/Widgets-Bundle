@@ -70,7 +70,7 @@ class ListingService
 
         foreach ($List->getArguments() as $Widget) {
             
-        dump($Widget);
+//        dump($Widget);
             
             if ( !is_a($Widget, Widget::class)  ) {
                 throw new \Exception("Listed Widget is not of Appropriate Type (" . get_class($Widget) . ")");

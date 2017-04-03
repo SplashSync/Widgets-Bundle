@@ -2,24 +2,24 @@
 
 {% if Widget.Options.Header or Edit %}
     
-    <div class="padding-5">
+    <div class="panel-heading padding-5 no-padding">
         
         {#
             Widget Remove Btn
         #}
-        {% include 'SplashWidgetsBundle:Widget:remove.btn.html.twig'%}  
+        {% include 'SplashWidgetsBundle:Widget/Buttons:remove.btn.html.twig'%}  
         {#
             Widget Setup Btn
         #}
-        {% include 'SplashWidgetsBundle:Widget:setup.btn.html.twig'%}  
+        {% include 'SplashWidgetsBundle:Widget/Buttons:setup.btn.html.twig'%}  
         {#
             Widget Title
         #}
-        <h6>
+        <h5>
             {% if Widget.icon is defined and not null %}<i class="{{ Widget.icon }}"></i>{% endif %}
             &nbsp;{{ Widget.title | default ("Widget Title") }}
             <small>&nbsp;{{ Widget.subtitle | default ("") }}</small>
-        </h6>
+        </h5>
 
     </div>    
 

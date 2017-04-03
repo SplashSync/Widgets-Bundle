@@ -70,7 +70,7 @@ class ViewController extends Controller
         } 
         //==============================================================================
         // Render Response 
-        return $this->render('SplashWidgetsBundle:View:forced.html.twig', array(
+        return $this->render('SplashWidgetsBundle:Widget:base.html.twig', array(
                 "Widget"    => $Widget,
                 "Edit"      => False
             ));
@@ -81,7 +81,7 @@ class ViewController extends Controller
         //==============================================================================
         // Init & Safety Check 
         if (!$this->initialize($Service)) {
-            return $this->redirectToRoute("fos_user_security_login");
+            return new Response("Splash Widgets : Init Failed", 500);
         }
         
         //==============================================================================
@@ -100,50 +100,35 @@ class ViewController extends Controller
     }
     
     
-    public function indexAction($Service, $WidgetId, $Options = array() , $Parameters = array())
+    public function ajaxAction($Service, $WidgetId, $Options = array() , $Parameters = array())
     {
         //==============================================================================
         // Init & Safety Check 
-        if (!$this->initialize()) {
+        if (!$this->initialize($Service)) {
             return new Response("Splash Widgets : Init Failed", 500);
-        }
-
-        
-        return $this->render('SplashWidgetsBundle:Render:index.html.twig', $this->prepare($Service, $WidgetId, $Options, $Parameters));
-    }
-    
-    
-    public function prepare($Service, $WidgetId, $Options = array() , $Parameters = array(), $Edit = False)
-    {
-        
-        $Widget     =   $this->loadWidgetFromInterface($Service, $WidgetId, $Parameters);
-        $Widget->setOptions($Options);
-        
-        return array(
-            "Widget"    => $Widget,
-            "Edit"      => $Edit
-                );
-    }    
-    
-    public function loadWidgetFromInterface($Service, $WidgetId, $Parameters)
-    {
-        //==============================================================================
-        // Verify Item Service is Available 
-        if ( !$this->has($Service)) {
-            return $this->buildErrorWidget($Service, $WidgetId, "Requested Service doesn't Exists");
         }
         //==============================================================================
         // Read Widget Contents 
-        $Widget =   $this->get($Service)
-                ->getWidget($WidgetId, $Parameters);
-        
+        if ( $this->Service ) {
+            $Widget =   $this->Service->getWidget($WidgetId, $Parameters);
+        } 
+        //==============================================================================
+        // Validate Widget Contents 
         if ( empty($Widget) || !is_a($Widget, Widget::class)  ) {
-            return $this->Factory->buildErrorWidget($Service, $WidgetId, "An Error Occured During Widget Loading");
+            $Widget =   $this->Factory->buildErrorWidget($Service, $WidgetId, "An Error Occured During Widget Loading");
         }
-        
-        return $Widget;
-    }    
+        //==============================================================================
+        // Overide Widget Options 
+        if ( !empty($Options) ) {
+            $Widget->setOptions($Options);
+        } 
+        //==============================================================================
+        // Render Response 
+        return $this->render('SplashWidgetsBundle:Widget:contents.html.twig', array(
+                "Widget"    => $Widget,
+                "Edit"      => False
+            ));
+    }
     
-  
     
 }

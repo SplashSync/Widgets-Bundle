@@ -18,6 +18,8 @@ use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @abstract Widget Actions Trait - Define Widget Actions Js Functions 
  * 
@@ -38,7 +40,7 @@ trait WidgetActionsTrait
     );
 
     /**
-     * @var string
+     * @ORM\ManyToOne(targetEntity="Splash\Widgets\Entity\WidgetCollection", inversedBy="widgets")
      */
     protected $parent;
 

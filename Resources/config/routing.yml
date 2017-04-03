@@ -1,14 +1,14 @@
 
 
 
-#splash_widgets_render:
-#    path:     /render/{Service}/{WidgetId}/{Options}/{Parameters}
-#    defaults: 
-#        _controller: SplashWidgetsBundle:WidgetRendering:forced
-#        Options:    null
-#        Parameters: null
-#    options:
-#        expose: true
+splash_widgets_render:
+    path:     /view/{Service}/{WidgetId}/{Options}/{Parameters}
+    defaults: 
+        _controller: SplashWidgetsBundle:View:ajax
+        Options:    null
+        Parameters: null
+    options:
+        expose: true
 
 splash_widgets_demo:
     path:     /demo

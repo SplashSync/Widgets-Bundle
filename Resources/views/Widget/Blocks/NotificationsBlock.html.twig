@@ -1,0 +1,45 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+
+    
+{#
+    Error 
+#}
+{% if Block.error | default(null) is not empty %}
+    <div class="alert alert-danger no-margin fade in">
+        <button class="close" data-dismiss="alert">×</button>
+        <i class="fa-fw fa fa-times"></i>
+        {{ Block.error | raw }}
+    </div>        
+{% endif %}
+{#
+    Warning 
+#}
+{% if Block.warning | default(null) is not empty %}
+    <div class="alert alert-warning no-margin fade in">
+        <button class="close" data-dismiss="alert">×</button>
+        <i class="fa-fw fa fa-exclamation"></i>
+        {{ Block.warning | raw }}
+    </div>        
+{% endif %}
+{#
+    Info 
+#}
+{% if Block.info | default(null) is not empty %}
+    <div class="alert alert-info no-margin fade in">
+        <button class="close" data-dismiss="alert">×</button>
+        <i class="fa-fw fa fa-info"></i>
+        {{ Block.info | raw }}
+    </div>        
+{% endif %}
+
+{#
+    Success 
+#}
+{% if Block.success | default(null) is not empty %}
+    <div class="alert alert-success no-margin fade in">
+        <button class="close" data-dismiss="alert">×</button>
+        <i class="fa-fw fa fa-check"></i>
+        {{ Block.success | raw }}
+    </div>        
+{% endif %}
+    
