@@ -14,6 +14,8 @@ widget:
 #    Widget Generic Actions
 ################################################################################  
 actions:
+    yes:            Yes
+    no:             No
     remove:
         title:      Remove this Widget
         contents:   Do you really want to remove this widget?
@@ -22,6 +24,7 @@ actions:
 #    Options Form Translations
 ################################################################################    
 options:
+    tab:            Rendering
     width:
         label:      Width
         tooltip:    Select the perfect width of you widget and we will adjust its size on all your device.
@@ -36,15 +39,17 @@ options:
     footer:
         label:      Display Footer
         tooltip:    Disable this option not to render widget Bottom block
- 
-    dates:  
-        label:      Date Range
-        tooltip:    Select date range for live View 
-        day:        ToDay
-        week:       This Week
-        month:      This Month
-        year:       This Year
-        prev_day:   Yesteday
-        prev_week:  Last Week
-        prev_month: Last Month
-        prev_year:  Last Year
+
+dates:  
+    label:      Date Range
+    tooltip:    Select date range for live View 
+    day:        ToDay
+    week:       This Week
+    month:      This Month
+    year:       This Year
+    prev_day:   Yesteday
+    prev_week:  Last Week
+    prev_month: Last Month
+    prev_year:  Last Year
+    
+    

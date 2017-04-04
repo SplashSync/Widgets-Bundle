@@ -8,7 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Splash\Widgets\Entity\Widget;
 
-use Splash\Widgets\Form\WidgetFormType;
+use Splash\Widgets\Form\WidgetOptionsType;
+use Splash\Widgets\Form\WidgetDatesType;
+
 
 class EditController extends Controller
 {
@@ -123,7 +125,7 @@ class EditController extends Controller
         
         //==============================================================================
         // Create Edit Form
-        $this->EditForm = $this->createEditForm($Widget);
+        $this->EditForm = $this->createEditForm($Widget, $Service, $Type);
         
         //==============================================================================
         // Handle User Posted Data
@@ -166,21 +168,33 @@ class EditController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Widget $Widget, $Fields = array())
+    private function createEditForm(Widget $Widget, $Service, $Type)
     {
 
-        
-        return $this->buildForm(new WidgetFormType());
-        
         //====================================================================//
         // Create Form Builder
-        $FormBuilder =   $this->createFormBuilder($Widget, [], ["tabbed" => false]);
+        $FormBuilder =   $this->createFormBuilder($Widget);
+        
+        $FormBuilder->setAction(
+                    $this->generateUrl('splash_widgets_edit',['Service' => $Service, "Type" => $Type])
+                );
+        
+        //====================================================================//
+        // Populate Widget Rendering Option Form Tab
+        $WidgetOptionsForm = new WidgetOptionsType();
+        $WidgetOptionsForm->buildForm($FormBuilder, []);
+
+        //====================================================================//
+        // Populate Widget Rendering Option Form Tab
+        $WidgetDatesForm = new WidgetDatesType();
+        $WidgetDatesForm->buildForm($FormBuilder, []);
         
         //====================================================================//
         // Import Widget Option Form Fields
-        $this->Factory
-                ->populateWidgetForm($FormBuilder, $Fields, True);
-        
+//        $this->Factory
+//                ->populateWidgetForm($FormBuilder, $Fields, True);
+
+                
         return $FormBuilder->getForm();
         
     }

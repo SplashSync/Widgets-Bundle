@@ -15,7 +15,10 @@
         "doctrine/doctrine-bundle":                     "^1.6",
         "doctrine/doctrine-cache-bundle":               "^1.2",
         "knplabs/knp-time-bundle":                      ">1.5",
-        "friendsofsymfony/jsrouting-bundle":            ">=2.0"
+        "friendsofsymfony/jsrouting-bundle":            ">=2.0",
+        
+        "mopa/bootstrap-bundle":                        "~3.0",
+        "twbs/bootstrap":                               "~3.3.0"
 
     }
 }

@@ -2,9 +2,6 @@
 
 namespace Splash\Widgets\Services;
 
-use Symfony\Component\Form\FormBuilder;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-
 use Splash\Widgets\Entity\Widget;
 
 /*
@@ -246,150 +243,150 @@ class FactoryService
                 $Widget->Options, 
                 $WidgetContents);
     }    
-
-//====================================================================//
-// *******************************************************************//
-//  WIDGET RENDERING OPTIONS
-// *******************************************************************//
-//====================================================================//    
-    
-    /**
-     * Populate Widget Options Form
-     *
-     * @param FormBuilder       $FormBuilder
-     * @param ArrayObject       $Widget
-     *
-     * @return none
-     */
-    public function populateWidgetForm(FormBuilder $FormBuilder, $Fields, $SelectDates = False)
-    {
-//        //==============================================================================
-//        // Verify Item Service is Available 
-//        if ( $SelectDates ) {
-//            //====================================================================//
-//            // Widget Option - Select Dates 
-//            //====================================================================//
 //
-//            $FormBuilder->add("Dates", ChoiceType::class, array(
-//                'required'                  => True,
-//                'property_path'             => 'options[DatePreset]',
-//                'label'                     => "options.dates.label",
-////                'help_block'                => "options.dates.tooltip",
-//                'choices'                   => array(
-//                    "D"         =>      "options.dates.day", 
-//                    "W"         =>      "options.dates.week", 
-//                    "M"         =>      "options.dates.month", 
-//                    "Y"         =>      "options.dates.year", 
-//                    "PD"        =>      "options.dates.prev_day", 
-//                    "PW"        =>      "options.dates.prev_week", 
-//                    "PM"        =>      "options.dates.prev_month", 
-//                    "PY"        =>      "options.dates.prev_year", 
-//                    ),
-//                'empty_data'                => "options.dates.M",
-//                'translation_domain'        => "SplashWidgetsBundle",
-//                'choice_translation_domain' => True,            
-////                'choices_as_values'         => False,            
-//                'placeholder'               => False,
-////                'widget_type'               => 'inline',
-//                'expanded'                  => false,
-//                ));
-//        }
-        
-        
-        //====================================================================//
-        // Widget Option - Box Bootstrap Width  
-        //====================================================================//
-
-        $FormBuilder->add("Width", ChoiceType::class, array(
-            'required'                  => True,
-            'property_path'             => 'options[Width]',
-            'label'                     => "options.width.label",
-//            'help_block'                => "options.width.tooltip",
-            'choices'                   => array(
-                "options.width.xs"          => Widget::$WIDTH_XS, 
-                "options.width.sm"          => Widget::$WIDTH_SM, 
-                "options.width.m"           => Widget::$WIDTH_M, 
-                "options.width.l"           => Widget::$WIDTH_L, 
-                "options.width.xl"          => Widget::$WIDTH_XL, 
-                ),
-            'empty_data'                => "options.width.xl",
-            'translation_domain'        => "SplashWidgetsBundle",
-            'choice_translation_domain' => True,            
-            'choices_as_values'         => True,            
-            'placeholder'               => False,
-//            'widget_type'               => 'inline',
-            'expanded'                  => false,
-            ));
-        
-        //====================================================================//
-        // Widget Option - Diasble Header Display 
-        //====================================================================//
-
-//        //==============================================================================
-//        // Simple CheckBox 
-//        $FormBuilder->add("Header", ChoiceType::class, array(
-//                'property_path'             => 'options[Header]',            
-//                'label'                     => "options.header.label",
-////                'help_block'                => "options.header.tooltip",
-//                'translation_domain'        => "SplashWidgetsBundle",
-//                'choices'               => array(
-//                    '0' => "actions.disable", 
-//                    '1' => "actions.enable", 
-//                    ),
-//                'empty_data'                => "1",
-//                'choice_translation_domain' => "ThemeBundle",            
-//                'expanded'              => true,
-//                'attr'            => array (
-//                    'class'             => 'col-sm-4',
-//                    'widget_class'      => 'radiobox style-3',
-//                ),
-////                'horizontal_input_wrapper_class'    => "col-sm-9",   
-//            
-//            ));          
-//            
-//        //====================================================================//
-//        // Widget Option - Diasble Footer Display 
-//        //====================================================================//
-//
-//        $FormBuilder->add("Footer", ChoiceType::class, array(
-//                'property_path'             => 'options[Footer]',            
-//                'label'                     => "options.footer.label",
-////                'help_block'                => "options.footer.tooltip",
-//                'translation_domain'        => "SplashWidgetsBundle",
-//                'choices'               => array(
-//                    '0' => "actions.disable", 
-//                    '1' => "actions.enable", 
-//                    ),
-//                'empty_data'                => "1",
-//                'choice_translation_domain' => "ThemeBundle",            
-//                'expanded'              => true,
-//                'attr'            => array (
-//                    'class'             => 'col-sm-4',
-//                    'widget_class'      => ' radiobox style-3',
-//                ),
-////                'horizontal_input_wrapper_class'    => "col-sm-9",   
-//                ));         
-        
-        
-//        //==============================================================================
-//        // Verify Parameter Fields are Available 
-//        if ( empty($Fields) ) {
-//            return Null;
-//        }
+////====================================================================//
+//// *******************************************************************//
+////  WIDGET RENDERING OPTIONS
+//// *******************************************************************//
+////====================================================================//    
+//    
+//    /**
+//     * Populate Widget Options Form
+//     *
+//     * @param FormBuilder       $FormBuilder
+//     * @param ArrayObject       $Widget
+//     *
+//     * @return none
+//     */
+//    public function populateWidgetForm(FormBuilder $FormBuilder, $Fields, $SelectDates = False)
+//    {
+////        //==============================================================================
+////        // Verify Item Service is Available 
+////        if ( $SelectDates ) {
+////            //====================================================================//
+////            // Widget Option - Select Dates 
+////            //====================================================================//
+////
+////            $FormBuilder->add("Dates", ChoiceType::class, array(
+////                'required'                  => True,
+////                'property_path'             => 'options[DatePreset]',
+////                'label'                     => "options.dates.label",
+//////                'help_block'                => "options.dates.tooltip",
+////                'choices'                   => array(
+////                    "D"         =>      "options.dates.day", 
+////                    "W"         =>      "options.dates.week", 
+////                    "M"         =>      "options.dates.month", 
+////                    "Y"         =>      "options.dates.year", 
+////                    "PD"        =>      "options.dates.prev_day", 
+////                    "PW"        =>      "options.dates.prev_week", 
+////                    "PM"        =>      "options.dates.prev_month", 
+////                    "PY"        =>      "options.dates.prev_year", 
+////                    ),
+////                'empty_data'                => "options.dates.M",
+////                'translation_domain'        => "SplashWidgetsBundle",
+////                'choice_translation_domain' => True,            
+//////                'choices_as_values'         => False,            
+////                'placeholder'               => False,
+//////                'widget_type'               => 'inline',
+////                'expanded'                  => false,
+////                ));
+////        }
 //        
-//        //==============================================================================
-//        // Add Parameters to Widget Form 
-//        foreach ($Fields as $Field) {
-//            $FieldClassName =   Field::isValidType($Field["type"]);
-//            if ( $FieldClassName  ) {
-//                    $FieldClassName::buildForm($FormBuilder, $Field );
-//            } 
-//        }
-        
-        $FormBuilder->setAttribute('tabbed', false);
-//        $FormBuilder->setOption('tabbed', false);
-    }  
-    
+//        
+//        //====================================================================//
+//        // Widget Option - Box Bootstrap Width  
+//        //====================================================================//
+//
+//        $FormBuilder->add("Width", ChoiceType::class, array(
+//            'required'                  => True,
+//            'property_path'             => 'options[Width]',
+//            'label'                     => "options.width.label",
+//            'help_block'                => "options.width.tooltip",
+//            'choices'                   => array(
+//                "options.width.xs"          => Widget::$WIDTH_XS, 
+//                "options.width.sm"          => Widget::$WIDTH_SM, 
+//                "options.width.m"           => Widget::$WIDTH_M, 
+//                "options.width.l"           => Widget::$WIDTH_L, 
+//                "options.width.xl"          => Widget::$WIDTH_XL, 
+//                ),
+//            'empty_data'                => "options.width.xl",
+//            'translation_domain'        => "SplashWidgetsBundle",
+//            'choice_translation_domain' => True,            
+//            'choices_as_values'         => True,            
+//            'placeholder'               => False,
+//            'widget_type'               => 'inline',
+//            'expanded'                  => false,
+//            ));
+//        
+//        //====================================================================//
+//        // Widget Option - Diasble Header Display 
+//        //====================================================================//
+//
+////        //==============================================================================
+////        // Simple CheckBox 
+////        $FormBuilder->add("Header", ChoiceType::class, array(
+////                'property_path'             => 'options[Header]',            
+////                'label'                     => "options.header.label",
+//////                'help_block'                => "options.header.tooltip",
+////                'translation_domain'        => "SplashWidgetsBundle",
+////                'choices'               => array(
+////                    '0' => "actions.disable", 
+////                    '1' => "actions.enable", 
+////                    ),
+////                'empty_data'                => "1",
+////                'choice_translation_domain' => "ThemeBundle",            
+////                'expanded'              => true,
+////                'attr'            => array (
+////                    'class'             => 'col-sm-4',
+////                    'widget_class'      => 'radiobox style-3',
+////                ),
+//////                'horizontal_input_wrapper_class'    => "col-sm-9",   
+////            
+////            ));          
+////            
+////        //====================================================================//
+////        // Widget Option - Diasble Footer Display 
+////        //====================================================================//
+////
+////        $FormBuilder->add("Footer", ChoiceType::class, array(
+////                'property_path'             => 'options[Footer]',            
+////                'label'                     => "options.footer.label",
+//////                'help_block'                => "options.footer.tooltip",
+////                'translation_domain'        => "SplashWidgetsBundle",
+////                'choices'               => array(
+////                    '0' => "actions.disable", 
+////                    '1' => "actions.enable", 
+////                    ),
+////                'empty_data'                => "1",
+////                'choice_translation_domain' => "ThemeBundle",            
+////                'expanded'              => true,
+////                'attr'            => array (
+////                    'class'             => 'col-sm-4',
+////                    'widget_class'      => ' radiobox style-3',
+////                ),
+//////                'horizontal_input_wrapper_class'    => "col-sm-9",   
+////                ));         
+//        
+//        
+////        //==============================================================================
+////        // Verify Parameter Fields are Available 
+////        if ( empty($Fields) ) {
+////            return Null;
+////        }
+////        
+////        //==============================================================================
+////        // Add Parameters to Widget Form 
+////        foreach ($Fields as $Field) {
+////            $FieldClassName =   Field::isValidType($Field["type"]);
+////            if ( $FieldClassName  ) {
+////                    $FieldClassName::buildForm($FormBuilder, $Field );
+////            } 
+////        }
+//        
+////        $FormBuilder->setAttribute('tabbed', false);
+////        $FormBuilder->setOption('tabbed', false);
+//    }  
+//    
     
 ////====================================================================//
 //// *******************************************************************//
