@@ -1,6 +1,14 @@
+
+{% if Edit | default(false) %}
+    {% set Style = "opacity: 1; box-shadow: 10px 30px 5px #D9EDF7; margin-bottom: 0px;" %}
+{% else %}
+    {% set Style = "opacity: 1;" %}
+{% endif %}
+
+
 <div 
     class="panel panel-default {#{% if Edit %}bg-color-redLight{% endif %}#}" 
-    style="opacity: 1; {% if Edit | default(false) %}box-shadow: 10px 10px 5px #B09B5B;{% endif %}"
+    style="{{ Style }}"
     >
     
     {# Widget Contents #}
@@ -30,6 +38,15 @@
 
     {% endblock %}                 
 </div> 
+
+{% if Edit | default(false) %}
+{#    <div class="col-xs-12 pull-right text-right text-primary" style="margin-bottom: 10px;">    #}
+    <div class="pull-right text-primary hiden-xs hidden-sm" style="margin-bottom: 10px;">    
+        {% block widget_buttons %}
+            {% include 'SplashWidgetsBundle:Widget/Core:buttons.html.twig'%}  
+        {% endblock %}  
+    </div> 
+{% endif %}
 
 
  

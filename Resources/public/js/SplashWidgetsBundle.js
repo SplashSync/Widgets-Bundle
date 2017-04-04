@@ -25,24 +25,87 @@ function SplashWidgets_LoadContents(Service, Type, Edit)
  */
 function SplashWidgets_LoadEditModal(Service, Type)
 {
+    /*
+     * Load Widget Edit Modal
+     */
     $.ajax({
         type:   "POST",
         url:    Routing.generate("splash_widgets_edit", {Service : Service, Type : Type }),
         data:   false,
         cache:  true,
         success: function(data){
+            
+            /*
+             * Create Bootstrap Modal if Needed
+             */
             Modal = document.getElementById("SplashWidgetModal");
             if (!Modal) {
                 $('body').append('<div class="modal fade" tabindex="-1" role="dialog" id="SplashWidgetModal"></div>');
                 Modal = document.getElementById("SplashWidgetModal");
             }
+            
+            /*
+             * Load Modal Contents
+             */
             Modal.innerHTML = data;
+            
+            SplashWidgets_AjaxifyForm('splash_widgets_settings_form');
+            
             $('#SplashWidgetModal').modal("show");
             
             return data;
         }
     }); 
+    
+}
 
+/* 
+ * Load OpenWidget Contents with Ajax ACtion
+ */
+function SplashWidgets_AjaxifyForm(FormName)
+{
+    var forms = [ '[ name="' + FormName + '"]' ];
+
+    $( forms.join(',') ).submit( function( e ){
+      e.preventDefault();
+
+      SplashWidgets_PostForm( $(this), function( response ){
+            $('#SplashWidgetModal').modal("hide");
+            //------------------------------------------------------------------------//
+            // Reload Page
+            setTimeout(function()
+            {
+                window.location.reload();
+            }, 1000);  
+            console.log("SplashWidgets : Options Updated ");
+      });
+
+      return false;
+    });
+  
+    console.log("SplashWidgets : Ajaxify Form " + FormName);
+}
+
+function SplashWidgets_PostForm( $form, callback ){
+ 
+    //------------------------------------------------------------------------//
+    //  Get all form values
+    var values = {};
+    $.each( $form.serializeArray(), function(i, field) {
+      values[field.name] = field.value;
+    });
+ 
+    //------------------------------------------------------------------------//
+    //  Throw the form values to the server!
+    $.ajax({
+      type        : $form.attr( 'method' ),
+      url         : $form.attr( 'action' ),
+      data        : values,
+      success     : function(data) {
+        callback( data );
+      },
+    });
+ 
 }
 
 /* 

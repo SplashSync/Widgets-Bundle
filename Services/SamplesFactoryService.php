@@ -133,6 +133,19 @@ class SamplesFactoryService implements WidgetProviderInterface
     /**
      * @abstract   Return Widget Parameters Array 
      * 
+     * @param      string   $Type               Widgets Type Identifier 
+     * @param      array    $Options            Updated Options 
+     * 
+     * @return     array
+     */    
+    public function setWidgetOptions($Type, $Options) : bool 
+    {
+        return True;
+    }
+    
+    /**
+     * @abstract   Return Widget Parameters Array 
+     * 
      * @param      string   $WidgetId           Widgets Type Identifier 
      * 
      * @return     array

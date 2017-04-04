@@ -11,47 +11,57 @@ interface WidgetProviderInterface
     /**
      * @abstract   Read Widget Contents
      * 
-     * @param      string   $WidgetId           Widgets Type Identifier 
+     * @param      string   $Type               Widgets Type Identifier 
      * 
      * @return     Widget 
      */    
-    public function getWidget($WidgetId);
+    public function getWidget($Type);
 
     /**
      * @abstract   Return Widget Options Array 
      * 
-     * @param      string   $WidgetId           Widgets Type Identifier 
+     * @param      string   $Type               Widgets Type Identifier 
      * 
      * @return     array
      */    
-    public function getWidgetOptions($WidgetId) : array;    
+    public function getWidgetOptions($Type) : array;    
 
     /**
-     * @abstract   Return Widget Parameters Array 
+     * @abstract   Update Widget Options Array 
      * 
-     * @param      string   $WidgetId           Widgets Type Identifier 
+     * @param      string   $Type               Widgets Type Identifier 
+     * @param      array    $Options            Updated Options 
      * 
      * @return     array
      */    
-    public function getWidgetParameters($WidgetId) : array;  
+    public function setWidgetOptions($Type, $Options) : bool;  
     
     /**
      * @abstract   Return Widget Parameters Array 
      * 
-     * @param      string   $WidgetId           Widgets Type Identifier 
+     * @param      string   $Type               Widgets Type Identifier 
+     * 
+     * @return     array
+     */    
+    public function getWidgetParameters($Type) : array;  
+    
+    /**
+     * @abstract   Return Widget Parameters Array 
+     * 
+     * @param      string   $Type               Widgets Type Identifier 
      * @param      array    $Parameters         Updated Parameters 
      * 
      * @return     array
      */    
-    public function setWidgetParameters($WidgetId, $Parameters) : bool;  
+    public function setWidgetParameters($Type, $Parameters) : bool;  
     
     
     /**
      * @abstract   Return Widget Parameters Fields Array 
      * 
-     * @param      string   $WidgetId           Widgets Type Identifier 
+     * @param      string   $Type           Widgets Type Identifier 
      * 
      * @return     array
      */    
-    public function getWidgetParametersFields($WidgetId) : array;      
+    public function getWidgetParametersFields($Type) : array;      
 }

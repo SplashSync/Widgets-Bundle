@@ -21,7 +21,7 @@ class WidgetOptionsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $OptionsTab = $builder->create('rendering', \Mopa\Bundle\BootstrapBundle\Form\Type\TabType::class, array(
-            'label'                 => 'options.tab',
+            'label'                 => 'options.label',
             'translation_domain'    => "SplashWidgetsBundle",
             'icon'                  => ' fa fa-desktop',
             'inherit_data'          => true,

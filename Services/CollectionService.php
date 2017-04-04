@@ -169,6 +169,26 @@ class CollectionService implements WidgetProviderInterface
     /**
      * @abstract   Return Widget Parameters Array 
      * 
+     * @param      string   $Type               Widgets Type Identifier 
+     * @param      array    $Options            Updated Options 
+     * 
+     * @return     array
+     */    
+    public function setWidgetOptions($Type, $Options) : bool 
+    {
+        if ( !($Definition = $this->getDefinition($Type)) ) {
+            return False;
+        }         
+        
+        $Definition->setOptions($Options);
+        $this->container->get("doctrine")->getManager()->flush();
+        
+        return True;
+    }
+    
+    /**
+     * @abstract   Return Widget Parameters Array 
+     * 
      * @param      string  $Type         Widgets Type Identifier 
      * 
      * @return     array
@@ -186,13 +206,20 @@ class CollectionService implements WidgetProviderInterface
     /**
      * @abstract   Return Widget Parameters Array 
      * 
-     * @param      string   $WidgetId           Widgets Type Identifier 
+     * @param      string   $Type               Widgets Type Identifier 
      * @param      array    $Parameters         Updated Parameters 
      * 
      * @return     array
      */    
-    public function setWidgetParameters($WidgetId, $Parameters) : bool 
+    public function setWidgetParameters($Type, $Parameters) : bool 
     {
+        if ( !($Definition = $this->getDefinition($Type)) ) {
+            return False;
+        }         
+        
+        $Definition->setParameters($Parameters);
+        $this->container->get("doctrine")->getManager()->flush();
+        
         return True;
     }
     

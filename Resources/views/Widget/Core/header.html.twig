@@ -1,32 +1,11 @@
 {% trans_default_domain "SplashWidgetsBundle" %}   
 
-{% if Widget.Options.Header or Edit %}
+{% if Widget.Options.Header %}
     
-    <div class="panel-heading padding-5 no-padding">
-        
-        {#
-            Widget Remove Btn
-        #}
-{#        {% include 'SplashWidgetsBundle:Widget/Buttons:remove.btn.html.twig'%}  #}
-        {#
-            Widget Setup Btn
-        #}
-        {% if Edit %}
-                {% set EditAction = "SplashWidgets_LoadEditModal('" ~ Widget.Service ~ "','" ~ Widget.Type ~ "')" %}
-                <a href="javascript:void(0);" class="btn btn-link close visible-lg visible-md" onclick="{{ EditAction }}">
-                    <i class="fa fa-gear"></i>
-                </a>
-{#                {{ Base.JS_Action_SmBtn(_W.Identifier ~ "-edit-btn", EditAction, "cog font-lg", "actions.edit" | trans , "") }}    #}
-        {% endif %}
-        {#
-            Widget Title
-        #}
-        <h5>
-            {% if Widget.icon is defined and not null %}<i class="{{ Widget.icon }}"></i>{% endif %}
-            &nbsp;{{ Widget.title | default ("Widget Title") }}
-            <small>&nbsp;{{ Widget.subtitle | default ("") }}</small>
-        </h5>
-
+    <div class="panel-heading no-padding">
+        {% if Widget.icon is defined and not null %}<i class="{{ Widget.icon }}">&nbsp;</i>{% endif %}
+        {{ Widget.title | default ("Widget Title") }}
+        <small>&nbsp;{{ Widget.subtitle | default ("") }}</small>
     </div>    
 
 {% else %}
