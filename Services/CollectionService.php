@@ -2,9 +2,7 @@
 
 namespace Splash\Widgets\Services;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilder;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 use Nodes\CoreBundle\Entity\Node;    
 use OpenObject\CoreBundle\Document\OpenObjectFieldCore  as Field;
@@ -227,13 +225,24 @@ class CollectionService implements WidgetProviderInterface
     /**
      * @abstract   Return Widget Parameters Fields Array 
      * 
-     * @param      string   $WidgetId           Widgets Type Identifier 
+     * @param FormBuilderInterface  $builder
+     * @param      string           $Type           Widgets Type Identifier 
      * 
      * @return     array
      */    
-    public function getWidgetParametersFields($WidgetId) : array
+    public function populateWidgetForm(FormBuilderInterface $builder, $Type)
     {
-        return array();
+        if ( !($Definition = $this->getDefinition($Type)) ) {
+            return;
+        }         
+        //==============================================================================
+        // Load Widget Provider Service
+        if ( $this->container->has($Definition->getService()) ) {
+            $this->container
+                    ->get($Definition->getService())
+                    ->populateWidgetForm($builder, $Definition->getType());
+        } 
+        return;
     }
     
 }

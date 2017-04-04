@@ -16,9 +16,11 @@ widget:
 actions:
     yes:            Yes
     no:             No
-    remove:
-        title:      Remove this Widget
-        contents:   Do you really want to remove this widget?
+
+remove:         
+    label:          Remove    
+    title:          Remove this Widget
+    contents:       Do you really want to remove this widget?
             
 ################################################################################    
 #    Options Form Translations
@@ -33,6 +35,13 @@ options:
         m:          Meduim (Default) - 50% on large device
         l:          Large
         xl:         Extra Large - Always 100%
+    color:
+        default:    Default        
+        primary:    Primary
+        success:    Success
+        info:       Information
+        warning:    Warning
+        danger:     Danger
     header:
         label:      Display Title
         tooltip:    Disable this option not to render widget Title
@@ -40,6 +49,9 @@ options:
         label:      Display Footer
         tooltip:    Disable this option not to render widget Bottom block
 
+################################################################################    
+#    Dates Form Translations
+################################################################################ 
 dates:  
     label:      Date Range
     tooltip:    Select date range for live View 
@@ -52,4 +64,9 @@ dates:
     prev_month: Last Month
     prev_year:  Last Year
     
+################################################################################    
+#    Widget Form Translations
+################################################################################ 
+parameters:
+    label:      Parameters
     

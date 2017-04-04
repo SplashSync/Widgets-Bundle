@@ -13,6 +13,8 @@ namespace Splash\Widgets\Models\Blocks;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Splash\Widgets\Entity\Widget;
+
 /**
  * Abstact Widget Model 
  * 
@@ -41,7 +43,8 @@ class SparkInfoBlock extends BaseBlock
     // Define Standard Options for this Widget Block
     // Uncomment to override défault options
     static $OPTIONS       = array(
-        'Width'             => "col-xs-6 col-sm-6 col-md-3 col-lg-3",
+//        'Width'             => "col-xs-6 col-sm-6 col-md-3 col-lg-3",
+        'Width'             => "col-sm-12 col-md-12 col-lg-12",
         "AllowHtml"         => False,    
         "Separator"         => False,
     );

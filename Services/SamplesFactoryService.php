@@ -2,12 +2,7 @@
 
 namespace Splash\Widgets\Services;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilder;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-
-use Nodes\CoreBundle\Entity\Node;    
-use OpenObject\CoreBundle\Document\OpenObjectFieldCore  as Field;
+use Symfony\Component\Form\FormBuilderInterface;
 
 use Splash\Widgets\Entity\Widget;
 use Splash\Widgets\Models\WidgetBlock    as Block;
@@ -17,8 +12,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Splash\Widgets\Services\FactoryService;
 
 use Splash\Widgets\Models\Interfaces\WidgetProviderInterface;
-
-use ArrayObject;
 
 /*
  * Demo Widgets Factory Service
@@ -146,11 +139,11 @@ class SamplesFactoryService implements WidgetProviderInterface
     /**
      * @abstract   Return Widget Parameters Array 
      * 
-     * @param      string   $WidgetId           Widgets Type Identifier 
+     * @param      string   $Type           Widgets Type Identifier 
      * 
      * @return     array
      */    
-    public function getWidgetParameters($WidgetId) : array
+    public function getWidgetParameters($Type) : array
     {
         return array();
     }
@@ -159,29 +152,30 @@ class SamplesFactoryService implements WidgetProviderInterface
     /**
      * @abstract   Return Widget Parameters Array 
      * 
-     * @param      string   $WidgetId           Widgets Type Identifier 
+     * @param      string   $Type               Widgets Type Identifier 
      * @param      array    $Parameters         Updated Parameters 
      * 
      * @return     array
      */    
-    public function setWidgetParameters($WidgetId, $Parameters) : bool 
+    public function setWidgetParameters($Type, $Parameters) : bool 
     {
         return True;
     }
     
     
+    
     /**
      * @abstract   Return Widget Parameters Fields Array 
      * 
-     * @param      string   $WidgetId           Widgets Type Identifier 
+     * @param FormBuilderInterface  $builder
+     * @param      string           $Type           Widgets Type Identifier 
      * 
      * @return     array
      */    
-    public function getWidgetParametersFields($WidgetId) : array
+    public function populateWidgetForm(FormBuilderInterface $builder, $Type)
     {
-        return array();
     }
-    
+
     
 //====================================================================//
 // *******************************************************************//
@@ -207,7 +201,7 @@ class SamplesFactoryService implements WidgetProviderInterface
             //==============================================================================
             // Create Text Block 
             ->addBlock("TextBlock", array( "AllowHtml" => True ) )
-                ->setText("This is demo Simple Text Block. You can use it to render <b>HTML Contents</b>.")
+                ->setText("<p>This is demo Simple Text Block. You can use it to render <b>Raw HTML Contents</b>.</p>")
             ->end();
                 
          return $this->Factory->getWidget();
@@ -228,6 +222,12 @@ class SamplesFactoryService implements WidgetProviderInterface
             ->end()
                 
             //==============================================================================
+            // Create Text Block 
+            ->addBlock("TextBlock", array( "AllowHtml" => True ) )
+                ->setText("<p>This is demo Table Block. You can use it to render... <b>data tables</b>.</p>")
+            ->end()
+        
+            //==============================================================================
             // Create Table Block 
             ->addBlock("TableBlock" , array( "AllowHtml" => True ))
                 ->addRow(["One", "Two", "Treeee!"])
@@ -236,11 +236,7 @@ class SamplesFactoryService implements WidgetProviderInterface
                 ->addRow(["One", "Two", "Treeee!"])
             ->end()
                 
-            //==============================================================================
-            // Create Text Block 
-            ->addBlock("TextBlock")
-                ->setText("This is a demo of Widget Notification Block. This may be used on all widgets!")
-            ->end();
+        ;
         
         return $this->Factory->getWidget();
     }
@@ -260,6 +256,12 @@ class SamplesFactoryService implements WidgetProviderInterface
             ->end()
                 
             //==============================================================================
+            // Create Text Block 
+            ->addBlock("TextBlock", array( "AllowHtml" => True ) )
+                ->setText("<p>This is demo Notification Block. You can use it to render <b>any kind of alerts</b>.</p>")
+            ->end()
+                        
+            //==============================================================================
             // Create Notifications Block 
             ->addBlock("NotificationsBlock")
                 ->setError("My Widget Error")
@@ -268,11 +270,7 @@ class SamplesFactoryService implements WidgetProviderInterface
                 ->setSuccess("My Widget Success")
             ->end()
                 
-            //==============================================================================
-            // Create Text Block 
-            ->addBlock("TextBlock")
-                ->setText("This is a demo of Widget Notification Block. This may be used on all widgets!")
-            ->end();
+        ;       
         
         return $this->Factory->getWidget();
     }
@@ -314,39 +312,39 @@ class SamplesFactoryService implements WidgetProviderInterface
                 ->setSeparator(True)
             ->end()
                 
-            //==============================================================================
-            // Create SparkInfo Block 
-            ->addBlock("SparkInfoBlock",$BlockOptions)
-                ->setTitle("Fa Icon")
-                ->setFaIcon("magic")
-                ->setValue("100%")
-                ->setChart(array(1300, 1877, 2500, 400,240,220,310,220,300))
-                ->setSeparator(True)
-            ->end()
-                
-            //==============================================================================
-            // Create SparkInfo Block 
-            ->addBlock("SparkInfoBlock",$BlockOptions)
-                ->setTitle("Fa Icon")
-                ->setFaIcon("magic")
-//                ->setTitle("Glyph Icon")
-//                ->setGlyphIcon("asterisk")
-                ->setValue("100%")
-                ->setChart(array(1300, 1877, 2500, 400,240,220,310,220,300))
-                ->setSeparator(True)
-            ->end()
-                
-            //==============================================================================
-            // Create SparkInfo Block 
-            ->addBlock("SparkInfoBlock",$BlockOptions)
-                ->setTitle("Fa Icon")
-                ->setFaIcon("magic")
-//                ->setTitle("Glyph Icon")
-//                ->setGlyphIcon("asterisk")
-                ->setValue("100%")
-                ->setChart(array(1300, 1877, 2500, 400,240,220,310,220,300))
-                ->setSeparator(True)
-            ->end()
+//            //==============================================================================
+//            // Create SparkInfo Block 
+//            ->addBlock("SparkInfoBlock",$BlockOptions)
+//                ->setTitle("Fa Icon")
+//                ->setFaIcon("magic")
+//                ->setValue("100%")
+//                ->setChart(array(1300, 1877, 2500, 400,240,220,310,220,300))
+//                ->setSeparator(True)
+//            ->end()
+//                
+//            //==============================================================================
+//            // Create SparkInfo Block 
+//            ->addBlock("SparkInfoBlock",$BlockOptions)
+//                ->setTitle("Fa Icon")
+//                ->setFaIcon("magic")
+////                ->setTitle("Glyph Icon")
+////                ->setGlyphIcon("asterisk")
+//                ->setValue("100%")
+//                ->setChart(array(1300, 1877, 2500, 400,240,220,310,220,300))
+//                ->setSeparator(True)
+//            ->end()
+//                
+//            //==============================================================================
+//            // Create SparkInfo Block 
+//            ->addBlock("SparkInfoBlock",$BlockOptions)
+//                ->setTitle("Fa Icon")
+//                ->setFaIcon("magic")
+////                ->setTitle("Glyph Icon")
+////                ->setGlyphIcon("asterisk")
+//                ->setValue("100%")
+//                ->setChart(array(1300, 1877, 2500, 400,240,220,310,220,300))
+//                ->setSeparator(True)
+//            ->end()
                 
                 
         ;

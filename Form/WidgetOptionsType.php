@@ -44,7 +44,33 @@ class WidgetOptionsType extends AbstractType
                     "options.width.l"           => Widget::$WIDTH_L, 
                     "options.width.xl"          => Widget::$WIDTH_XL, 
                     ),
-                'empty_data'                => "options.width.xl",
+                'empty_data'                => Widget::$WIDTH_M,
+                'translation_domain'        => "SplashWidgetsBundle",
+                'choice_translation_domain' => "SplashWidgetsBundle",            
+                'choices_as_values'         => True,            
+                'placeholder'               => False,
+                'widget_type'               => 'inline',
+                'expanded'                  => false,
+            ));
+        
+        //====================================================================//
+        // Widget Option - Box Bootstrap Width  
+        //====================================================================//
+
+        $OptionsTab->add("Color", ChoiceType::class, array(
+                'required'                  => True,
+                'property_path'             => 'options[Color]',
+                'label'                     => "options.color.label",
+                'help_block'                => "options.color.tooltip",
+                'choices'                   => array(
+                    "options.color.default"     => Widget::$COLOR_DEFAULT, 
+                    "options.color.primary"     => Widget::$COLOR_PRIMARY, 
+                    "options.color.success"     => Widget::$COLOR_SUCCESS, 
+                    "options.color.info"        => Widget::$COLOR_INFO, 
+                    "options.color.warning"     => Widget::$COLOR_WARNING, 
+                    "options.color.danger"      => Widget::$COLOR_DANGER, 
+                    ),
+                'empty_data'                => Widget::$COLOR_DEFAULT,
                 'translation_domain'        => "SplashWidgetsBundle",
                 'choice_translation_domain' => "SplashWidgetsBundle",            
                 'choices_as_values'         => True,            

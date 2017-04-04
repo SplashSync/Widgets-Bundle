@@ -28,12 +28,23 @@ trait OptionsTrait
     //      Constants  
     //==============================================================================
 
+    //==============================================================================
+    //      Widgets Width  
     static $WIDTH_XS       = "col-sm-6 col-md-4 col-lg-3";
     static $WIDTH_SM       = "col-sm-6 col-md-6 col-lg-4";
     static $WIDTH_DEFAULT  = "col-sm-12 col-md-6 col-lg-6";
     static $WIDTH_M        = "col-sm-12 col-md-6 col-lg-6";
     static $WIDTH_L        = "col-sm-12 col-md-6 col-lg-8";
     static $WIDTH_XL       = "col-sm-12 col-md-12 col-lg-12";
+
+    //==============================================================================
+    //      Widgets Color 
+    static $COLOR_DEFAULT   = "panel-default";
+    static $COLOR_PRIMARY   = "panel-primary";
+    static $COLOR_SUCCESS   = "panel-success";
+    static $COLOR_INFO      = "panel-info";
+    static $COLOR_WARNING   = "panel-warning";
+    static $COLOR_DANGER    = "panel-danger";
     
     //==============================================================================
     //      Variables  
@@ -176,6 +187,7 @@ trait OptionsTrait
     {
         return array(
             'Width'         =>  static::$WIDTH_DEFAULT,
+            'Color'         =>  static::$COLOR_DEFAULT,
             'Header'        =>  True,
             'Footer'        =>  True,
             'DatePreset'    =>  "M",

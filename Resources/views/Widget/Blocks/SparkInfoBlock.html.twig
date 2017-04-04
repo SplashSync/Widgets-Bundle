@@ -4,7 +4,34 @@
 {#
     Spark Info
 #}
-<ul id="sparks" class="padding-5">
+<div class="text-center">
+{#    {% if Block.Options.Separator %}#}
+{#        <div class="sparks-info"></div>#}
+{#    {% endif %}#}
+
+
+        <h5> 
+            {{ Wid.Text(Block.title,Block.Options) }} 
+        </h5>
+            
+        <h1> 
+            {% if Block.FaIcon is not empty %}
+                <i class="fa fa-{{ Block.FaIcon }}" aria-hidden="true">{{ Wid.Text(Block.value,Block.Options) }}</i>
+            {% endif %}
+            {% if Block.GlyphIcon is not empty %}
+                <i class="glyphicon glyphicon-{{ Block.GlyphIcon }}">{{ Wid.Text(Block.value,Block.Options) }}</i>
+            {% endif %}
+{#            {{ Wid.Text(Block.value,Block.Options) }}#}
+        </h1>
+            
+{#        {% if Block.Chart is not empty %}                
+        <div class="sparkline txt-color-blue">
+            {% for Value in Block.Chart %} {{Value}}, {% endfor %} 
+        </div>  
+        {% endif %}#}
+</div>
+    
+{#<ul id="sparks" class="padding-5">
     {% if Block.Options.Separator %}
         <div class="sparks-info"></div>
     {% endif %}
@@ -28,7 +55,7 @@
         </div>  
         {% endif %}
     </li>
-</ul>
+</ul>    #}
 
 <script>
     $(document).ready(function() {

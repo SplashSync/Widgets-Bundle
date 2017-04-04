@@ -149,7 +149,7 @@ class EditController extends Controller
         
         //==============================================================================
         // Create Edit Form
-        $this->EditForm = $this->createEditForm($Widget, $Action);
+        $this->EditForm = $this->createEditForm($Widget, $Type, $Action);
         
         //==============================================================================
         // Handle User Posted Data
@@ -193,7 +193,7 @@ class EditController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Widget $Widget, $Action = Null)
+    private function createEditForm(Widget $Widget, $Type, $Action = Null)
     {
         //====================================================================//
         // Create Form Builder
@@ -213,11 +213,19 @@ class EditController extends Controller
         $WidgetDatesForm = new WidgetDatesType();
         $WidgetDatesForm->buildForm($builder, []);
         
+        $WidgetTab = $builder->create('parameters', \Mopa\Bundle\BootstrapBundle\Form\Type\TabType::class, array(
+            'label'                 => 'parameters.label',
+            'translation_domain'    => "SplashWidgetsBundle",
+            'icon'                  => ' fa fa-cogs',
+            'inherit_data'          => true,
+        ));
+        
         //====================================================================//
         // Import Widget Option Form Fields
-//        $this->Factory
-//                ->populateWidgetForm($FormBuilder, $Fields, True);
-
+        $this->Service->populateWidgetForm($WidgetTab, $Type);
+        if (count($WidgetTab->all())) {
+            $builder->add($WidgetTab);
+        }
                 
         return $builder->getForm();
         

@@ -2,6 +2,8 @@
 
 namespace Splash\Widgets\Models\Interfaces;
 
+use Symfony\Component\Form\FormBuilderInterface;
+
 /*
  * @abstract    Widget provider Interface
  */
@@ -59,9 +61,10 @@ interface WidgetProviderInterface
     /**
      * @abstract   Return Widget Parameters Fields Array 
      * 
-     * @param      string   $Type           Widgets Type Identifier 
+     * @param FormBuilderInterface  $builder
+     * @param      string           $Type           Widgets Type Identifier 
      * 
      * @return     array
      */    
-    public function getWidgetParametersFields($Type) : array;      
+    public function populateWidgetForm(FormBuilderInterface $builder, $Type);      
 }

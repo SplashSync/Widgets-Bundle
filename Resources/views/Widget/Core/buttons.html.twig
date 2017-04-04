@@ -1,24 +1,24 @@
 {% trans_default_domain "SplashWidgetsBundle" %}   
 
 {% if Edit %}
-            
-{#
-    Widget Remove Btn
-#}
-{% set EditAction = "SplashWidgets_LoadEditModal('" ~ Widget.Service ~ "','" ~ Widget.Type ~ "')" %}
-<a class="btn btn-link no-padding" onclick="{{ EditAction }}">
-    <i class="fa fa-fw fa-gear"></i>
-</a>
 
-{#
-    Widget Setup Btn
-#}
-{% set EditAction = "SplashWidgets_LoadEditModal('" ~ Widget.Service ~ "','" ~ Widget.Type ~ "')" %}
-<a class="btn btn-link" onclick="{{ EditAction }}">
-    <i class="fa fa-fw fa-gear"></i>
-</a>
+    {#
+        Widget Setup Btn
+    #}
+    {% set EditAction = "SplashWidgets_LoadEditModal('" ~ Widget.Service ~ "','" ~ Widget.Type ~ "')" %}
+    <a class="btn btn-xs btn-primary" onclick="{{ EditAction }}">
+        <i class="fa fa-fw fa-gear"></i>
+        {{ "widget.params" | trans }}
+    </a>
 
-
+    {#
+        Widget Remove Btn
+    #}
+    {% set RemoveAction = "SplashWidgets_Remove('" ~ Widget.Service ~ "','" ~ Widget.Type ~ "')" %}
+    <a class="btn btn-xs btn-danger" onclick="{{ RemoveAction }}">
+        <i class="fa fa-fw fa-times-circle-o"></i>
+        {{ "remove.label" | trans }}
+    </a>
 
 {% endif %}
         
