@@ -149,7 +149,6 @@ class ViewController extends Controller
         if ( !empty($Options) ) {
             $Widget->setOptions($Options);
         }
-        dump($Widget);
         //==============================================================================
         // Render Response 
         return $this->render('SplashWidgetsBundle:Widget:contents.html.twig', array(

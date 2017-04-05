@@ -32,11 +32,13 @@ class SparkInfoBlock extends BaseBlock
     //====================================================================//
     // Define Standard Data Fields for this Widget Block
     static $DATA          = array(
+        "color"             => "defaut",
         "title"             => "Title",
         "fa_icon"           => Null,
         "glyph_icon"        => Null,
         "value"             => "100%",
         "chart"             => array(),
+        "pie"               => array(),
     );
 
     //====================================================================//
@@ -94,6 +96,11 @@ class SparkInfoBlock extends BaseBlock
         //  Import Chart Values
         if ( !empty($Contents["chart"]) ){
             $this->setChart($Contents["chart"]);
+        }            
+        //==============================================================================
+        //  Import Pie Values
+        if ( !empty($Contents["pie"]) ){
+            $this->setChart($Contents["pie"]);
         }            
      
         return $this;
@@ -219,6 +226,29 @@ class SparkInfoBlock extends BaseBlock
     {
         return $this->data["chart"];
     }       
+    
+    /**
+     * Set Pie
+     * 
+     * @param   $array
+     * 
+     * @return  Widget
+     */
+    public function setPie($array)
+    {
+        $this->data["pie"]     =   $array;
+        return $this;
+    }
+    
+    /**
+     * Get Pie
+     * 
+     * @return  Array
+     */
+    public function getPie()
+    {
+        return $this->data["pie"];
+    } 
     
     /**
      * Set Separator

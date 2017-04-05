@@ -227,7 +227,7 @@ function runAllCharts() {
                         // BAR CHART
                         if (sparklineType == 'bar') {
 
-                                        barColor = $this.data('sparkline-bar-color') || $this.css('color') || '#0000f0';
+                                    barColor = $this.data('sparkline-bar-color') || $this.css('color') || '#0000f0';
                                     sparklineHeight = $this.data('sparkline-height') || '26px';
                                     sparklineBarWidth = $this.data('sparkline-barwidth') || 5;
                                     sparklineBarSpacing = $this.data('sparkline-barspacing') || 2;
@@ -276,23 +276,23 @@ function runAllCharts() {
                                         type : 'line',
                                         width : sparklineWidth,
                                         height : sparklineHeight,
-                                        lineWidth : thisLineWidth,
-                                        lineColor : thisLineColor,
-                                        fillColor : thisFill,
-                                        spotColor : thisSpotColor,
-                                        minSpotColor : thisMinSpotColor,
-                                        maxSpotColor : thisMaxSpotColor,
-                                        highlightSpotColor : thishighlightSpotColor,
-                                        highlightLineColor : thisHighlightLineColor,
+//                                        lineWidth : thisLineWidth,
+//                                        lineColor : thisLineColor,
+//                                        fillColor : thisFill,
+//                                        spotColor : thisSpotColor,
+//                                        minSpotColor : thisMinSpotColor,
+//                                        maxSpotColor : thisMaxSpotColor,
+//                                        highlightSpotColor : thishighlightSpotColor,
+//                                        highlightLineColor : thisHighlightLineColor,
                                         spotRadius : thisSpotRadius,
-                                        chartRangeMin : thisChartMinYRange,
-                                        chartRangeMax : thisChartMaxYRange,
-                                        chartRangeMinX : thisChartMinXRange,
-                                        chartRangeMaxX : thisChartMaxXRange,
-                                        normalRangeMin : thisMinNormValue,
-                                        normalRangeMax : thisMaxNormValue,
-                                        normalRangeColor : thisNormColor,
-                                        drawNormalOnTop : thisDrawNormalOnTop
+//                                        chartRangeMin : thisChartMinYRange,
+//                                        chartRangeMax : thisChartMaxYRange,
+//                                        chartRangeMinX : thisChartMinXRange,
+//                                        chartRangeMaxX : thisChartMaxXRange,
+//                                        normalRangeMin : thisMinNormValue,
+//                                        normalRangeMax : thisMaxNormValue,
+//                                        normalRangeColor : thisNormColor,
+//                                        drawNormalOnTop : thisDrawNormalOnTop
 
                                 });
 

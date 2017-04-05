@@ -67,6 +67,7 @@ class SamplesFactoryService implements WidgetProviderInterface
         $Event["TableWidget"]       =   $this->buildWidgetDefinition("TableWidget", "Sample Table Widget");
         $Event["NotificationWidget"]=   $this->buildWidgetDefinition("NotificationWidget", "Sample Notification Widget");
         $Event["SparkInfoWidget"]   =   $this->buildWidgetDefinition("SparkInfoWidget", "Sample Notification Widget");
+        $Event["BarChartWidget"]   =    $this->buildWidgetDefinition("BarChartWidget", "Sample Bar Chart Widget");
         
         return True;
     }  
@@ -287,7 +288,7 @@ class SamplesFactoryService implements WidgetProviderInterface
         //==============================================================================
         // Create Block Options 
         $BlockOptions = array(
-//            "Width"          =>  "",
+            "Width"          => Widget::$WIDTH_XS,
         );  
         
         $this->Factory
@@ -305,22 +306,37 @@ class SamplesFactoryService implements WidgetProviderInterface
             //==============================================================================
             // Create SparkInfo Block 
             ->addBlock("SparkInfoBlock",$BlockOptions)
-                ->setTitle("Fa Icon")
+                ->setTitle("Fontawesome Icon")
                 ->setFaIcon("magic")
                 ->setValue("100%")
-                ->setChart(array(1300, 1877, 2500, 400,240,220,310,220,300))
                 ->setSeparator(True)
             ->end()
                 
-//            //==============================================================================
-//            // Create SparkInfo Block 
-//            ->addBlock("SparkInfoBlock",$BlockOptions)
-//                ->setTitle("Fa Icon")
-//                ->setFaIcon("magic")
-//                ->setValue("100%")
-//                ->setChart(array(1300, 1877, 2500, 400,240,220,310,220,300))
-//                ->setSeparator(True)
-//            ->end()
+            //==============================================================================
+            // Create SparkInfo Block 
+            ->addBlock("SparkInfoBlock",$BlockOptions)
+                ->setTitle("Glyph Icon")
+                ->setGlyphIcon("asterisk")
+                ->setValue("100%")
+                ->setSeparator(True)
+            ->end()
+                
+            //==============================================================================
+            // Create SparkInfo Block 
+            ->addBlock("SparkInfoBlock",$BlockOptions)
+                ->setTitle("Sparkline Chart")
+                ->setChart(array("0:30", "10:20", "20:20", "30:20", "-10:10", "15:25", "30:40", "80:90", 90, 100, 90, 80))
+                ->setSeparator(True)
+            ->end()
+                
+            //==============================================================================
+            // Create SparkInfo Block 
+            ->addBlock("SparkInfoBlock",$BlockOptions)
+                ->setTitle("Sparkline Pie")
+                ->setPie(array("10", "20", "30"))
+                ->setSeparator(True)
+            ->end()
+                
 //                
 //            //==============================================================================
 //            // Create SparkInfo Block 
@@ -333,6 +349,48 @@ class SamplesFactoryService implements WidgetProviderInterface
 //                ->setChart(array(1300, 1877, 2500, 400,240,220,310,220,300))
 //                ->setSeparator(True)
 //            ->end()
+                
+                
+        ;
+        
+        return $this->Factory->getWidget();
+    }
+   
+    public function BarChartWidget()
+    {
+        //==============================================================================
+        // Create Widget Options 
+//        $WidgetOptions = array(
+//            "Header"          =>  False,
+//            "Footer"          =>  False,
+//        );        
+        
+        //==============================================================================
+        // Create Block Options 
+        $BlockOptions = array(
+            "Width"          => Widget::$WIDTH_XL,
+        );  
+        
+        $this->Factory
+                
+            //==============================================================================
+            // Create Widget 
+            ->Create()
+                ->setService(self::SERVICE)
+                ->setType(__FUNCTION__)
+                ->setTitle('Bar Chart Widget')
+                ->setWidth(Widget::$WIDTH_DEFAULT)
+                ->setOrigin("Sample Widgets Factory")
+            ->end()
+                
+                
+            //==============================================================================
+            // Create SparkInfo Block 
+            ->addBlock("BarChartBlock",$BlockOptions)
+                ->setTitle("Sparkline Bar Chart")
+                ->setValues(array("10", "20", "30", "-10", "20", "30", "10", "20", "30", "10", "20", "30", "10", "20", "30", "10", "20", "30"))
+            ->end()
+                
 //                
 //            //==============================================================================
 //            // Create SparkInfo Block 
