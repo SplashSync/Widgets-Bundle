@@ -30,12 +30,14 @@ options:
     width:
         label:      Width
         tooltip:    Select the perfect width of you widget and we will adjust its size on all your device.
-        xs:         Extra Small !!
-        sm:         Small...
-        m:          Meduim (Default) - 50% on large device
-        l:          Large
+        xs:         Extra Small !! - 25% on large screens
+        sm:         Small - 33% on large screens
+        m:          Medium (Default) - 50% on large screens
+        l:          Large - 66% on large screens
         xl:         Extra Large - Always 100%
     color:
+        label:      Color
+        tooltip:    Select the Widget Color
         default:    Default        
         primary:    Primary
         success:    Success
@@ -64,9 +66,43 @@ dates:
     prev_month: Last Month
     prev_year:  Last Year
     
-################################################################################    
-#    Widget Form Translations
-################################################################################ 
+# ==============================================================================
+# Widget Parameter Setup
+# ==============================================================================
 parameters:
-    label:      Parameters
+    title:          Edit Widget Parameters
     
+# ==============================================================================
+# Widget List
+# ==============================================================================
+list:
+    title:          My Widget List
+    tooltip:        This is the list all available widget    
+    origin:         Source/Server
+    name:           Name
+    desc:           Description    
+    actions:        Actions
+    add:            Add
+    
+# ==============================================================================
+# Widget Blocks Parameters
+# ==============================================================================
+
+blocks:
+    
+    sparkbar:
+        height:
+            label:      Chart Height
+            tooltip:    Adjust Height of Chart in Pixels
+        barwidth:
+            label:      Bar Width
+            tooltip:    Adjust Witdh of Chart Bars
+        barcolor:
+            label:      Bar Color
+            tooltip:    "Adjust Color of Chart Bars (ie : #00FF00)"
+
+
+
+
+
+

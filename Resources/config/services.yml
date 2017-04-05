@@ -4,10 +4,10 @@ services:
     Splash.Widgets.Factory:
         class: Splash\Widgets\Services\FactoryService
 
-# Widgets Listing Service
-    Splash.Widgets.Listing:
-        class: Splash\Widgets\Services\ListingService
-        arguments: ["@event_dispatcher"]   
+# Widgets Manager Service
+    Splash.Widgets.Manager:
+        class: Splash\Widgets\Services\ManagerService
+        arguments: ["@service_container", "@event_dispatcher"]   
 
 # Widgets Collection Service
     Splash.Widgets.Collection:

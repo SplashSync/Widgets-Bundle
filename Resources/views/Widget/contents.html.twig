@@ -42,7 +42,8 @@
 {#    <div class="col-xs-12 pull-right text-right text-primary" style="margin-bottom: 10px;">    #}
     <div class="pull-right hiden-xs hidden-sm" style="margin-bottom: 20px; padding-bottom: 10px; padding-right: 15px;">    
         {% block widget_buttons %}
-            {% include 'SplashWidgetsBundle:Widget/Core:buttons.html.twig'%}  
+            {% include 'SplashWidgetsBundle:Widget/Buttons:edit.html.twig'%}
+            {% include 'SplashWidgetsBundle:Widget/Buttons:remove.html.twig'%}
         {% endblock %}  
     </div> 
 {% endif %}

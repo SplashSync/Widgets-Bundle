@@ -68,10 +68,12 @@ class CollectionService implements WidgetProviderInterface
 
         //====================================================================//
         // Link to Service Container
+        //====================================================================//
+        // Link to Widget Repository
         $this->repository = $WidgetsRepository;
         
         //====================================================================//
-        // Link to Widget Repository
+        // Link to Service Container
         $this->container = $ServiceContainer;
         
         return True;
@@ -92,26 +94,23 @@ class CollectionService implements WidgetProviderInterface
         if ( count($Id) != 2 ) {
             return Null;
         } 
-        
+        //====================================================================//
+        // Load Widget Collection              
+        $this->collection  = $this->repository->find($Id[1]);
         //====================================================================//
         // Load Widget Definition from Collection              
-        $this->collection  = $this->repository->find($Id[1]);
-
-//        dump($this->collection->getWidgets());
-//        dump($this->collection->getWidget(1));
-//        
-//        return Null;
         return $this->collection->getWidget($Id[0]);
     }     
     
     /**
-     *      @abstract   Read Widget Contents
+     * @abstract   Read Widget Contents
      * 
-     *      @param      string  $Type         Widgets Type Identifier 
+     * @param      string   $Type               Widgets Type Identifier 
+     * @param      array    $Parameters         Widget Parameters
      * 
-     *      @return     Widget 
+     * @return     Widget 
      */    
-    public function getWidget($Type)
+    public function getWidget(string $Type, array $Parameters = array())
     {
         if ( !($Definition = $this->getDefinition($Type)) ) {
             return $this->Factory->buildErrorWidget("Collections", $Type, "Unable to Find Widget Definition");
@@ -151,11 +150,11 @@ class CollectionService implements WidgetProviderInterface
     /**
      * @abstract   Return Widget Options Array 
      * 
-     * @param      string  $Type         Widgets Type Identifier 
+     * @param      string   $Type               Widgets Type Identifier 
      * 
      * @return     array
      */    
-    public function getWidgetOptions($Type) : array
+    public function getWidgetOptions(string $Type) : array
     {
         if ( !($Definition = $this->getDefinition($Type)) ) {
             return array();
@@ -165,14 +164,14 @@ class CollectionService implements WidgetProviderInterface
     }
 
     /**
-     * @abstract   Return Widget Parameters Array 
+     * @abstract   Update Widget Options Array 
      * 
      * @param      string   $Type               Widgets Type Identifier 
      * @param      array    $Options            Updated Options 
      * 
      * @return     array
      */    
-    public function setWidgetOptions($Type, $Options) : bool 
+    public function setWidgetOptions(string $Type, array $Options) : bool 
     {
         if ( !($Definition = $this->getDefinition($Type)) ) {
             return False;
@@ -191,7 +190,7 @@ class CollectionService implements WidgetProviderInterface
      * 
      * @return     array
      */    
-    public function getWidgetParameters($Type) : array
+    public function getWidgetParameters(string $Type) : array
     {
         if ( !($Definition = $this->getDefinition($Type)) ) {
             return array();
@@ -202,14 +201,14 @@ class CollectionService implements WidgetProviderInterface
         
     
     /**
-     * @abstract   Return Widget Parameters Array 
+     * @abstract   Update Widget Parameters Array 
      * 
      * @param      string   $Type               Widgets Type Identifier 
      * @param      array    $Parameters         Updated Parameters 
      * 
      * @return     array
      */    
-    public function setWidgetParameters($Type, $Parameters) : bool 
+    public function setWidgetParameters(string $Type, array $Parameters) : bool 
     {
         if ( !($Definition = $this->getDefinition($Type)) ) {
             return False;
@@ -230,7 +229,7 @@ class CollectionService implements WidgetProviderInterface
      * 
      * @return     array
      */    
-    public function populateWidgetForm(FormBuilderInterface $builder, $Type)
+    public function populateWidgetForm(FormBuilderInterface $builder, string $Type)
     {
         if ( !($Definition = $this->getDefinition($Type)) ) {
             return;

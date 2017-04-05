@@ -1,0 +1,11 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+
+{% if Edit %}
+    {% set EditAction = "SplashWidgets_LoadEditModal('" ~ Widget.Service ~ "','" ~ Widget.Type ~ "')" %}
+    <a class="btn btn-xs btn-primary" onclick="{{ EditAction }}">
+        <i class="fa fa-fw fa-gear"></i>
+        {{ "widget.params" | trans }}
+    </a>
+{% endif %}        
+
+    

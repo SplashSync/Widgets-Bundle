@@ -14,10 +14,11 @@ interface WidgetProviderInterface
      * @abstract   Read Widget Contents
      * 
      * @param      string   $Type               Widgets Type Identifier 
+     * @param      array    $Parameters         Widget Parameters
      * 
      * @return     Widget 
      */    
-    public function getWidget($Type);
+    public function getWidget(string $Type, array $Parameters = array());
 
     /**
      * @abstract   Return Widget Options Array 
@@ -26,7 +27,7 @@ interface WidgetProviderInterface
      * 
      * @return     array
      */    
-    public function getWidgetOptions($Type) : array;    
+    public function getWidgetOptions(string $Type) : array;    
 
     /**
      * @abstract   Update Widget Options Array 
@@ -36,7 +37,7 @@ interface WidgetProviderInterface
      * 
      * @return     array
      */    
-    public function setWidgetOptions($Type, $Options) : bool;  
+    public function setWidgetOptions(string $Type, array $Options) : bool;  
     
     /**
      * @abstract   Return Widget Parameters Array 
@@ -45,17 +46,17 @@ interface WidgetProviderInterface
      * 
      * @return     array
      */    
-    public function getWidgetParameters($Type) : array;  
+    public function getWidgetParameters(string $Type) : array;  
     
     /**
-     * @abstract   Return Widget Parameters Array 
+     * @abstract   Update Widget Parameters Array 
      * 
      * @param      string   $Type               Widgets Type Identifier 
      * @param      array    $Parameters         Updated Parameters 
      * 
      * @return     array
      */    
-    public function setWidgetParameters($Type, $Parameters) : bool;  
+    public function setWidgetParameters(string $Type, array $Parameters) : bool;  
     
     
     /**
@@ -66,5 +67,5 @@ interface WidgetProviderInterface
      * 
      * @return     array
      */    
-    public function populateWidgetForm(FormBuilderInterface $builder, $Type);      
+    public function populateWidgetForm(FormBuilderInterface $builder, string $Type);      
 }

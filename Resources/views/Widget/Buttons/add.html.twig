@@ -1,0 +1,15 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+
+{#
+    Collection Widget Load Add Modal Btn
+#}
+{% if CollectionId %}
+    {% set EditAction = "SplashWidgets_LoadAddModal('" ~ CollectionId ~ "','" ~ Channel | default("all") ~ "')" %}
+    <a class="btn btn-info" onclick="{{ EditAction }}">
+        <i class="fa fa-fw fa-plus-circle"></i>
+        {{ "widget.add" | trans }}
+    </a>
+{% endif %}
+
+
+    

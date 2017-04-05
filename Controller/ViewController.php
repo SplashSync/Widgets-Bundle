@@ -26,20 +26,12 @@ class ViewController extends Controller
     /**
      * Class Initialisation
      * 
-     * @param string    $Service        Widget Provider Interface Name
-     * 
      * @return bool 
      */    
-    public function initialize($Service = Null) {
+    public function initialize() {
         
         $this->Factory = $this->get("Splash.Widgets.Factory");
         
-        //==============================================================================
-        // Link to Widget Interface Service if Available 
-        if ( $Service && $this->has($Service)) {
-            $this->Service = $this->get($Service);
-        }
-
         return True;
     }        
     
@@ -57,19 +49,20 @@ class ViewController extends Controller
     {
         //==============================================================================
         // Init & Safety Check 
-        if (!$this->initialize($Service)) {
+        if (!$this->initialize()) {
             return new Response("Splash Widgets : Init Failed", 500);
         }
         //==============================================================================
         // Read Widget Contents 
-        if ( $this->Service ) {
-            $Widget =   $this->Service->getWidget($Type, $Parameters);
-        } 
+        $Widget =   $this->get("Splash.Widgets.Manager")->getWidget($Service, $Type, $Parameters);
         //==============================================================================
         // Validate Widget Contents 
-        if ( empty($Widget) || !is_a($Widget, Widget::class)  ) {
+        if (is_null($Widget)  ) {
             $Widget =   $this->Factory->buildErrorWidget($Service, $Type, "An Error Occured During Widget Loading");
         }
+        //==============================================================================
+        // Overide Widget Type
+        $Widget->setType(uniqid($Widget->getType()));
         //==============================================================================
         // Overide Widget Options 
         if ( !empty($Options) ) {
@@ -97,18 +90,18 @@ class ViewController extends Controller
     {
         //==============================================================================
         // Init & Safety Check 
-        if (!$this->initialize($Service)) {
+        if (!$this->initialize()) {
             return new Response("Splash Widgets : Init Failed", 500);
         }
-        
         //==============================================================================
         // Verify Interface Service is Available 
-        if ( !$this->Service) {
-            $Options = Widget::OPTIONS;
+        if ( !$Service) {
+            $Options = Widget::getDefaultOptions();
         } else {
-            $Options = $this->Service->getWidgetOptions($Type);
+            $Options = $this->get("Splash.Widgets.Manager")->getWidgetOptions($Service, $Type);
         }
-        
+        //==============================================================================
+        // Render Loading Widget Box 
         return $this->render('SplashWidgetsBundle:View:delayed.html.twig', array(
                 "Service"       =>  $Service,
                 "WidgetType"    =>  $Type,
@@ -131,14 +124,12 @@ class ViewController extends Controller
     {
         //==============================================================================
         // Init & Safety Check 
-        if (!$this->initialize($Service)) {
+        if (!$this->initialize()) {
             return new Response("Splash Widgets : Init Failed", 500);
         }
         //==============================================================================
         // Read Widget Contents 
-        if ( $this->Service ) {
-            $Widget =   $this->Service->getWidget($Type, $Parameters);
-        } 
+        $Widget =   $this->get("Splash.Widgets.Manager")->getWidget($Service, $Type, $Parameters);
         //==============================================================================
         // Validate Widget Contents 
         if ( empty($Widget) || !is_a($Widget, Widget::class)  ) {

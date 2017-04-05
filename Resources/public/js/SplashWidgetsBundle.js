@@ -125,6 +125,196 @@ function SplashWidgets_UpdatePositions(CollectionId,Ordering){
         });         
 }
 
+/* 
+ * Add a Widget to Collection with AJAX Requests
+ */
+function SplashWidgets_AddToCollection(CollectionId, Service, Type){
+
+    $.ajax({
+            type: "POST",
+            url: Routing.generate('splash_widgets_ajax_add', { CollectionId: CollectionId , Service: Service, Type : Type }),
+            data: false,
+            cache: true,
+            error: function(data){
+            },
+            success: function(data){
+                //------------------------------------------------------------------------//
+                // Reload Page
+                setTimeout(function()
+                {
+                    window.location.reload();
+                }, 1000);  
+                console.log("SplashWidgets : Widget Added");
+            }
+        });         
+}
+
+/* 
+ * Remove a Widget from Collection with AJAX Requests
+ */
+function SplashWidgets_RemoveFromCollection(Service, Type){
+
+    $.ajax({
+            type: "POST",
+            url: Routing.generate('splash_widgets_ajax_remove', { Service: Service , Type : Type }),
+            data: false,
+            cache: true,
+            error: function(data){
+            },
+            success: function(data){
+                //------------------------------------------------------------------------//
+                // Reload Page
+                setTimeout(function()
+                {
+                    window.location.reload();
+                }, 1000);  
+                console.log("SplashWidgets : Widget Added");
+            }
+        });         
+}
+
+/* 
+ * Load OpenWidget Add Widget Modal with Ajax ACtion
+ */
+function SplashWidgets_LoadAddModal(CollectionId, Channel)
+{
+    /*
+     * Load Widget Edit Modal
+     */
+    $.ajax({
+        type:   "POST",
+        url:    Routing.generate("splash_widgets_ajax_list", { CollectionId : CollectionId , Channel : Channel}),
+        data:   false,
+        cache:  true,
+        success: function(data){
+            
+            /*
+             * Create Bootstrap Modal if Needed
+             */
+            Modal = document.getElementById("SplashWidgetModal");
+            if (!Modal) {
+                $('body').append('<div class="modal fade" tabindex="-1" role="dialog" id="SplashWidgetModal"></div>');
+                Modal = document.getElementById("SplashWidgetModal");
+            }
+            
+            /*
+             * Load Modal Contents
+             */
+            Modal.innerHTML = data;
+            $('#SplashWidgetModal').modal("show");
+            return data;
+        }
+    }); 
+    
+}
+
+/*
+ * INITIALIZE SPARKLINE BAR CHARTS
+ */
+function SplashWidgets_SparkLineBarCharts() 
+{
+    /*
+     * SPARKLINES
+     * DEPENDENCY: js/plugins/sparkline/jquery.sparkline.min.js
+     */
+    if ($.fn.sparkline) {
+        return false;
+    }        
+
+    $('.sparkline:not(:has(>canvas))').each(function() {
+        var $this = $(this);
+
+        // FILTER on BAR CHART
+        if (!$this.data('sparkline-type') === 'bar') {
+            return false;
+        }
+
+        $this.sparkline('html', {
+                barColor :          $this.data('sparkline-bar-color') || $this.css('color') || '#0000f0',
+                type :              $this.data('sparkline-type'),
+                height :            $this.data('sparkline-height') || '26px',
+                barWidth :          $this.data('sparkline-barwidth') || 5,
+                barSpacing :        $this.data('sparkline-barspacing') || 2,
+                stackedBarColor :   $this.data('sparkline-barstacked-color') || ["#A90329", "#0099c6", "#98AA56", "#da532c", "#4490B1", "#6E9461", "#990099", "#B4CAD3"],
+                negBarColor :       $this.data('sparkline-negbar-color') || '#A90329',
+                zeroAxis : 'false'
+        });
+
+        $this = null;
+
+    });
+}
+    
+/*
+ * INITIALIZE SPARKLINE Line CHARTS
+ */
+function SplashWidgets_SparkLineLineCharts() 
+{
+    /*
+     * SPARKLINES
+     * DEPENDENCY: js/plugins/sparkline/jquery.sparkline.min.js
+     */
+    if ($.fn.sparkline) {
+        return false;
+    }        
+
+    $('.sparkline:not(:has(>canvas))').each(function() {
+        var $this = $(this);
+
+        // FILTER on BAR CHART
+        if (!$this.data('sparkline-type') === 'line') {
+            return false;
+        }
+
+                                        sparklineHeight = $this.data('sparkline-height') || '20px';
+                                    sparklineWidth = $this.data('sparkline-width') || '90px';
+                                    thisLineColor = $this.data('sparkline-line-color') || $this.css('color') || '#0000f0';
+                                    thisLineWidth = $this.data('sparkline-line-width') || 1;
+                                    thisFill = $this.data('fill-color') || '#c0d0f0';
+                                    thisSpotColor = $this.data('sparkline-spot-color') || '#f08000';
+                                    thisMinSpotColor = $this.data('sparkline-minspot-color') || '#ed1c24';
+                                    thisMaxSpotColor = $this.data('sparkline-maxspot-color') || '#f08000';
+                                    thishighlightSpotColor = $this.data('sparkline-highlightspot-color') || '#50f050';
+                                    thisHighlightLineColor = $this.data('sparkline-highlightline-color') || 'f02020';
+                                    thisSpotRadius = $this.data('sparkline-spotradius') || 1.5;
+                                        thisChartMinYRange = $this.data('sparkline-min-y') || 'undefined'; 
+                                        thisChartMaxYRange = $this.data('sparkline-max-y') || 'undefined'; 
+                                        thisChartMinXRange = $this.data('sparkline-min-x') || 'undefined'; 
+                                        thisChartMaxXRange = $this.data('sparkline-max-x') || 'undefined'; 
+                                        thisMinNormValue = $this.data('min-val') || 'undefined'; 
+                                        thisMaxNormValue = $this.data('max-val') || 'undefined'; 
+                                        thisNormColor =  $this.data('norm-color') || '#c0c0c0';
+                                        thisDrawNormalOnTop = $this.data('draw-normal') || false;
+
+                                $this.sparkline('html', {
+                                        type : 'line',
+                                        width : sparklineWidth,
+                                        height : sparklineHeight,
+//                                        lineWidth : thisLineWidth,
+//                                        lineColor : thisLineColor,
+//                                        fillColor : thisFill,
+//                                        spotColor : thisSpotColor,
+//                                        minSpotColor : thisMinSpotColor,
+//                                        maxSpotColor : thisMaxSpotColor,
+//                                        highlightSpotColor : thishighlightSpotColor,
+//                                        highlightLineColor : thisHighlightLineColor,
+                                        spotRadius : thisSpotRadius,
+//                                        chartRangeMin : thisChartMinYRange,
+//                                        chartRangeMax : thisChartMaxYRange,
+//                                        chartRangeMinX : thisChartMinXRange,
+//                                        chartRangeMaxX : thisChartMaxXRange,
+//                                        normalRangeMin : thisMinNormValue,
+//                                        normalRangeMax : thisMaxNormValue,
+//                                        normalRangeColor : thisNormColor,
+//                                        drawNormalOnTop : thisDrawNormalOnTop
+
+                                });
+
+        $this = null;
+
+    });
+}
+
 /*
  * INITIALIZE CHARTS
  * Description: Sparklines, PieCharts

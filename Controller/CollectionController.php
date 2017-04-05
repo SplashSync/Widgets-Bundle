@@ -104,4 +104,56 @@ class CollectionController extends Controller
         return new Response("Widget Collection ReOrder Done", 200);
     }    
     
+    /**
+     * @abstract Add Widget to Collection from Ajax Request
+     */  
+    public function addAction($CollectionId, $Service, $Type)
+    {
+        //==============================================================================
+        // Init & Safety Check 
+        if (!$this->initialize($CollectionId)) {
+            return new Response("Splash Widgets : Init Failed", 500);
+        }
+        //==============================================================================
+        // Load Widget 
+        $Widget =   $this->get("Splash.Widgets.Manager")->getWidget($Service, $Type);
+        if (is_null($Widget)  ) {
+            return new Response("Widget NOT Added to Collection", 400);
+        }        
+        //==============================================================================
+        // Add Widget To Collection
+        $this->Collection->addWidget($Widget);
+        //==============================================================================
+        // Save Changes
+        $this->getDoctrine()->getManager()->Flush();
+        
+        return new Response("Widget Added to Collection : " . $this->Collection->getName(), 200);
+    }     
+    
+    /**
+     * @abstract Remove Widget from Collection from Ajax Request
+     */  
+    public function removeAction($Service, $Type)
+    {
+        //==============================================================================
+        // Init & Safety Check 
+        $CollectionManager = $this->get($Service);
+        if (!$CollectionManager) {
+            return new Response("Splash Widgets : Init Failed", 500);
+        }
+        //==============================================================================
+        // Load Widget from Collection
+        $Widget =   $CollectionManager->getDefinition($Type);
+        if (is_null($Widget)  ) {
+            return new Response("Widget NOT Removed to Collection", 400);
+        }        
+        //==============================================================================
+        // Add Widget To Collection
+        $Widget->getParent()->removeWidget($Widget);
+        $this->getDoctrine()->getManager()->Remove($Widget);
+        //==============================================================================
+        // Save Changes
+        $this->getDoctrine()->getManager()->Flush();
+        return new Response("Widget Removed to Collection : " . $Widget->getParent()->getName(), 200);
+    }    
 }

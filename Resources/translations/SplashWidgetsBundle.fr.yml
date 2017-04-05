@@ -37,3 +37,20 @@ options:
         label:      Display Footer
         tooltip:    Disable this option not to render widget Bottom block
  
+# ==============================================================================
+# Widget Parameter Setup
+# ==============================================================================
+parameters:
+    title:          Modifier les paramètres
+        
+# ==============================================================================
+# Widget List
+# ==============================================================================
+list:
+    title:          Liste des Widgets
+    tooltip:        Liste de tous les Widgets disponibles    
+    origin:         Source/Serveur
+    name:           Nom
+    desc:           Description
+    actions:        Actions
+    

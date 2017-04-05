@@ -1,0 +1,29 @@
+{% trans_default_domain "SplashWidgetsBundle" %} 
+
+<table class="table table-bordered table-striped no-padding"  role="content">
+        <thead>
+            <tr>
+                <th> 
+                    {{ 'list.origin'|trans }}
+                </th>
+                <th> 
+                    {{ 'list.name'|trans }}
+                </th>
+                <th> 
+                    {{ 'list.desc'|trans }}
+                </th>
+                <th>
+                    {{ 'list.actions'|trans }}
+                </th>
+            </tr>
+        </thead>
+    <tbody>
+    <tbody>
+        {% for Widget in Widgets %}
+            {% include 'SplashWidgetsBundle:List:item.html.twig' with {'Widget': Widget } %} 
+        {% endfor %}
+    </tbody>
+</table>
+
+
+

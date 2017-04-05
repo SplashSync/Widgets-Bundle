@@ -1,0 +1,13 @@
+{% trans_default_domain "SplashWidgetsBundle" %} 
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+      <h3>{{ 'list.title'|trans }}</h3>
+      <small>{{ 'list.tooltip'|trans }}</small>
+  </div>
+  <div class="panel-body no-padding">
+      {% include 'SplashWidgetsBundle:List:contents.html.twig' %} 
+  </div>
+</div>
+
+    

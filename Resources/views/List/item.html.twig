@@ -1,0 +1,25 @@
+{% trans_default_domain "SplashWidgetsBundle" %} 
+
+<tr>
+    <td>
+        {{ Widget.Origin }}
+    </td>
+    <td>
+        {{ Widget.Name }}
+    </td>
+    <td>
+        {{ Widget.Description }}
+    </td>
+    <td>
+        {% set AddAction = "SplashWidgets_AddToCollection('" ~ CollectionId ~ "','" ~ Widget.Service ~ "','" ~ Widget.Type ~ "')" %}
+        <a href="javascript:void(0);" class="btn btn-sm btn-labeled btn-info" onclick="{{ AddAction }}"> 
+            <span class="btn-label">
+                <i class="fa fa-fw fa-plus-circle"></i>
+            </span>
+            {{ "list.add" | trans}} 
+        </a>
+    </td>
+</tr>
+
+            
+ 

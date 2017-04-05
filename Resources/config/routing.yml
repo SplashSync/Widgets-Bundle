@@ -25,3 +25,27 @@ splash_widgets_ajax_reorder:
     defaults: { _controller: SplashWidgetsBundle:Collection:reorder }
     options:
         expose: true 
+        
+#################################################################################
+## COLLECTIONS : AJAX ADD WIDGET
+splash_widgets_ajax_add:
+    path:     /add/{CollectionId}/{Service}/{Type}
+    defaults: { _controller: SplashWidgetsBundle:Collection:add }
+    options:
+        expose: true    
+        
+#################################################################################
+## COLLECTIONS : AJAX REMOVE WIDGET
+splash_widgets_ajax_remove:
+    path:     /remove/{Service}/{Type}
+    defaults: { _controller: SplashWidgetsBundle:Collection:remove }
+    options:
+        expose: true          
+        
+#################################################################################
+## COLLECTIONS : AJAX WIDGET LIST MODAL
+splash_widgets_ajax_list:
+    path:     /list/{CollectionId}/{Channel}
+    defaults: { _controller: SplashWidgetsBundle:List:modal }
+    options:
+        expose: true         

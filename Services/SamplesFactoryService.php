@@ -13,12 +13,16 @@ use Splash\Widgets\Services\FactoryService;
 
 use Splash\Widgets\Models\Interfaces\WidgetProviderInterface;
 
+use Splash\Widgets\Models\Blocks\SparkBarChartBlock;
+
 /*
  * Demo Widgets Factory Service
  */
 class SamplesFactoryService implements WidgetProviderInterface
 {
-    const SERVICE    =   "Splash.Widgets.Samples";
+    const PREFIX    =   "Splash\Widgets\Services\DemoBlocks\\";
+    
+    const SERVICE   =   "Splash.Widgets.Samples";
     
     const DEFAULT_WIDGET    =   array(
             "Identifier"    =>  Null,
@@ -63,11 +67,13 @@ class SamplesFactoryService implements WidgetProviderInterface
      */    
     public function onListingAction( GenericEvent $Event ) { 
         
-        $Event["TextWidget"]        =   $this->buildWidgetDefinition("TextWidget", "Sample Text Widget");
-        $Event["TableWidget"]       =   $this->buildWidgetDefinition("TableWidget", "Sample Table Widget");
-        $Event["NotificationWidget"]=   $this->buildWidgetDefinition("NotificationWidget", "Sample Notification Widget");
-        $Event["SparkInfoWidget"]   =   $this->buildWidgetDefinition("SparkInfoWidget", "Sample Notification Widget");
-        $Event["BarChartWidget"]   =    $this->buildWidgetDefinition("BarChartWidget", "Sample Bar Chart Widget");
+        $Event["TextWidget"]            =   $this->buildWidgetDefinition("TextWidget", "Sample Text Widget")->getWidget();
+        $Event["TableWidget"]           =   $this->buildWidgetDefinition("TableWidget", "Sample Table Widget")->getWidget();
+        $Event["NotificationWidget"]    =   $this->buildWidgetDefinition("NotificationWidget", "Sample Notification Widget")->getWidget();
+        $Event["SparkInfoWidget"]       =   $this->buildWidgetDefinition("SparkInfoWidget", "Sample Notification Widget")->getWidget();
+        $Event["SparkBarChartWidget"]   =   $this->buildWidgetDefinition("SparkBarChartWidget", "Sample Bar Chart Widget")->getWidget();
+        
+        $Event["SparkLine"]             =   $this->buildWidgetDefinition("SparkLine")->getWidget();
         
         return True;
     }  
@@ -75,33 +81,67 @@ class SamplesFactoryService implements WidgetProviderInterface
     /**
      * @abstract    Widgets Listing
      */    
-    public function buildWidgetDefinition( $Type , $Name, $Desc = Null, $Options = array()) { 
-        
-        $this->Factory
-                ->Create($Type)
-                ->setService(self::SERVICE)
-                ->setType($Type)
-                ->setName($Name)
-                ->setDescription(($Desc ? $Desc : $Name))
-            ;    
+    public function buildWidgetDefinition( $Type , $Name = Null, $Desc = Null, $Options = array()) { 
 
-        return $this->Factory->getWidget();
+        $BlockClass = self::PREFIX . $Type;
+        
+        if (class_exists($BlockClass)) {
+            $this->Factory
+                    ->Create($Type)
+                    ->setService(self::SERVICE)
+                    ->setType($BlockClass::TYPE)
+                    ->setName($BlockClass::TITLE)
+                    ->setDescription($BlockClass::DESCRIPTION)
+                    ->setOrigin("Demo Factory")
+                ;    
+            
+        } else {
+            $this->Factory
+                    ->Create($Type)
+                    ->setService(self::SERVICE)
+                    ->setType($Type)
+                    ->setName($Name)
+                    ->setDescription(($Desc ? $Desc : $Name))
+                    ->setOrigin("Demo Factory")
+                ;    
+        }
+        
+
+        return $this->Factory;
     } 
     
     /**
-     *      @abstract   Read Widget Contents
+     * @abstract   Read Widget Contents
      * 
-     *      @param      string  $WidgetId         Widgets Type Identifier 
+     * @param      string   $Type               Widgets Type Identifier 
+     * @param      array    $Parameters         Widget Parameters
      * 
-     *      @return     Widget 
+     * @return     Widget 
      */    
-    public function getWidget($WidgetId)
+    public function getWidget(string $Type, array $Parameters = array())
     {
         //====================================================================//
         // If Widget Exists               
-        if ( method_exists($this, $WidgetId) ) {
-            return $this->$WidgetId();
+        if ( method_exists($this, $Type) ) {
+            return $this->$Type($Parameters);
         } 
+        
+        $BlockClass = self::PREFIX . $Type;
+        
+        if (class_exists($BlockClass)) {
+            
+            $this->buildWidgetDefinition( $Type );
+            
+            $this->Factory
+                    ->Create($Type)
+                    ->setService(self::SERVICE)
+                    ->setType($BlockClass::TYPE)
+                    ->setName($BlockClass::TITLE)
+                    ->setDescription($BlockClass::DESCRIPTION)
+                    ->setOrigin("Demo Factory")
+                ;    
+            
+        }
         
         return Null;
     }      
@@ -109,30 +149,30 @@ class SamplesFactoryService implements WidgetProviderInterface
     /**
      * @abstract   Return Widget Options Array 
      * 
-     * @param      string   $WidgetId           Widgets Type Identifier 
+     * @param      string   $Type               Widgets Type Identifier 
      * 
      * @return     array
      */    
-    public function getWidgetOptions($WidgetId) : array
+    public function getWidgetOptions(string $Type) : array
     {
         //====================================================================//
         // If Widget Exists               
-        if ( method_exists($this, $WidgetId) ) {
-            $Widget = $this->$WidgetId();
+        if ( method_exists($this, $Type) ) {
+            $Widget = $this->$Type();
             return $Widget->getOptions();
         } 
         return Widget::getDefaultOptions();
     }
 
     /**
-     * @abstract   Return Widget Parameters Array 
+     * @abstract   Update Widget Options Array 
      * 
      * @param      string   $Type               Widgets Type Identifier 
      * @param      array    $Options            Updated Options 
      * 
      * @return     array
      */    
-    public function setWidgetOptions($Type, $Options) : bool 
+    public function setWidgetOptions(string $Type, array $Options) : bool
     {
         return True;
     }
@@ -140,25 +180,25 @@ class SamplesFactoryService implements WidgetProviderInterface
     /**
      * @abstract   Return Widget Parameters Array 
      * 
-     * @param      string   $Type           Widgets Type Identifier 
+     * @param      string   $Type               Widgets Type Identifier 
      * 
      * @return     array
      */    
-    public function getWidgetParameters($Type) : array
+    public function getWidgetParameters(string $Type) : array
     {
         return array();
     }
         
     
     /**
-     * @abstract   Return Widget Parameters Array 
+     * @abstract   Update Widget Parameters Array 
      * 
      * @param      string   $Type               Widgets Type Identifier 
      * @param      array    $Parameters         Updated Parameters 
      * 
      * @return     array
      */    
-    public function setWidgetParameters($Type, $Parameters) : bool 
+    public function setWidgetParameters(string $Type, array $Parameters) : bool
     {
         return True;
     }
@@ -173,8 +213,16 @@ class SamplesFactoryService implements WidgetProviderInterface
      * 
      * @return     array
      */    
-    public function populateWidgetForm(FormBuilderInterface $builder, $Type)
+    public function populateWidgetForm(FormBuilderInterface $builder, string $Type)
     {
+        
+        if ( $Type == "SparkBarChartWidget" ) {
+            SparkBarChartBlock::addHeightFormRow($builder);
+            SparkBarChartBlock::addBarWidthFormRow($builder);
+            SparkBarChartBlock::addBarColorFormRow($builder);
+        } 
+        
+        return;
     }
 
     
@@ -356,7 +404,7 @@ class SamplesFactoryService implements WidgetProviderInterface
         return $this->Factory->getWidget();
     }
    
-    public function BarChartWidget()
+    public function SparkBarChartWidget($Parameters)
     {
         //==============================================================================
         // Create Widget Options 
@@ -383,13 +431,28 @@ class SamplesFactoryService implements WidgetProviderInterface
                 ->setOrigin("Sample Widgets Factory")
             ->end()
                 
-                
+        ;
+        
             //==============================================================================
             // Create SparkInfo Block 
-            ->addBlock("BarChartBlock",$BlockOptions)
+        $BarGraph = $this->Factory->addBlock("SparkBarChartBlock",$BlockOptions);
+        
+        $BarGraph
                 ->setTitle("Sparkline Bar Chart")
-                ->setValues(array("10", "20", "30", "-10", "20", "30", "10", "20", "30", "10", "20", "30", "10", "20", "30", "10", "20", "30"))
-            ->end()
+                ->setValues(array("1", "3", "5", "7", "12", "24", "32", "64", "36", "24", "-5", "30", "10", "20", "30", "10", "20", "30"));
+        
+        if ( isset($Parameters["sparkbar_height"]) ) {
+            $BarGraph->setChartHeight($Parameters["sparkbar_height"]);
+        }
+        
+        if ( isset($Parameters["sparkbar_barwidth"]) ) {
+            $BarGraph->setBarWidth($Parameters["sparkbar_barwidth"]);
+        }
+        if ( isset($Parameters["sparkbar_barcolor"]) ) {
+            $BarGraph->setBarColor($Parameters["sparkbar_barcolor"]);
+        }
+        
+//            ->end()
                 
 //                
 //            //==============================================================================

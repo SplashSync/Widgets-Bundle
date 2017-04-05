@@ -2,11 +2,29 @@
 
     <h3 class="page-title txt-color-blueDark"><i class="fa fa-fw fa-info-circle "></i>
         Widget Collections Displays
+        
+        {% include 'SplashWidgetsBundle:Widget/Buttons:add.html.twig' with {"CollectionId" : Collection.id , "Channel" : "demo" } %}  
+        
+        {% if Edit %}
+            <a href="{{ path("splash_widgets_collection") }}" class="btn btn-labeled btn-success pull-right"> 
+                <span class="btn-label"><i class="fa fa-fw fa-eye"></i></span>
+                View
+            </a>
+        {% else %}
+            <a href="{{ path("splash_widgets_collection_edit") }}" class="btn btn-labeled btn-primary pull-right"> 
+                <span class="btn-label"><i class="fa fa-fw fa-cogs"></i></span>
+                Edit 
+            </a>
+        {% endif %}
     </h3>
-
+    
+    </br></br>
+    
     {% if Edit %}
         {{ render(controller('SplashWidgetsBundle:Collection:edit', { 'CollectionId' : Collection.id })) }}
     {% else %}
         {{ render(controller('SplashWidgetsBundle:Collection:view', { 'CollectionId' : Collection.id })) }}
     {% endif %}
     
+    {{ render(controller('SplashWidgetsBundle:List:panel', { 'CollectionId' : Collection.id, 'Channel' : 'demo' })) }}
+

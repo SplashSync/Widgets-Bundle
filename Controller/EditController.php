@@ -31,22 +31,14 @@ class EditController extends Controller
     private $Service = Null;
 
     /**
-     * Class Initialisation
-     * 
-     * @param string    $Service        Widget Provider Interface Name
+     * Class Initialization
      * 
      * @return bool 
      */    
-    public function initialize($Service = Null) {
+    public function initialize() {
         
         $this->Factory = $this->get("Splash.Widgets.Factory");
         
-        //==============================================================================
-        // Link to Widget Interface Service if Available 
-        if ( $Service && $this->has($Service)) {
-            $this->Service = $this->get($Service);
-        }
-
         return True;
     }   
    
@@ -64,15 +56,9 @@ class EditController extends Controller
         if (!$this->initialize($Service)) {
             return new Response("Error... ", 400);
         }   
-        
         //==============================================================================
         // Import Form Data & Prepare Data for Form Display   
         $Params = $this->prepare($request, $Service, $Type);
-//        $Params = array();
-//        
-//        $FormBuilder->setAction(
-//                    $this->generateUrl('splash_widgets_edit',['Service' => $Service, "Type" => $Type])
-//                );
         //==============================================================================
         // Render Widget Edit Modal   
         return $this->render('SplashWidgetsBundle:Edit:modal.html.twig', $Params );
@@ -92,11 +78,9 @@ class EditController extends Controller
         if ($this->initialize($Service) != True) {
             return new Response("Error... ", 400);
         }
-        
         //==============================================================================
         // Import Form Data & Prepare Data for Form Display   
         $Params = $this->prepare($request, $Service, $Type);
-        
         //==============================================================================
         // Render Widget Edit Well   
         return $this->render('SplashWidgetsBundle:Edit:panel.html.twig', $Params );
@@ -112,25 +96,14 @@ class EditController extends Controller
      */
     public function prepare(Request $request, $Service, $Type)
     {
-        //==============================================================================
-        // Verify Item Service is Available 
-        if ( !$this->has($Service)) {
-            return new Response("Requested Widget Service doesn't Exists", 400);
-        }        
+        $Manager = $this->get("Splash.Widgets.Manager");
         
         //==============================================================================
         // Read Current Widget Options 
-        $Options =   $this->Service->getWidgetOptions($Type);
-
+        $Options    =   $Manager->getWidgetOptions($Service, $Type);
         //==============================================================================
         // Read Current Widget Parameters 
-        $Parameters =   $this->Service->getWidgetParameters($Type);
-
-        //==============================================================================
-        // Read Current Widget Parameters 
-//        $Fields =   $this->get($Service)
-//                ->getWidgetParametersFields($Type, $this->User);
-        
+        $Parameters =   $Manager->getWidgetParameters($Service, $Type);
         //==============================================================================
         // Create Widget Object for Form 
         $Widget = $this->Factory
@@ -138,7 +111,6 @@ class EditController extends Controller
                 ->setOptions($Options)
                 ->setParameters($Parameters)
                 ->getWidget();
-        
         //==============================================================================
         // Ajax => Setup Action for Ajax Submit
         if ($request->isXmlHttpRequest()) {
@@ -146,38 +118,20 @@ class EditController extends Controller
         } else {
             $Action = Null;
         }
-        
         //==============================================================================
         // Create Edit Form
-        $this->EditForm = $this->createEditForm($Widget, $Type, $Action);
-        
+        $this->EditForm = $this->createEditForm($Widget, $Service, $Type, $Action);
         //==============================================================================
         // Handle User Posted Data
         $this->EditForm->handleRequest($request);
-        
-//        if ($request->isMethod('GET')) {
-//            $this->EditForm->submit($request->request->get($this->EditForm->getName()));
-        
-//        dump($request->request->get($this->EditForm->getName()));
-////        dump($this->EditForm);
-//        dump($this->EditForm->isSubmitted());
-//        dump($this->EditForm->isValid());
-//        dump($Widget->getParameters());
-        
-        
+        //==============================================================================
+        // Verify Data is Valid
+        if ( $this->EditForm->isSubmitted() && $this->EditForm->isValid() ) {
             //==============================================================================
-            // Verify Data is Valid
-            if ( $this->EditForm->isSubmitted() && $this->EditForm->isValid() ) {
-                //==============================================================================
-                // Save Changes
-                $this->Service->setWidgetOptions($Type, $Widget->getOptions());
-                $this->Service->setWidgetParameters($Type, $Widget->getParameters());
-            }
-//        }
-
-
-
-            
+            // Save Changes
+            $Manager->setWidgetOptions($Service, $Type, $Widget->getOptions());
+            $Manager->setWidgetParameters($Service, $Type, $Widget->getParameters());
+        }
         //==============================================================================
         // Prepare Template Parameters
         return array(
@@ -193,7 +147,7 @@ class EditController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Widget $Widget, $Type, $Action = Null)
+    private function createEditForm(Widget $Widget, $Service, $Type, $Action = Null)
     {
         //====================================================================//
         // Create Form Builder
@@ -214,7 +168,7 @@ class EditController extends Controller
         $WidgetDatesForm->buildForm($builder, []);
         
         $WidgetTab = $builder->create('parameters', \Mopa\Bundle\BootstrapBundle\Form\Type\TabType::class, array(
-            'label'                 => 'parameters.label',
+            'label'                 => 'widget.params',
             'translation_domain'    => "SplashWidgetsBundle",
             'icon'                  => ' fa fa-cogs',
             'inherit_data'          => true,
@@ -222,7 +176,7 @@ class EditController extends Controller
         
         //====================================================================//
         // Import Widget Option Form Fields
-        $this->Service->populateWidgetForm($WidgetTab, $Type);
+        $this->get("Splash.Widgets.Manager")->populateWidgetForm($WidgetTab, $Service, $Type);
         if (count($WidgetTab->all())) {
             $builder->add($WidgetTab);
         }
