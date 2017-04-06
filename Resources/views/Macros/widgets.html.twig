@@ -25,3 +25,31 @@
     {% endif %}    
     
 {% endmacro %}
+
+{% macro MorrisLine( DataSet, Xkey, Ykeys, Labels, Options ) %}
+    {% if DataSet is not empty %}                
+        <div 
+            class="morris-line"
+            id="{{ random() }}"
+            data-morris-dataset='{{ DataSet | json_encode() }}'
+            data-morris-xkey='{{ Xkey }}'
+            data-morris-ykeys='{{ Ykeys | json_encode() }}'
+            data-morris-labels='{{ Labels | json_encode() }}'
+            data-morris-options='{{ Options | json_encode() }}'
+            >
+        </div>  
+    {% endif %}    
+{% endmacro %}
+
+{% macro MorrisDonut( DataSet, Options ) %}
+    {% if DataSet is not empty %}                
+        <div 
+            class="morris-donut"
+            id="{{ random() }}"
+            data-morris-dataset='{{ DataSet | json_encode() }}'
+            data-morris-options='{{ Options | json_encode() }}'
+            >
+        </div>  
+    {% endif %}    
+{% endmacro %}
+

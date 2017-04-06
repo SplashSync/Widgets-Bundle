@@ -340,6 +340,68 @@ function SplashWidgets_SparkLinePieCharts()
 }
 
 /*
+ * INITIALIZE MORRIS LINE CHARTS
+ */
+function SplashWidgets_MorrisLineCharts() 
+{
+    if (!Morris.Line) {
+        return false;
+    }        
+    
+    $('.morris-line:not(:has(>svg))').each(function() {
+        var $this = $(this);
+        // Prepare Main Option Object
+        var splashMorrisLine = {
+            // ID of the element in which to draw the chart.
+            element:    $this[0].id,
+            // Chart data records
+             data:      $this.data('morris-dataset'),
+            // The name of the data record attribute that contains x-values.
+            xkey:       $this.data('morris-xkey'),
+            // A list of names of data record attributes that contain y-values.
+            ykeys:      $this.data('morris-ykeys'),
+            // Labels for the ykeys
+            labels:     $this.data('morris-labels')
+        };
+        // Merge with Chart Options 
+        jQuery.extend(splashMorrisLine, $this.data('morris-options') || []);
+            
+        // Render Morris Line Chart 
+        new Morris.Line(splashMorrisLine);
+                  
+        console.log("Splash Widgets : Created Morris Line Chart");
+    });
+}
+
+/*
+ * INITIALIZE MORRIS DONUT CHARTS
+ */
+function SplashWidgets_MorrisDonutCharts() 
+{
+    if (!Morris.Donut) {
+        return false;
+    }        
+    
+    $('.morris-donut:not(:has(>svg))').each(function() {
+        var $this = $(this);
+        // Prepare Main Option Object
+        var splashMorrisDonut = {
+            // ID of the element in which to draw the chart.
+            element:    $this[0].id,
+            // Chart data records
+            data:      $this.data('morris-dataset'),
+        };
+        // Merge with Chart Options 
+        jQuery.extend(splashMorrisDonut, $this.data('morris-options') || []);
+            
+        // Render Morris Donut Chart 
+        new Morris.Donut(splashMorrisDonut);
+                  
+        console.log("Splash Widgets : Created Morris Donut Chart");
+    });
+}
+
+/*
  * INITIALIZE CHARTS
  * Description: Sparklines, PieCharts
  */
@@ -348,6 +410,8 @@ function runAllCharts() {
     SplashWidgets_SparkLineBarCharts();
     SplashWidgets_SparkLineLineCharts();
     SplashWidgets_SparkLinePieCharts();
+    SplashWidgets_MorrisLineCharts();
+    SplashWidgets_MorrisDonutCharts();
     
     /*
      * SPARKLINES
