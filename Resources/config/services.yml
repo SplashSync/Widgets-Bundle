@@ -13,14 +13,3 @@ services:
     Splash.Widgets.Collection:
         class: Splash\Widgets\Services\CollectionService
         arguments: ["@Splash.Widgets.Factory", "@=service('doctrine.orm.entity_manager').getRepository('SplashWidgetsBundle:WidgetCollection')", "@service_container"]     
-
-
-# Demo Widgets Factroy Service
-    Splash.Widgets.Samples:
-        class: Splash\Widgets\Services\SamplesFactoryService
-        arguments: ["@Splash.Widgets.Factory"]   
-#        lazy: true             
-        tags:
-            - { name: kernel.event_listener, event: splash.widgets.list.user, method: onListingAction }
-            - { name: kernel.event_listener, event: splash.widgets.list.demo, method: onListingAction }
-

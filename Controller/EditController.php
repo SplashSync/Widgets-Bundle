@@ -114,7 +114,7 @@ class EditController extends Controller
         //==============================================================================
         // Ajax => Setup Action for Ajax Submit
         if ($request->isXmlHttpRequest()) {
-            $Action = $this->generateUrl('splash_widgets_edit',['Service' => $Service, "Type" => $Type]);
+            $Action = $this->generateUrl('splash_widgets_edit_widget',['Service' => $Service, "Type" => $Type]);
         } else {
             $Action = Null;
         }

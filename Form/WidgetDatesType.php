@@ -33,7 +33,7 @@ class WidgetDatesType extends AbstractType
 
         $DatesTab->add("Dates", ChoiceType::class, array(
                 'required'                  => True,
-                'property_path'             => 'options[DatePreset]',
+                'property_path'             => 'parameters[DatePreset]',
                 'label'                     => "dates.label",
                 'help_block'                => "dates.tooltip",
                 'choices'       => array(
@@ -62,6 +62,6 @@ class WidgetDatesType extends AbstractType
      */
     public function getName()
     {
-        return 'splash_widgets_rendering_forms';
+        return 'splash_widgets_render_widgeting_forms';
     }
 }

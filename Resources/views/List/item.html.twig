@@ -5,6 +5,9 @@
         {{ Widget.Origin }}
     </td>
     <td>
+        {% if Widget.Icon %}
+            <i class="{{ Widget.Icon }}" aria-hidden="true"></i>
+        {% endif %}
         {{ Widget.Name }}
     </td>
     <td>

@@ -20,60 +20,7 @@ class WidgetCollectionBase
 {
 
     use CollectionTrait;
-    
     use LifecycleTrait;
-    
-    const GROUPBY_YEAR          =   "Y";
-    const GROUPBY_MONTH         =   "M";
-    const GROUPBY_WEEK          =   "W";
-    const GROUPBY_DAY           =   "D";
-    const GROUPBY_HOUR          =   "H";
-    const GROUPBY_MINUTE        =   "M";
-
-    const PRESETS               =   array(
-        
-        "Y"     =>  [
-            "DateStart" => "first day of january this year",          
-            "DateEnd" => "", 
-            "GroupBy" => "M"
-            ],
-        "M"     =>  [
-            "DateStart" => "first day of this month",          
-            "DateEnd" => "", 
-            "GroupBy" => "D"
-            ],
-        "W"     =>  [
-            "DateStart" => "last monday",          
-            "DateEnd" => "next sunday", 
-            "GroupBy" => "D"
-            ],
-        "D"     =>  [
-            "DateStart" => "-1 day",          
-            "DateEnd" => "", 
-            "GroupBy" => "H"
-            ],
-        "PY"     =>  [
-            "DateStart" => "first day of january last year",          
-            "DateEnd" => "last day of december last year", 
-            "GroupBy" => "M"
-            ],
-        "PM"     =>  [
-            "DateStart" => "first day of last month",          
-            "DateEnd" => "last day of last month", 
-            "GroupBy" => "D"
-            ],
-        "PW"     =>  [
-            "DateStart" => "last week last monday",          
-            "DateEnd" => "last sunday", 
-            "GroupBy" => "D"
-            ],
-        "PD"     =>  [
-            "DateStart" => "-2 day",          
-            "DateEnd" => "-1 day", 
-            "GroupBy" => "H"
-            ],
-        
-    );
     
     //==============================================================================
     //      Definition           
@@ -93,6 +40,13 @@ class WidgetCollectionBase
      */
     protected $type;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="preset", type="string", length=255, nullable=TRUE)
+     */
+    protected $preset = "M";
+    
     //==============================================================================
     //      CONSTRUCTOR  
     //==============================================================================   
@@ -110,69 +64,6 @@ class WidgetCollectionBase
     {
         return $this->getName();         
     }
-            
-    /**
-     * Get Report Dates Options
-     *
-     * @return Report
-     */
-    public function getDatesArray()
-    {
-        
-        //==============================================================================
-        //  Check If Report is in Preset Dates Mode
-        if ( !empty( $this->options["DatePreset"] ) && array_key_exists($this->options["DatePreset"], self::PRESETS) ) {
-            $Presets        =   self::PRESETS;
-            $DatesOptions   =   $Presets[ $this->options["DatePreset"] ];
-        } else {
-            $DatesOptions   =   $this->options;
-        }
-        //==============================================================================
-        //  Prepare Dates
-        $DateStart  =   new \DateTime($DatesOptions["DateStart"]);
-        $DateStart->setTime(0, 0, 0);
-        $DateEnd    =   new \DateTime($DatesOptions["DateEnd"]);
-        $DateEnd->setTime(23, 59, 59);
-        //==============================================================================
-        //  Prepare Dates Array
-        return  [
-            "DateStart"     =>      $DateStart,
-            "DateEnd"       =>      $DateEnd,
-            "GroupBy"       =>      $DatesOptions["GroupBy"],
-        ];
-
-
-    }
-    
-    /**
-     * Get Report Widget Parameters Array
-     *
-     * @return Report
-     */
-    public function getParametersArray()
-    {
-        
-        //==============================================================================
-        //  Check If Report is in Preset Dates Mode
-        if ( !empty( $this->options["DatePreset"] ) && array_key_exists($this->options["DatePreset"], self::PRESETS) ) {
-            $Presets        =   self::PRESETS;
-            $DatesOptions   =   $Presets[ $this->options["DatePreset"] ];
-        } else {
-            $DatesOptions   =   $this->options;
-        }
-        
-        //==============================================================================
-        //  Prepare Dates Array
-        return  [
-            "DateStart"     =>      (new \DateTime($DatesOptions["DateStart"]))->format(SPL_T_DATETIMECAST),
-            "DateEnd"       =>      (new \DateTime($DatesOptions["DateEnd"]))->format(SPL_T_DATETIMECAST),
-            "GroupBy"       =>      $DatesOptions["GroupBy"],
-        ];
-
-
-    }
-    
-    
     
     //==============================================================================
     //      GETTERS & SETTERS 
@@ -183,7 +74,7 @@ class WidgetCollectionBase
      *
      * @param string $name
      *
-     * @return Report
+     * @return WidgetCollectionBase
      */
     public function setName($name)
     {
@@ -207,7 +98,7 @@ class WidgetCollectionBase
      *
      * @param string $type
      *
-     * @return Report
+     * @return WidgetCollectionBase
      */
     public function setType($type)
     {
@@ -227,13 +118,29 @@ class WidgetCollectionBase
     }
 
     /**
-     * Get options
+     * Set Preset
      *
-     * @return array
+     * @param string $preset
+     *
+     * @return WidgetCollectionBase
      */
-    public function getOptions()
+    public function setPreset($preset)
     {
-        return $this->options;
+        $this->preset   = $preset;
+
+        return $this;
     }
+
+    /**
+     * Get Preset
+     *
+     * @return string
+     */
+    public function getPreset()
+    {
+        return $this->preset;
+    }
+
+
 
 }

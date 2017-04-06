@@ -11,25 +11,15 @@
     </h5>
 {% endif %}
             
-{% if Block.Values is not empty %}                
-    <div 
-        class="sparkline"
-        data-sparkline-type="bar" 
-        {% for Name, Value in Block.Options.Graph %} 
-            data-sparkline-{{Name}}="{{Value}}"
-        {% endfor %}
-        >
-        {% for Value in Block.Values %} 
-            {{Value}}{% if not loop.last %},{% endif %}
-        {% endfor %} 
-    </div>  
+{% if Block.Values is not empty %}     
+    {{ Wid.SparkLine( "line", Block.Options.ChartOptions, Block.Values ) }}
 {% endif %}
 
 </div>
 
 <script>
-    $(document).ready(function() {
-        SplashWidgets_SparkLineBarCharts();
-    });
+{#    $(document).ready(function() {
+        SplashWidgets_SparkLineLineCharts();
+    });#}
 </script>    
     

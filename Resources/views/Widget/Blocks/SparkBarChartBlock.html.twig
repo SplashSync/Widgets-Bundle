@@ -12,17 +12,7 @@
 {% endif %}
             
 {% if Block.Values is not empty %}                
-    <div 
-        class="sparkline"
-        data-sparkline-type="bar" 
-        {% for Name, Value in Block.Options.Graph %} 
-            data-sparkline-{{Name}}="{{Value}}"
-        {% endfor %}
-        >
-        {% for Value in Block.Values %} 
-            {{Value}}{% if not loop.last %},{% endif %}
-        {% endfor %} 
-    </div>  
+    {{ Wid.SparkLine( "bar", Block.Options.ChartOptions, Block.Values ) }}
 {% endif %}
 
 </div>

@@ -105,6 +105,33 @@ class CollectionController extends Controller
     }    
     
     /**
+     * @abstract Update Collection Dates Preset from Ajax Request
+     */  
+    public function presetAction($CollectionId,$Preset = "M")
+    {
+        //==============================================================================
+        // Init & Safety Check 
+        if (!$this->initialize($CollectionId)) {
+            return new Response("Splash Widgets : Init Failed", 500);
+        }
+        
+        //==============================================================================
+        // Update CVollection Itself
+        $this->Collection->setPreset($Preset);
+        foreach ($this->Collection->getWidgets() as $Widget) {
+            if (!$Widget->isPreset($Preset)) {
+                continue;;
+            }
+            $Widget->setParameter("DatePreset" , $Preset);
+        }
+        //==============================================================================
+        // Save Changes
+        $this->getDoctrine()->getManager()->Flush();
+        
+        return new Response("Widget Collection Dates Preset Udpated", 200);
+    }        
+    
+    /**
      * @abstract Add Widget to Collection from Ajax Request
      */  
     public function addAction($CollectionId, $Service, $Type)

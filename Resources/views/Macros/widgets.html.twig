@@ -8,4 +8,20 @@
         {% endif %}
 {% endmacro %}
 
-
+{% macro SparkLine( Type, Options, Values ) %}
+    
+    {% if Values is not empty %}                
+        <div 
+            class="sparkline"
+            data-sparkline-type="{{ Type | default("bar") }}" 
+            {% for Name, Value in Options %} 
+                data-sparkline-{{Name}}="{{Value}}"
+            {% endfor %}
+            >
+            {% for Value in Values %} 
+                {{Value}}{% if not loop.last %},{% endif %}
+            {% endfor %} 
+        </div>  
+    {% endif %}    
+    
+{% endmacro %}

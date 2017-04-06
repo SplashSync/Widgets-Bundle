@@ -44,10 +44,7 @@ class SparkLineChartBlock extends BaseBlock
     static $OPTIONS       = array(
         'Width'             => "col-sm-12 col-md-12 col-lg-12",
         "AllowHtml"         => False,    
-        "Graph"             => array(
-            "height"    =>  "180",
-            "width"     =>  "96%",
-            "color"  =>  "20"
+        "ChartOptions"      => array(
         ),
     );
 

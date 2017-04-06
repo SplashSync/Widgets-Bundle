@@ -9,6 +9,7 @@ widget:
     type:           Widget Type 
     name:           Widget Name
     params:         Settings
+    add:            Add
 
 ################################################################################    
 #    Widget Generic Actions
@@ -57,14 +58,14 @@ options:
 dates:  
     label:      Date Range
     tooltip:    Select date range for live View 
-    day:        ToDay
-    week:       This Week
-    month:      This Month
-    year:       This Year
-    prev_day:   Yesteday
-    prev_week:  Last Week
-    prev_month: Last Month
-    prev_year:  Last Year
+    D:          Today
+    W:          This Week
+    M:          This Month
+    Y:          This Year
+    PD:         Yesteday
+    PW:         Last Week
+    PM:         Last Month
+    PY:         Last Year
     
 # ==============================================================================
 # Widget Parameter Setup

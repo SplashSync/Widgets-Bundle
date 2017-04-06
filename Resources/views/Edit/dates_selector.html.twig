@@ -1,0 +1,64 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+{% import _self as btns %}
+
+<!-- Single button -->
+<div class="btn-group">
+    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fa fa-clock-o" aria-hidden="true"></i>
+        &nbsp;
+        {% if Collection.Preset is not empty %}
+            {{ ('dates.' ~ Collection.Preset)  | trans }}
+        {% else %}
+            {{ "dates.label" | trans }}
+        {% endif %}
+        &nbsp;
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        {# Preset Day Button #}
+        <li>{{ btns.Preset_Btn(Collection, "D",  'day')}}</li>
+        
+        {# Preset Week Button #}
+        <li>{{ btns.Preset_Btn(Collection, "W",  'week')}}
+        
+        {# Preset Month Button #}
+        <li>{{ btns.Preset_Btn(Collection, "M",  'month')}}
+
+        {# Preset Year Button #}
+        <li>{{ btns.Preset_Btn(Collection, "Y",  'year')}}
+
+        <li role="separator" class="divider"></li>
+            
+        {# Preset Day-1 Button #}
+        <li>{{ btns.Preset_Btn(Collection, "PD",  'prev_day')}}
+
+        {# Preset Week-1 Button #}
+        <li>{{ btns.Preset_Btn(Collection, "PW",  'prev_week')}}
+        
+        {# Preset Month-1 Button #}
+        <li>{{ btns.Preset_Btn(Collection, "PM",  'prev_month')}}
+
+        {# Preset Year-1 Button #}
+        <li>{{ btns.Preset_Btn(Collection, "PY",  'prev_year')}}
+
+  </ul>
+</div>
+
+{#
+    Generate Date Preset Button
+#}
+{% macro Preset_Btn(Collection, Value) %}
+    
+    
+    {% set isCurrent = (Collection.Preset == Value) %}
+    
+    {% set Action = "SplashWidgets_UpdateDatesPreset('" ~ Collection.Id ~ "','" ~ Value ~ "')" %}
+    <a  href="#"
+        class="{% if isCurrent | default(false)%}btn-info{% endif %}" 
+        onclick="{{ Action }}">
+        {{ ('dates.' ~ Value)  | trans }}
+        {% if isCurrent | default(false)%}<i class="fa fa-fw fa-star text-warning" aria-hidden="true"></i>{% endif %}
+    </a>
+{% endmacro %}
+
+    

@@ -44,10 +44,7 @@ class SparkBarChartBlock extends BaseBlock
     static $OPTIONS       = array(
         'Width'             => "col-sm-12 col-md-12 col-lg-12",
         "AllowHtml"         => False,    
-        "Graph"             => array(
-            "height"    =>  "180",
-            "width"     =>  "96%",
-            "barwidth"  =>  "20"
+        "ChartOptions"             => array(
         ),
     );
 
@@ -186,7 +183,7 @@ class SparkBarChartBlock extends BaseBlock
      */
     public function setChartHeight($value)
     {
-        $this->options["Graph"]["height"]     =   $value;
+        $this->options["ChartOptions"]["height"]     =   $value;
         return $this;
     }
     
@@ -195,7 +192,7 @@ class SparkBarChartBlock extends BaseBlock
      */
     public function setChartWidth($value)
     {
-        $this->options["Graph"]["width"]     =   $value;
+        $this->options["ChartOptions"]["width"]     =   $value;
         return $this;
     }
     
@@ -204,7 +201,7 @@ class SparkBarChartBlock extends BaseBlock
      */
     public function setBarWidth($value)
     {
-        $this->options["Graph"]["barwidth"]     =   $value;
+        $this->options["ChartOptions"]["barwidth"]     =   $value;
         return $this;
     }
 
@@ -213,7 +210,7 @@ class SparkBarChartBlock extends BaseBlock
      */
     public function setBarColor($value)
     {
-        $this->options["Graph"]["bar-color"]     =   $value;
+        $this->options["ChartOptions"]["bar-color"]     =   $value;
         return $this;
     }
     

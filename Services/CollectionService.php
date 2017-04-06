@@ -126,7 +126,7 @@ class CollectionService implements WidgetProviderInterface
         // Read Widget Contents 
         $Widget =   $this->container
                 ->get($Definition->getService())
-                ->getWidget($Definition->getType(), $Definition->getParameters());
+                ->getWidget($Definition->getType(), $Definition->getParameters(True));
         
         //==============================================================================
         // Validate Widget Contents 
