@@ -52,10 +52,7 @@ class WidgetBase
      */
     protected $date;    
     
-    /**
-     * @var string
-     */
-    protected $origin;    
+    
     
 
     
@@ -140,29 +137,7 @@ class WidgetBase
         return $this;         
     }
         
-    /**
-     * Set Origin
-     * 
-     * @param   $Origin
-     * @return  Widget
-     */
-    public function setOrigin($Origin)
-    {
-        $this->origin = $Origin;
-        
-        return $this;
-    }
-    
-    /**
-     * Get Origin
-     * 
-     * @return  String
-     */
-    public function getOrigin()
-    {
-        return $this->origin;
-    }
-    
+   
     /**
      * Set Date
      * 

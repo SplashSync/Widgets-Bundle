@@ -12,7 +12,7 @@ function SplashWidgets_LoadContents(Service, Type, Edit)
             WidgetBlock = document.getElementById(Type);
             if (WidgetBlock) {
                 WidgetBlock.innerHTML = data;
-                runAllCharts();
+                SplashWidgets_runAllCharts();
             }
             return data;
         }
@@ -242,6 +242,7 @@ function SplashWidgets_SparkLineBarCharts()
                 negBarColor :       $this.data('sparkline-negbar-color')        || 'IndianRed',
                 zeroAxis : 'false'
         });
+        $this[0].style.display = "block";        
 
         $this = null;
         
@@ -294,6 +295,7 @@ function SplashWidgets_SparkLineLineCharts()
             drawNormalOnTop :       $this.data('sparkline-draw-normal')     || false
 
         });
+        $this[0].style.display = "block";      
 
         $this = null;
         
@@ -332,44 +334,11 @@ function SplashWidgets_SparkLinePieCharts()
             offset :            $this.data('sparkline-offset') || 0,
             borderColor :       $this.data('border-color') || '#45494C'
         });
-                                
+        $this[0].style.display = "block";        
+                     
         $this = null;
         
         console.log("Splash Widgets : Created SparkLine Pie Chart");
-    });
-}
-
-/*
- * INITIALIZE MORRIS LINE CHARTS
- */
-function SplashWidgets_MorrisLineCharts() 
-{
-    if (!Morris.Line) {
-        return false;
-    }        
-    
-    $('.morris-line:not(:has(>svg))').each(function() {
-        var $this = $(this);
-        // Prepare Main Option Object
-        var splashMorrisLine = {
-            // ID of the element in which to draw the chart.
-            element:    $this[0].id,
-            // Chart data records
-             data:      $this.data('morris-dataset'),
-            // The name of the data record attribute that contains x-values.
-            xkey:       $this.data('morris-xkey'),
-            // A list of names of data record attributes that contain y-values.
-            ykeys:      $this.data('morris-ykeys'),
-            // Labels for the ykeys
-            labels:     $this.data('morris-labels')
-        };
-        // Merge with Chart Options 
-        jQuery.extend(splashMorrisLine, $this.data('morris-options') || []);
-            
-        // Render Morris Line Chart 
-        new Morris.Line(splashMorrisLine);
-                  
-        console.log("Splash Widgets : Created Morris Line Chart");
     });
 }
 
@@ -402,410 +371,67 @@ function SplashWidgets_MorrisDonutCharts()
 }
 
 /*
+ * INITIALIZE MORRIS COMMONS CHARTS
+ */
+function SplashWidgets_MorrisCharts() 
+{
+    if (!Morris.Area) {
+        return false;
+    }        
+    
+    $('.morris-chart:not(:has(>svg))').each(function() {
+        var $this = $(this);
+        // Prepare Chart Type 
+        var splashMorrisType  = $this.data('morris-type') || "Line";
+        // Prepare Main Option Object
+        var splashMorrisChart = {
+            // ID of the element in which to draw the chart.
+            element:    $this[0].id,
+            // Chart data records
+             data:      $this.data('morris-dataset'),
+            // The name of the data record attribute that contains x-values.
+            xkey:       $this.data('morris-xkey'),
+            // A list of names of data record attributes that contain y-values.
+            ykeys:      $this.data('morris-ykeys'),
+            // Labels for the ykeys
+            labels:     $this.data('morris-labels')
+        };
+        // Merge with Chart Options 
+        jQuery.extend(splashMorrisChart, $this.data('morris-options') || []);
+            
+            
+        switch(splashMorrisType) 
+        {
+            case "Line":
+                // Render Morris Line Chart 
+                new Morris.Line(splashMorrisChart);
+                break;
+            case "Area":
+                // Render Morris Area Chart 
+                new Morris.Area(splashMorrisChart);
+                break;
+            case "Bar":
+                // Render Morris Bar Chart 
+                new Morris.Bar(splashMorrisChart);
+                break;
+        }
+                  
+        console.log("Splash Widgets : Created Morris " + splashMorrisType + " Chart");
+    });
+}
+
+/*
  * INITIALIZE CHARTS
  * Description: Sparklines, PieCharts
  */
-function runAllCharts() {
+function SplashWidgets_runAllCharts() {
     
     SplashWidgets_SparkLineBarCharts();
     SplashWidgets_SparkLineLineCharts();
     SplashWidgets_SparkLinePieCharts();
-    SplashWidgets_MorrisLineCharts();
+    SplashWidgets_MorrisCharts();
     SplashWidgets_MorrisDonutCharts();
     
-    /*
-     * SPARKLINES
-     * DEPENDENCY: js/plugins/sparkline/jquery.sparkline.min.js
-     * See usage example below...
-     */
-
-    /* Usage:
-     * 		<div class="sparkline-line txt-color-blue" data-fill-color="transparent" data-sparkline-height="26px">
-     *			5,6,7,9,9,5,9,6,5,6,6,7,7,6,7,8,9,7
-     *		</div>
-     */
-
-    if ($.fn.sparkline) {
-
-                // variable declearations:
-
-                var barColor,
-                    sparklineHeight,
-                    sparklineBarWidth,
-                    sparklineBarSpacing,
-                    sparklineNegBarColor,
-                    sparklineStackedColor,
-                    thisLineColor,
-                    thisLineWidth,
-                    thisFill,
-                    thisSpotColor,
-                    thisMinSpotColor,
-                    thisMaxSpotColor,
-                    thishighlightSpotColor,
-                    thisHighlightLineColor,
-                    thisSpotRadius,			        
-                        pieColors,
-                    pieWidthHeight,
-                    pieBorderColor,
-                    pieOffset,
-                        thisBoxWidth,
-                    thisBoxHeight,
-                    thisBoxRaw,
-                    thisBoxTarget,
-                    thisBoxMin,
-                    thisBoxMax,
-                    thisShowOutlier,
-                    thisIQR,
-                    thisBoxSpotRadius,
-                    thisBoxLineColor,
-                    thisBoxFillColor,
-                    thisBoxWhisColor,
-                    thisBoxOutlineColor,
-                    thisBoxOutlineFill,
-                    thisBoxMedianColor,
-                    thisBoxTargetColor,
-                        thisBulletHeight,
-                    thisBulletWidth,
-                    thisBulletColor,
-                    thisBulletPerformanceColor,
-                    thisBulletRangeColors,
-                        thisDiscreteHeight,
-                    thisDiscreteWidth,
-                    thisDiscreteLineColor,
-                    thisDiscreteLineHeight,
-                    thisDiscreteThrushold,
-                    thisDiscreteThrusholdColor,
-                        thisTristateHeight,
-                    thisTristatePosBarColor,
-                    thisTristateNegBarColor,
-                    thisTristateZeroBarColor,
-                    thisTristateBarWidth,
-                    thisTristateBarSpacing,
-                    thisZeroAxis,
-                    thisBarColor,
-                    sparklineWidth,
-                    sparklineValue,
-                    sparklineValueSpots1,
-                    sparklineValueSpots2,
-                    thisLineWidth1,
-                    thisLineWidth2,
-                    thisLineColor1,
-                    thisLineColor2,
-                    thisSpotRadius1,
-                    thisSpotRadius2,
-                    thisMinSpotColor1,
-                    thisMaxSpotColor1,
-                    thisMinSpotColor2,
-                    thisMaxSpotColor2,
-                    thishighlightSpotColor1,
-                    thisHighlightLineColor1,
-                    thishighlightSpotColor2,
-                    thisFillColor1,
-                    thisFillColor2;
-
-                $('.sparkline:not(:has(>canvas))').each(function() {
-                        var $this = $(this),
-                                sparklineType = $this.data('sparkline-type') || 'bar';
-
-
-//                        // PIE CHART
-//                        if (sparklineType == 'pie') {
-//
-//                                        pieColors = $this.data('sparkline-piecolor') || ["#B4CAD3", "#4490B1", "#98AA56", "#da532c","#6E9461", "#0099c6", "#990099", "#717D8A"];
-//                                    pieWidthHeight = $this.data('sparkline-piesize') || 90;
-//                                    pieBorderColor = $this.data('border-color') || '#45494C';
-//                                    pieOffset = $this.data('sparkline-offset') || 0;
-//
-//                                $this.sparkline('html', {
-//                                        type : 'pie',
-//                                        width : pieWidthHeight,
-//                                        height : pieWidthHeight,
-//                                        tooltipFormat : '<span style="color: {{color}}">&#9679;</span> ({{percent.1}}%)',
-//                                        sliceColors : pieColors,
-//                                        borderWidth : 1,
-//                                        offset : pieOffset,
-//                                        borderColor : pieBorderColor
-//                                });
-//
-//                                $this = null;
-//
-//                        }
-
-                        // BOX PLOT
-                        if (sparklineType == 'box') {
-
-                                        thisBoxWidth = $this.data('sparkline-width') || 'auto';
-                                    thisBoxHeight = $this.data('sparkline-height') || 'auto';
-                                    thisBoxRaw = $this.data('sparkline-boxraw') || false;
-                                    thisBoxTarget = $this.data('sparkline-targetval') || 'undefined';
-                                    thisBoxMin = $this.data('sparkline-min') || 'undefined';
-                                    thisBoxMax = $this.data('sparkline-max') || 'undefined';
-                                    thisShowOutlier = $this.data('sparkline-showoutlier') || true;
-                                    thisIQR = $this.data('sparkline-outlier-iqr') || 1.5;
-                                    thisBoxSpotRadius = $this.data('sparkline-spotradius') || 1.5;
-                                    thisBoxLineColor = $this.css('color') || '#000000';
-                                    thisBoxFillColor = $this.data('fill-color') || '#c0d0f0';
-                                    thisBoxWhisColor = $this.data('sparkline-whis-color') || '#000000';
-                                    thisBoxOutlineColor = $this.data('sparkline-outline-color') || '#303030';
-                                    thisBoxOutlineFill = $this.data('sparkline-outlinefill-color') || '#f0f0f0';
-                                    thisBoxMedianColor = $this.data('sparkline-outlinemedian-color') || '#f00000';
-                                    thisBoxTargetColor = $this.data('sparkline-outlinetarget-color') || '#40a020';
-
-                                $this.sparkline('html', {
-                                        type : 'box',
-                                        width : thisBoxWidth,
-                                        height : thisBoxHeight,
-                                        raw : thisBoxRaw,
-                                        target : thisBoxTarget,
-                                        minValue : thisBoxMin,
-                                        maxValue : thisBoxMax,
-                                        showOutliers : thisShowOutlier,
-                                        outlierIQR : thisIQR,
-                                        spotRadius : thisBoxSpotRadius,
-                                        boxLineColor : thisBoxLineColor,
-                                        boxFillColor : thisBoxFillColor,
-                                        whiskerColor : thisBoxWhisColor,
-                                        outlierLineColor : thisBoxOutlineColor,
-                                        outlierFillColor : thisBoxOutlineFill,
-                                        medianColor : thisBoxMedianColor,
-                                        targetColor : thisBoxTargetColor
-
-                                });
-
-                                $this = null;
-
-                        }
-
-                        // BULLET
-                        if (sparklineType == 'bullet') {
-
-                                var thisBulletHeight = $this.data('sparkline-height') || 'auto';
-                                    thisBulletWidth = $this.data('sparkline-width') || 2;
-                                    thisBulletColor = $this.data('sparkline-bullet-color') || '#ed1c24';
-                                    thisBulletPerformanceColor = $this.data('sparkline-performance-color') || '#3030f0';
-                                    thisBulletRangeColors = $this.data('sparkline-bulletrange-color') || ["#d3dafe", "#a8b6ff", "#7f94ff"];
-
-                                $this.sparkline('html', {
-
-                                        type : 'bullet',
-                                        height : thisBulletHeight,
-                                        targetWidth : thisBulletWidth,
-                                        targetColor : thisBulletColor,
-                                        performanceColor : thisBulletPerformanceColor,
-                                        rangeColors : thisBulletRangeColors
-
-                                });
-
-                                $this = null;
-
-                        }
-
-                        // DISCRETE
-                        if (sparklineType == 'discrete') {
-
-                                        thisDiscreteHeight = $this.data('sparkline-height') || 26;
-                                    thisDiscreteWidth = $this.data('sparkline-width') || 50;
-                                    thisDiscreteLineColor = $this.css('color');
-                                    thisDiscreteLineHeight = $this.data('sparkline-line-height') || 5;
-                                    thisDiscreteThrushold = $this.data('sparkline-threshold') || 'undefined';
-                                    thisDiscreteThrusholdColor = $this.data('sparkline-threshold-color') || '#ed1c24';
-
-                                $this.sparkline('html', {
-
-                                        type : 'discrete',
-                                        width : thisDiscreteWidth,
-                                        height : thisDiscreteHeight,
-                                        lineColor : thisDiscreteLineColor,
-                                        lineHeight : thisDiscreteLineHeight,
-                                        thresholdValue : thisDiscreteThrushold,
-                                        thresholdColor : thisDiscreteThrusholdColor
-
-                                });
-
-                                $this = null;
-
-                        }
-
-                        // TRISTATE
-                        if (sparklineType == 'tristate') {
-
-                                        thisTristateHeight = $this.data('sparkline-height') || 26;
-                                    thisTristatePosBarColor = $this.data('sparkline-posbar-color') || '#60f060';
-                                    thisTristateNegBarColor = $this.data('sparkline-negbar-color') || '#f04040';
-                                    thisTristateZeroBarColor = $this.data('sparkline-zerobar-color') || '#909090';
-                                    thisTristateBarWidth = $this.data('sparkline-barwidth') || 5;
-                                    thisTristateBarSpacing = $this.data('sparkline-barspacing') || 2;
-                                    thisZeroAxis = $this.data('sparkline-zeroaxis') || false;
-
-                                $this.sparkline('html', {
-
-                                        type : 'tristate',
-                                        height : thisTristateHeight,
-                                        posBarColor : thisBarColor,
-                                        negBarColor : thisTristateNegBarColor,
-                                        zeroBarColor : thisTristateZeroBarColor,
-                                        barWidth : thisTristateBarWidth,
-                                        barSpacing : thisTristateBarSpacing,
-                                        zeroAxis : thisZeroAxis
-
-                                });
-
-                                $this = null;
-
-                        }
-
-                        //COMPOSITE: BAR
-                        if (sparklineType == 'compositebar') {
-
-                                sparklineHeight = $this.data('sparkline-height') || '20px';
-                            sparklineWidth = $this.data('sparkline-width') || '100%';
-                            sparklineBarWidth = $this.data('sparkline-barwidth') || 3;
-                            thisLineWidth = $this.data('sparkline-line-width') || 1;
-                            thisLineColor = $this.data('data-sparkline-linecolor') || '#ed1c24';
-                            thisBarColor = $this.data('data-sparkline-barcolor') || '#333333';
-
-                                $this.sparkline($this.data('sparkline-bar-val'), {
-
-                                        type : 'bar',
-                                        width : sparklineWidth,
-                                        height : sparklineHeight,
-                                        barColor : thisBarColor,
-                                        barWidth : sparklineBarWidth
-                                        //barSpacing: 5
-
-                                });
-
-                                $this.sparkline($this.data('sparkline-line-val'), {
-
-                                        width : sparklineWidth,
-                                        height : sparklineHeight,
-                                        lineColor : thisLineColor,
-                                        lineWidth : thisLineWidth,
-                                        composite : true,
-                                        fillColor : false
-
-                                });
-
-                                $this = null;
-
-                        }
-
-                        //COMPOSITE: LINE
-                        if (sparklineType == 'compositeline') {
-
-                                        sparklineHeight = $this.data('sparkline-height') || '20px';
-                                    sparklineWidth = $this.data('sparkline-width') || '90px';
-                                    sparklineValue = $this.data('sparkline-bar-val');
-                                    sparklineValueSpots1 = $this.data('sparkline-bar-val-spots-top') || null;
-                                    sparklineValueSpots2 = $this.data('sparkline-bar-val-spots-bottom') || null;
-                                    thisLineWidth1 = $this.data('sparkline-line-width-top') || 1;
-                                    thisLineWidth2 = $this.data('sparkline-line-width-bottom') || 1;
-                                    thisLineColor1 = $this.data('sparkline-color-top') || '#333333';
-                                    thisLineColor2 = $this.data('sparkline-color-bottom') || '#ed1c24';
-                                    thisSpotRadius1 = $this.data('sparkline-spotradius-top') || 1.5;
-                                    thisSpotRadius2 = $this.data('sparkline-spotradius-bottom') || thisSpotRadius1;
-                                    thisSpotColor = $this.data('sparkline-spot-color') || '#f08000';
-                                    thisMinSpotColor1 = $this.data('sparkline-minspot-color-top') || '#ed1c24';
-                                    thisMaxSpotColor1 = $this.data('sparkline-maxspot-color-top') || '#f08000';
-                                    thisMinSpotColor2 = $this.data('sparkline-minspot-color-bottom') || thisMinSpotColor1;
-                                    thisMaxSpotColor2 = $this.data('sparkline-maxspot-color-bottom') || thisMaxSpotColor1;
-                                    thishighlightSpotColor1 = $this.data('sparkline-highlightspot-color-top') || '#50f050';
-                                    thisHighlightLineColor1 = $this.data('sparkline-highlightline-color-top') || '#f02020';
-                                    thishighlightSpotColor2 = $this.data('sparkline-highlightspot-color-bottom') ||
-                                        thishighlightSpotColor1;
-                                    thisHighlightLineColor2 = $this.data('sparkline-highlightline-color-bottom') ||
-                                        thisHighlightLineColor1;
-                                    thisFillColor1 = $this.data('sparkline-fillcolor-top') || 'transparent';
-                                    thisFillColor2 = $this.data('sparkline-fillcolor-bottom') || 'transparent';
-
-                                $this.sparkline(sparklineValue, {
-
-                                        type : 'line',
-                                        spotRadius : thisSpotRadius1,
-
-                                        spotColor : thisSpotColor,
-                                        minSpotColor : thisMinSpotColor1,
-                                        maxSpotColor : thisMaxSpotColor1,
-                                        highlightSpotColor : thishighlightSpotColor1,
-                                        highlightLineColor : thisHighlightLineColor1,
-
-                                        valueSpots : sparklineValueSpots1,
-
-                                        lineWidth : thisLineWidth1,
-                                        width : sparklineWidth,
-                                        height : sparklineHeight,
-                                        lineColor : thisLineColor1,
-                                        fillColor : thisFillColor1
-
-                                });
-
-                                $this.sparkline($this.data('sparkline-line-val'), {
-
-                                        type : 'line',
-                                        spotRadius : thisSpotRadius2,
-
-                                        spotColor : thisSpotColor,
-                                        minSpotColor : thisMinSpotColor2,
-                                        maxSpotColor : thisMaxSpotColor2,
-                                        highlightSpotColor : thishighlightSpotColor2,
-                                        highlightLineColor : thisHighlightLineColor2,
-
-                                        valueSpots : sparklineValueSpots2,
-
-                                        lineWidth : thisLineWidth2,
-                                        width : sparklineWidth,
-                                        height : sparklineHeight,
-                                        lineColor : thisLineColor2,
-                                        composite : true,
-                                        fillColor : thisFillColor2
-
-                                });
-
-                                $this = null;
-
-                        }
-
-                });
-
-        }// end if
-
-    /*
-     * EASY PIE CHARTS
-     * DEPENDENCY: js/plugins/easy-pie-chart/jquery.easy-pie-chart.min.js
-     * Usage: <div class="easy-pie-chart txt-color-orangeDark" data-pie-percent="33" data-pie-size="72" data-size="72">
-     *			<span class="percent percent-sign">35</span>
-     * 	  	  </div>
-     */
-
-    if ($.fn.easyPieChart) {
-
-            $('.easy-pie-chart').each(function() {
-                    var $this = $(this),
-                            barColor = $this.css('color') || $this.data('pie-color'),
-                        trackColor = $this.data('pie-track-color') || 'rgba(0,0,0,0.04)',
-                        size = parseInt($this.data('pie-size')) || 25;
-
-                    $this.easyPieChart({
-
-                            barColor : barColor,
-                            trackColor : trackColor,
-                            scaleColor : false,
-                            lineCap : 'butt',
-                            lineWidth : parseInt(size / 8.5),
-                            animate : 1500,
-                            rotate : -90,
-                            size : size,
-                            onStep: function(from, to, percent) {
-                    $(this.el).find('.percent').text(Math.round(percent));
-                    }
-
-                    });
-
-                    $this = null;
-            });
-
-    } // end if
-
 }
 /* ~ END: INITIALIZE CHARTS */
 

@@ -12,16 +12,16 @@
 namespace Splash\Widgets\Models\Blocks;
 
 /**
- * @abstact Morris Js Line Chart Block Model  
+ * @abstact Morris Js Bar Chart Block Model 
  * 
  * @author Bernard Paquier <pro@bernard-paquier.fr>
  */
-class MorrisLineBlock extends MorrisBaseBlock
+class MorrisBarBlock extends MorrisBaseBlock
 {
         
     /**
      * @var string
      */
-    protected $type = "MorrisLineBlock";
+    protected $type = "MorrisBarBlock";
     
 }

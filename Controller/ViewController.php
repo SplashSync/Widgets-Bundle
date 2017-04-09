@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Splash\Widgets\Entity\Widget;
 
+use Symfony\Component\HttpFoundation\Response;
+
 class ViewController extends Controller
 {
 
@@ -101,12 +103,18 @@ class ViewController extends Controller
             $Options = $this->get("Splash.Widgets.Manager")->getWidgetOptions($Service, $Type);
         }
         //==============================================================================
+        // Load From cache if Available 
+        if(!$Edit) {
+            $Cache  =  $this->get("Splash.Widgets.Manager")->getCache($Service,$Type);
+        }
+        //==============================================================================
         // Render Loading Widget Box 
         return $this->render('SplashWidgetsBundle:View:delayed.html.twig', array(
                 "Service"       =>  $Service,
                 "WidgetType"    =>  $Type,
                 "Edit"          =>  $Edit,
                 "Options"       =>  $Options,
+                "Cache"         =>  (isset($Cache) ? $Cache : Null),
             ));
     }
      
@@ -141,11 +149,18 @@ class ViewController extends Controller
             $Widget->setOptions($Options);
         }
         //==============================================================================
-        // Render Response 
-        return $this->render('SplashWidgetsBundle:Widget:contents.html.twig', array(
+        // Generate Widget Raw Contents 
+        $Contents = $this->renderView('SplashWidgetsBundle:Widget:contents.html.twig', array(
                 "Widget"    => $Widget,
                 "Edit"      => $Edit
             ));
+        //==============================================================================
+        // Update Cache 
+        if(!$Edit) {
+            $this->get("Splash.Widgets.Manager")->setCacheContents($Widget, $Contents);
+        }
+        
+        return new Response($Contents);
     }
     
 }

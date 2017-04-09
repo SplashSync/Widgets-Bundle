@@ -7,7 +7,7 @@ use ArrayObject;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Splash\Widgets\Entity\Widget;
-
+use Splash\Widgets\Entity\WidgetCache;
 
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -127,7 +127,7 @@ class ManagerService
         }        
         return True;
     }    
-    
+        
     /**
      * Get Widget from Service Provider
      * 
@@ -182,7 +182,11 @@ class ManagerService
         if( !$this->Connect($Service) ) {
             return False;
         }
-        return $this->Service->setWidgetOptions($Type, $Options);
+        if ($this->Service->setWidgetOptions($Type, $Options)) {
+            $this->clearCacheContents($Service, $Type);
+            return True;
+        }
+        return False;
     }    
     
     
@@ -214,14 +218,18 @@ class ManagerService
      * @param      string   $Type               Widgets Type Identifier 
      * @param      array    $Parameters         Updated Parameters 
      * 
-     * @return     array
+     * @return     bool
      */    
     public function setWidgetParameters(string $Service, string $Type, array $Parameters) : bool 
     {
         if( !$this->Connect($Service) ) {
             return False;
         }
-        return $this->Service->setWidgetParameters($Type, $Parameters);
+        if ($this->Service->setWidgetParameters($Type, $Parameters)) {
+            $this->clearCacheContents($Service, $Type);
+            return True;
+        }
+        return False;
     }    
     
     /**
@@ -269,5 +277,89 @@ class ManagerService
         
         return $Widgets;
     }
+    
+//====================================================================//
+// *******************************************************************//
+//  WIDGET CACHING FUNCTIONS
+// *******************************************************************//
+//====================================================================//
+    
+    /**
+     * Get Widget from Service Provider
+     * 
+     * @param   string      $Service        Widget Provider Service Name
+     * @param   string      $Type           Widget Type Name
+     *
+     * @return ArrayCollection
+     */
+    public function getCache(string $Service, string $Type)
+    {    
+        return     $this->container
+                ->get('doctrine')->getManager()
+                ->getRepository("SplashWidgetsBundle:WidgetCache")
+                ->findCached($Service, $Type);
+    }    
+    
+    /**
+     * Set Widget Contents in Cache
+     * 
+     * @param   Widget      $Widget         Widget Object
+     * @param   string      $Contents       Widget Raw Contents
+     *
+     * @return ArrayCollection
+     */
+    public function setCacheContents(Widget $Widget, string $Contents )
+    {
+        $Em = $this->container->get('doctrine')->getManager();
+        $Discriminator = WidgetCache::buildDiscriminator($Widget);
+        
+        $Cache   =     $Em->getRepository("SplashWidgetsBundle:WidgetCache")
+                ->findOneBy(array(
+                    "service"   =>  $Widget->getService(),
+                    "type"      =>  $Widget->getType(),
+                ));
+        
+        if( !$Cache ) {
+            $Cache  =   new WidgetCache();
+            $Cache
+                    ->setService($Widget->getService())
+                    ->setType($Widget->getType())
+                    ;
+            $Em->persist($Cache);
+        }
+        
+        $Cache
+                ->setContents($Contents)
+                ->setDiscriminator($Discriminator)
+                ->setRefreshAt()
+                ->setExpireAt($Widget->getCacheMaxDate())
+                ;
+        $Em->flush();
+    }    
+    
+    
+    /**
+     * Clear Widget Contents in Cache
+     * 
+     * @param   string      $Service        Widget Provider Service Name
+     * @param   string      $Type           Widget Type Name
+     *
+     * @return ArrayCollection
+     */
+    public function clearCacheContents(string $Service, string $Type)
+    {
+        $Em = $this->container->get('doctrine')->getManager();
+        
+        $Cache   =     $Em->getRepository("SplashWidgetsBundle:WidgetCache")
+                ->findOneBy(array(
+                    "service"   =>  $Service,
+                    "type"      =>  $Type,
+                ));
+        
+        if( $Cache ) {
+            $Cache->setExpireAt(new \DateTime());
+            $Em->flush();
+        }
+    }      
     
 }

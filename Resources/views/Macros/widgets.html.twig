@@ -13,6 +13,7 @@
     {% if Values is not empty %}                
         <div 
             class="sparkline"
+            style="display:none"
             data-sparkline-type="{{ Type | default("bar") }}" 
             {% for Name, Value in Options %} 
                 data-sparkline-{{Name}}="{{Value}}"
@@ -26,11 +27,12 @@
     
 {% endmacro %}
 
-{% macro MorrisLine( DataSet, Xkey, Ykeys, Labels, Options ) %}
+{% macro MorrisChart( Type, DataSet, Xkey, Ykeys, Labels, Options ) %}
     {% if DataSet is not empty %}                
         <div 
-            class="morris-line"
+            class="morris-chart"
             id="{{ random() }}"
+            data-morris-type='{{ Type }}'
             data-morris-dataset='{{ DataSet | json_encode() }}'
             data-morris-xkey='{{ Xkey }}'
             data-morris-ykeys='{{ Ykeys | json_encode() }}'

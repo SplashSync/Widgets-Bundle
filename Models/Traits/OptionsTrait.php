@@ -17,6 +17,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 
+use DateTime;
+
 /**
  * @abstract Widget Options Trait 
  * 
@@ -126,6 +128,20 @@ trait OptionsTrait
         return $this;
     }    
     
+    /**
+     * @abstract    Get Widget Max Cache Date
+     * 
+     * @return  \DateTime
+     */
+    public function getCacheMaxDate()
+    {
+        if ( !isset($this->options['UseCache']) || !isset($this->options['CacheLifeTime']) || !$this->options['UseCache'] ) {
+            return new DateTime();
+        } 
+        return new DateTime($this->options['CacheLifeTime']  . "minutes");
+    }       
+    
+    
     //==============================================================================
     //      Getters & Setters  
     //==============================================================================
@@ -191,6 +207,8 @@ trait OptionsTrait
             'Header'        =>  True,
             'Footer'        =>  True,
             'DatePreset'    =>  "M",
+            'UseCache'      =>  True,
+            'CacheLifeTime' =>  10,
         );    
     }     
     

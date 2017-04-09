@@ -1,0 +1,29 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+{% import "SplashWidgetsBundle:Macros:widgets.html.twig" as Wid %}
+
+
+{% block MorrisBase %}
+    {#
+        Spark Info
+    #}
+    <div class="text-center">
+    {% if Block.title is not empty %}
+        <h5> 
+            {{ Wid.Text(Block.title,Block.Options) }} 
+        </h5>
+    {% endif %}
+
+    {% if Block.Data.dataset is not empty %}    
+        {{ Wid.MorrisChart( 
+                MorrisType | default("Line"),
+                Block.Data.dataset, 
+                Block.Data.xkey, 
+                Block.Data.ykeys, 
+                Block.Data.labels, 
+                Block.Options.ChartOptions
+        ) }}
+    {% endif %}
+
+    </div>
+{% endblock %}
+    

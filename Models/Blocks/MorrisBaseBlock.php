@@ -12,11 +12,11 @@
 namespace Splash\Widgets\Models\Blocks;
 
 /**
- * Abstact Widget Model 
+ * @abstact Morris Js Chart Base Block Model 
  * 
  * @author Bernard Paquier <pro@bernard-paquier.fr>
  */
-class MorrisDonutBlock extends BaseBlock
+class MorrisBaseBlock extends BaseBlock
 {
 
     //====================================================================//
@@ -30,6 +30,9 @@ class MorrisDonutBlock extends BaseBlock
     static $DATA          = array(
         "title"             => "Title",
         "dataset"           => array(),
+        "xkey"              => "label",
+        "ykeys"             => ["value"],
+        "labels"            => ["Data"],
     );
 
     //====================================================================//
@@ -46,7 +49,7 @@ class MorrisDonutBlock extends BaseBlock
     /**
      * @var string
      */
-    protected $type = "MorrisDonutBlock";
+    protected $type = "MorrisLineBlock";
     
     /**
      * Set Block Contents from Array
@@ -78,6 +81,15 @@ class MorrisDonutBlock extends BaseBlock
         if ( !empty($Contents["dataset"]) ){
             $this->setValues($Contents["dataset"]);
         }     
+        if ( !empty($Contents["xkey"]) ){
+            $this->setXkey($Contents["xkey"]);
+        }                
+        if ( !empty($Contents["ykeys"]) ){
+            $this->setYkeys($Contents["ykeys"]);
+        }                
+        if ( !empty($Contents["labels"]) ){
+            $this->setLabels($Contents["labels"]);
+        }                
      
         return $this;
     }      
@@ -133,6 +145,39 @@ class MorrisDonutBlock extends BaseBlock
     public function getDataSet()
     {
         return $this->data["dataset"];
+    }    
+
+    /**
+     * Set X key
+     * 
+     * @return  MorrisLineBlock
+     */
+    public function setXkey($value)
+    {
+        $this->data["xkey"]     =   $value;
+        return $this;
+    }
+    
+    /**
+     * Set Y Keys
+     * 
+     * @return  MorrisLineBlock
+     */
+    public function setYkeys($value)
+    {
+        $this->data["ykeys"]     =   $value;
+        return $this;
+    }
+    
+    /**
+     * Set Labels
+     * 
+     * @return  MorrisLineBlock
+     */
+    public function setLabels($value)
+    {
+        $this->data["labels"]     =   $value;
+        return $this;
     }
         
     /**

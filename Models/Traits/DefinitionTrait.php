@@ -56,6 +56,12 @@ trait DefinitionTrait
      */
     protected $icon;  
     
+    /**
+     * @abstract    Widget Source/Origin
+     * @var string
+     */
+    protected $origin;
+    
     //====================================================================//
     // *******************************************************************//
     //  Widget Getter & Setter Functions
@@ -179,4 +185,28 @@ trait DefinitionTrait
     {
         return $this->icon;
     }   
+    
+    /**
+     * Set Origin
+     * 
+     * @param   $Origin
+     * @return  Widget
+     */
+    public function setOrigin($Origin)
+    {
+        $this->origin = $Origin;
+        
+        return $this;
+    }
+    
+    /**
+     * Get Origin
+     * 
+     * @return  String
+     */
+    public function getOrigin()
+    {
+        return $this->origin;
+    }
+     
 }
