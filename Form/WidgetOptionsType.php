@@ -94,6 +94,7 @@ class WidgetOptionsType extends AbstractType
                 'empty_data'                => "1",
                 'expanded'                  => true,
                 'widget_type'               => 'inline',
+                'choices_as_values'         => True,            
                 'choices'       => array(
                         "actions.no"    => '0', 
                         "actions.yes"   => '1', 
@@ -113,6 +114,7 @@ class WidgetOptionsType extends AbstractType
                 'empty_data'                => "1",
                 'expanded'                  => true,
                 'widget_type'               => 'inline',
+                'choices_as_values'         => True,            
                 'choices'       => array(
                         "actions.no"    => '0', 
                         "actions.yes"   => '1', 
@@ -132,6 +134,7 @@ class WidgetOptionsType extends AbstractType
                 'empty_data'                => "1",
                 'expanded'                  => true,
                 'widget_type'               => 'inline',
+                'choices_as_values'         => True,            
                 'choices'       => array(
                         "actions.no"    => '0', 
                         "actions.yes"   => '1', 

@@ -5,9 +5,11 @@
 #}
 {% if CollectionId %}
     {% set EditAction = "SplashWidgets_LoadAddModal('" ~ CollectionId ~ "','" ~ Channel | default("all") ~ "')" %}
-    <a class="btn btn-info" onclick="{{ EditAction }}">
+    <a class="btn {{ Class | default("btn-info") }}" onclick="{{ EditAction }}">
         <i class="fa fa-fw fa-plus-circle"></i>
-        {{ "widget.add" | trans }}
+        {% if Minified is not defined %}
+            {{ "widget.add" | trans }}
+        {% endif %}
     </a>
 {% endif %}
 
