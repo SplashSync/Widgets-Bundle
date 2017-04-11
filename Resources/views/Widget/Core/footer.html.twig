@@ -3,7 +3,7 @@
 {% if Widget.Options.Footer %}
     <div class="panel-footer font-xs text-right">
         <small>
-        {% if Widget.Date is not empty %}{{ Widget.Date | ago | default("Now") }}{% endif %}
+        {% if Widget.refreshAt is not empty %}{{ Widget.refreshAt | ago | default("Now") }}{% endif %}
         &nbsp;
         {% if Widget.Origin is not empty %}@{{ Widget.Origin }}{% endif %}
         </small>

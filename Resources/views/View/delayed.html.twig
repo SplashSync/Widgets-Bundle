@@ -8,18 +8,6 @@
 {#{{ dump(Widget.parent) }}#}
 
 {% block widget_box %}
-    {% if Cache is not empty %}
-        
-        {{ Cache.Contents | raw }}
-        
-        <script>
-            $(document).ready(function() {
-                SplashWidgets_runAllCharts("{{ Service }}", "{{ WidgetType }}", "{{ Edit | default(false) }}");
-            });
-        </script>
-        
-    {% else %}
-    
     <div class="panel panel-warning">
         
         <div class="text-center">
@@ -33,10 +21,7 @@
             });
         </script>
         
-    </div>
-    
-    {% endif %}
-    
+    </div>    
 {% endblock %}
         
 {#    {% include 'SplashWidgetsBundle:Widget:loading.html.twig' %}  #}

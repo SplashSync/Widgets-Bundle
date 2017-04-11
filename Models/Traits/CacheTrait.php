@@ -22,6 +22,49 @@ use Splash\Widgets\Entity\Widget;
  */
 trait CacheTrait
 {
+    
+    /**
+     * @abstract    Widget Human Readable Name
+     * @var string
+     * @ORM\Column(name="name", type="string", length=250, nullable=true)
+     */
+    protected $name;
+
+    /**
+     * @abstract    Widget Human Readable Description
+     * @var string
+     * @ORM\Column(name="description", type="string", length=250, nullable=true)
+     */
+    protected $description;    
+    
+    /**
+     * @abstract    Widget Header Title
+     * @var string
+     * @ORM\Column(name="title", type="string", length=250, nullable=true)
+     */
+    protected $title;
+    
+    /**
+     * @abstract    Widget Header Sub-Title
+     * @var string
+     * @ORM\Column(name="subtitle", type="string", length=250, nullable=true)
+     */
+    protected $subtitle;    
+    
+    /**
+     * @abstract    Widget Header Icon
+     * @var string
+     * @ORM\Column(name="icon", type="string", length=250, nullable=true)
+     */
+    protected $icon;  
+    
+    /**
+     * @abstract    Widget Source/Origin
+     * @var string
+     * @ORM\Column(name="origin", type="string", length=250, nullable=true)
+     */
+    protected $origin;
+    
     //==============================================================================
     //      Variables  
     //==============================================================================
@@ -29,7 +72,7 @@ trait CacheTrait
     /**
      * @abstract    Widget Discriminator (Identify if refresh is needed)
      * @var         string
-     * @ORM\Column(name="discriminator", type="string", length=250)
+     * @ORM\Column(name="discriminator", type="string", length=250, nullable=true)
      */
     protected $discriminator   =   Null;
 

@@ -11,10 +11,12 @@
 
 namespace Splash\Widgets\Models;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Splash\Widgets\Entity\Widget;
 
 use Splash\Widgets\Models\Traits\AccessTrait;
 use Splash\Widgets\Models\Traits\CacheTrait;
+use Splash\Widgets\Models\Traits\DefinitionTrait;
+use Splash\Widgets\Models\Traits\OptionsTrait;
 
 /**
  * Widget Contents Cache Model 
@@ -26,10 +28,35 @@ class WidgetCacheBase
     
     use AccessTrait;
     use CacheTrait;
+    use DefinitionTrait;
+    use OptionsTrait;
     
-    
-    public function __construct()
+    public function __construct(Widget $Widget = Null)
     {
-    }    
+        if (!$Widget){
+            return $this;
+        } 
+        
+        $this->setDefinition($Widget);
+        
+        return $this;
+    }   
+    
+    public function setDefinition(Widget $Widget) {
+        
+        $this
+            ->setService($Widget->getService())
+            ->setType($Widget->getType())
+            ->setName($Widget->getName())
+            ->setDescription($Widget->getName())
+            ->setTitle($Widget->getTitle())
+            ->setSubTitle($Widget->getSubTitle())
+            ->setIcon($Widget->getIcon())
+            ->setOrigin($Widget->getOrigin())
+            ->setOptions($Widget->getOptions())
+            ;
+                
+        return $this;                
+    }
 
 }

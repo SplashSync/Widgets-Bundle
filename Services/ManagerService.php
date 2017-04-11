@@ -332,27 +332,26 @@ class ManagerService
      */
     public function setCacheContents(Widget $Widget, string $Contents )
     {
+        //====================================================================//
+        // Load Widget Cache Object
         $Em = $this->container->get('doctrine')->getManager();
-        $Discriminator = WidgetCache::buildDiscriminator($Widget);
-        
+//        $Discriminator = WidgetCache::buildDiscriminator($Widget);
         $Cache   =     $Em->getRepository("SplashWidgetsBundle:WidgetCache")
                 ->findOneBy(array(
                     "service"   =>  $Widget->getService(),
                     "type"      =>  $Widget->getType(),
                 ));
-        
+        //====================================================================//
+        // No Exists => Create Cache Object 
         if( !$Cache ) {
-            $Cache  =   new WidgetCache();
-            $Cache
-                    ->setService($Widget->getService())
-                    ->setType($Widget->getType())
-                    ;
+            $Cache  =   new WidgetCache($Widget);
             $Em->persist($Cache);
         }
         
         $Cache
+                ->setDefinition($Widget)
                 ->setContents($Contents)
-                ->setDiscriminator($Discriminator)
+//                ->setDiscriminator($Discriminator)
                 ->setRefreshAt()
                 ->setExpireAt($Widget->getCacheMaxDate())
                 ;

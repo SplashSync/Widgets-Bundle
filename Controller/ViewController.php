@@ -97,8 +97,14 @@ class ViewController extends Controller
         }
         //==============================================================================
         // Load From cache if Available 
-        if(!$Edit) {
-            $Cache  =  $this->get("Splash.Widgets.Manager")->getCache($Service,$Type);
+        $Cache  =  $this->get("Splash.Widgets.Manager")->getCache($Service,$Type);
+        if($Cache) {
+            //==============================================================================
+            // Render Cached Widget 
+            return $this->render('SplashWidgetsBundle:Widget:base.html.twig', array(
+                    "Widget"        =>  $Cache,
+                    "Edit"          =>  $Edit,
+                ));
         }
         //==============================================================================
         // Render Loading Widget Box 
@@ -107,7 +113,6 @@ class ViewController extends Controller
                 "WidgetType"    =>  $Type,
                 "Edit"          =>  $Edit,
                 "Options"       =>  $Options,
-                "Cache"         =>  (isset($Cache) ? $Cache : Null),
             ));
     }
      
@@ -145,20 +150,23 @@ class ViewController extends Controller
         if ( !empty($Options) ) {
             $Widget->setOptions($Options);
         }
-        //==============================================================================
-        // Generate Widget Raw Contents 
-        $Contents = $this->renderView('SplashWidgetsBundle:Widget:contents.html.twig', array(
-                "Widget"    => $Widget,
-                "Edit"      => $Edit
-            ));
         
         //==============================================================================
         // Update Cache 
         if(!$Edit) {
+            //==============================================================================
+            // Generate Widget Raw Contents 
+            $Contents = $this->renderView('SplashWidgetsBundle:Widget/Blocks:row.html.twig', array(
+                    "Widget"    => $Widget,
+                    "Edit"      => $Edit
+                ));
             $this->get("Splash.Widgets.Manager")->setCacheContents($Widget, $Contents);
         }
-        
-        return new Response($Contents);
+        return $this->render('SplashWidgetsBundle:Widget:contents.html.twig', array(
+            "Widget"    => $Widget,
+            "Edit"      => $Edit
+            ));
+//        return new Response($Contents);
     }
     
 }

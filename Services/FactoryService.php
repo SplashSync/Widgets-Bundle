@@ -63,11 +63,6 @@ class FactoryService
         // Create an Empty Widget
         $this->widget = new Widget();
         //====================================================================//
-        // Setup Widget Identifier
-        if (!empty($Identifier)) {
-            $this->widget->setIdentifier($Identifier);
-        }
-        //====================================================================//
         // Setup Widget Options
         if (!is_null($Options)) {
             $this->widget->setOptions($Options);
@@ -211,38 +206,38 @@ class FactoryService
 // *******************************************************************//
 //====================================================================//
 
-    /**
-     * Use Widget Service to Load Widget Contents
-     *
-     * @param ArrayObject      $Widget
-     *
-     * @return array
-     */
-    public function loadWidget($Widget)
-    {
-        //==============================================================================
-        // Verify Item Service is Available 
-        if ( !$this->t->hasService($Widget->Service)) {
-            return Null;
-        }
-        //==============================================================================
-        // Read Widget Contents 
-        $WidgetContents =   $this->t
-                ->getService($Widget->Service)
-                ->getWidget($Widget->getIdentifier(), Null , $Widget->Parameters);
-           
-        if ( isset($Widget->Identifier) && !empty($Widget->Identifier) ) {
-            $Id =   $Widget->Identifier;
-        } else {
-            $Id =   $Widget->Type;
-        }
-        //==============================================================================
-        //Create Widget Model Entity 
-        return $this->Create(
-                $Id, 
-                $Widget->Options, 
-                $WidgetContents);
-    }    
+//    /**
+//     * Use Widget Service to Load Widget Contents
+//     *
+//     * @param ArrayObject      $Widget
+//     *
+//     * @return array
+//     */
+//    public function loadWidget($Widget)
+//    {
+//        //==============================================================================
+//        // Verify Item Service is Available 
+//        if ( !$this->t->hasService($Widget->Service)) {
+//            return Null;
+//        }
+//        //==============================================================================
+//        // Read Widget Contents 
+//        $WidgetContents =   $this->t
+//                ->getService($Widget->Service)
+//                ->getWidget($Widget->getIdentifier(), Null , $Widget->Parameters);
+//           
+//        if ( isset($Widget->Identifier) && !empty($Widget->Identifier) ) {
+//            $Id =   $Widget->Identifier;
+//        } else {
+//            $Id =   $Widget->Type;
+//        }
+//        //==============================================================================
+//        //Create Widget Model Entity 
+//        return $this->Create(
+//                $Id, 
+//                $Widget->Options, 
+//                $WidgetContents);
+//    }    
 //
 ////====================================================================//
 //// *******************************************************************//

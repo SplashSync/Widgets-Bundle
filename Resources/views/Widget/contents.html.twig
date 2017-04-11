@@ -24,7 +24,13 @@
             <div class="row no-padding" >
                 {# Widget Block Row #}
                 {% block widget_row %}
-                    {% include 'SplashWidgetsBundle:Widget/Blocks:row.html.twig'%}  
+                    {% if Widget.Blocks is defined %}
+                        {% include 'SplashWidgetsBundle:Widget/Blocks:row.html.twig'%}  
+                    {% endif %}
+                    {% if Widget.Contents is defined %}
+                        {{ Widget.Contents | raw }}  
+                    {% endif %}
+                    
                 {% endblock %}  
             </div>                    
         {% endblock %}  

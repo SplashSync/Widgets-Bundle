@@ -13,10 +13,10 @@ namespace Splash\Widgets\Models;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-use Splash\Widgets\Models\Traits\DefinitionTrait;
 use Splash\Widgets\Models\Traits\AccessTrait;
 use Splash\Widgets\Models\Traits\ActionsTrait;
 use Splash\Widgets\Models\Traits\BlocksTrait;
+use Splash\Widgets\Models\Traits\DefinitionTrait;
 use Splash\Widgets\Models\Traits\LifecycleTrait;
 use Splash\Widgets\Models\Traits\OptionsTrait;
 use Splash\Widgets\Models\Traits\ParametersTrait;
@@ -45,20 +45,9 @@ class WidgetBase
     // *******************************************************************//
     //====================================================================//
     
-  
-    
-    /**
-     * @var datetime
-     */
-    protected $date;    
-    
-    
-    
-
-    
-
     public function __construct()
     {
+        $this->setRefreshAt();
         $this->setOptions();
         $this->blocks = new ArrayCollection();
     }    
@@ -114,9 +103,7 @@ class WidgetBase
         } 
         return $this;
     }       
-    
 
-    
     //====================================================================//
     // *******************************************************************//
     //  Widget Getter & Setter Functions
@@ -137,30 +124,4 @@ class WidgetBase
         return $this;         
     }
         
-   
-    /**
-     * Set Date
-     * 
-     * @param   $Date
-     * 
-     * @return  Widget
-     */
-    public function setDate(\DateTime  $Date)
-    {
-        $this->date = $Date;
-        
-        return $this;
-    }
-    
-    /**
-     * Get Date
-     * 
-     * @return  String
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
-    
-
 }

@@ -14,7 +14,7 @@ namespace Splash\Widgets\Models\Traits;
 use Doctrine\ORM\Mapping                        as ORM;
 
 /**
- * @abstract Widget Lifecycles Trait 
+ * @abstract Widget Lifecycle Trait 
  * 
  * @author Bernard Paquier <pro@bernard-paquier.fr>
  */
@@ -37,6 +37,11 @@ trait LifecycleTrait
      * @ORM\Column(name="updatedAt", type="datetime")
      */
     protected $updatedAt;
+    
+    /**
+     * @var \DateTime
+     */
+    protected $refreshAt       =    Null;    
     
     //==============================================================================
     //      LIFECYCLES FUNCTIONS  
@@ -111,5 +116,31 @@ trait LifecycleTrait
         return $this->updatedAt;
     }
     
+    /**
+     * Set refreshAt
+     *
+     * @param \DateTime $refreshAt
+     *
+     * @return Report
+     */
+    public function setRefreshAt($refreshAt = Null)
+    {
+        if ( $refreshAt ) {
+            $this->refreshAt = $refreshAt;
+        } else {
+            $this->refreshAt = new \DateTime();
+        }
+        return $this;
+    }
+
+    /**
+     * Get refreshAt
+     *
+     * @return \DateTime
+     */
+    public function getRefreshAt()
+    {
+        return $this->refreshAt;
+    }    
     
 }
