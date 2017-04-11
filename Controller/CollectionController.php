@@ -173,7 +173,11 @@ class CollectionController extends Controller
     {
         //==============================================================================
         // Init & Safety Check 
-        $CollectionManager = $this->get($Service);
+        if ($this->has($Service)) {
+            $CollectionManager = $this->get($Service);
+        } else {
+            $CollectionManager = $this->get("Splash.Widgets.Collection");
+        }
         if (!$CollectionManager) {
             return new Response("Splash Widgets : Init Failed", 500);
         }
