@@ -51,6 +51,7 @@ class WidgetDatesType extends AbstractType
                 'choice_translation_domain' => True,            
                 'placeholder'               => False,
                 'expanded'                  => false,
+                'choices_as_values'         => True,            
             ));     
         
         $builder->add($DatesTab);
