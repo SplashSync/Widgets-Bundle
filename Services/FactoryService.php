@@ -422,6 +422,8 @@ class FactoryService
             // Create Widget 
             ->Create($WidgetId)
                 ->setTitle($Service . " => " . $WidgetId)
+                ->setService($Service)
+                ->setType($WidgetId)
             ->end()
                 
             //==============================================================================

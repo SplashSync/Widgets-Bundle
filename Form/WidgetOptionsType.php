@@ -80,7 +80,7 @@ class WidgetOptionsType extends AbstractType
             ));
         
         //====================================================================//
-        // Widget Option - Diasble Header Display 
+        // Widget Option - Disable Header Display 
         //====================================================================//
 
         //==============================================================================
@@ -101,13 +101,32 @@ class WidgetOptionsType extends AbstractType
             ));          
             
         //====================================================================//
-        // Widget Option - Diasble Footer Display 
+        // Widget Option - Disable Footer Display 
         //====================================================================//
 
         $OptionsTab->add("Footer", ChoiceType::class, array(
                 'property_path'             => 'options[Footer]',            
                 'label'                     => "options.footer.label",
                 'help_block'                => "options.footer.tooltip",
+                'translation_domain'        => "SplashWidgetsBundle",
+                'choice_translation_domain' => "SplashWidgetsBundle",            
+                'empty_data'                => "1",
+                'expanded'                  => true,
+                'widget_type'               => 'inline',
+                'choices'       => array(
+                        "actions.no"    => '0', 
+                        "actions.yes"   => '1', 
+                    ),
+                ));      
+        
+        //====================================================================//
+        // Widget Option - Caching Options
+        //====================================================================//
+
+        $OptionsTab->add("UseCache", ChoiceType::class, array(
+                'property_path'             => 'options[UseCache]',            
+                'label'                     => "options.usecache.label",
+                'help_block'                => "options.usecache.tooltip",
                 'translation_domain'        => "SplashWidgetsBundle",
                 'choice_translation_domain' => "SplashWidgetsBundle",            
                 'empty_data'                => "1",

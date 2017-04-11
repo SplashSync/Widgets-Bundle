@@ -51,6 +51,9 @@ options:
     footer:
         label:      Display Footer
         tooltip:    Disable this option not to render widget Bottom block
+    usecache:
+        label:      Use Cache
+        tooltip:    Disable this option not to store widget contents in cache
 
 ################################################################################    
 #    Dates Form Translations
@@ -101,9 +104,3 @@ blocks:
         barcolor:
             label:      Bar Color
             tooltip:    "Adjust Color of Chart Bars (ie : #00FF00)"
-
-
-
-
-
-

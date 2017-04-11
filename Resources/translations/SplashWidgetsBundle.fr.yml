@@ -9,34 +9,67 @@ widget:
     type:           Type de Widget 
     name:           Nome du Widget
     params:         Paramètres
-
+    add:            Ajouter
+    
 ################################################################################    
 #    Widget Generic Actions
 ################################################################################  
 actions:
-    remove:
-        title:      Supprimer ce Widget
-        contents:   Voulez-vous vraiment supprimer ce Widget?
+    yes:            Oui
+    no:             Non
+
+remove:
+    label:          Supprimer
+    title:          Supprimer ce Widget
+    contents:       Voulez-vous vraiment supprimer ce Widget?
             
 ################################################################################    
 #    Options Form Translations
 ################################################################################    
 options:
+    label:          Affichage
     width:
         label:      Largeur
-        tooltip:    Select the perfect width of you widget and we will adjust its size on all your device.
-        xs:         Extra Small !!
-        sm:         Small...
-        m:          Meduim (Default) - 50% on large device
-        l:          Large
-        xl:         Extra Large - Always 100%
+        tooltip:    Choisissez la bonne largeur de votre Widget et nous l'ajusterons à la taille de votre écran.
+        xs:         Extra Small !! - 25% sur ordinateur
+        sm:         Small - 33%  sur ordinateur
+        m:          Medium (Default) - 50%  sur ordinateur
+        l:          Large - 66%  sur ordinateur
+        xl:         Extra Large - Toujours 100%
+    color:
+        label:      Coleur
+        tooltip:    Couleur de ce Widget
+        default:    Défaut        
+        primary:    Principale
+        success:    Succés
+        info:       Information
+        warning:    Warning
+        danger:     Danger
     header:
-        label:      Display Title
-        tooltip:    Disable this option not to render widget Title
+        label:      Afficher le titre
+        tooltip:    Désactivez cette option pour cacher le bandeau de titre
     footer:
-        label:      Display Footer
-        tooltip:    Disable this option not to render widget Bottom block
+        label:      Afficher le footer
+        tooltip:    Désactivez cette option pour cacher le bandeau du bas
+    usecache:
+        label:      Utiliser le Cache
+        tooltip:    Désactivez cette option pour ne pas stocker cacher le contenu en cache
  
+################################################################################    
+#    Dates Form Translations
+################################################################################ 
+dates:  
+    label:      Dates
+    tooltip:    Selctrionnez la plage de dates pour le vue 
+    D:          Aujourd'hui
+    W:          Semaine
+    M:          Mois
+    Y:          Année
+    PD:         Hier
+    PW:         Semaine -1
+    PM:         Mois -1
+    PY:         Année -1
+    
 # ==============================================================================
 # Widget Parameter Setup
 # ==============================================================================
@@ -53,4 +86,22 @@ list:
     name:           Nom
     desc:           Description
     actions:        Actions
+    add:            Ajouter
     
+# ==============================================================================
+# Widget Blocks Parameters
+# ==============================================================================
+
+blocks:
+    
+    sparkbar:
+        height:
+            label:      Hauteur du Garphique
+            tooltip:    Ajustez la Hauteur du Garphique (Pixels)
+        barwidth:
+            label:      Largeur de Barres
+            tooltip:    Ajustez la Largeur de Barres (Pixels)
+        barcolor:
+            label:      Couleur de Barres
+            tooltip:    "Ajustez la Couleur de Barres (ex : #00FF00)"
+

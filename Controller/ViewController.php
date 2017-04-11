@@ -19,13 +19,6 @@ class ViewController extends Controller
     private $Factory;
 
     /**
-     * WidgetInterface Service
-     * 
-     * @var Splash\Widgets\Models\Interfaces\WidgetProviderInterface
-     */    
-    private $Service = Null;
-
-    /**
      * Class Initialisation
      * 
      * @return bool 
@@ -142,6 +135,10 @@ class ViewController extends Controller
         // Validate Widget Contents 
         if ( empty($Widget) || !is_a($Widget, Widget::class)  ) {
             $Widget =   $this->Factory->buildErrorWidget($Service, $Type, "An Error Occured During Widget Loading");
+            return $this->render('SplashWidgetsBundle:Widget:contents.html.twig', array(
+                    "Widget"    => $Widget,
+                    "Edit"      => $Edit
+                ));
         }
         //==============================================================================
         // Overide Widget Options 
@@ -154,6 +151,7 @@ class ViewController extends Controller
                 "Widget"    => $Widget,
                 "Edit"      => $Edit
             ));
+        
         //==============================================================================
         // Update Cache 
         if(!$Edit) {
