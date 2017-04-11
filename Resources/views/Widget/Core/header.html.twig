@@ -2,7 +2,7 @@
 
 {% if Widget.Options.Header %}
     
-    <div class="panel-heading no-padding">
+    <div class="panel-heading">
         {% if Widget.icon is defined and not null %}<i class="{{ Widget.icon }}">&nbsp;</i>{% endif %}
         {{ Widget.title | default ("Widget Title") }}
         <small>&nbsp;{{ Widget.subtitle | default ("") }}</small>

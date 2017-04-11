@@ -229,8 +229,30 @@ class ManagerService
             $this->clearCacheContents($Service, $Type);
             return True;
         }
+        $this->clearCacheContents($Service, $Type);
         return False;
     }    
+    
+    /**
+     * @abstract   Update Widget Single Parameter 
+     * 
+     * @param      string   $Service            Widget Provider Service Name
+     * @param      string   $Type               Widgets Type Identifier 
+     * @param      string   $Key                Parameter Key 
+     * @param      mixed    $Value              Parameter Value 
+     * 
+     * @return     bool
+     */    
+    public function setWidgetParameter(string $Service, string $Type, string $Key, $Value = Null) : bool 
+    {
+        $Parameters = $this->getWidgetParameters($Service, $Type);
+        if (is_array($Parameters)) {
+            $Parameters[$Key]   =   $Value;
+            $this->setWidgetParameters($Service, $Type, $Parameters);
+            return True;
+        }
+        return False;
+    }  
     
     /**
      * @abstract   Return Widget Parameters Fields Array 
@@ -357,7 +379,7 @@ class ManagerService
                 ));
         
         if( $Cache ) {
-            $Cache->setExpireAt(new \DateTime());
+            $Cache->setExpireAt(new \DateTime("-1 minute"));
             $Em->flush();
         }
     }      

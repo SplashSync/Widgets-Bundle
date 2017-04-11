@@ -39,7 +39,7 @@ trait ParametersTrait
             "GroupBy" => "D"
             ],
         "D"     =>  [
-            "DateStart" => "-1 day",          
+            "DateStart" => "",          
             "DateEnd" => "", 
             "GroupBy" => "H"
             ],
@@ -59,7 +59,7 @@ trait ParametersTrait
             "GroupBy" => "D"
             ],
         "PD"     =>  [
-            "DateStart" => "-2 day",          
+            "DateStart" => "-1 day",          
             "DateEnd" => "-1 day", 
             "GroupBy" => "H"
             ],

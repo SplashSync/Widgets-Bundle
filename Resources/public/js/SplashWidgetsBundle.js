@@ -232,6 +232,7 @@ function SplashWidgets_SparkLineBarCharts()
             return false;
         }
 
+        $this[0].style.display = "block";        
         $this.sparkline('html', {
                 type :              'bar',
                 barColor :          $this.data('sparkline-bar-color')           || 'MediumTurquoise',
@@ -242,11 +243,10 @@ function SplashWidgets_SparkLineBarCharts()
                 negBarColor :       $this.data('sparkline-negbar-color')        || 'IndianRed',
                 zeroAxis : 'false'
         });
-        $this[0].style.display = "block";        
 
         $this = null;
         
-        console.log("Splash Widgets : Created SparkLine Line Chart");
+        console.log("Splash Widgets : Created SparkLine Bar Chart");
     });
 }
     
@@ -271,6 +271,7 @@ function SplashWidgets_SparkLineLineCharts()
             return false;
         }
 
+        $this[0].style.display = "block";        
         $this.sparkline('html', {
             
             type :                  'line',
@@ -295,7 +296,6 @@ function SplashWidgets_SparkLineLineCharts()
             drawNormalOnTop :       $this.data('sparkline-draw-normal')     || false
 
         });
-        $this[0].style.display = "block";      
 
         $this = null;
         
@@ -324,6 +324,7 @@ function SplashWidgets_SparkLinePieCharts()
             return false;
         }
 
+        $this[0].style.display = "block";        
         $this.sparkline('html', {
             type : 'pie',
             width :             $this.data('sparkline-piesize') || 90,
@@ -334,7 +335,6 @@ function SplashWidgets_SparkLinePieCharts()
             offset :            $this.data('sparkline-offset') || 0,
             borderColor :       $this.data('border-color') || '#45494C'
         });
-        $this[0].style.display = "block";        
                      
         $this = null;
         

@@ -152,7 +152,7 @@ trait CacheTrait
      *
      * @return Report
      */
-    public function setExpireAt($expireAt)
+    public function setExpireAt(\DateTime $expireAt)
     {
         $this->expireAt = $expireAt;
 

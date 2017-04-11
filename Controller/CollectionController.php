@@ -120,15 +120,24 @@ class CollectionController extends Controller
         $this->Collection->setPreset($Preset);
         foreach ($this->Collection->getWidgets() as $Widget) {
             if (!$Widget->isPreset($Preset)) {
-                continue;;
+                continue;
             }
-            $Widget->setParameter("DatePreset" , $Preset);
+            
+            $this
+                    ->get("Splash.Widgets.Manager")
+                    ->setWidgetParameter(
+                            $this->Collection->getService(),
+                            $Widget->getId() . "@" . $this->Collection->getid(),
+                            "DatePreset",
+                            $Preset
+                            )
+                    ;
         }
         //==============================================================================
         // Save Changes
         $this->getDoctrine()->getManager()->Flush();
         
-        return new Response("Widget Collection Dates Preset Udpated", 200);
+        return new Response("Widget Collection Dates Preset Updated", 200);
     }        
     
     /**
