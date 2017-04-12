@@ -18,7 +18,7 @@ interface WidgetProviderInterface
      * 
      * @return     Widget 
      */    
-    public function getWidget(string $Type, array $Parameters = array());
+    public function getWidget(string $Type, $Parameters = Null);
 
     /**
      * @abstract   Return Widget Options Array 

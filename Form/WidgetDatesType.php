@@ -25,6 +25,9 @@ class WidgetDatesType extends AbstractType
             'translation_domain'    => "SplashWidgetsBundle",
             'icon'                  => ' fa fa-clock-o',
             'inherit_data'          => true,
+            'attr'              => array (
+                'class' => 'well-sm',
+            )
         ));
 
         //====================================================================//

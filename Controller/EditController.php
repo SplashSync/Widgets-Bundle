@@ -172,6 +172,9 @@ class EditController extends Controller
             'translation_domain'    => "SplashWidgetsBundle",
             'icon'                  => ' fa fa-cogs',
             'inherit_data'          => true,
+            'attr'              => array (
+                'class' => 'well-sm',
+            )
         ));
         
         //====================================================================//

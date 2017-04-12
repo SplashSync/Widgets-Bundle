@@ -96,9 +96,9 @@ class WidgetBase
         //  Import Date
         if ( !empty($Contents["date"]) ){
             if ( is_a($Contents["date"],"DateTime") ){
-                $this->setDate($Contents["date"]);
+                $this->setRefreshAt($Contents["date"]);
             } else if ( is_scalar($Contents["date"]) ){
-                $this->setDate(new \DateTime($Contents["date"]));
+                $this->setRefreshAt(new \DateTime($Contents["date"]));
             }
         } 
         return $this;

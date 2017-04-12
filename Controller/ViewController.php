@@ -36,11 +36,8 @@ class ViewController extends Controller
      * @param   string      $Service        Widget Provider Service Name
      * @param   string      $Type           Widget Type Name
      * @param   string      $Edit           Widget Edit Mode
-     * @param   array       $Options        Override Widget Options
-     * @param   array       $Parameters     Override Widget $Parameters
-     * 
      */
-    public function forcedAction($Service, $Type, $Edit = False, $Options = array() , $Parameters = array())
+    public function forcedAction($Service, $Type, $Edit = False)
     {
         //==============================================================================
         // Init & Safety Check 
@@ -49,7 +46,7 @@ class ViewController extends Controller
         }
         //==============================================================================
         // Read Widget Contents 
-        $Widget =   $this->get("Splash.Widgets.Manager")->getWidget($Service, $Type, $Parameters);
+        $Widget =   $this->get("Splash.Widgets.Manager")->getWidget($Service, $Type);
         //==============================================================================
         // Validate Widget Contents 
         if (is_null($Widget)  ) {
@@ -58,11 +55,6 @@ class ViewController extends Controller
         //==============================================================================
         // Overide Widget Type
         $Widget->setType(uniqid($Widget->getType()));
-        //==============================================================================
-        // Overide Widget Options 
-        if ( !empty($Options) ) {
-            $Widget->setOptions($Options);
-        } 
         //==============================================================================
         // Render Response 
         return $this->render('SplashWidgetsBundle:Widget:base.html.twig', array(
@@ -77,11 +69,9 @@ class ViewController extends Controller
      * @param   string      $Service        Widget Provider Service Name
      * @param   string      $Type           Widget Type Name
      * @param   string      $Edit           Widget Edit Mode
-     * @param   array       $Options        Override Widget Options
-     * @param   array       $Parameters     Override Widget $Parameters
      * 
      */    
-    public function delayedAction($Service, $Type, $Edit = False, $Options = array() , $Parameters = array())
+    public function delayedAction($Service, $Type, $Edit = False)
     {
         //==============================================================================
         // Init & Safety Check 
@@ -122,11 +112,9 @@ class ViewController extends Controller
      * @param   string      $Service        Widget Provider Service Name
      * @param   string      $Type           Widget Type Name
      * @param   string      $Edit           Widget Edit Mode
-     * @param   array       $Options        Override Widget Options
-     * @param   array       $Parameters     Override Widget $Parameters
      * 
      */       
-    public function ajaxAction($Service, $Type, $Edit = False, $Options = array() , $Parameters = array())
+    public function ajaxAction($Service, $Type, $Edit = False)
     {
         //==============================================================================
         // Init & Safety Check 
@@ -135,7 +123,7 @@ class ViewController extends Controller
         }
         //==============================================================================
         // Read Widget Contents 
-        $Widget =   $this->get("Splash.Widgets.Manager")->getWidget($Service, $Type, $Parameters);
+        $Widget =   $this->get("Splash.Widgets.Manager")->getWidget($Service, $Type);
         //==============================================================================
         // Validate Widget Contents 
         if ( empty($Widget) || !is_a($Widget, Widget::class)  ) {
@@ -145,12 +133,6 @@ class ViewController extends Controller
                     "Edit"      => $Edit
                 ));
         }
-        //==============================================================================
-        // Overide Widget Options 
-        if ( !empty($Options) ) {
-            $Widget->setOptions($Options);
-        }
-        
         //==============================================================================
         // Update Cache 
         if(!$Edit) {
@@ -166,7 +148,6 @@ class ViewController extends Controller
             "Widget"    => $Widget,
             "Edit"      => $Edit
             ));
-//        return new Response($Contents);
     }
     
 }

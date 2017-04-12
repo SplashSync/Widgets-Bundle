@@ -155,7 +155,10 @@ class CollectionController extends Controller
         $Widget =   $this->get("Splash.Widgets.Manager")->getWidget($Service, $Type);
         if (is_null($Widget)  ) {
             return new Response("Widget NOT Added to Collection", 400);
-        }        
+        }   
+        if ( $this->Collection->getPreset()  ) {
+            $Widget->setParameter("DatePreset" , $this->Collection->getPreset());
+        }   
         //==============================================================================
         // Add Widget To Collection
         $this->Collection->addWidget($Widget);

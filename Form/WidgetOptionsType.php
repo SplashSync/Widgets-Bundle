@@ -25,6 +25,9 @@ class WidgetOptionsType extends AbstractType
             'translation_domain'    => "SplashWidgetsBundle",
             'icon'                  => ' fa fa-desktop',
             'inherit_data'          => true,
+            'attr'              => array (
+                'class' => 'well-sm',
+            )
         ));
         
         

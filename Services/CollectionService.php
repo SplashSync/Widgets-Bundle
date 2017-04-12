@@ -4,19 +4,10 @@ namespace Splash\Widgets\Services;
 
 use Symfony\Component\Form\FormBuilderInterface;
 
-use Nodes\CoreBundle\Entity\Node;    
-use OpenObject\CoreBundle\Document\OpenObjectFieldCore  as Field;
-
 use Splash\Widgets\Entity\Widget;
-use Splash\Widgets\Models\WidgetBlock    as Block;
-
-use Symfony\Component\EventDispatcher\GenericEvent;
-
+use Splash\Widgets\Models\Interfaces\WidgetProviderInterface;
 use Splash\Widgets\Services\FactoryService;
 
-use Splash\Widgets\Models\Interfaces\WidgetProviderInterface;
-
-use ArrayObject;
 
 /*
  * @abstract Widgets Collection Service
@@ -110,23 +101,26 @@ class CollectionService implements WidgetProviderInterface
      * 
      * @return     Widget 
      */    
-    public function getWidget(string $Type, array $Parameters = array())
+    public function getWidget(string $Type, $Parameters = Null)
     {
         if ( !($Definition = $this->getDefinition($Type)) ) {
             return $this->Factory->buildErrorWidget("Collections", $Type, "Unable to Find Widget Definition");
         } 
-        
         //==============================================================================
         // Load Widget Provider Service
         if ( !$this->container->has($Definition->getService()) ) {
             return $this->Factory->buildErrorWidget($Definition->getService(), $Type, "Unable to Load Widget Provider");
         } 
-        
+        //==============================================================================
+        // Load Widget Parameters
+        if (is_null($Parameters)) {
+            $Parameters = $Definition->getParameters(True);
+        }
         //==============================================================================
         // Read Widget Contents 
         $Widget =   $this->container
                 ->get($Definition->getService())
-                ->getWidget($Definition->getType(), $Definition->getParameters(True));
+                ->getWidget($Definition->getType(), $Parameters);
         
         //==============================================================================
         // Validate Widget Contents 

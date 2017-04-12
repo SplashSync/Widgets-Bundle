@@ -37,7 +37,7 @@ options:
         l:          Large - 66%  sur ordinateur
         xl:         Extra Large - Toujours 100%
     color:
-        label:      Coleur
+        label:      Couleur
         tooltip:    Couleur de ce Widget
         default:    Défaut        
         primary:    Principale

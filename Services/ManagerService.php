@@ -116,7 +116,7 @@ class ManagerService
      *
      * @return  bool
      */
-    public function Read(string $Type, array $Parameters = array())
+    public function Read(string $Type, $Parameters = Null)
     {
         if ( !$this->Service ) {
             return False;
@@ -137,7 +137,7 @@ class ManagerService
      *
      * @return ArrayCollection
      */
-    public function getWidget(string $Service, string $Type, array $Parameters = array())
+    public function getWidget(string $Service, string $Type, $Parameters = Null)
     {
         if( !$this->Connect($Service) ) {
             return Null;
