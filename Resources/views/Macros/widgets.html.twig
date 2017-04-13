@@ -31,6 +31,7 @@
     {% if DataSet is not empty %}                
         <div 
             class="morris-chart"
+            style="height:200px"
             id="{{ random() }}"
             data-morris-type='{{ Type }}'
             data-morris-dataset='{{ DataSet | json_encode() }}'
@@ -40,13 +41,14 @@
             data-morris-options='{{ Options | json_encode() }}'
             >
         </div>  
-    {% endif %}    
+    {% endif %}   
 {% endmacro %}
 
 {% macro MorrisDonut( DataSet, Options ) %}
     {% if DataSet is not empty %}                
         <div 
             class="morris-donut"
+            style="height:200px"
             id="{{ random() }}"
             data-morris-dataset='{{ DataSet | json_encode() }}'
             data-morris-options='{{ Options | json_encode() }}'

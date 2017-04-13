@@ -72,15 +72,12 @@ class MorrisBaseBlock extends BaseBlock
             $this->setTitle($Contents["title"]);
         }         
         //==============================================================================
-        //  Import Data
-        if ( !empty($Contents["data"]) ){
-            $this->setValues($Contents["data"]);
-        }         
-        //==============================================================================
-        //  Import Data
+        //  Import Data 
         if ( !empty($Contents["dataset"]) ){
-            $this->setValues($Contents["dataset"]);
+            $this->setDataSet($Contents["dataset"]);
         }     
+        //==============================================================================
+        //  Import Parameters
         if ( !empty($Contents["xkey"]) ){
             $this->setXkey($Contents["xkey"]);
         }                
@@ -93,6 +90,21 @@ class MorrisBaseBlock extends BaseBlock
      
         return $this;
     }      
+    
+    /**
+     * @abstract    Parse Array Data for Morris Charts
+     * 
+     * @param   mixed   $In
+     * 
+     * @return  array
+     */
+    protected function filterArray($In)
+    {
+        if ( is_a($In, "ArrayObject")) {
+            return array_values($In->getArrayCopy());
+        } 
+        return array_values($In);
+    }
     
     //====================================================================//
     // *******************************************************************//
@@ -131,9 +143,9 @@ class MorrisBaseBlock extends BaseBlock
      * 
      * @return  MorrisLineBlock
      */
-    public function setDataSet(array $data)
+    public function setDataSet($data)
     {
-        $this->data["dataset"]     =   $data;
+        $this->data["dataset"]     = $this->filterArray($data);
         return $this;
     }
     
@@ -165,7 +177,7 @@ class MorrisBaseBlock extends BaseBlock
      */
     public function setYkeys($value)
     {
-        $this->data["ykeys"]     =   $value;
+        $this->data["ykeys"]     =   $this->filterArray($value);
         return $this;
     }
     
@@ -176,7 +188,7 @@ class MorrisBaseBlock extends BaseBlock
      */
     public function setLabels($value)
     {
-        $this->data["labels"]     =   $value;
+        $this->data["labels"]     =   $this->filterArray($value);
         return $this;
     }
         

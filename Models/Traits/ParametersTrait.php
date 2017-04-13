@@ -26,42 +26,42 @@ trait ParametersTrait
         "Y"     =>  [
             "DateStart" => "first day of january this year",          
             "DateEnd" => "", 
-            "GroupBy" => "M"
+            "GroupBy" => "m"
             ],
         "M"     =>  [
             "DateStart" => "first day of this month",          
             "DateEnd" => "", 
-            "GroupBy" => "D"
+            "GroupBy" => "d"
             ],
         "W"     =>  [
             "DateStart" => "last monday",          
             "DateEnd" => "next sunday", 
-            "GroupBy" => "D"
+            "GroupBy" => "d"
             ],
         "D"     =>  [
             "DateStart" => "",          
             "DateEnd" => "", 
-            "GroupBy" => "H"
+            "GroupBy" => "h"
             ],
         "PY"     =>  [
             "DateStart" => "first day of january last year",          
             "DateEnd" => "last day of december last year", 
-            "GroupBy" => "M"
+            "GroupBy" => "m"
             ],
         "PM"     =>  [
             "DateStart" => "first day of last month",          
             "DateEnd" => "last day of last month", 
-            "GroupBy" => "D"
+            "GroupBy" => "d"
             ],
         "PW"     =>  [
             "DateStart" => "last week last monday",          
             "DateEnd" => "last sunday", 
-            "GroupBy" => "D"
+            "GroupBy" => "d"
             ],
         "PD"     =>  [
             "DateStart" => "-1 day",          
             "DateEnd" => "-1 day", 
-            "GroupBy" => "H"
+            "GroupBy" => "h"
             ],
         
     );
