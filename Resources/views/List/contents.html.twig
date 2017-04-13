@@ -1,29 +1,60 @@
 {% trans_default_domain "SplashWidgetsBundle" %} 
 
-<table class="table table-bordered table-striped no-padding"  role="content">
-        <thead>
-            <tr>
-                <th> 
-                    {{ 'list.origin'|trans }}
-                </th>
-                <th> 
-                    {{ 'list.name'|trans }}
-                </th>
-                <th> 
-                    {{ 'list.desc'|trans }}
-                </th>
-                <th>
-                    {{ 'list.actions'|trans }}
-                </th>
-            </tr>
-        </thead>
-    <tbody>
-    <tbody>
-        {% for Widget in Widgets %}
-            {% include 'SplashWidgetsBundle:List:item.html.twig' with {'Widget': Widget } %} 
-        {% endfor %}
-    </tbody>
-</table>
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs nav-justified">
+    {% for Tab in Tabs %}
+        <li class="{% if loop.first %}active{% endif %}">
+            <a href="#{{ Tab.id }}" aria-controls="{{ Tab.id }}" role="tab" data-toggle="tab">
+                {{ Tab.label | raw }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    
+    {% for Tab in Tabs %}
+        <div role="tabpanel" class="tab-pane {% if loop.first %}active{% endif %}" id="{{ Tab.id }}">
+
+            <table class="table table-bordered table-striped no-padding"  role="content" id='splash-widgets-list'>
+                    <thead>
+                        <tr>
+{#                            <th> 
+                                {{ 'list.origin'|trans }}
+                            </th>#}
+                            <th> 
+                                {{ 'list.name'|trans }}
+                            </th>
+                            <th> 
+                                {{ 'list.desc'|trans }}
+                            </th>
+                            <th class="text-center">
+                                {{ 'list.actions'|trans }}
+                            </th>
+                        </tr>
+                    </thead>
+                <tbody>
+                    {% for Index in Tab.widgets %}
+                        {% include 'SplashWidgetsBundle:List:item.html.twig' with {'Widget': Widgets[Index] } %} 
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            
+        </div>
+    {% endfor %}
+
+</div>
+
+
+    
+{#<script>
+    $(document).ready(function() {
+        $('#splash-widgets-list').DataTable();
+    } );
+</script>#}
 
 
 

@@ -170,7 +170,7 @@ function SplashWidgets_RemoveFromCollection(Service, Type){
             error: function(data){
             },
             success: function(data){
-                SplashWidgets_Reload()
+                SplashWidgets_Reload(0);
                 console.log("SplashWidgets : Widget Added");
             }
         });         
@@ -205,6 +205,11 @@ function SplashWidgets_LoadAddModal(CollectionId, Channel)
              */
             Modal.innerHTML = data;
             $('#SplashWidgetModal').modal("show");
+            
+//            /*
+//             * Create DataTable
+//             */
+//            $('#splash-widgets-list').DataTable();
             return data;
         }
     }); 
@@ -438,6 +443,6 @@ function SplashWidgets_runAllCharts() {
 /* 
  * Wait then Reload Page
  */
-function SplashWidgets_Reload(){
-    setTimeout(function() { window.location.reload();   }, 1000);  
+function SplashWidgets_Reload( Delay ){
+    setTimeout(function() { window.location.reload();   }, Delay | 1000);  
 }

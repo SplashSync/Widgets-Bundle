@@ -1,9 +1,9 @@
 {% trans_default_domain "SplashWidgetsBundle" %} 
 
 <tr>
-    <td>
-        {{ Widget.Origin }}
-    </td>
+{#    <td>
+        {{ Widget.Origin | raw }}
+    </td>#}
     <td>
         {% if Widget.Icon %}
             <i class="{{ Widget.Icon }}" aria-hidden="true"></i>
@@ -13,7 +13,7 @@
     <td>
         {{ Widget.Description }}
     </td>
-    <td>
+    <td class="text-center">
         {% set AddAction = "SplashWidgets_AddToCollection('" ~ CollectionId ~ "','" ~ Widget.Service ~ "','" ~ Widget.Type ~ "')" %}
         <a href="javascript:void(0);" class="btn btn-sm btn-labeled btn-info" onclick="{{ AddAction }}"> 
             <span class="btn-label">

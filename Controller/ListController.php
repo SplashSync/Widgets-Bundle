@@ -85,11 +85,33 @@ class ListController extends Controller
         // Get List of Widgets
         $Widgets = $this->get("Splash.Widgets.Manager")->getList( "splash.widgets.list." . $Channel);
         
+        $Tabs = array();
+        foreach ($Widgets as $Key => $Widget) {
+            $TabId = md5(base64_encode($Widget->getOrigin()));
+            //==============================================================================
+            // Create Tab
+            if (!isset($Tabs[ $TabId ])) {
+                $Tabs[$TabId] = array(
+                    "label"     =>  $Widget->getOrigin(),
+                    "id"        =>  $TabId,
+                    "widgets"   =>  [$Key]
+                );
+            //==============================================================================
+            // Add To Tab
+            } else {
+                $Tabs[$TabId]["widgets"][] = $Key;
+            }
+        }
+        
+        dump($Tabs);
+        dump($Widgets);
+        
         //==============================================================================
         // Prepare Rendering Parameters
         return array(
                 'CollectionId'  =>  $CollectionId,
                 'Widgets'       =>  $Widgets,
+                'Tabs'          =>  $Tabs,
             );
     }
     
