@@ -5,7 +5,9 @@
         <small>
         {% if Widget.refreshAt is not empty %}{{ Widget.refreshAt | ago | default("Now") }}{% endif %}
         &nbsp;
-        {% if Widget.Origin is not empty %}@{{ Widget.Origin }}{% endif %}
+        {% if Widget.Origin is not empty %} | {{ Widget.Origin | raw }}{% endif %}
+        &nbsp;|&nbsp;
+        {% include 'SplashWidgetsBundle:Widget/Buttons:reload.html.twig'  %} 
         </small>
     </div>    
 {% endif %}

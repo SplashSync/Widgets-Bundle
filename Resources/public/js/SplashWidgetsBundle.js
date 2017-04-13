@@ -5,7 +5,7 @@ function SplashWidgets_LoadContents(Service, Type, Edit)
 {
     $.ajax({
         type:   "POST",
-        url:    Routing.generate("splash_widgets_render_widget", {Service : Service, Type : Type, Edit : Edit }),
+        url:    Routing.generate("splash_widgets_render_widget", {Service : Service, Type : Type, Edit : Edit | false }),
         data:   false,
         cache:  true,
         success: function(data){
