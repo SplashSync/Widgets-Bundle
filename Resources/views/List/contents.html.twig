@@ -2,7 +2,7 @@
 
 
 <!-- Nav tabs -->
-<ul class="nav nav-tabs nav-justified">
+<ul class="nav nav-pills nav-justified">
     {% for Tab in Tabs %}
         <li class="{% if loop.first %}active{% endif %}">
             <a href="#{{ Tab.id }}" aria-controls="{{ Tab.id }}" role="tab" data-toggle="tab">
