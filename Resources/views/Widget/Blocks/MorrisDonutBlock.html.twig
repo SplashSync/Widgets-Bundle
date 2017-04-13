@@ -1,9 +1,9 @@
 {% trans_default_domain "SplashWidgetsBundle" %}   
 {% import "SplashWidgetsBundle:Macros:widgets.html.twig" as Wid %}
 
-{#
-    Spark Info
-#}
+    {#
+        Morris Donuts
+    #}
 <div class="text-center">
 {% if Block.title is not empty %}
     <h5> 
@@ -17,6 +17,12 @@
             Block.Options.ChartOptions
     ) }}
 {% endif %}
+
+    <script>
+        $(document).ready(function() {
+            SplashWidgets_MorrisDonutCharts();;
+        });
+    </script>  
 
 
 </div> 

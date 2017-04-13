@@ -53,9 +53,6 @@ class ViewController extends Controller
             $Widget =   $this->Factory->buildErrorWidget($Service, $Type, "An Error Occured During Widget Loading");
         }
         //==============================================================================
-        // Overide Widget Type
-        $Widget->setType(uniqid($Widget->getType()));
-        //==============================================================================
         // Render Response 
         return $this->render('SplashWidgetsBundle:Widget:base.html.twig', array(
                 "Widget"    => $Widget,

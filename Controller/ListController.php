@@ -103,9 +103,6 @@ class ListController extends Controller
             }
         }
         
-        dump($Tabs);
-        dump($Widgets);
-        
         //==============================================================================
         // Prepare Rendering Parameters
         return array(

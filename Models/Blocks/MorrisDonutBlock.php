@@ -71,16 +71,31 @@ class MorrisDonutBlock extends BaseBlock
         //==============================================================================
         //  Import Data
         if ( !empty($Contents["data"]) ){
-            $this->setValues($Contents["data"]);
+            $this->setDataSet($Contents["data"]);
         }         
         //==============================================================================
         //  Import Data
         if ( !empty($Contents["dataset"]) ){
-            $this->setValues($Contents["dataset"]);
+            $this->setDataSet($Contents["dataset"]);
         }     
      
         return $this;
     }      
+    
+    /**
+     * @abstract    Parse Array Data for Morris Charts
+     * 
+     * @param   mixed   $In
+     * 
+     * @return  array
+     */
+    protected function filterArray($In)
+    {
+        if ( is_a($In, "ArrayObject")) {
+            return array_values($In->getArrayCopy());
+        } 
+        return array_values($In);
+    }
     
     //====================================================================//
     // *******************************************************************//
@@ -119,9 +134,9 @@ class MorrisDonutBlock extends BaseBlock
      * 
      * @return  MorrisLineBlock
      */
-    public function setDataSet(array $data)
+    public function setDataSet($data)
     {
-        $this->data["dataset"]     =   $data;
+        $this->data["dataset"]     =   $this->filterArray($data);
         return $this;
     }
     
