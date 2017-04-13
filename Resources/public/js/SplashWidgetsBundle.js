@@ -205,11 +205,7 @@ function SplashWidgets_LoadAddModal(CollectionId, Channel)
              */
             Modal.innerHTML = data;
             $('#SplashWidgetModal').modal("show");
-            
-//            /*
-//             * Create DataTable
-//             */
-//            $('#splash-widgets-list').DataTable();
+
             return data;
         }
     }); 
