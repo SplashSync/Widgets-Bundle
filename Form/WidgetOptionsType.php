@@ -66,6 +66,7 @@ class WidgetOptionsType extends AbstractType
                 'label'                     => "options.color.label",
                 'help_block'                => "options.color.tooltip",
                 'choices'                   => array(
+                    "options.color.none"        => Widget::$COLOR_NONE, 
                     "options.color.default"     => Widget::$COLOR_DEFAULT, 
                     "options.color.primary"     => Widget::$COLOR_PRIMARY, 
                     "options.color.success"     => Widget::$COLOR_SUCCESS, 

@@ -2,10 +2,10 @@
 
 {% if Edit %}
     {% set RemoveAction = "SplashWidgets_RemoveFromCollection('" ~ Widget.Service ~ "','" ~ Widget.Type ~ "')" %}
-    <a class="btn btn-xs btn-danger" onclick="{{ RemoveAction }}">
+    <button class="btn btn-xs btn-danger" onclick="{{ RemoveAction }}">
         <i class="fa fa-fw fa-times-circle-o"></i>
         {{ "remove.label" | trans }}
-    </a>
+    </button>
 {% endif %}        
 
     

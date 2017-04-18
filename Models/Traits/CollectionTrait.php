@@ -54,18 +54,22 @@ trait CollectionTrait
     /**
      * Add Widget
      *
-     * @param   Widget  $widget
+     * @param   Widget  $Widget
      *
      * @return Report
      */
-    public function addWidget(Widget $widget)
+    public function addWidget(Widget $Widget)
     {
         //==============================================================================
         //      Setup Widget  
-        $widget->setParent($this);
-        $widget->setPosition($this->widgets->count());
+        $Widget->setParent($this);
+        $Widget->setPosition($this->widgets->count());
                 
-        $this->widgets[] = $widget;
+        if ( $this->getPreset()  ) {
+            $Widget->setParameter("DatePreset" , $this->getPreset());
+        }   
+        
+        $this->widgets[] = $Widget;
 
         return $this;
     }    

@@ -28,7 +28,7 @@ class MorrisBaseBlock extends BaseBlock
     //====================================================================//
     // Define Standard Data Fields for this Widget Block
     static $DATA          = array(
-        "title"             => "Title",
+        "title"             => "",
         "dataset"           => array(),
         "xkey"              => "label",
         "ykeys"             => ["value"],

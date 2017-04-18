@@ -24,44 +24,70 @@ trait ParametersTrait
     private $PRESETS               =   array(
         
         "Y"     =>  [
-            "DateStart" => "first day of january this year",          
-            "DateEnd" => "", 
-            "GroupBy" => "m"
+            "DateStart"     => "first day of january this year",          
+            "DateEnd"       => "", 
+            "DateFormat"    => "Y-m", 
+            "GroupBy"       => "m"
             ],
         "M"     =>  [
-            "DateStart" => "first day of this month",          
-            "DateEnd" => "", 
-            "GroupBy" => "d"
+            "DateStart"     => "first day of this month",          
+            "DateEnd"       => "", 
+            "DateFormat"    => "Y-m-d", 
+            "GroupBy"       => "d"
             ],
         "W"     =>  [
-            "DateStart" => "last monday",          
-            "DateEnd" => "next sunday", 
-            "GroupBy" => "d"
+            "DateStart"     => "last monday",          
+            "DateEnd"       => "next sunday", 
+            "DateFormat"    => "Y-m-d", 
+            "GroupBy"       => "d"
             ],
         "D"     =>  [
-            "DateStart" => "",          
-            "DateEnd" => "", 
-            "GroupBy" => "h"
+            "DateStart"     => "",          
+            "DateEnd"       => "", 
+            "DateFormat"    => "Y-m-d H:00", 
+            "GroupBy"       => "h"
+            ],
+        "LM"     =>  [
+            "DateStart"     => "-1 month",          
+            "DateEnd"       => "", 
+            "DateFormat"    => "Y-m-d", 
+            "GroupBy"       => "d"
+            ],
+        "LW"     =>  [
+            "DateStart"     => "-1 week",          
+            "DateEnd"       => "", 
+            "DateFormat"    => "Y-m-d", 
+            "GroupBy"       => "d"
+            ],
+        "L2W"     =>  [
+            "DateStart"     => "-2 week",          
+            "DateEnd"       => "", 
+            "DateFormat"    => "Y-m-d", 
+            "GroupBy"       => "d"
             ],
         "PY"     =>  [
-            "DateStart" => "first day of january last year",          
-            "DateEnd" => "last day of december last year", 
-            "GroupBy" => "m"
+            "DateStart"     => "first day of january last year",          
+            "DateEnd"       => "last day of december last year", 
+            "DateFormat"    => "Y-m", 
+            "GroupBy"       => "m"
             ],
         "PM"     =>  [
-            "DateStart" => "first day of last month",          
-            "DateEnd" => "last day of last month", 
-            "GroupBy" => "d"
+            "DateStart"     => "first day of last month",          
+            "DateEnd"       => "last day of last month", 
+            "DateFormat"    => "Y-m-d", 
+            "GroupBy"       => "d"
             ],
         "PW"     =>  [
-            "DateStart" => "last week last monday",          
-            "DateEnd" => "last sunday", 
-            "GroupBy" => "d"
+            "DateStart"     => "last week last monday",          
+            "DateEnd"       => "last sunday", 
+            "DateFormat"    => "Y-m-d", 
+            "GroupBy"       => "d"
             ],
         "PD"     =>  [
-            "DateStart" => "-1 day",          
-            "DateEnd" => "-1 day", 
-            "GroupBy" => "h"
+            "DateStart"     => "-1 day",          
+            "DateEnd"       => "-1 day", 
+            "DateFormat"    => "Y-m-d H:00", 
+            "GroupBy"       => "h"
             ],
         
     );
@@ -116,6 +142,7 @@ trait ParametersTrait
         $DateStart->setTime(0, 0, 0);
         $DateEnd    =   new \DateTime($this->PRESETS[$Preset]["DateEnd"]);
         $DateEnd->setTime(23, 59, 59);        
+        $DateFormat =   $this->PRESETS[$Preset]["DateFormat"];
         $GroupBy    =   $this->PRESETS[$Preset]["GroupBy"];
         
         //==============================================================================
@@ -123,6 +150,7 @@ trait ParametersTrait
         return  [
             "DateStart"     =>      $DateStart,
             "DateEnd"       =>      $DateEnd,
+            "DateFormat"    =>      $DateFormat,
             "GroupBy"       =>      $GroupBy,
         ];
 

@@ -65,6 +65,9 @@ dates:
     W:          This Week
     M:          This Month
     Y:          This Year
+    LW:         One Week
+    L2W:        Two Weeks
+    LM:         One Month
     PD:         Yesteday
     PW:         Last Week
     PM:         Last Month

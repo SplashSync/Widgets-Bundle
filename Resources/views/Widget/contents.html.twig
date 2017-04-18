@@ -6,7 +6,7 @@
 {% endif %}
 
 <div 
-    class="panel {{ Widget.Options.Color | default("panel-default") }} {#{% if Edit %}bg-color-redLight{% endif %}#}" 
+    class="{{ Widget.Options.Color | default("panel panel-default") }} {#{% if Edit %}bg-color-redLight{% endif %}#}" 
     style="{{ Style }}"
     >
     

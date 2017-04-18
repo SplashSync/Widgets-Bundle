@@ -41,12 +41,13 @@ trait OptionsTrait
 
     //==============================================================================
     //      Widgets Color 
-    static $COLOR_DEFAULT   = "panel-default";
-    static $COLOR_PRIMARY   = "panel-primary";
-    static $COLOR_SUCCESS   = "panel-success";
-    static $COLOR_INFO      = "panel-info";
-    static $COLOR_WARNING   = "panel-warning";
-    static $COLOR_DANGER    = "panel-danger";
+    static $COLOR_NONE      = " ";
+    static $COLOR_DEFAULT   = "panel panel-default";
+    static $COLOR_PRIMARY   = "panel panel-primary";
+    static $COLOR_SUCCESS   = "panel panel-success";
+    static $COLOR_INFO      = "panel panel-info";
+    static $COLOR_WARNING   = "panel panel-warning";
+    static $COLOR_DANGER    = "panel panel-danger";
     
     //==============================================================================
     //      Variables  

@@ -1,8 +1,8 @@
 {% trans_default_domain "SplashWidgetsBundle" %}   
 
 {% set RemoveAction = "SplashWidgets_LoadContents('" ~ Widget.Service ~ "','" ~ Widget.Type ~ "','" ~ Edit | default(0) ~ "')" %}
-<a class="btn btn-xs btn-info" onclick="{{ RemoveAction }}">
+<button class="btn btn-xs btn-info" onclick="{{ RemoveAction }}">
     <i class="fa fa-fw fa-refresh"></i>
-</a>
+</button>
 
     
