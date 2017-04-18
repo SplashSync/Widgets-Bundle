@@ -39,6 +39,7 @@ options:
     color:
         label:      Couleur
         tooltip:    Couleur de ce Widget
+        none:       Aucune - Pas de cadre         
         default:    Défaut        
         primary:    Principale
         success:    Succés

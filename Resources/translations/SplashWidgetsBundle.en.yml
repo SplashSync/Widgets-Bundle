@@ -39,6 +39,7 @@ options:
     color:
         label:      Color
         tooltip:    Select the Widget Color
+        none:       None (No borders)         
         default:    Default        
         primary:    Primary
         success:    Success
