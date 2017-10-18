@@ -10,7 +10,8 @@ use Sonata\CoreBundle\Model\Metadata;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
-
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 use Doctrine\ORM\EntityManager;
@@ -33,16 +34,25 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
     private $Repository;
     
     /**
+     * @abstract    Symfony Request
+     * @var Request
+     */
+    private $Request;
+
+    /**
      * @param string                $name
      * @param EngineInterface       $templating
      * @param EntityManager         $Manager
      */
-    public function __construct($name, EngineInterface $templating, EntityManager $Manager)
+    public function __construct($name, EngineInterface $templating, EntityManager $Manager, RequestStack $RequestStack)
     {
         parent::__construct($name, $templating);
         
         $this->Manager      =   $Manager;
         $this->Repository   =   $Manager->getRepository('SplashWidgetsBundle:WidgetCollection');
+
+        $this->Request      =   $RequestStack->getCurrentRequest();
+        
     }
     
     /**
@@ -118,7 +128,7 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
             "Collection"    =>  $Collection,
             "Title"         =>  $Settings["title"],
             "Channel"       =>  $Settings["channel"],
-            "Edit"          =>  $Settings["editable"],
+            "Edit"          =>  ($Settings["editable"] && $this->Request->get("edit")),
         ), $response);
     }
 

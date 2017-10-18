@@ -21,7 +21,7 @@ services:
             - "Splash Widget Collection Block"
             - "@templating"
             - "@doctrine.orm.entity_manager"
-#            - "@=service('service_container').get('request')"
+            - "@request_stack"
         tags:
             - { name: sonata.block }
             
