@@ -97,7 +97,7 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
         $Settings = $blockContext->getSettings();
-dump($response);
+//dump($response);
         //==============================================================================
         // Load Collection from DataBase
         $Collection =   $this->Repository->findOneByType($Settings["collection"]);         
