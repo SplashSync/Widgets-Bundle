@@ -13,3 +13,15 @@ services:
     Splash.Widgets.Collection:
         class: Splash\Widgets\Services\CollectionService
         arguments: ["@Splash.Widgets.Factory", "@=service('doctrine.orm.entity_manager').getRepository('SplashWidgetsBundle:WidgetCollection')", "@service_container"]     
+
+# Widgets Collection Sonata Block Service
+    Splash.Widgets.Blocks.Collection:
+        class: Splash\Widgets\Block\WidgetCollectionBlock
+        arguments:
+            - "Splash Widget Collection Block"
+            - "@templating"
+            - "@doctrine.orm.entity_manager"
+#            - "@=service('service_container').get('request')"
+        tags:
+            - { name: sonata.block }
+            

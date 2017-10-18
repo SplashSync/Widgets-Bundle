@@ -1,0 +1,26 @@
+
+<h3 class="page-title txt-color-blueDark"><i class="fa fa-fw fa-info-circle "></i>
+    {{ Title | default("Splash Widget Collection Block") }}
+
+    {% include 'SplashWidgetsBundle:Edit:dates_selector.html.twig' with {"Collection" : Collection } %} 
+    &nbsp;
+
+            
+    <div class="pull-right">
+        {% include 'SplashWidgetsBundle:Widget/Buttons:add.html.twig' with {"CollectionId" : Collection.id } %} 
+        &nbsp;
+
+    {% if Edit %}
+        <a href="{{ path("splash_widgets_demo_collection") }}" class="btn btn-labeled btn-success pull-right"> 
+            <span class="btn-label"><i class="fa fa-fw fa-eye"></i></span>
+            View
+        </a>
+    {% else %}
+        <a href="{{ path("splash_widgets_demo_collection_edit") }}" class="btn btn-labeled btn-primary pull-right"> 
+            <span class="btn-label"><i class="fa fa-fw fa-cogs"></i></span>
+            Edit 
+        </a>
+    {% endif %}
+        
+    </div>
+</h3>
