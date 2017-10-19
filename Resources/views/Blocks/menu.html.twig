@@ -1,26 +1,26 @@
+{% trans_default_domain "SplashWidgetsBundle" %}
 
 <h3 class="page-title txt-color-blueDark"><i class="fa fa-fw fa-info-circle "></i>
     {{ Title | default("Splash Widget Collection Block") }}
 
-    {% include 'SplashWidgetsBundle:Edit:dates_selector.html.twig' with {"Collection" : Collection } %} 
-    &nbsp;
+    <div class="pull-right btn-group">
+        
+        {% include 'SplashWidgetsBundle:Edit:dates_selector.html.twig' %} 
+        {% include 'SplashWidgetsBundle:Widget/Buttons:add.html.twig' %} 
 
-            
-    <div class="pull-right">
-        {% include 'SplashWidgetsBundle:Widget/Buttons:add.html.twig' with {"CollectionId" : Collection.id } %} 
-        &nbsp;
-
-    {% if Edit %}
-        <a href="{{ path("splash_widgets_demo_collection") }}" class="btn btn-labeled btn-success pull-right"> 
-            <span class="btn-label"><i class="fa fa-fw fa-eye"></i></span>
-            View
-        </a>
-    {% else %}
-        <a href="{{ path("splash_widgets_demo_collection_edit") }}" class="btn btn-labeled btn-primary pull-right"> 
-            <span class="btn-label"><i class="fa fa-fw fa-cogs"></i></span>
-            Edit 
-        </a>
-    {% endif %}
+        {% if Edit %}
+            {% set ViewUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params') | merge({"widget-edit" : "no"})) %}
+            <a href="{{ ViewUrl }}" class="btn btn-labeled btn-default pull-right"> 
+                <span class="btn-label"><i class="fa fa-fw fa-eye"></i></span>
+                {{ "widget.view" | trans }}
+            </a>
+        {% else %}
+            {% set EditUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params') | merge({"widget-edit" : Collection.id})) %}
+            <a href="{{ EditUrl }}" class="btn btn-labeled btn-default pull-right"> 
+                <span class="btn-label"><i class="fa fa-fw fa-cogs"></i></span>
+                {{ "widget.edit" | trans }}
+            </a>
+        {% endif %}
         
     </div>
 </h3>

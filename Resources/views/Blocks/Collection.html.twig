@@ -1,7 +1,10 @@
 {# empty Twig template #}
 
-{% include 'SplashWidgetsBundle:Blocks:menu.html.twig' %} 
-    
+{% if Menu %}
+    {% include 'SplashWidgetsBundle:Blocks:menu.html.twig' %}     
+    <hr>
+{% endif %}
+        
 {% if Edit %}
     {% include 'SplashWidgetsBundle:View:collection.html.twig' with {"Collection" : Collection } %} 
 {% else %}

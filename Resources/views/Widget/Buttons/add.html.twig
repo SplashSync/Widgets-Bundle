@@ -3,9 +3,13 @@
 {#
     Collection Widget Load Add Modal Btn
 #}
+{% if Collection is defined %}
+    {% set CollectionId = Collection.id %}
+{% endif %}
+
 {% if CollectionId %}
     {% set EditAction = "SplashWidgets_LoadAddModal('" ~ CollectionId ~ "','" ~ Channel | default("all") ~ "')" %}
-    <a class="btn {{ Class | default("btn-info") }}" onclick="{{ EditAction }}">
+    <a class="btn {{ Class | default("btn-default") }}" onclick="{{ EditAction }}">
         <i class="fa fa-fw fa-plus-circle"></i>
         {% if Minified is not defined %}
             {{ "widget.add" | trans }}

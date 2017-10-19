@@ -67,6 +67,7 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
             'channel'   => 'demo',
             'template'  => 'SplashWidgetsBundle:Blocks:Collection.html.twig',
             'editable'  => True,
+            'menu'      => True,
         ));
     }
 
@@ -80,6 +81,8 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
                 array('title',      'text', array('required' => false)),
                 array('collection', 'text', array('required' => true)),
                 array('channel',    'text', array('required' => true)),
+                array('editable',   'bool', array('required' => false)),
+                array('menu',       'bool', array('required' => false)),
             ),
         ));
     }
@@ -87,31 +90,14 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
     /**
      * {@inheritdoc}
      */
-//    public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
-//    {
-//        $errorElement
-//            ->with('settings[url]')
-//                ->assertNotNull(array())
-//                ->assertNotBlank()
-//            ->end()
-//            ->with('settings[title]')
-//                ->assertNotNull(array())
-//                ->assertNotBlank()
-//                ->assertLength(array('max' => 50))
-//            ->end();
-//    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
+        //==============================================================================
+        // Get Block Settings
         $Settings = $blockContext->getSettings();
-//dump($response);
         //==============================================================================
         // Load Collection from DataBase
         $Collection =   $this->Repository->findOneByType($Settings["collection"]);         
-        
         //==============================================================================
         // Create Collection if not found
         if ( !$Collection ) {
@@ -122,13 +108,17 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
         // Update Collection Parameters
         $Collection->setType($Settings["collection"]);
         $this->Manager->flush();
-        
-        
+        //==============================================================================
+        // Is Edit Mode?
+        $Editable = ($Settings["editable"] && ($this->Request->get("widget-edit") == $Collection->getId()) ) ? True : false;
+        //==============================================================================
+        // Render Response
         return $this->renderResponse($blockContext->getTemplate(), array(
             "Collection"    =>  $Collection,
             "Title"         =>  $Settings["title"],
             "Channel"       =>  $Settings["channel"],
-            "Edit"          =>  ($Settings["editable"] && $this->Request->get("edit")),
+            "Menu"          =>  $Settings["menu"],
+            "Edit"          =>  $Editable,
         ), $response);
     }
 

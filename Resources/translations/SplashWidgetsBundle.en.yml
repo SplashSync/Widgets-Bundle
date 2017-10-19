@@ -10,6 +10,8 @@ widget:
     name:           Widget Name
     params:         Settings
     add:            Add
+    view:           View
+    edit:           Edit
 
 ################################################################################    
 #    Widget Generic Actions
