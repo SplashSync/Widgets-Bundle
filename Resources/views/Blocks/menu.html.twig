@@ -6,20 +6,24 @@
     <div class="pull-right btn-group">
         
         {% include 'SplashWidgetsBundle:Edit:dates_selector.html.twig' %} 
-        {% include 'SplashWidgetsBundle:Widget/Buttons:add.html.twig' %} 
 
-        {% if Edit %}
-            {% set ViewUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params') | merge({"widget-edit" : "no"})) %}
-            <a href="{{ ViewUrl }}" class="btn btn-labeled btn-default pull-right"> 
-                <span class="btn-label"><i class="fa fa-fw fa-eye"></i></span>
-                {{ "widget.view" | trans }}
-            </a>
-        {% else %}
-            {% set EditUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params') | merge({"widget-edit" : Collection.id})) %}
-            <a href="{{ EditUrl }}" class="btn btn-labeled btn-default pull-right"> 
-                <span class="btn-label"><i class="fa fa-fw fa-cogs"></i></span>
-                {{ "widget.edit" | trans }}
-            </a>
+        {% if Editable %}
+            
+            {% include 'SplashWidgetsBundle:Widget/Buttons:add.html.twig' %} 
+        
+            {% if Edit %}
+                {% set ViewUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params') | merge({"widget-edit" : "no"})) %}
+                <a href="{{ ViewUrl }}" class="btn btn-labeled btn-default pull-right"> 
+                    <span class="btn-label"><i class="fa fa-fw fa-eye"></i></span>
+                    {{ "widget.view" | trans }}
+                </a>
+            {% else %}
+                {% set EditUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params') | merge({"widget-edit" : Collection.id})) %}
+                <a href="{{ EditUrl }}" class="btn btn-labeled btn-default pull-right"> 
+                    <span class="btn-label"><i class="fa fa-fw fa-cogs"></i></span>
+                    {{ "widget.edit" | trans }}
+                </a>
+            {% endif %}
         {% endif %}
         
     </div>

@@ -7,7 +7,8 @@
         {{ render(controller('SplashWidgetsBundle:View:delayed', { 
                     'Service' : Collection.service,  
                     'Type' :    Type,
-                    'Edit' :    Edit 
+                    'Edit' :    Edit,
+                    'Editable': true
         })) }}
     {% endfor %}
 </div>     

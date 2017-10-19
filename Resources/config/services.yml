@@ -25,3 +25,15 @@ services:
         tags:
             - { name: sonata.block }
             
+# Single Widget Sonata Block Service
+    Splash.Widgets.Blocks.Single:
+        class: Splash\Widgets\Block\WidgetBlock
+        arguments:
+            - "Splash Widget Block"
+            - "@templating"
+            - "@splash.widgets.manager"
+            - "@splash.widgets.factory"
+        tags:
+            - { name: sonata.block }            
+            
+            

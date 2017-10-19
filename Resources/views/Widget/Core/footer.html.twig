@@ -3,11 +3,19 @@
 {% if Widget.Options.Footer %}
     <div class="panel-footer font-xs text-right">
         <small>
-        {% if Widget.refreshAt is not empty %}{{ Widget.refreshAt | ago | default("Now") }}{% endif %}
-        &nbsp;
-        {% if Widget.Origin is not empty %} | {{ Widget.Origin | raw }}{% endif %}
-        &nbsp;|&nbsp;
-        {% include 'SplashWidgetsBundle:Widget/Buttons:reload.html.twig'  %} 
+            {% if Widget.refreshAt is not empty %}{{ Widget.refreshAt | ago | default("Now") }}{% endif %}
+            &nbsp;
+            
+            {% if Widget.Origin is not empty %} | {{ Widget.Origin | raw }}{% endif %}
+            
+            &nbsp;|&nbsp;
+            {% include 'SplashWidgetsBundle:Widget/Buttons:reload.html.twig'  %} 
+
+            {% if Editable | default(false) %}
+                &nbsp;|&nbsp;
+                {% include 'SplashWidgetsBundle:Widget/Buttons:editable.html.twig'  %} 
+            {% endif %}
+            
         </small>
     </div>    
 {% endif %}

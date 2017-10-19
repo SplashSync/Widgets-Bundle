@@ -35,9 +35,10 @@ class ViewController extends Controller
      * 
      * @param   string      $Service        Widget Provider Service Name
      * @param   string      $Type           Widget Type Name
-     * @param   string      $Edit           Widget Edit Mode
+     * @param   bool        $Edit           Widget Edit Mode
+     * @param   bool        $Editable       Widget is Editable
      */
-    public function forcedAction($Service, $Type, $Edit = False)
+    public function forcedAction($Service, $Type, $Edit = False, $Editable = False)
     {
         //==============================================================================
         // Init & Safety Check 
@@ -56,7 +57,8 @@ class ViewController extends Controller
         // Render Response 
         return $this->render('SplashWidgetsBundle:Widget:base.html.twig', array(
                 "Widget"    => $Widget,
-                "Edit"      => $Edit
+                "Edit"      => $Edit,
+                "Editable"  => $Editable,
             ));
     }    
     
@@ -65,10 +67,11 @@ class ViewController extends Controller
      * 
      * @param   string      $Service        Widget Provider Service Name
      * @param   string      $Type           Widget Type Name
-     * @param   string      $Edit           Widget Edit Mode
+     * @param   bool        $Edit           Widget Edit Mode
+     * @param   bool        $Editable       Widget is Editable
      * 
      */    
-    public function delayedAction($Service, $Type, $Edit = False)
+    public function delayedAction($Service, $Type, $Edit = False, $Editable = False)
     {
         //==============================================================================
         // Init & Safety Check 
@@ -91,6 +94,7 @@ class ViewController extends Controller
             return $this->render('SplashWidgetsBundle:Widget:base.html.twig', array(
                     "Widget"        =>  $Cache,
                     "Edit"          =>  $Edit,
+                    "Editable"      =>  $Editable
                 ));
         }
         //==============================================================================
@@ -99,6 +103,7 @@ class ViewController extends Controller
                 "Service"       =>  $Service,
                 "WidgetType"    =>  $Type,
                 "Edit"          =>  $Edit,
+                "Editable"      =>  $Editable,
                 "Options"       =>  $Options,
             ));
     }
@@ -108,10 +113,11 @@ class ViewController extends Controller
      * 
      * @param   string      $Service        Widget Provider Service Name
      * @param   string      $Type           Widget Type Name
-     * @param   string      $Edit           Widget Edit Mode
+     * @param   bool        $Edit           Widget Edit Mode
+     * @param   bool        $Editable       Widget is Editable
      * 
      */       
-    public function ajaxAction($Service, $Type, $Edit = False)
+    public function ajaxAction($Service, $Type, $Edit = False, $Editable = False)
     {
         //==============================================================================
         // Init & Safety Check 
@@ -127,7 +133,8 @@ class ViewController extends Controller
             $Widget =   $this->Factory->buildErrorWidget($Service, $Type, "An Error Occured During Widget Loading");
             return $this->render('SplashWidgetsBundle:Widget:contents.html.twig', array(
                     "Widget"    => $Widget,
-                    "Edit"      => $Edit
+                    "Edit"      => $Edit,
+                    "Editable"  => $Editable,
                 ));
         }
         //==============================================================================
@@ -137,13 +144,15 @@ class ViewController extends Controller
             // Generate Widget Raw Contents 
             $Contents = $this->renderView('SplashWidgetsBundle:Widget/Blocks:row.html.twig', array(
                     "Widget"    => $Widget,
-                    "Edit"      => $Edit
+                    "Edit"      => $Edit,
+                    "Editable"  => $Editable,
                 ));
             $this->get("Splash.Widgets.Manager")->setCacheContents($Widget, $Contents);
         }
         return $this->render('SplashWidgetsBundle:Widget:contents.html.twig', array(
             "Widget"    => $Widget,
-            "Edit"      => $Edit
+            "Edit"      => $Edit,
+            "Editable"  => $Editable,
             ));
     }
     

@@ -1,13 +1,11 @@
-
-import:
-    resource:   "routing/collections.yml"
-    resource:   "routing/widgets.yml"
-
+#################################################################################
+## WIDGET : AJAX RENDER
 splash_widgets_render_widget:
-    path:     /view/{Service}/{Type}/{Edit}
+    path:     /view/{Service}/{Type}/{Edit}/{Editable}
     defaults: 
         _controller:    SplashWidgetsBundle:View:ajax
         Edit:           false
+        Editable:       false
     options:
         expose: true
         
@@ -25,6 +23,14 @@ splash_widgets_edit_widget:
 splash_widgets_collections_reorder:
     path:     /reorder/{CollectionId}/{Ordering}
     defaults: { _controller: SplashWidgetsBundle:Collection:reorder }
+    options:
+        expose: true
+        
+#################################################################################
+## COLLECTIONS : AJAX DATE PRESET UPDATE
+splash_widgets_collections_preset:
+    path:     /preset/{CollectionId}/{Preset}
+    defaults: { _controller: SplashWidgetsBundle:Collection:preset }
     options:
         expose: true 
         
@@ -45,9 +51,9 @@ splash_widgets_collections_remove_widget:
         expose: true          
         
 #################################################################################
-## COLLECTIONS : AJAX WIDGET LIST MODAL
+## COLLECTIONS : AJAX WIDGETS LIST MODAL
 splash_widgets_collections_list_widget:
     path:     /list/{CollectionId}/{Channel}
     defaults: { _controller: SplashWidgetsBundle:List:modal }
     options:
-        expose: true         
+        expose: true          

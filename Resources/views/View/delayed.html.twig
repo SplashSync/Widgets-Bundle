@@ -1,12 +1,5 @@
 {% extends "SplashWidgetsBundle:Widget:base.html.twig" %}
 
-{#{% import "SplashWidgetsBundle:Macros:widgets.html.twig" as Wid %}#}
-
-{#{{ Wid.Single(Widget, Edit) }}#}
-{#{{ Wid.Single(Widget, true) }}#}
-
-{#{{ dump(Widget.parent) }}#}
-
 {% block widget_box %}
     <div class="panel panel-warning">
         
@@ -17,12 +10,9 @@
         
         <script>
             $(document).ready(function() {
-                SplashWidgets_LoadContents("{{ Service }}", "{{ WidgetType }}", "{{ Edit | default(false) }}");
+                SplashWidgets_LoadContents("{{ Service }}", "{{ WidgetType }}", "{{ Edit | default(false) }}", "{{ Editable | default(false) }}");
             });
         </script>
         
     </div>    
 {% endblock %}
-        
-{#    {% include 'SplashWidgetsBundle:Widget:loading.html.twig' %}  #}
-    

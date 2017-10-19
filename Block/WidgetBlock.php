@@ -17,36 +17,38 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Doctrine\ORM\EntityManager;
 
 use Splash\Widgets\Entity\WidgetCollection;
+use Splash\Widgets\Services\ManagerService;
+use Splash\Widgets\Services\FactoryService;
 
 /**
  * @author Bernard Paquier <eshop.bpaquier@gmail.com>
  */
-class WidgetCollectionBlock extends AbstractAdminBlockService
+class WidgetBlock extends AbstractAdminBlockService
 {
     /**
-     * @abstract    Widget Collections Repository
+     * @abstract    Splash Widgets Manager
+     * @var ManagerService
      */
-    private $Repository;
+    private $WidgetsManager;
     
     /**
-     * @abstract    Symfony Request
-     * @var Request
+     * @abstract    Splash Widgets Factory
+     * @var FactoryService
      */
-    private $Request;
-
+    private $WidgetsFactory;
+    
     /**
      * @param string                $name
      * @param EngineInterface       $templating
-     * @param EntityManager         $Manager
+     * @param ManagerService        $WidgetsManager
+     * @param FactoryService        $WidgetFactory
      */
-    public function __construct($name, EngineInterface $templating, EntityManager $Manager, RequestStack $RequestStack)
+    public function __construct($name, EngineInterface $templating, ManagerService $WidgetsManager, FactoryService $WidgetFactory)
     {
         parent::__construct($name, $templating);
         
-        $this->Manager      =   $Manager;
-        $this->Repository   =   $Manager->getRepository('SplashWidgetsBundle:WidgetCollection');
-
-        $this->Request      =   $RequestStack->getCurrentRequest();        
+        $this->WidgetsManager   =   $WidgetsManager;
+        $this->WidgetFactory    =   $WidgetFactory;
     }
     
     /**
@@ -55,13 +57,11 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
     public function configureSettings(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'url'       => false,
-            'title'     => 'Splash Widget Collection Block',
-            'collection'=> 'demo-block',
+            'service'   => null,
+            'type'      => null,
             'channel'   => 'demo',
-            'template'  => 'SplashWidgetsBundle:Blocks:Collection.html.twig',
-            'editable'  => True,
-            'menu'      => True,
+            'template'  => 'SplashWidgetsBundle:Widget:base.html.twig',
+            'edit'      => False,
         ));
     }
 
@@ -72,11 +72,10 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
     {
         $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
-                array('title',      'text', array('required' => false)),
-                array('collection', 'text', array('required' => true)),
+                array('service',    'text', array('required' => true)),
+                array('type',       'text', array('required' => true)),
                 array('channel',    'text', array('required' => true)),
                 array('editable',   'bool', array('required' => false)),
-                array('menu',       'bool', array('required' => false)),
             ),
         ));
     }
@@ -90,31 +89,22 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
         // Get Block Settings
         $Settings = $blockContext->getSettings();
         //==============================================================================
-        // Load Collection from DataBase
-        $Collection =   $this->Repository->findOneByType($Settings["collection"]);         
+        // Read Widget Contents 
+        $Widget =   Null;
+        if ( !empty($Settings["service"]) && !empty($Settings["type"])  ) {
+            $Widget =   $this->WidgetsManager->getWidget($Settings["service"], $Settings["type"]);
+        }
         //==============================================================================
-        // Create Collection if not found
-        if ( !$Collection ) {
-            $Collection =   new WidgetCollection();
-            $this->Manager->persist($Collection);
-        } 
+        // Validate Widget Contents 
+        if (is_null($Widget)  ) {
+            $Widget =   $this->WidgetFactory->buildErrorWidget($Settings["service"], $Settings["type"], "An Error Occured During Widget Loading");
+        }
         //==============================================================================
-        // Update Collection Parameters
-        $Collection->setType($Settings["collection"]);
-        $this->Manager->flush();
-        //==============================================================================
-        // Is Edit Mode?
-        $Edit = ($Settings["editable"] & ($this->Request->get("widget-edit") == $Collection->getId()) ) ? True : False;
-        //==============================================================================
-        // Render Response
+        // Render Response 
         return $this->renderResponse($blockContext->getTemplate(), array(
-            "Collection"    =>  $Collection,
-            "Title"         =>  $Settings["title"],
-            "Channel"       =>  $Settings["channel"],
-            "Menu"          =>  $Settings["menu"],
-            "Edit"          =>  $Edit,
-            "Editable"      =>  $Settings["editable"],
-        ), $response);
+                "Widget"    => $Widget,
+                "Edit"      => $Settings["edit"],
+            ));
     }
 
     /**

@@ -1,11 +1,11 @@
 /* 
  * Load OpenWidget Contents with Ajax ACtion
  */
-function SplashWidgets_LoadContents(Service, Type, Edit)
+function SplashWidgets_LoadContents(Service, Type, Edit, Editable)
 {
     $.ajax({
         type:   "POST",
-        url:    Routing.generate("splash_widgets_render_widget", {Service : Service, Type : Type, Edit : Edit | false }),
+        url:    Routing.generate("splash_widgets_render_widget", {Service : Service, Type : Type, Edit : Edit | false , Editable : Editable | false}),
         data:   false,
         cache:  true,
         success: function(data){
