@@ -327,14 +327,15 @@ function SplashWidgets_SparkLinePieCharts()
 
         $this[0].style.display = "block";        
         $this.sparkline('html', {
-            type : 'pie',
+            type :              'pie',
             width :             $this.data('sparkline-piesize') || 90,
             height :            $this.data('sparkline-piesize') || 90,
-            tooltipFormat :     '<span style="color: {{color}}">&#9679;</span> ({{percent.1}}%)',
+            tooltipFormat :     '<span style="color: {{color}}">&#9679;</span> {{offset:labels}} ({{percent.1}}%)',
             sliceColors :       $this.data('sparkline-piecolor') || ["CornflowerBlue ", "DarkOrange", "Crimson", "DarkViolet","ForestGreen", "LightCoral", "LightSeaGreen ", "MediumSpringGreen"],
             borderWidth :       $this.data('sparkline-border') || 1,
             offset :            $this.data('sparkline-offset') || 0,
-            borderColor :       $this.data('border-color') || '#45494C'
+            borderColor :       $this.data('border-color') || '#45494C',
+            tooltipValueLookups: { 'labels': $this.data('sparkline-labels') || {}  }
         });
                      
         $this = null;
