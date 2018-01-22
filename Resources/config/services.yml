@@ -31,8 +31,8 @@ services:
         arguments:
             - "Splash Widget Block"
             - "@templating"
-            - "@splash.widgets.manager"
-            - "@splash.widgets.factory"
+            - "@Splash.Widgets.Manager"
+            - "@Splash.Widgets.Factory"
         tags:
             - { name: sonata.block }            
             
