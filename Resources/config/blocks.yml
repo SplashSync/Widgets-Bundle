@@ -1,0 +1,31 @@
+sonata_block:
+    blocks:        
+        Splash.Widgets.Blocks.Collection:
+            contexts:   [admin]
+        Splash.Widgets.Blocks.Single:
+            contexts:   [admin]
+        
+services:
+
+
+# Widgets Collection Sonata Block Service
+    Splash.Widgets.Blocks.Collection:
+        class: Splash\Widgets\Block\WidgetCollectionBlock
+        arguments:
+            - "Splash.Widgets.Blocks.Collection"
+            - "@templating"
+            - "@doctrine.orm.entity_manager"
+            - "@request_stack"
+        tags:
+            - { name: sonata.block }
+            
+# Single Widget Sonata Block Service
+    Splash.Widgets.Blocks.Single:
+        class: Splash\Widgets\Block\WidgetBlock
+        arguments:
+            - "Splash.Widgets.Blocks.Single"
+            - "@templating"
+            - "@Splash.Widgets.Manager"
+            - "@Splash.Widgets.Factory"
+        tags:
+            - { name: sonata.block } 

@@ -20,11 +20,16 @@ use Splash\Widgets\Entity\WidgetCollection;
 use Splash\Widgets\Services\ManagerService;
 use Splash\Widgets\Services\FactoryService;
 
+use Splash\Widgets\Models\Traits\ParametersTrait; 
+
 /**
  * @author Bernard Paquier <eshop.bpaquier@gmail.com>
  */
 class WidgetBlock extends AbstractAdminBlockService
 {
+    
+    use ParametersTrait;
+    
     /**
      * @abstract    Splash Widgets Manager
      * @var ManagerService
@@ -35,7 +40,7 @@ class WidgetBlock extends AbstractAdminBlockService
      * @abstract    Splash Widgets Factory
      * @var FactoryService
      */
-    private $WidgetsFactory;
+    private $WidgetFactory;
     
     /**
      * @param string                $name
@@ -59,9 +64,12 @@ class WidgetBlock extends AbstractAdminBlockService
         $resolver->setDefaults(array(
             'service'   => null,
             'type'      => null,
+            'options'   => array(),
             'channel'   => 'demo',
             'template'  => 'SplashWidgetsBundle:Widget:base.html.twig',
             'edit'      => False,
+            'attr'      => array(),
+            'preset'    => "M"
         ));
     }
 
@@ -88,12 +96,26 @@ class WidgetBlock extends AbstractAdminBlockService
         //==============================================================================
         // Get Block Settings
         $Settings = $blockContext->getSettings();
+        
+        //==============================================================================
+        // Prepare Widget Options
+        if ( $Settings["preset"] != False ) {
+            $WidgetOptions  =   array_merge($this->getDatesArray($Settings["preset"]), $Settings["options"]);
+        } else {
+            $WidgetOptions  =   $Settings["options"];
+        } 
+        
         //==============================================================================
         // Read Widget Contents 
         $Widget =   Null;
         if ( !empty($Settings["service"]) && !empty($Settings["type"])  ) {
-            $Widget =   $this->WidgetsManager->getWidget($Settings["service"], $Settings["type"]);
+            $Widget =   $this->WidgetsManager->getWidget($Settings["service"], $Settings["type"], $WidgetOptions);
         }
+        
+        //==============================================================================
+        // Merge Passed Rendering Options to Widget Options
+        $Widget->setOptions( array_merge( $Widget->getOptions() , $Settings["attr"] ) );
+
         //==============================================================================
         // Validate Widget Contents 
         if (is_null($Widget)  ) {
