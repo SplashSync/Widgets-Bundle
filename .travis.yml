@@ -23,23 +23,23 @@ env:
 # Define Test Matrix
 matrix:
     include:
-#        # Symfony 2.8 Branch       
-#        - php: 7.0
-#          env: SF_VERSION="2.8.*"        
-#        - php: 7.1
-#          env: SF_VERSION="2.8.*"        
-#          
-#        # Symfony 3.3 Branch       
-#        - php: 7.0
-#          env: SF_VERSION="3.3.*"        
-#        - php: 7.1
-#          env: SF_VERSION="3.3.*"        
+        # Symfony 2.8 Branch       
+        - php: 7.0
+          env: SF_VERSION="2.8.*"        
+        - php: 7.1
+          env: SF_VERSION="2.8.*"        
+          
+        # Symfony 3.3 Branch       
+        - php: 7.0
+          env: SF_VERSION="3.3.*"        
+        - php: 7.1
+          env: SF_VERSION="3.3.*"        
           
         # Symfony 3.4 Branch       
         - php: 7.1
           env: SF_VERSION="3.4.*"        
-#        - php: 7.2
-#          env: SF_VERSION="3.4.*"        
+        - php: 7.2
+          env: SF_VERSION="3.4.*"        
           
 #        # Symfony 4.0 Branch       
 #        - php: 7.1
@@ -80,8 +80,8 @@ install:
     - echo "Install Symfony"
     - php bin/console doctrine:schema:update --force  --no-interaction --no-debug
 
-#    - echo "Dump & Install Assets"
-#    - php bin/console assetic:dump --no-interaction --no-debug
+    - echo "Dump & Install Assets"
+    - php bin/console assetic:dump --no-interaction --no-debug
 #    - php bin/console assets:install --no-interaction --no-debug
     
     - echo "Start Web Server"
