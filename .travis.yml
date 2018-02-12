@@ -76,6 +76,9 @@ install:
     
     - echo "List Console Commands"
     - php bin/console list
+
+    - echo "List Ontainer Services"
+    - php bin/console debug:container
     
     - echo "Install Symfony"
     - php bin/console doctrine:schema:update --force  --no-interaction --no-debug
