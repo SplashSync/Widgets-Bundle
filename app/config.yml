@@ -7,7 +7,7 @@ imports:
 framework:
     translator:      { fallbacks: ["%locale%"] }
     router:
-        resource:   "%kernel.root_dir%/config/routing.yml"
+        resource:   "%kernel.root_dir%/routing.yml"
     templating:
         engines: ['twig']  
     form:           ~
