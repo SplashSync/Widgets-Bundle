@@ -68,11 +68,11 @@ before_install:
 # Install composer dependencies,
 # Create database, schema and fixtures
 install:   
-    - echo "Build Dependencies"
-    - composer update --prefer-dist --no-interaction    
-    
     - echo "Configuring The Bundles"
     - cp app/parameters.yml.dist app/parameters.yml
+    
+    - echo "Build Dependencies"
+    - composer update --prefer-dist --no-interaction    
     
     - echo "List Console Commands"
     - php bin/console list
