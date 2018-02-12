@@ -2,17 +2,18 @@ imports:
     - { resource: parameters.yml }
     - { resource: "@SplashWidgetsBundle/Resources/config/blocks.yml" }
     - { resource: "@SplashWidgetsBundle/Resources/config/demo.yml" }
+    - { resource: "@SplashWidgetsBundle/Resources/config/test.yml" }
+    
     
 # Framework Configuration
 framework:
     translator:      { fallbacks: ["%locale%"] }
     router:
-        resource: "routing.yml"
+        resource: "routing_test.yml"
     templating:
         engines: ['twig']  
     form:           ~
     session:        ~    
-    profiler: { only_exceptions: false }
 
 # Doctrine Configuration
 doctrine:
@@ -29,7 +30,7 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
-
+        
 # Mopa Bootstrap
 mopa_bootstrap:
     menu: ~
@@ -39,8 +40,5 @@ mopa_bootstrap:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: true
-    
-# Debug Toolbar    
-web_profiler:
-    toolbar:             true
+
     

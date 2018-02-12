@@ -14,6 +14,7 @@ class AppKernel extends Kernel
         $bundles[] = new Symfony\Bundle\SecurityBundle\SecurityBundle();
         $bundles[] = new Symfony\Bundle\TwigBundle\TwigBundle();
         $bundles[] = new Symfony\Bundle\AsseticBundle\AsseticBundle();        
+        $bundles[] = new Symfony\Bundle\MonologBundle\MonologBundle();
         
         //==============================================================================
         // DOCTRINE CORE
@@ -78,6 +79,10 @@ class AppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load($this->getRootDir().'/config.yml');
+        if ( "test" == $this->getEnvironment() ) {
+            $loader->load($this->getRootDir().'/config_test.yml');
+        } else {
+            $loader->load($this->getRootDir().'/config.yml');
+        }
     }
 }

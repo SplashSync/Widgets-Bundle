@@ -30,16 +30,25 @@
         <div class="col-xs-12 col-md-6">
             
             <div class="row">
+                
+                {% if app.request.get("splash_widgets_settings_form") is not empty %}
+                    {% set Options      = app.request.get("splash_widgets_settings_form").rendering %}
+                    {% set Parameters   = app.request.get("splash_widgets_settings_form").dates %}
+                {% else %}
+                    {% set Options      = null %}
+                    {% set Parameters   = null %}
+                {% endif %}
+                    
                 {{ render(controller('SplashWidgetsBundle:View:forced', { 
                         'Service' :     "Splash.Widgets.Demo.Factory",  
                         'Type' :        "Text",
-                        'Options':      app.request.get("splash_widgets_settings_form").rendering   | default(null) | json_encode,
-                        'Parameters':   app.request.get("splash_widgets_settings_form").dates       | default(null) | json_encode,
+                        'Options':      Options | json_encode,
+                        'Parameters':   Parameters | json_encode,
                 })) }}
             </div>   
     
-            {{ dump(app.request.get("splash_widgets_settings_form").rendering) }}    
-            {{ dump(app.request.get("splash_widgets_settings_form").dates) }}   
+            {{ dump(Options) }}    
+            {{ dump(Parameters) }}   
         </div>
     </div>
             

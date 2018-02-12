@@ -26,6 +26,5 @@ class SplashWidgetsExtension extends Extension
         $loader->load('services.yml');
         
         $container->setParameter('splash_widgets',    $config);
-
     }
 }

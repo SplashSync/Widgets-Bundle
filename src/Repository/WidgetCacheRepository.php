@@ -35,4 +35,22 @@ class WidgetCacheRepository extends EntityRepository
                     ->getOneOrNullResult()
                 ;
     }
+    
+    /**
+     * CleanUp Expired Widgets from Cache
+     *
+     * @return void
+     */
+    public function cleanUp()
+    {
+        $this->createQueryBuilder("WC")
+                    ->delete()
+                    ->where("WC.expireAt < :expire")
+                    ->setParameter(":expire",   new \DateTime())
+                    ->getQuery()
+                    ->getResult()
+                ;
+        
+        $this->getEntityManager()->clear();
+    }    
 }

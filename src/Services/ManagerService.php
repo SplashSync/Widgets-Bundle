@@ -24,11 +24,27 @@ class ManagerService
     //  GENERIC WIDGETS LISTING TAGS
     //====================================================================//
 
-    const ALL_WIDGETS               =   "splash.widgets.list.all";
-    const USER_WIDGETS              =   "splash.widgets.list.user";
-    const NODES_WIDGETS             =   "splash.widgets.list.nodes";
-    const STATS_WIDGETS             =   "splash.widgets.list.stats";
-    const DEMO_WIDGETS              =   "splash.widgets.list.demo";
+    const ALL_WIDGETS               =   "splash.widgets.list.all";          // All Common Widgtets 
+    const USER_WIDGETS              =   "splash.widgets.list.user";         // All End User Widgets 
+    const ADMIN_WIDGETS             =   "splash.widgets.list.admin";        // Administartor Widgets
+    const STATS_WIDGETS             =   "splash.widgets.list.stats";        // Statistics Widgets 
+    const DEMO_WIDGETS              =   "splash.widgets.list.demo";         // Demo Widgets (Internal)
+    const TEST_WIDGETS              =   "splash.widgets.list.test";         // Test Widgets (PhpUnit Only)
+    const TESTED_WIDGETS            =   "splash.widgets.list.tested";       // Tested Widgets
+    
+    const AVAILABLE_BLOCKS          =   array(
+                                                "BaseBlock",
+                                                "MorrisAreaBlock",
+                                                "MorrisBarBlock",
+                                                "MorrisDonutBlock",
+                                                "MorrisLineBlock",
+                                                "NotificationsBlock",
+                                                "SparkBarChartBlock",
+                                                "SparkInfoBlock",
+                                                "SparkLineChartBlock",
+                                                "TableBlock",
+                                                "TextBlock"
+                                            );
     
     /**
      * Service Container
@@ -318,8 +334,7 @@ class ManagerService
      */
     public function getCache(string $Service, string $Type, array $Options = [], array $Parameters = [])
     {    
-        return     $this->container
-                ->get('doctrine')->getManager()
+        return     $this->container->get('doctrine')->getManager()
                 ->getRepository("SplashWidgetsBundle:WidgetCache")
                 ->findCached($Service, $Type, WidgetCache::buildDiscriminator($Options, $Parameters));
     }    
@@ -335,9 +350,13 @@ class ManagerService
     public function setCacheContents(Widget $Widget, string $Contents )
     {
         //====================================================================//
-        // Load Widget Cache Object
+        // Load Entity Manager
         $Em = $this->container->get('doctrine')->getManager();
+        //====================================================================//
+        // Build Discriminator
         $Discriminator = WidgetCache::buildDiscriminator($Widget->getOptions(), $Widget->getParameters());
+        //====================================================================//
+        // Load Widget Cache Object
         $Cache   =     $Em->getRepository("SplashWidgetsBundle:WidgetCache")
                 ->findOneBy(array(
                     "service"   =>  $Widget->getService(),
@@ -350,7 +369,8 @@ class ManagerService
             $Cache  =   new WidgetCache($Widget);
             $Em->persist($Cache);
         }
-        
+        //====================================================================//
+        // Setup Cache Object 
         $Cache
                 ->setDefinition($Widget)
                 ->setContents($Contents)
@@ -364,31 +384,16 @@ class ManagerService
     }    
     
     
-//    /**
-//     * Clear Widget Contents in Cache
-//     * 
-//     * @param   string      $Service        Widget Provider Service Name
-//     * @param   string      $Type           Widget Type Name
-//     * @param   array       $Options        Widget Options Array
-//     * @param   array       $Parameters     Widget Parameters Array
-//     * 
-//     * @return ArrayCollection
-//     */
-//    public function clearCacheContents(string $Service, string $Type, array $Options = [], array $Parameters = [])
-//    {
-//        $Em = $this->container->get('doctrine')->getManager();
-//        
-//        $Cache   =     $Em->getRepository("SplashWidgetsBundle:WidgetCache")
-//                ->findOneBy(array(
-//                    "service"   =>  $Service,
-//                    "type"      =>  $Type,
-//                    "discriminator" => WidgetCache::buildDiscriminator($Options, $Parameters)
-//                ));
-//        
-//        if( $Cache ) {
-//            $Cache->setExpireAt(new \DateTime("-10 minute"));
-//            $Em->flush();
-//        }
-//    }      
+    /**
+     * Clear Expired Widget from Cache
+     * 
+     * @return void
+     */
+    public function cleanCache()
+    {
+        $this->container->get('doctrine')->getManager()
+                ->getRepository("SplashWidgetsBundle:WidgetCache")
+                ->cleanUp();
+    }      
     
 }

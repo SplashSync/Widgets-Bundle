@@ -45,7 +45,8 @@ class ViewController extends Controller
         //==============================================================================
         // Render Response 
         return $this->render('SplashWidgetsBundle:Widget:base.html.twig', array(
-                "Widget"    => $Widget,
+                "Widget"    =>  $Widget,
+                "WidgetId"  =>  WidgetCache::buildDiscriminator($Widget->getOptions(), $Widget->getParameters()),
             ));
     }  
     
