@@ -1,0 +1,19 @@
+services:
+
+# Widget Parser & Creation Service
+    Splash.Widgets.Factory:
+        class: Splash\Widgets\Services\FactoryService
+
+# Widgets Manager Service
+    Splash.Widgets.Manager:
+        class: Splash\Widgets\Services\ManagerService
+        arguments: ["@service_container", "@event_dispatcher"]   
+
+# Widgets Collection Service
+    Splash.Widgets.Collection:
+        class: Splash\Widgets\Services\CollectionService
+        arguments: ["@Splash.Widgets.Factory", "@=service('doctrine.orm.entity_manager').getRepository('SplashWidgetsBundle:WidgetCollection')", "@service_container"]     
+
+          
+            
+            

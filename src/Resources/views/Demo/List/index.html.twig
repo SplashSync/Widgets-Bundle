@@ -1,0 +1,20 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+{% extends "@SplashWidgets/Demo/layout.html.twig" %}   
+
+{#
+    Display Node Profile Title
+#}
+{% block headline %}
+    List of Available Widgets in "demo" listing
+{% endblock %}    
+    
+{#
+    Display Node Profile Contents
+#}
+
+{% block content_row %}
+
+    {% include '@SplashWidgets/Demo/List/contents.html.twig' %}  
+    
+{% endblock %}
+

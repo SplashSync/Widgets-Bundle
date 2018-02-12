@@ -1,0 +1,62 @@
+
+
+
+splash_widgets_demo_home:
+    path:     /
+    defaults: { _controller: SplashWidgetsBundle:Demo:collection } 
+    
+splash_widgets_demo:
+    path:     /demo
+    defaults: { _controller: SplashWidgetsBundle:Demo:index }
+
+    
+    
+    
+splash_widgets_demo_single_blocks:
+    path:     /single/blocks
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template:    "@SplashWidgets/Demo/Blocks/single.html.twig"
+        
+splash_widgets_demo_collection:
+    path:     /collection
+    defaults: { _controller: SplashWidgetsBundle:Demo:collection }  
+    
+splash_widgets_demo_collection_edit:
+    path:     /collection/edit
+    defaults: { _controller: SplashWidgetsBundle:Demo:collection_edit } 
+    
+splash_widgets_demo_debug:
+    path:     /debug/{Service}/{Type}
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template:    "@SplashWidgets/Demo/Debug/index.html.twig"
+        
+
+
+#################################################################################
+## LIST : DISPLAY LIST OF AVAILABLE WIDGETS
+splash_widgets_demo_list:
+    path:     /list
+    defaults: { _controller: SplashWidgetsBundle:Demo:list }
+
+#################################################################################
+## LIST : DISPLAY OF WIDGETS By CONTROLLER
+splash_widgets_demo_single_forced:
+    path:     /forced
+    defaults: { _controller: SplashWidgetsBundle:Demo:forced }    
+
+splash_widgets_demo_single_delayed:
+    path:     /delayed
+    defaults: { _controller: SplashWidgetsBundle:Demo:delayed }  
+
+splash_widgets_demo_single_edit:
+    path:     /edit
+    defaults: { _controller: SplashWidgetsBundle:Demo:edit }  
+
+    
+splash_widgets_demo_blocks:
+    path:     /blocks
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template:    "@SplashWidgets/Demo/Blocks/index.html.twig"    

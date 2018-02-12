@@ -1,0 +1,48 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+{% extends "@SplashWidgets/Demo/layout.html.twig" %}   
+
+{#
+    Display Node Profile Title
+#}
+{% block headline %}
+    Edit Widgets Via Controller
+{% endblock %}    
+    
+{% block content_row %}
+
+   <h3 class="page-title txt-color-blueDark"><i class="fa fa-fw fa-info-circle "></i>
+        In Delayed Mode, Widget is rendered by Javascript, once page is fully loaded. 
+    </h3>    
+    <p>
+        This method is better if your widgets have computing, because this method allow caching of widget contents.
+    </p>
+    <code>
+        Example
+        <PRE>render(controller('SplashWidgetsBundle:Edit:panel', { 'Service' : "Splash.Widgets.Demo.Factory",  'Type' : "Text" }))</PRE>
+    </code>
+
+ 
+    
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            {{ render(controller('SplashWidgetsBundle:Edit:panel', { 'Service' : "Splash.Widgets.Demo.Factory", 'Type' : "Text", "request" : app.request })) }}
+        </div>
+        <div class="col-xs-12 col-md-6">
+            
+            <div class="row">
+                {{ render(controller('SplashWidgetsBundle:View:forced', { 
+                        'Service' :     "Splash.Widgets.Demo.Factory",  
+                        'Type' :        "Text",
+                        'Options':      app.request.get("splash_widgets_settings_form").rendering   | default(null) | json_encode,
+                        'Parameters':   app.request.get("splash_widgets_settings_form").dates       | default(null) | json_encode,
+                })) }}
+            </div>   
+    
+            {{ dump(app.request.get("splash_widgets_settings_form").rendering) }}    
+            {{ dump(app.request.get("splash_widgets_settings_form").dates) }}   
+        </div>
+    </div>
+            
+            
+{% endblock %}
+

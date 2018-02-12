@@ -1,24 +1,98 @@
 {
-    "name": "splash/widgets-bundle",
-    "description": "Generic Informations Widgets Bundle for Symfony Applications",
+    "name":             "splash/widgets-bundle",
+    "description":      "Easy Widgets & Information boxes for Symfony Applications",
+    "type":             "symfony-bundle",
+    "keywords":         ["Symfony", "Bundle", "Task", "PHP", "Tasking"],
+    "homepage":         "http://www.splashsync.com",
+    "license":          "MIT",
+    "prefer-stable":    true,
 
-    "license": "MIT",
-
+    "authors": [
+        {
+            "name":"Splash Sync",
+            "email":"contact@splashsync.com"
+        },
+        {
+            "name": "Bernard Paquier",
+            "email": "eshop.bpaquier@gmail.com"
+        }
+    ],
+    
     "autoload": {
-        "psr-4": { "Splash\\Widgets\\": "" }
+        "psr-4": { "Splash\\Widgets\\": "src" }
+    },
+
+    "autoload-dev": {
+        "psr-4": { "Splash\\Widgets\\Tests\\": "tests" },
+        "classmap": [ "app/AppKernel.php" ]
     },
     
     "require": {
         "php":                                          "^7.0",
-        "symfony/symfony":                              ">=2.8",
+        
+        "symfony/symfony":                              "~2.8 | ~3.3 | ~3.4",
+        "symfony/monolog-bundle":                       ">=2.1",
+        "symfony/assetic-bundle":                       ">=2.8",        
+        
         "doctrine/orm":                                 "^2.5",
         "doctrine/doctrine-bundle":                     "^1.6",
         "doctrine/doctrine-cache-bundle":               "^1.2",
+        
         "knplabs/knp-time-bundle":                      ">1.5",
+        "knplabs/knp-menu-bundle":                      ">=2.0",
+        
         "friendsofsymfony/jsrouting-bundle":            ">=2.0",
+        
+        "sonata-project/block-bundle":                  ">=3.0",
         
         "mopa/bootstrap-bundle":                        "~3.0",
         "twbs/bootstrap":                               "~3.3.0"
 
+    },
+    
+    "require-dev": {
+        "symfony/symfony":                              ">=2.8 | ~3.0 | ~4.0",
+        "symfony/phpunit-bridge":                       "^3.0",
+        
+        "sensio/distribution-bundle":                   ">=5",
+        "sensio/framework-extra-bundle":                ">=3",
+        
+        "phpunit/phpunit":                              ">5",
+        
+        "bmatzner/fontawesome-bundle":                  "~4.7"
+    },
+    
+    "scripts": {
+        "post-install-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Mopa\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::postInstallSymlinkTwitterBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+        ],
+        "post-update-cmd": [
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Mopa\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::postInstallSymlinkTwitterBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"            
+        ],
+        "post-create-project-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Mopa\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::postInstallSymlinkTwitterBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+        ]
+    },
+    
+    "extra": {
+        "symfony-app-dir":                          "app",
+        "symfony-bin-dir":                          "bin",
+        "symfony-var-dir":                          "var",
+        "symfony-web-dir":                          "web"
     }
+    
 }

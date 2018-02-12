@@ -1,0 +1,11 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+
+{% if Widget.Options.Editable | default(false) %}
+    {% set RemoveAction = "SplashWidgets_RemoveFromCollection('" ~ Widget.Service ~ "','" ~ Widget.Type ~ "')" %}
+    <button class="btn btn-xs btn-danger" onclick="{{ RemoveAction }}">
+        <i class="fa fa-fw fa-times-circle-o"></i>
+        {{ "remove.label" | trans }}
+    </button>
+{% endif %}        
+
+    

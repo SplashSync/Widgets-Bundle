@@ -1,0 +1,10 @@
+services:
+
+    # Demo Widgets Factroy Service
+    Splash.Widgets.Demo.Factory:
+        class: Splash\Widgets\Services\Demo\SamplesFactoryService
+        arguments: ["@Splash.Widgets.Factory"]   
+#        lazy: true             
+        tags:
+            - { name: kernel.event_listener, event: splash.widgets.list.demo, method: onListingAction }
+

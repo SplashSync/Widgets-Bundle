@@ -1,0 +1,29 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+{% extends "@SplashWidgets/Demo/layout.html.twig" %}   
+
+{#
+    Display Node Profile Title
+#}
+{% block headline %}
+    Widgets Collection Block Demo Page
+{% endblock %}    
+    
+{#
+    Display Node Profile Contents
+#}
+
+{% block content_row %}
+    
+    {{ sonata_block_render({ 'type': 'Splash.Widgets.Blocks.Collection' }, {
+        "title" :   "Sample Widget Block"
+            }) }}
+
+{#    {{ sonata_block_render({ 'type': 'Splash.Widgets.Blocks.Collection' }, {
+        "title" :   "Sample Widget Block 2",
+        "collection" : "demo-block",
+        "menu" :    true,
+        "editable" :false,
+            }) }}#}
+            
+{% endblock %}
+

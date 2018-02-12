@@ -1,0 +1,14 @@
+
+################################################################################
+# Splash Widgets Collections Routes
+splash_widgets_collections_routes:
+    resource: routing/collections.yml
+    prefix:   /
+
+################################################################################
+# Splash Widgets Render Routes
+splash_widgets_widgets_routes:
+    resource: routing/widgets.yml
+    prefix:   /
+
+   

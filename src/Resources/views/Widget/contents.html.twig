@@ -1,0 +1,57 @@
+
+{% if Widget.options.EditMode | default(false) %}
+    {% set Style = "opacity: 1; box-shadow: 10px 35px 5px #D9EDF7; margin-bottom: 5px;" %}
+{% else %}
+    {% set Style = "opacity: 1;" %}
+{% endif %}
+
+<div 
+    class="{{ Widget.Options.Color | default("panel panel-default") }} {#{% if Edit %}bg-color-redLight{% endif %}#}" 
+    style="{{ Style }}"
+    >
+    
+    {# Widget Contents #}
+    {% block widget_container %}
+    
+        {#  Widget Header #}
+        {% block widget_Header %}
+            {% include 'SplashWidgetsBundle:Widget/Core:header.html.twig'%}  
+        {% endblock %}  
+
+
+        {# Widget Contents #}
+        {% block widget_contents %}
+            <div class="row no-padding" >
+                {# Widget Block Row #}
+                {% block widget_row %}
+                    {% if Widget.Blocks is defined %}
+                        {% include 'SplashWidgetsBundle:Widget/Blocks:row.html.twig'%}  
+                    {% endif %}
+                    {% if Widget.Contents is defined %}
+                        {{ Widget.Contents | raw }}  
+                    {% endif %}
+                    
+                {% endblock %}  
+            </div>                    
+        {% endblock %}  
+
+
+        {# Widget Footer #}
+        {% block widget_footer %}
+            {% include 'SplashWidgetsBundle:Widget/Core:footer.html.twig'%}  
+        {% endblock %}  
+
+    {% endblock %}                 
+</div> 
+{% if Widget.options.EditMode | default(false) %}
+{#    <div class="col-xs-12 pull-right text-right text-primary" style="margin-bottom: 10px;">    #}
+    <div class="pull-right hiden-xs hidden-sm" style="margin-bottom: 20px; padding-bottom: 10px; padding-right: 15px;">    
+        {% block widget_buttons %}
+            {% include 'SplashWidgetsBundle:Widget/Buttons:edit.html.twig'%}
+            {% include 'SplashWidgetsBundle:Widget/Buttons:remove.html.twig'%}
+        {% endblock %}  
+    </div> 
+{% endif %}
+
+
+ 

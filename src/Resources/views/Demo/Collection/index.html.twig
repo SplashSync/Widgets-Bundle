@@ -1,0 +1,18 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+{% extends "@SplashWidgets/Demo/layout.html.twig" %}  
+
+{#
+    Display Node Profile Title
+#}
+{% block headline %}
+    Splash Widgets Collections Demo Page
+{% endblock %}    
+    
+{#
+    Display Node Profile Contents
+#}
+
+{% block content_row %}
+    {% include '@SplashWidgets/Demo/Collection/contents.html.twig' %}  
+{% endblock %}
+

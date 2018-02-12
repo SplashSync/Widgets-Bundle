@@ -1,0 +1,8 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+
+{% set Url = path('splash_widgets_render_widget', { 'Service': Widget.Service,  'Type' : Widget.Type, 'Options' : (Widget.Options | json_encode()), "Parameters" : (Widget.Parameters | json_encode()) }) %}
+<button class="btn btn-xs btn-info" onclick="SplashWidgets_AjaxLoading('{{ Widget.Type ~ "-" ~ WidgetId }}','{{ Url }}');">
+    <i class="fa fa-fw fa-refresh"></i>
+</button>
+
+    

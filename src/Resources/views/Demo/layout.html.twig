@@ -1,0 +1,39 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+{% extends "@SplashWidgets/Demo/Layout/base.html.twig" %}   
+
+{% block head_style %}
+    {{ parent() }}
+    {% include 'SplashWidgetsBundle:Layout:stylesheets.html.twig' %}  
+{% endblock head_style %}
+
+{% block head_script %}
+    {{ parent() }}
+{#    {% include 'SplashWidgetsBundle:Layout:javascripts_top.html.twig' %}  #}
+{% endblock head_script %}
+
+{% block foot_script %}
+    {{ parent() }}
+    {% include 'SplashWidgetsBundle:Layout:javascripts_bottom.html.twig' %}          
+{% endblock foot_script %}
+
+{#
+    Display Node Profile Title
+#}
+{% block headline %}
+    OpenWidgets Layout Base
+{% endblock %}    
+    
+{% block body_start %}
+    {% include '@SplashWidgets/Demo/Menu/index.html.twig' %}     
+{% endblock body_start %}
+
+{#
+    Display Node Profile Contents
+#}
+
+{% block content_row %}
+
+    Empty Contents!
+    
+{% endblock %}
+

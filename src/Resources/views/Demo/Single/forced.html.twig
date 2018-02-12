@@ -1,0 +1,31 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+{% extends "@SplashWidgets/Demo/layout.html.twig" %}   
+
+{#
+    Display Node Profile Title
+#}
+{% block headline %}
+    Render Widgets Via Controller. Forced Mode
+{% endblock %}    
+    
+{% block content_row %}
+
+   <h3 class="page-title txt-color-blueDark"><i class="fa fa-fw fa-info-circle "></i>
+        In Forced Mode, Widget is rendered directly during page Loading. 
+    </h3>    
+    <p>
+        This could be long if some of your Widgets have a need time to compute. 
+        Moreover, this is done without caching, so widget will be reloaded on each page loading.
+    </p>
+    <code>
+        Example
+        <PRE>render(controller('SplashWidgetsBundle:View:forced', { 'Service' : "Splash.Widgets.Demo.Factory",  'Type' : "Text" }))</PRE>
+    </code>
+    
+    <div class="row">
+        {% for Widget in Widgets %}
+            {{ render(controller('SplashWidgetsBundle:View:forced', { 'Service' : Widget.service,  'Type' : Widget.type })) }}
+        {% endfor %} 
+    </div>
+{% endblock %}
+
