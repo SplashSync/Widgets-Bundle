@@ -195,7 +195,7 @@ class SamplesFactoryService implements WidgetProviderInterface
             $BlockClass::populateWidgetForm($builder);
         }
         
-        if ( $Type == "SparkBarChartWidget" ) {
+        if ( $Type == "SparkBar" ) {
             SparkBarChartBlock::addHeightFormRow($builder);
             SparkBarChartBlock::addBarWidthFormRow($builder);
             SparkBarChartBlock::addBarColorFormRow($builder);
