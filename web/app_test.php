@@ -16,7 +16,7 @@ if (
 $loader = require __DIR__.'/../app/autoload.php';
 require_once __DIR__.'/../app/AppKernel.php';
 
-$kernel = new AppKernel('test', false);
+$kernel = new AppKernel('test', true);
 if (PHP_VERSION_ID < 70000) {
     $kernel->loadClassCache();
 }

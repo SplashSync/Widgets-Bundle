@@ -1,0 +1,20 @@
+
+#################################################################################
+## TEST : FORCED WIDGET VIEW
+splash_widgets_test_view_forced:
+    path:     /forced/{Service}/{Type}/{Options}/{Parameters}
+    defaults: 
+        _controller:    SplashWidgetsBundle:View:forced
+        Options:        null
+        Parameters:     null      
+        
+#################################################################################
+## TEST : DELAYED WIDGET VIEW
+splash_widgets_test_view_delayed:
+    path:     /delayed/{Service}/{Type}/{Options}/{Parameters}
+    defaults: 
+        _controller:    SplashWidgetsBundle:View:forced
+        Options:        null
+        Parameters:     null      
+        
+   

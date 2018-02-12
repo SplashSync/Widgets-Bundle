@@ -15,3 +15,9 @@ splash_widgets_bundle_core:
 splash_widgets_bundle_demo:
     resource: "@SplashWidgetsBundle/Resources/config/routing/demo.yml"
     prefix:   /    
+    
+################################################################################
+# SPLASH Widget Bundle Test Routes
+splash_widgets_bundle_test:
+    resource: "@SplashWidgetsBundle/Resources/config/routing/test.yml"
+    prefix:   /test/        
