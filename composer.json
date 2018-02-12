@@ -30,7 +30,7 @@
     "require": {
         "php":                                          "^7.0",
         
-        "symfony/symfony":                              "~2.8 | ~3.3 | ~3.4",
+        "symfony/symfony":                              "~2.8 | ~3.0 ",
         "symfony/monolog-bundle":                       ">=2.1",
         "symfony/assetic-bundle":                       ">=2.8",        
         
@@ -51,7 +51,6 @@
     },
     
     "require-dev": {
-        "symfony/symfony":                              ">=2.8 | ~3.0 | ~4.0",
         "symfony/phpunit-bridge":                       "^3.0",
         
         "sensio/distribution-bundle":                   ">=5",

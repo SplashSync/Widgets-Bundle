@@ -55,8 +55,12 @@ class AppKernel extends Kernel
 
             if ('dev' === $this->getEnvironment()) {
                 $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
+            }
+            
+            if ( ('dev' === $this->getEnvironment()) && class_exists("\Symfony\Bundle\WebServerBundle\WebServerBundle") ) {
                 $bundles[] = new Symfony\Bundle\WebServerBundle\WebServerBundle();
             }
+            
         }
 
         return $bundles;
