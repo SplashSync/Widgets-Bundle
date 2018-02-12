@@ -2,7 +2,7 @@
     "name":             "splash/widgets-bundle",
     "description":      "Easy Widgets & Information boxes for Symfony Applications",
     "type":             "symfony-bundle",
-    "keywords":         ["Symfony", "Bundle", "Task", "PHP", "Tasking"],
+    "keywords":         ["Symfony", "Bundle", "Widget", "PHP", "Simple", "Bootstrap"],
     "homepage":         "http://www.splashsync.com",
     "license":          "MIT",
     "prefer-stable":    true,
