@@ -85,6 +85,7 @@ install:
 
 # Run script
 script:
+    - php bin/console cache:clear --no-debug --env=dev
     - phpunit
 
 # After a build, send email notification with the build results
