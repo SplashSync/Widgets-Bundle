@@ -5,11 +5,13 @@
     {% set Style = "opacity: 1;" %}
 {% endif %}
 
+{% if Widget.options.Border %}
 <div 
     class="{{ Widget.Options.Color | default("panel panel-default") }} {#{% if Edit %}bg-color-redLight{% endif %}#}" 
     style="{{ Style }}"
     >
-    
+{% endif %}
+
     {# Widget Contents #}
     {% block widget_container %}
     
@@ -41,8 +43,13 @@
             {% include 'SplashWidgetsBundle:Widget/Core:footer.html.twig'%}  
         {% endblock %}  
 
-    {% endblock %}                 
+    {% endblock %} 
+    
+{% if Widget.options.Border %}
 </div> 
+{% endif %}
+    
+    
 {% if Widget.options.EditMode | default(false) %}
 {#    <div class="col-xs-12 pull-right text-right text-primary" style="margin-bottom: 10px;">    #}
     <div class="pull-right hiden-xs hidden-sm" style="margin-bottom: 20px; padding-bottom: 10px; padding-right: 15px;">    

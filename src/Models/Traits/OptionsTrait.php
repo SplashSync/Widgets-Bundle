@@ -236,6 +236,7 @@ trait OptionsTrait
             'Color'         =>  static::$COLOR_DEFAULT,
             'Header'        =>  True,
             'Footer'        =>  True,
+            'Border'        =>  True,
             'DatePreset'    =>  "M",
             'UseCache'      =>  True,
             'CacheLifeTime' =>  10,

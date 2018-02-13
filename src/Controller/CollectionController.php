@@ -47,6 +47,12 @@ class CollectionController extends Controller
             return new Response("Splash Widgets : Init Failed", 500);
         }
 
+        foreach ($this->Collection->getWidgets() as &$Widget) {
+            $Widget->mergeOptions( [ 
+                "Editable" => True,
+                "EditMode" => False
+                    ]);
+        }         
         //==============================================================================
         // Render Response 
         return $this->render('SplashWidgetsBundle:View:collection.html.twig', array(
