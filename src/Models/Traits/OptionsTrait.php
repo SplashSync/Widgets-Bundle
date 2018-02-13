@@ -156,32 +156,11 @@ trait OptionsTrait
      */
     public function setOptions($options = Null)
     {
+        
         //==============================================================================
-        //  Check Options is ArrayObject
-        if ( is_a($options, "ArrayObject") ) {
-            $options = $options->getArrayCopy();
-        }             
-        //==============================================================================
-        //  Check Options Array not Empty or Not an Array
-        if ( empty($options) || !is_array($options) ) {
-            $this->options  =   $this->getDefaultOptions();
-            return $this;
-        }         
-        //==============================================================================
-        //  Init Options Array using OptionResolver
-        $resolver = new OptionsResolver();
-        //==============================================================================
-        //  Configure OptionResolver
-        $resolver->setDefaults( $this->getDefaultOptions() );
-        //==============================================================================
-        //  Update Options Array using OptionResolver        
-        try {
-            $this->options  =   $resolver->resolve($options);
-        } catch (UndefinedOptionsException $ex) {
-            $this->options  =   $this->getDefaultOptions();
-        } catch (InvalidOptionsException $ex) {
-            $this->options  =   $this->getDefaultOptions();
-        }
+        //  Update Options Array using OptionResolver 
+        $this->options  =   $this->validateOptions($options);
+        
         return $this;
     }    
     
@@ -192,20 +171,57 @@ trait OptionsTrait
      */
     public function getOptions()
     {
-        return $this->options;
+        return $this->validateOptions($this->options);
     }    
     
+    /**
+     * validate Widget Options
+     *
+     * @param array $options        User Defined Options
+     *
+     * @return array
+     */
+    public function validateOptions($options = Null) : array
+    {
+        //==============================================================================
+        //  Check Options is ArrayObject
+        if ( is_a($options, "ArrayObject") ) {
+            $options = $options->getArrayCopy();
+        }             
+        //==============================================================================
+        //  Check Options Array not Empty or Not an Array
+        if ( empty($options) || !is_array($options) ) {
+            return  $this->getDefaultOptions();
+        }         
+        //==============================================================================
+        //  Init Options Array using OptionResolver
+        $resolver = new OptionsResolver();
+        //==============================================================================
+        //  Configure OptionResolver
+        $resolver->setDefaults( $this->getDefaultOptions() );
+        //==============================================================================
+        //  Update Options Array using OptionResolver        
+        try {
+            return  $resolver->resolve($options);
+        } catch (UndefinedOptionsException $ex) {
+            return  $this->getDefaultOptions();
+        } catch (InvalidOptionsException $ex) {
+            return $this->getDefaultOptions();
+        }
+        
+        return $this->getDefaultOptions();
+    }    
     
     /**
      * Update Widget Options With Given Values
      * 
-     * @param array $options        User Defined Options
+     * @param array $Options        User Defined Options
      * 
      * @return  Array
      */
     public function mergeOptions($Options = array())
     {
-        return $this->setOptions(array_merge($this->options, $Options));
+        return $this->setOptions(array_merge($this->getOptions(), $Options));
     }     
     
     /**
