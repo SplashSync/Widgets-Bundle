@@ -141,14 +141,16 @@ class ViewController extends Controller
                     "Options"   =>  $WidgetOptions,
                 ));
         }
-
+        
         //==============================================================================
         // Setup Widget Options 
-        $Widget->mergeOptions( json_decode($Options, True) );
-            
+        if ( !is_null($Options) && !empty(json_decode($Options, True)) ) {
+            $Widget->mergeOptions( json_decode($Options, True) );
+        }
+        
         //==============================================================================
         // Update Cache 
-        if( !isset($WidgetOptions["EditMode"]) || !$WidgetOptions["EditMode"]) {
+        if( !$WidgetOptions["EditMode"]) {
             //==============================================================================
             // Generate Widget Raw Contents 
             $Contents = $this->renderView('SplashWidgetsBundle:Widget/Blocks:row.html.twig', array(

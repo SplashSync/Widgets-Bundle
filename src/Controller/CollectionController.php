@@ -46,7 +46,7 @@ class CollectionController extends Controller
         if (!$this->initialize($CollectionId)) {
             return new Response("Splash Widgets : Init Failed", 500);
         }
-        
+
         //==============================================================================
         // Render Response 
         return $this->render('SplashWidgetsBundle:View:collection.html.twig', array(
