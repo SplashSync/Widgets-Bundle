@@ -146,7 +146,7 @@ class ViewController extends Controller
         
         //==============================================================================
         // Update Cache 
-        if(!$WidgetOptions["EditMode"]) {
+        if( !isset($WidgetOptions["EditMode"]) || !$WidgetOptions["EditMode"]) {
             //==============================================================================
             // Generate Widget Raw Contents 
             $Contents = $this->renderView('SplashWidgetsBundle:Widget/Blocks:row.html.twig', array(
