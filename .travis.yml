@@ -48,6 +48,9 @@ matrix:
     # Fast finish allows to set the build as "finished" even if the "allow_failures" matrix elements are not finished yet.
     fast_finish: true
 
+before_script:
+    - phpenv config-rm xdebug.ini
+  
 before_install:
     # Update composer
     - composer self-update
