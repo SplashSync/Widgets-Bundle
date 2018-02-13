@@ -47,6 +47,7 @@ class WidgetDatesType extends AbstractType
                     "dates.LW"      =>      "LW", 
                     "dates.L2W"     =>      "L2W", 
                     "dates.LM"      =>      "LM", 
+                    "dates.LY"      =>      "LY", 
                     "dates.PD"      =>      "PD", 
                     "dates.PW"      =>      "PW", 
                     "dates.PM"      =>      "PM", 

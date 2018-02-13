@@ -20,6 +20,7 @@ use Splash\Widgets\Models\Interfaces\WidgetProviderInterface;
  */
 class ManagerService 
 {
+    
     //====================================================================//
     //  GENERIC WIDGETS LISTING TAGS
     //====================================================================//
@@ -134,14 +135,26 @@ class ManagerService
      */
     public function Read(string $Type, $Parameters = Null)
     {
+        //==============================================================================
+        // Check Servive is Defined 
         if ( !$this->Service ) {
             return False;
         } 
-        $this->Widget =   $this->Service->getWidget($Type, $Parameters);
+        
+        //==============================================================================
+        // Convert Date Preset to Dates and push top Parameters Array 
+        $BlockParameters = Widget::addDatesPresets($Parameters);
+        
+        //==============================================================================
+        // Build Widget From Service 
+        $this->Widget =   $this->Service->getWidget($Type, $BlockParameters);
         if ( empty($this->Widget) || !is_a($this->Widget, Widget::class)  ) {
             return False;
         }  
-        if ( $Parameters ) {
+        
+        //==============================================================================
+        // Store Paremeter in Widget From Rendering 
+        if ( $BlockParameters ) {
             $this->Widget->setParameters($Parameters);
         } 
         return True;

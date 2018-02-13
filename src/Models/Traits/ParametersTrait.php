@@ -59,6 +59,12 @@ trait ParametersTrait
             "DateFormat"    => "Y-m-d", 
             "GroupBy"       => "d"
             ],
+        "LY"     =>  [
+            "DateStart"     => "-1 year",          
+            "DateEnd"       => "", 
+            "DateFormat"    => "Y-m", 
+            "GroupBy"       => "m"
+            ],
         "L2W"     =>  [
             "DateStart"     => "-2 week",          
             "DateEnd"       => "", 
@@ -155,6 +161,21 @@ trait ParametersTrait
         ];
 
     }    
+    
+    /**
+     * @abstract Add Dates Array From Presets
+     *
+     * @param array $Parameters with Dates Preset     
+     * 
+     * @return array
+     */
+    public static function addDatesPresets($Parameters = array())
+    {
+        if ( isset($Parameters["DatePreset"]) && self::isPreset($Parameters["DatePreset"])) {
+            return array_merge($Parameters, self::getDatesArray($Parameters["DatePreset"]) );
+        }
+        return $Parameters;
+    }   
     
     /**
      * Set Parameter

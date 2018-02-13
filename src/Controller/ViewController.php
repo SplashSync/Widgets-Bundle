@@ -129,9 +129,6 @@ class ViewController extends Controller
             $WidgetOptions = Widget::getDefaultOptions();
         } else {
             $WidgetOptions = json_decode($Options, True);
-            //==============================================================================
-            // Setup Widget Options 
-            $Widget->mergeOptions( json_decode($Options, True) );
         }    
         
         //==============================================================================
@@ -139,11 +136,16 @@ class ViewController extends Controller
         if ( empty($Widget) || !is_a($Widget, Widget::class)  ) {
             $Widget =   $this->get("Splash.Widgets.Factory")->buildErrorWidget($Service, $Type, "An Error Occured During Widget Loading");
             return $this->render('SplashWidgetsBundle:Widget:contents.html.twig', array(
+                    "WidgetId"  => WidgetCache::buildDiscriminator($WidgetOptions, $WidgetParameters),
                     "Widget"    =>  $Widget,
                     "Options"   =>  $WidgetOptions,
                 ));
         }
-        
+
+        //==============================================================================
+        // Setup Widget Options 
+        $Widget->mergeOptions( json_decode($Options, True) );
+            
         //==============================================================================
         // Update Cache 
         if( !isset($WidgetOptions["EditMode"]) || !$WidgetOptions["EditMode"]) {
