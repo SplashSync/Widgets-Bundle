@@ -42,6 +42,7 @@ class MorrisBaseBlock extends BaseBlock
         'Width'             => "col-sm-12 col-md-12 col-lg-12",
         "AllowHtml"         => False,    
         "ChartOptions"      => array(
+            "hideHover"     =>  True
         ),
     );
 
