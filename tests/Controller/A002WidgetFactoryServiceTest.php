@@ -145,6 +145,7 @@ class A002WidgetFactoryServiceTest extends KernelTestCase
             'Color'         =>  "#666666",
             'Header'        =>  False,
             'Footer'        =>  False,
+            'Border'        =>  True,
             'DatePreset'    =>  "D",
             'UseCache'      =>  False,
             'CacheLifeTime' =>  3,
