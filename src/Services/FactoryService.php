@@ -3,6 +3,7 @@
 namespace Splash\Widgets\Services;
 
 use Splash\Widgets\Entity\Widget;
+use Splash\Widgets\Models\Blocks\BaseBlock;
 
 /*
  * Widget Factory Service
@@ -128,7 +129,7 @@ class FactoryService
      *
      * @param array     $Blocks
      *
-     * @return Block
+     * @return $this
      */
     public function addBlocks($Blocks)
     {
@@ -167,7 +168,7 @@ class FactoryService
      * @param array     $Contents
      * 
      *
-     * @return Block
+     * @return BaseBlock
      */
     public function addBlock($Type, $Options = Null, $Contents = Null )
     {
