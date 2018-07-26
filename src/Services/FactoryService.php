@@ -11,22 +11,19 @@ use Splash\Widgets\Models\Blocks\BaseBlock;
 class FactoryService
 {
         
-    /*
-     *  Widget Class 
-     * 
+    /**
      *  @var Widget
      */
     protected $widget;
 
-    /*
-     *  Widget Block 
-     * 
-     *  @var Widget
+    /**
+     *  @var BaseBlock
      */
     protected $block;
     
-    /*
+    /**
      *  Fault String
+     * @var string
      */
     public $fault_str;    
 
@@ -56,7 +53,7 @@ class FactoryService
      * @param array     $Options
      * @param array     $Contents
      *
-     * @return Widgets
+     * @return self
      */
     public function Create($Options = Null, $Contents = Null )
     {
@@ -129,7 +126,7 @@ class FactoryService
      *
      * @param array     $Blocks
      *
-     * @return $this
+     * @return self
      */
     public function addBlocks($Blocks)
     {
