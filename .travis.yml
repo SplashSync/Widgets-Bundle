@@ -24,11 +24,11 @@ env:
 matrix:
     include:     
           
-        # Symfony 3.3 Branch       
-        - php: 7.0
-          env: SF_VERSION="3.3.*"        
-        - php: 7.1
-          env: SF_VERSION="3.3.*"        
+#        # Symfony 3.3 Branch       
+#        - php: 7.0
+#          env: SF_VERSION="3.3.*"        
+#        - php: 7.1
+#          env: SF_VERSION="3.3.*"        
           
         # Symfony 3.4 Branch       
         - php: 7.1
