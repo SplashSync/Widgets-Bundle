@@ -45,14 +45,14 @@ class B001ViewControllerTest extends WebTestCase
         //====================================================================//
         // Wrong Service Name
         $this->assertViewFailed(array(
-            "Service" => SamplesFactory::SERVICE.".Wrong",
-            "Type" => "Test",
+            "service" => SamplesFactory::SERVICE.".Wrong",
+            "type" => "Test",
         ));
         //====================================================================//
         // Wrong Widget Type
         $this->assertViewFailed(array(
-            "Service" => SamplesFactory::SERVICE,
-            "Type" => "Test".".Wrong",
+            "service" => SamplesFactory::SERVICE,
+            "type" => "Test".".Wrong",
         ));
     }
 
@@ -71,10 +71,10 @@ class B001ViewControllerTest extends WebTestCase
         //====================================================================//
         // Build Route Parameters
         $params = array(
-            "Service" => $service,
-            "Type" => $type,
-            "Options" => json_encode($options),
-            "Parameters" => json_encode($parameters),
+            "service" => $service,
+            "type" => $type,
+            "options" => json_encode($options),
+            "parameters" => json_encode($parameters),
         );
 
         //====================================================================//
@@ -155,7 +155,7 @@ class B001ViewControllerTest extends WebTestCase
      */
     public function assertViewFailed(array $parameters) : void
     {
-        $xPath = '//*[@data-id="'.$parameters["Type"].'"]';
+        $xPath = '//*[@data-id="'.$parameters["type"].'"]';
         //====================================================================//
         // Render Forced
         $forcedCrawler = $this->assertRouteWorks("splash_widgets_test_view_forced", $parameters);

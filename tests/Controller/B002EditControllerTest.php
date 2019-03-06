@@ -48,8 +48,8 @@ class B002EditControllerTest extends WebTestCase
         //====================================================================//
         // Build Route Parameters
         $params = array(
-            "Service" => $service,
-            "Type" => $type,
+            "service" => $service,
+            "type" => $type,
         );
 
         //====================================================================//

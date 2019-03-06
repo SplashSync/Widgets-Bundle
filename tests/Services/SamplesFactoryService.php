@@ -25,7 +25,6 @@ class SamplesFactoryService extends Base
 {
     const PREFIX = "Splash\\Widgets\\Tests\\Blocks\\";
     const SERVICE = "Splash.Widgets.Test.Factory";
-
     const ORIGIN = "<i class='fa fa-github text-success' aria-hidden='true'>&nbsp;</i>Tests Factory";
 
     /**

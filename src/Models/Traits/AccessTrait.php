@@ -100,7 +100,7 @@ trait AccessTrait
      */
     public function getType() : string
     {
-        return $this->type;
+        return (string) $this->type;
     }
 
     /**

@@ -88,18 +88,18 @@ class SamplesFactoryService implements WidgetProviderInterface
      */
     public function buildWidgetDefinition(string $type, string $name = null, string $desc = null, array $options = array()) : FactoryService
     {
-        $blockClass = self::PREFIX.$type;
+        $blockClass = static::PREFIX.$type;
 
         if (class_exists($blockClass)) {
             $this->factory
                 ->create()
-                ->setService(self::SERVICE)
+                ->setService(static::SERVICE)
                 ->setType($blockClass::TYPE)
                 ->setTitle($blockClass::TITLE)
                 ->setIcon($blockClass::ICON)
                 ->setName($blockClass::TITLE)
                 ->setDescription($blockClass::DESCRIPTION)
-                ->setOrigin(self::ORIGIN)
+                ->setOrigin(static::ORIGIN)
                 ->setOptions($this->getWidgetOptions($type))
                 ;
         }
@@ -114,7 +114,7 @@ class SamplesFactoryService implements WidgetProviderInterface
     {
         //====================================================================//
         // If Widget Exists
-        $blockClass = self::PREFIX.$type;
+        $blockClass = static::PREFIX.$type;
         if (class_exists($blockClass)) {
             $this->buildWidgetDefinition($type);
 
@@ -133,7 +133,7 @@ class SamplesFactoryService implements WidgetProviderInterface
     {
         //====================================================================//
         // If Widget Exists
-        $blockClass = self::PREFIX.$type;
+        $blockClass = static::PREFIX.$type;
         if (class_exists($blockClass)) {
             $class = new $blockClass();
             if (method_exists($class, "getOptions")) {
@@ -181,7 +181,7 @@ class SamplesFactoryService implements WidgetProviderInterface
      */
     public function populateWidgetForm(FormBuilderInterface $builder, string $type) : void
     {
-        $blockClass = self::PREFIX.$type;
+        $blockClass = static::PREFIX.$type;
 
         if (class_exists($blockClass)) {
             $blockClass::populateWidgetForm($builder);

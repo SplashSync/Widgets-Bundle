@@ -111,7 +111,7 @@ trait ContainerAwareTrait
     {
         if (!isset($this->factory)) {
             $this->factory = $this->getContainer()->get('Splash.Widgets.Factory');
-            if (!($this->factory instanceof ManagerService)) {
+            if (!($this->factory instanceof FactoryService)) {
                 throw new Exception("Unable to Load Widget Factory Service");
             }
         }

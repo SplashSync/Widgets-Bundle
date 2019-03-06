@@ -3,8 +3,8 @@ services:
     # Test Widgets Factroy Service
     Splash.Widgets.Test.Factory:
         class: Splash\Widgets\Tests\Services\SamplesFactoryService
-        arguments: ["@Splash.Widgets.Factory"]   
-#        lazy: true             
+        arguments: ["@Splash.Widgets.Factory"]             
+        public:     true
         tags:
             - { name: kernel.event_listener, event: splash.widgets.list.test,   method: onListingAction }
             - { name: kernel.event_listener, event: splash.widgets.list.tested, method: onListingAction }
