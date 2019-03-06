@@ -43,14 +43,12 @@ class EditController extends Controller
      * @param string $service
      *
      * @return bool
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function initialize(string $service) : bool
     {
         $this->factory = $this->get("Splash.Widgets.Factory");
 
-        return true;
+        return !empty($service);
     }
 
     //==============================================================================
@@ -70,7 +68,7 @@ class EditController extends Controller
     {
         //==============================================================================
         // Init & Safety Check
-        if (!$this->initialize($service)) {
+        if (false == $this->initialize($service)) {
             return new Response("Error... ", 400);
         }
         //==============================================================================
@@ -98,7 +96,7 @@ class EditController extends Controller
     {
         //==============================================================================
         // Init & Safety Check
-        if (true != $this->initialize($service)) {
+        if (false == $this->initialize($service)) {
             return new Response("Error... ", 400);
         }
         //==============================================================================

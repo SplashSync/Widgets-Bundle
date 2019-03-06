@@ -162,10 +162,8 @@ class FactoryService
                 continue;
             }
             //====================================================================//
-            // Check Block Contents are Valid
-            if (!isset($block["options"]) || empty($block["options"])) {
-                $block["options"] = null;
-            }
+            // Normalize Block Contents
+            self::toArray($block);
             //====================================================================//
             // Add Block To Widget
             $this->addBlock($block["type"], $block["options"], $block["data"]);
@@ -256,22 +254,46 @@ class FactoryService
     /**
      * Verify Block Contents are Valid
      *
-     * @param array $block
+     * @param null|array|ArrayObject $block
      *
      * @return bool
      */
-    private static function isValidBlock(array $block) : bool
+    private static function isValidBlock($block) : bool
     {
+        if (!is_iterable($block)) {
+            return false;
+        }
         if (!isset($block["type"]) || !isset($block["data"])) {
             return false;
         }
         if (empty($block["type"]) || empty($block["data"])) {
             return false;
         }
-        if (isset($block["options"]) && !is_array($block["options"])) {
+        if (isset($block["options"]) && !is_iterable($block["options"])) {
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * Normalize Block Contents to Array
+     *
+     * @param array|ArrayObject $block
+     *
+     * @return array
+     */
+    private static function toArray(&$block) : void
+    {
+        //====================================================================//
+        // Normalize Block
+        if ($block instanceof ArrayObject) {
+            $block = $block->getArrayCopy();
+        }
+        if (is_iterable($block)) {
+            foreach ($block as &$item) {
+                self::toArray($item);
+            }
+        }
     }
 }
