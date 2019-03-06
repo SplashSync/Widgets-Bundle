@@ -1,18 +1,21 @@
 <?php
 
 /*
- * This file is part of the Splash Sync project.
+ *  This file is part of SplashSync Project.
  *
- * (c) Bernard Paquier <pro@bernard-paquier.fr>
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
 
 namespace Splash\Widgets\Models;
 
 use Splash\Widgets\Entity\Widget;
-
 use Splash\Widgets\Models\Traits\AccessTrait;
 use Splash\Widgets\Models\Traits\CacheTrait;
 use Splash\Widgets\Models\Traits\DefinitionTrait;
@@ -20,45 +23,55 @@ use Splash\Widgets\Models\Traits\OptionsTrait;
 use Splash\Widgets\Models\Traits\ParametersTrait;
 
 /**
- * Widget Contents Cache Model 
- * 
+ * Widget Contents Cache Model
+ *
  * @author Bernard Paquier <pro@bernard-paquier.fr>
  */
 class WidgetCacheBase
 {
-    
     use AccessTrait;
     use CacheTrait;
     use DefinitionTrait;
     use OptionsTrait;
     use ParametersTrait;
-    
-    public function __construct(Widget $Widget = Null)
+
+    //==============================================================================
+    //      CONSTRUCTOR
+    //==============================================================================
+
+    /**
+     * Class Cosntructor
+     *
+     * @param Widget $widget
+     */
+    public function __construct(Widget $widget = null)
     {
-        if (!$Widget){
-            return $this;
-        } 
-        
-        $this->setDefinition($Widget);
-        
-        return $this;
-    }   
-    
-    public function setDefinition(Widget $Widget) {
-        
-        $this
-            ->setService($Widget->getService())
-            ->setType($Widget->getType())
-            ->setName($Widget->getName())
-            ->setDescription($Widget->getName())
-            ->setTitle($Widget->getTitle())
-            ->setSubTitle($Widget->getSubTitle())
-            ->setIcon($Widget->getIcon())
-            ->setOrigin($Widget->getOrigin())
-            ->setOptions($Widget->getOptions())
-            ;
-                
-        return $this;                
+        if ($widget) {
+            $this->setDefinition($widget);
+        }
     }
 
+    /**
+     * Setup Widget Definition
+     *
+     * @param Widget $widget
+     *
+     * @return $this
+     */
+    public function setDefinition(Widget $widget) : self
+    {
+        $this
+            ->setService($widget->getService())
+            ->setType($widget->getType())
+            ->setName($widget->getName())
+            ->setDescription($widget->getName())
+            ->setTitle($widget->getTitle())
+            ->setSubTitle($widget->getSubTitle())
+            ->setIcon($widget->getIcon())
+            ->setOrigin($widget->getOrigin())
+            ->setOptions($widget->getOptions())
+        ;
+
+        return $this;
+    }
 }

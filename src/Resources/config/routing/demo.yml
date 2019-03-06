@@ -1,8 +1,4 @@
-
-
-
-    
-        
+      
 #################################################################################
 ## COLLECTIONS : DISPLAY OF COLLECTIONS By CONTROLLER 
 splash_widgets_demo_home:
@@ -15,7 +11,7 @@ splash_widgets_demo_collection:
     
 splash_widgets_demo_collection_edit:
     path:     /collection/edit
-    defaults: { _controller: SplashWidgetsBundle:Demo:collection_edit } 
+    defaults: { _controller: SplashWidgetsBundle:Demo:collectionEdit } 
 
 
 #################################################################################

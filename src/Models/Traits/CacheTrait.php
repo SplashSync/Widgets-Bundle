@@ -1,202 +1,226 @@
 <?php
 
 /*
- * This file is part of the Splash Sync project.
+ *  This file is part of SplashSync Project.
  *
- * (c) Bernard Paquier <pro@bernard-paquier.fr>
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
 
 namespace Splash\Widgets\Models\Traits;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-
 use Splash\Widgets\Entity\Widget;
 
 /**
- * @abstract Widget Access Trait - Defin access to a Widget 
- * 
+ * Widget Cache Access Trait - Define access to a Widget Cached Informations
+ *
  * @author Bernard Paquier <pro@bernard-paquier.fr>
  */
 trait CacheTrait
 {
-    
     /**
-     * @abstract    Widget Human Readable Name
+     * Widget Human Readable Name
+     *
      * @var string
+     *
      * @ORM\Column(name="name", type="string", length=250, nullable=true)
      */
     protected $name;
 
     /**
-     * @abstract    Widget Human Readable Description
+     * Widget Human Readable Description
+     *
      * @var string
+     *
      * @ORM\Column(name="description", type="string", length=250, nullable=true)
      */
-    protected $description;    
-    
+    protected $description;
+
     /**
-     * @abstract    Widget Header Title
+     * Widget Header Title
+     *
      * @var string
+     *
      * @ORM\Column(name="title", type="string", length=250, nullable=true)
      */
     protected $title;
-    
+
     /**
-     * @abstract    Widget Header Sub-Title
+     * Widget Header Sub-Title
+     *
      * @var string
+     *
      * @ORM\Column(name="subtitle", type="string", length=250, nullable=true)
      */
-    protected $subtitle;    
-    
+    protected $subtitle;
+
     /**
-     * @abstract    Widget Header Icon
+     * Widget Header Icon
+     *
      * @var string
+     *
      * @ORM\Column(name="icon", type="string", length=250, nullable=true)
      */
-    protected $icon;  
-    
+    protected $icon;
+
     /**
-     * @abstract    Widget Source/Origin
+     * Widget Source/Origin
+     *
      * @var string
+     *
      * @ORM\Column(name="origin", type="string", length=250, nullable=true)
      */
     protected $origin;
-    
+
     //==============================================================================
-    //      Variables  
+    //      Variables
     //==============================================================================
-    
-    /**
-     * @abstract    Widget Discriminator (Identify if refresh is needed)
-     * @var         string
-     * @ORM\Column(name="discriminator", type="string", length=250, nullable=true)
-     */
-    protected $discriminator   =   Null;
 
     /**
-     * @abstract    Widget Cache Contents
-     * @var         string
+     * Widget Discriminator (Identify if refresh is needed)
+     *
+     * @var string
+     *
+     * @ORM\Column(name="discriminator", type="string", length=250, nullable=true)
+     */
+    protected $discriminator;
+
+    /**
+     * Widget Cache Contents
+     *
+     * @var string
+     *
      * @ORM\Column(name="contents", type="text")
      */
-    protected $contents   =   Null;
-    
+    protected $contents;
+
     /**
-     * @var \DateTime
+     * Refreshed Date
+     *
+     * @var null|DateTime
+     *
      * @ORM\Column(name="refreshAt", type="datetime")
      */
-    protected $refreshAt       =    Null;
-    
+    protected $refreshAt;
+
     /**
-     * @var \DateTime
+     * Cache Expiration Date
+     *
+     * @var null|DateTime
+     *
      * @ORM\Column(name="expireAt", type="datetime")
      */
-    protected $expireAt       =    Null;
-       
+    protected $expireAt;
+
     //==============================================================================
-    //      Data Operations  
+    //      Data Operations
     //==============================================================================
-    
+
     /**
-     * @abstract    Build Widget Disctriminator
-     * 
-     * @param array     $Options        Widget Options Array
-     * @param array     $Parameters     Widget Parameters Array
-     * 
-     * @return  self
+     * Build Widget Disctriminator
+     *
+     * @param array $options    Widget Options Array
+     * @param array $parameters Widget Parameters Array
+     *
+     * @return string
      */
-    public static function buildDiscriminator(array $Options, array $Parameters)
+    public static function buildDiscriminator(array $options, array $parameters) : string
     {
-        return md5(serialize($Options) . serialize($Parameters));
-    }   
-        
+        return (string) md5(serialize($options).serialize($parameters));
+    }
+
     //==============================================================================
-    //      Getters & Setters  
+    //      Getters & Setters
     //==============================================================================
-    
+
     /**
-     * @abstract    Set Widget Disctriminator
-     * 
-     * @param string $discriminator 
-     * 
-     * @return  self
+     * Set Widget Disctriminator
+     *
+     * @param string $discriminator
+     *
+     * @return $this
      */
-    public function setDiscriminator($discriminator)
+    public function setDiscriminator($discriminator) : self
     {
         $this->discriminator = $discriminator;
+
         return $this;
-    }   
-    
+    }
+
     /**
      * @abstract    Get Widget Disctriminator
-     * 
-     * @return  string
+     *
+     * @return string
      */
-    public function getDiscriminator()
+    public function getDiscriminator() : string
     {
         return $this->discriminator;
-    }   
-    
+    }
+
     /**
      * @abstract    Set Widget Cached Contents
-     * 
-     * @param string $contents 
-     * 
-     * @return  self
+     *
+     * @param string $contents
+     *
+     * @return self
      */
-    public function setContents($contents)
+    public function setContents($contents) : self
     {
         $this->contents = base64_encode($contents);
+
         return $this;
-    }   
-    
+    }
+
     /**
      * @abstract    Get Widget Cached Contents
-     * 
-     * @return  string
+     *
+     * @return string
      */
-    public function getContents()
+    public function getContents() : string
     {
-        return base64_decode($this->contents);
-    }   
-    
+        return (string) base64_decode($this->contents, true);
+    }
+
     /**
      * Set refreshAt
      *
-     * @param \DateTime $refreshAt
+     * @param null|DateTime $refreshAt
      *
-     * @return Report
+     * @return $this
      */
-    public function setRefreshAt($refreshAt = Null)
+    public function setRefreshAt($refreshAt = null) : self
     {
-        if ( $refreshAt ) {
-            $this->refreshAt = $refreshAt;
-        } else {
-            $this->refreshAt = new \DateTime();
-        }
+        $this->refreshAt = $refreshAt ? $refreshAt : new DateTime();
+
         return $this;
     }
 
     /**
      * Get refreshAt
      *
-     * @return \DateTime
+     * @return null|DateTime
      */
-    public function getRefreshAt()
+    public function getRefreshAt() : ?DateTime
     {
         return $this->refreshAt;
     }
-    
+
     /**
      * Set expireAt
      *
-     * @param \DateTime $expireAt
+     * @param DateTime $expireAt
      *
-     * @return Report
+     * @return $this
      */
-    public function setExpireAt(\DateTime $expireAt)
+    public function setExpireAt(DateTime $expireAt) : self
     {
         $this->expireAt = $expireAt;
 
@@ -206,12 +230,10 @@ trait CacheTrait
     /**
      * Get expireAt
      *
-     * @return \DateTime
+     * @return null|DateTime
      */
-    public function getExpireAt()
+    public function getExpireAt() : ?DateTime
     {
         return $this->expireAt;
     }
-    
-    
 }

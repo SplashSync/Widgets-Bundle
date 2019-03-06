@@ -1,12 +1,16 @@
 <?php
 
 /*
- * This file is part of the Splash Sync project.
+ *  This file is part of SplashSync Project.
  *
- * (c) Bernard Paquier <pro@bernard-paquier.fr>
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
 
 namespace Splash\Widgets\Models\Traits;
@@ -14,39 +18,31 @@ namespace Splash\Widgets\Models\Traits;
 use Doctrine\ORM\Mapping                        as ORM;
 
 /**
- * @abstract Widget Position Trait 
- * 
+ * Widget Position Trait
+ *
  * @author Bernard Paquier <pro@bernard-paquier.fr>
  */
 trait PositionTrait
 {
-    //==============================================================================
-    //      Constants  
-    //==============================================================================
-
-    //==============================================================================
-    //      Variables  
-    //==============================================================================
-
     /**
-     * @var integer 
+     * @var int
      *
      * @ORM\Column(name="position", type="integer", nullable=TRUE)
      */
     protected $position;
 
     //==============================================================================
-    //      Getters & Setters  
+    //      Getters & Setters
     //==============================================================================
 
     /**
      * Set Position
      *
-     * @param integer $position
+     * @param int $position
      *
      * @return self
      */
-    public function setPosition($position)
+    public function setPosition(int $position) : self
     {
         $this->position = $position;
 
@@ -56,11 +52,10 @@ trait PositionTrait
     /**
      * Get sortorder
      *
-     * @return integer
+     * @return int
      */
-    public function getPosition()
+    public function getPosition() : int
     {
         return $this->position;
     }
-
 }

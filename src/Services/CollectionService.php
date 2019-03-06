@@ -1,241 +1,270 @@
 <?php
 
+/*
+ *  This file is part of SplashSync Project.
+ *
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Splash\Widgets\Services;
 
-use Symfony\Component\Form\FormBuilderInterface;
-
+use Doctrine\ORM\EntityRepository;
+use Exception;
 use Splash\Widgets\Entity\Widget;
 use Splash\Widgets\Models\Interfaces\WidgetProviderInterface;
-use Splash\Widgets\Services\FactoryService;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Form\FormBuilderInterface;
 
-
-/*
- * @abstract Widgets Collection Service
+/**
+ * Widgets Collection Service
  */
 class CollectionService implements WidgetProviderInterface
 {
-    
     /**
      * WidgetFactory Service
-     * 
-     * @var Splash\Widgets\Services\FactoryService 
-     */    
-    private $Factory;
-    
+     *
+     * @var FactoryService
+     */
+    private $factory;
+
     /**
      * Widgets Collections Repository
-     */    
+     *
+     * @var EntityRepository
+     */
     private $repository;
 
     /**
      * Service Container
-     */    
+     *
+     * @var ContainerInterface
+     */
     private $container;
 
     /**
      * Widget Collection
+     *
      * @var \Splash\Widgets\Entity\WidgetCollection
-     */    
-    private $collection;
-    
-    
-    /*
-     *  Fault String
      */
-    public $fault_str;    
+    private $collection;
 
-//====================================================================//
-//  CONSTRUCTOR
-//====================================================================//
-    
+    //====================================================================//
+    //  CONSTRUCTOR
+    //====================================================================//
+
     /**
-     * @abstract    Class Constructor
-     */    
-    public function __construct(FactoryService $WidgetFactory, $WidgetsRepository, $ServiceContainer) { 
-        
+     * Class Constructor
+     *
+     * @param FactoryService     $widgetFactory
+     * @param EntityRepository   $repository
+     * @param ContainerInterface $container
+     */
+    public function __construct(FactoryService $widgetFactory, EntityRepository $repository, ContainerInterface $container)
+    {
         //====================================================================//
         // Link to WidgetFactory Service
-        $this->Factory = $WidgetFactory;
-
+        $this->factory = $widgetFactory;
         //====================================================================//
         // Link to Service Container
         //====================================================================//
         // Link to Widget Repository
-        $this->repository = $WidgetsRepository;
-        
+        $this->repository = $repository;
         //====================================================================//
         // Link to Service Container
-        $this->container = $ServiceContainer;
-        
-        return True;
-    }    
+        $this->container = $container;
+    }
 
     /**
-     *      @abstract   Laod Widget definition
-     * 
-     *      @param      string  $Type         Widgets Type Identifier 
-     * 
-     *      @return     Widget 
-     */    
-    public function getDefinition($Type)
+     * Load Widget definition
+     *
+     * @param string $type Widgets Type Identifier
+     *
+     * @return null|Widget
+     */
+    public function getDefinition(string $type) : ?Widget
     {
         //====================================================================//
-        // Check Type is On Right Format        
-        $Id = explode("@", $Type);
-        if ( count($Id) != 2 ) {
-            return Null;
-        } 
+        // Check Type is On Right Format
+        $widgetId = explode("@", $type);
+        if (2 != count($widgetId)) {
+            return null;
+        }
         //====================================================================//
-        // Load Widget Collection              
-        $this->collection  = $this->repository->find($Id[1]);
+        // Load Widget Collection
+        $this->collection = $this->repository->find($widgetId[1]);
         //====================================================================//
-        // Load Widget Definition from Collection              
-        return $this->collection->getWidget($Id[0]);
-    }     
-    
+        // Load Widget Definition from Collection
+        return $this->collection->getWidget($widgetId[0]);
+    }
+
     /**
-     * @abstract   Read Widget Contents
-     * 
-     * @param      string   $Type               Widgets Type Identifier 
-     * @param      array    $Parameters         Widget Parameters
-     * 
-     * @return     Widget 
-     */    
-    public function getWidget(string $Type, $Parameters = Null)
+     * Read Widget Contents
+     *
+     * @param string $type       Widgets Type Identifier
+     * @param array  $parameters Widget Parameters
+     *
+     * @return null|Widget
+     */
+    public function getWidget(string $type, array $parameters = null): ?Widget
     {
-        if ( !($Definition = $this->getDefinition($Type)) ) {
-            return $this->Factory->buildErrorWidget("Collections", $Type, "Unable to Find Widget Definition");
-        } 
+        //==============================================================================
+        // Load Widget Definition
+        if (!($definition = $this->getDefinition($type))) {
+            return $this->factory->buildErrorWidget("Collections", $type, "Unable to Find Widget Definition");
+        }
         //==============================================================================
         // Load Widget Provider Service
-        if ( !$this->container->has($Definition->getService()) ) {
-            return $this->Factory->buildErrorWidget($Definition->getService(), $Type, "Unable to Load Widget Provider");
-        } 
+        if (!$this->container->has($definition->getService())) {
+            return $this->factory->buildErrorWidget($definition->getService(), $type, "Unable to Load Widget Provider");
+        }
+        //==============================================================================
+        // Load Widget Provider Service
+        $sfService = $this->container->get($definition->getService());
+        if (!($sfService instanceof WidgetProviderInterface)) {
+            return $this->factory->buildErrorWidget($definition->getService(), $type, "Unable to Load Widget Provider");
+        }
         //==============================================================================
         // Load Widget Parameters
-        if (is_null($Parameters)) {
-            $Parameters = $Definition->getParameters(True);
+        if (is_null($parameters)) {
+            $parameters = $definition->getParameters(true);
         }
         //==============================================================================
-        // Read Widget Contents 
-        $Widget =   $this->container
-                ->get($Definition->getService())
-                ->getWidget($Definition->getType(), $Parameters);
-        
+        // Read Widget Contents
+        $widget = $sfService->getWidget($definition->getType(), $parameters);
         //==============================================================================
-        // Validate Widget Contents 
-        if ( empty($Widget) || !is_a($Widget, Widget::class)  ) {
-            $Widget =   $this->Factory->buildErrorWidget($Definition->getService(), $Type, "An Error Occured During Widget Loading");
+        // Validate Widget Contents
+        if (empty($widget) || !($widget instanceof Widget)) {
+            $widget = $this->factory->buildErrorWidget($definition->getService(), $type, "An Error Occured During Widget Loading");
         }
         //==============================================================================
-        // Overide Widget Options 
-        if ( !empty($Definition->getOptions()) ) {
-            $Widget->setOptions($Definition->getOptions());
-        }         
-        
+        // Overide Widget Options
+        if (!empty($definition->getOptions())) {
+            $widget->setOptions($definition->getOptions());
+        }
         //==============================================================================
-        // Overide Widget Service & Type 
-        $Widget->setService($this->collection->getService());
-        $Widget->setType($Type);
-        
-        return $Widget;
-    }      
-    
-    /**
-     * @abstract   Return Widget Options Array 
-     * 
-     * @param      string   $Type               Widgets Type Identifier 
-     * 
-     * @return     array
-     */    
-    public function getWidgetOptions(string $Type) : array
-    {
-        if ( !($Definition = $this->getDefinition($Type)) ) {
-            return array();
-        }         
-        
-        return $Definition->getOptions();
+        // Overide Widget Service & Type
+        $widget->setService($this->collection->getService());
+        $widget->setType($type);
+
+        return $widget;
     }
 
     /**
-     * @abstract   Update Widget Options Array 
-     * 
-     * @param      string   $Type               Widgets Type Identifier 
-     * @param      array    $Options            Updated Options 
-     * 
-     * @return     array
-     */    
-    public function setWidgetOptions(string $Type, array $Options) : bool 
+     * Return Widget Options Array
+     *
+     * @param string $type Widgets Type Identifier
+     *
+     * @return array
+     */
+    public function getWidgetOptions(string $type) : array
     {
-        if ( !($Definition = $this->getDefinition($Type)) ) {
-            return False;
-        }         
-        
-        $Definition->setOptions($Options);
-        $this->container->get("doctrine")->getManager()->flush();
-        
-        return True;
-    }
-    
-    /**
-     * @abstract   Return Widget Parameters Array 
-     * 
-     * @param      string  $Type         Widgets Type Identifier 
-     * 
-     * @return     array
-     */    
-    public function getWidgetParameters(string $Type) : array
-    {
-        if ( !($Definition = $this->getDefinition($Type)) ) {
+        //==============================================================================
+        // Load Widget Definition
+        if (!($definition = $this->getDefinition($type))) {
             return array();
-        }         
-        
-        return $Definition->getParameters();
+        }
+
+        return $definition->getOptions();
     }
-        
-    
+
     /**
-     * @abstract   Update Widget Parameters Array 
-     * 
-     * @param      string   $Type               Widgets Type Identifier 
-     * @param      array    $Parameters         Updated Parameters 
-     * 
-     * @return     array
-     */    
-    public function setWidgetParameters(string $Type, array $Parameters) : bool 
+     * Update Widget Options Array
+     *
+     * @param string $type    Widgets Type Identifier
+     * @param array  $options Updated Options
+     *
+     * @return bool
+     */
+    public function setWidgetOptions(string $type, array $options) : bool
     {
-        if ( !($Definition = $this->getDefinition($Type)) ) {
-            return False;
-        }         
-        
-        $Definition->setParameters($Parameters);
+        //==============================================================================
+        // Load Widget Definition
+        if (!($definition = $this->getDefinition($type))) {
+            return false;
+        }
+        //==============================================================================
+        // Update Widget Options
+        $definition->setOptions($options);
         $this->container->get("doctrine")->getManager()->flush();
-        
-        return True;
+
+        return true;
     }
-    
-    
+
     /**
-     * @abstract   Return Widget Parameters Fields Array 
-     * 
-     * @param FormBuilderInterface  $builder
-     * @param      string           $Type           Widgets Type Identifier 
-     * 
-     * @return     array
-     */    
-    public function populateWidgetForm(FormBuilderInterface $builder, string $Type)
+     * Return Widget Parameters Array
+     *
+     * @param string $type Widgets Type Identifier
+     *
+     * @return array
+     */
+    public function getWidgetParameters(string $type) : array
     {
-        if ( !($Definition = $this->getDefinition($Type)) ) {
+        //==============================================================================
+        // Load Widget Definition
+        if (!($definition = $this->getDefinition($type))) {
+            return array();
+        }
+
+        return $definition->getParameters();
+    }
+
+    /**
+     * Update Widget Parameters Array
+     *
+     * @param string $type       Widgets Type Identifier
+     * @param array  $parameters Updated Parameters
+     *
+     * @return bool
+     */
+    public function setWidgetParameters(string $type, array $parameters) : bool
+    {
+        //==============================================================================
+        // Load Widget Definition
+        if (!($definition = $this->getDefinition($type))) {
+            return false;
+        }
+
+        $definition->setParameters($parameters);
+        $this->container->get("doctrine")->getManager()->flush();
+
+        return true;
+    }
+
+    /**
+     * Return Widget Parameters Fields Array
+     *
+     * @param FormBuilderInterface $builder
+     * @param string               $type    Widgets Type Identifier
+     */
+    public function populateWidgetForm(FormBuilderInterface $builder, string $type) : void
+    {
+        //==============================================================================
+        // Load Widget Definition
+        if (!($definition = $this->getDefinition($type))) {
             return;
-        }         
+        }
+        //==============================================================================
+        // Ensure Provider Service Exists
+        if (!$this->container->has($definition->getService())) {
+            return;
+        }
         //==============================================================================
         // Load Widget Provider Service
-        if ( $this->container->has($Definition->getService()) ) {
-            $this->container
-                    ->get($Definition->getService())
-                    ->populateWidgetForm($builder, $Definition->getType());
-        } 
-        return;
+        $sfService = $this->container->get($definition->getService());
+        if (!($sfService instanceof WidgetProviderInterface)) {
+            $msg = "Widget Service Provider must Implement  (".WidgetProviderInterface::class.")";
+
+            throw new Exception($msg);
+        }
+        //==============================================================================
+        // Populate Form
+        $sfService->populateWidgetForm($builder, $definition->getType());
     }
-    
 }

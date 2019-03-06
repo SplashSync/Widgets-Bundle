@@ -1,81 +1,83 @@
 <?php
 
 /*
- * This file is part of the Splash Sync project.
+ *  This file is part of SplashSync Project.
  *
- * (c) Bernard Paquier <pro@bernard-paquier.fr>
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
 
 namespace Splash\Widgets\Models\Traits;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
-use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
-
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
-
 /**
- * @abstract Widget Definition Trait 
- * 
+ * Widget Definition Trait
+ *
  * @author Bernard Paquier <pro@bernard-paquier.fr>
  */
 trait DefinitionTrait
 {
-    
     /**
-     * @abstract    Widget Human Readable Name
+     * Widget Human Readable Name
+     *
      * @var string
      */
     protected $name;
 
     /**
-     * @abstract    Widget Human Readable Description
+     * Widget Human Readable Description
+     *
      * @var string
      */
-    protected $description;    
-    
+    protected $description;
+
     /**
-     * @abstract    Widget Header Title
+     * Widget Header Title
+     *
      * @var string
      */
     protected $title;
-    
+
     /**
-     * @abstract    Widget Header Sub-Title
+     * Widget Header Sub-Title
+     *
      * @var string
      */
-    protected $subtitle;    
-    
+    protected $subtitle;
+
     /**
-     * @abstract    Widget Header Icon
+     * Widget Header Icon
+     *
      * @var string
      */
-    protected $icon;  
-    
+    protected $icon;
+
     /**
-     * @abstract    Widget Source/Origin
+     * Widget Source/Origin
+     *
      * @var string
      */
     protected $origin;
-    
+
     //====================================================================//
     // *******************************************************************//
     //  Widget Getter & Setter Functions
     // *******************************************************************//
     //====================================================================//
-    
+
     /**
      * Set name
      *
      * @param string $name
      *
-     * @return Object
+     * @return $this
      */
-    public function setName($name)
+    public function setName(string $name) : self
     {
         $this->name = $name;
 
@@ -87,9 +89,9 @@ trait DefinitionTrait
      *
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
-        return $this->name;
+        return (string) $this->name;
     }
 
     /**
@@ -97,9 +99,9 @@ trait DefinitionTrait
      *
      * @param string $description
      *
-     * @return Object
+     * @return $this
      */
-    public function setDescription($description)
+    public function setDescription(string $description) : self
     {
         $this->description = $description;
 
@@ -111,102 +113,104 @@ trait DefinitionTrait
      *
      * @return string
      */
-    public function getDescription()
+    public function getDescription() : string
     {
-        return $this->description;
-    }    
-    
-    
+        return (string) $this->description;
+    }
+
     /**
      * Set Title
-     * 
-     * @param   $title
-     * @return  Widget
+     *
+     * @param string $title
+     *
+     * @return $this
      */
-    public function setTitle($title)
+    public function setTitle(string $title) : self
     {
         $this->title = $title;
-        
+
         return $this;
     }
-    
+
     /**
      * Get Title
-     * 
-     * @return  String
+     *
+     * @return string
      */
-    public function getTitle()
+    public function getTitle() : string
     {
-        return $this->title;
+        return (string) $this->title;
     }
-    
+
     /**
      * Set SubTitle
-     * 
-     * @param   $subtitle
-     * @return  Widget
+     *
+     * @param string $subtitle
+     *
+     * @return $this
      */
-    public function setSubTitle($subtitle)
+    public function setSubTitle(string $subtitle) : self
     {
         $this->subtitle = $subtitle;
-        
+
         return $this;
     }
-    
+
     /**
      * Get SubTitle
-     * 
-     * @return  String
+     *
+     * @return string
      */
-    public function getSubTitle()
+    public function getSubTitle() : string
     {
-        return $this->subtitle;
-    }    
-    
+        return (string) $this->subtitle;
+    }
+
     /**
      * Set Icon
-     * 
-     * @param   $text
-     * @return  Widget
+     *
+     * @param string $text
+     *
+     * @return $this
      */
-    public function setIcon($text)
+    public function setIcon(string $text) : self
     {
         $this->icon = $text;
-        
+
         return $this;
     }
-    
+
     /**
      * Get Icon
-     * 
-     * @return  String
+     *
+     * @return string
      */
-    public function getIcon()
+    public function getIcon() : string
     {
-        return $this->icon;
-    }   
-    
+        return (string) $this->icon;
+    }
+
     /**
      * Set Origin
-     * 
-     * @param   $Origin
-     * @return  Widget
+     *
+     * @param string $origin
+     *
+     * @return $this
      */
-    public function setOrigin($Origin)
+    public function setOrigin($origin) : self
     {
-        $this->origin = $Origin;
-        
+        $this->origin = $origin;
+
         return $this;
     }
-    
+
     /**
      * Get Origin
-     * 
-     * @return  String
+     *
+     * @return string
      */
-    public function getOrigin()
+    public function getOrigin() : string
     {
-        return $this->origin;
+        return (string) $this->origin;
     }
-     
 }

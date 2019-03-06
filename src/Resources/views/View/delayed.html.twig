@@ -10,9 +10,16 @@
             <span class="sr-only">Loading your widget...</span>    
         </div>
         
+        {% set Url = path('splash_widgets_render_widget', { 
+            'service': Service,  
+            'type' : WidgetType, 
+            'options' : Options | json_encode(), 
+            "parameters" : Parameters 
+        }) %}
+        
         <script>
             $(document).ready(function() {
-                SplashWidgets_AjaxLoading("{{ WidgetType ~ "-" ~ WidgetId }}", "{{ path('splash_widgets_render_widget', { 'Service': Service,  'Type' : WidgetType, 'Options' : Options | json_encode(), "Parameters" : Parameters }) }}");
+                SplashWidgets_AjaxLoading("{{ WidgetType ~ "-" ~ WidgetId }}", "{{ Url }}");
             });
         </script>
         

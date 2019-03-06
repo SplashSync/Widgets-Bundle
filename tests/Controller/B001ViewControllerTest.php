@@ -1,182 +1,202 @@
 <?php
 
+/*
+ *  This file is part of SplashSync Project.
+ *
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Splash\Widgets\Tests\Controller;
 
-use Symfony\Component\Process\Process;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Splash\Widgets\Tests\Traits\UrlCheckerTrait;
-
+use Splash\Widgets\Entity\WidgetCache;
 use Splash\Widgets\Services\ManagerService;
 use Splash\Widgets\Tests\Services\SamplesFactoryService as SamplesFactory;
+use Splash\Widgets\Tests\Traits\UrlCheckerTrait;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-use Splash\Widgets\Entity\WidgetCache;
-
+/**
+ * Test Widget Views Rendering
+ */
 class B001ViewControllerTest extends WebTestCase
 {
     use UrlCheckerTrait;
-    
+    use \Splash\Widgets\Tests\Traits\ContainerAwareTrait;
+
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp() : void
     {
-        $this->client   =   self::createClient();
-    }        
+        $this->client = self::createClient();
+    }
 
-
-    
     /**
-     * @abstract    Check Widget is Rendered Even if Errors
-     */    
+     * Check Widget is Rendered Even if Errors
+     */
     public function testViewErrors()
     {
         //====================================================================//
-        // Wrong Service Name 
-        $Params =   array(
-            "Service"   =>  SamplesFactory::SERVICE . ".Wrong",
-            "Type"      =>  "Test",
-        );
-        $this->assertViewFailed($Params);
-        
+        // Wrong Service Name
+        $this->assertViewFailed(array(
+            "Service" => SamplesFactory::SERVICE.".Wrong",
+            "Type" => "Test",
+        ));
         //====================================================================//
-        // Wrong Widget Type 
-        $Params =   array(
-            "Service"   =>  SamplesFactory::SERVICE,
-            "Type"      =>  "Test" . ".Wrong",
-        );
-        $this->assertViewFailed($Params);
-    }     
-    
-    
-    /**
-     * @abstract    Check Widget is Forced Rendering
-     * @dataProvider widgetDemoNamesProvider
-     */    
-    public function testViewForced($Service, $Type, $Options, $Parameters)
-    {
-        
-        //====================================================================//
-        // Build Route Parameters 
-        $Params =   array(
-            "Service"   =>  $Service,
-            "Type"      =>  $Type,
-            "Options"   =>  json_encode($Options),
-            "Parameters"=>  json_encode($Parameters),
-        );
-        
-        //====================================================================//
-        // Render Forced 
-        $Crawler    =   $this->assertRouteWorks("splash_widgets_test_view_forced",  $Params);
-        
-        //====================================================================//
-        // Verify Right Widget is Here
-        $Xpath  =   '//*[@id="' . $Type . '-' . WidgetCache::buildDiscriminator($Options, $Parameters) . '"]';
-        $this->assertEquals(1 , $Crawler->filterXpath($Xpath)->count() );
-        
-    }   
+        // Wrong Widget Type
+        $this->assertViewFailed(array(
+            "Service" => SamplesFactory::SERVICE,
+            "Type" => "Test".".Wrong",
+        ));
+    }
 
     /**
-     * @abstract    Check Widget is Delayed Rendering
+     * Check Widget is Forced Rendering
+     *
      * @dataProvider widgetDemoNamesProvider
-     */    
-    public function testViewDelayed($Service, $Type, $Options, $Parameters)
+     *
+     * @param string $service
+     * @param string $type
+     * @param array  $options
+     * @param array  $parameters
+     */
+    public function testViewForced(string $service, string $type, array $options, array $parameters) : void
     {
-        
         //====================================================================//
-        // Build Route Parameters 
-        $Params =   array(
-            "Service"   =>  $Service,
-            "Type"      =>  $Type,
-            "Options"   =>  json_encode($Options),
-            "Parameters"=>  json_encode($Parameters),
+        // Build Route Parameters
+        $params = array(
+            "Service" => $service,
+            "Type" => $type,
+            "Options" => json_encode($options),
+            "Parameters" => json_encode($parameters),
         );
-        
+
         //====================================================================//
-        // Render Forced 
-        $Crawler    =   $this->assertRouteWorks("splash_widgets_test_view_delayed",  $Params);
-        
+        // Render Forced
+        $crawler = $this->assertRouteWorks("splash_widgets_test_view_forced", $params);
+
         //====================================================================//
         // Verify Right Widget is Here
-        $Xpath  =   '//*[@id="' . $Type . '-' . WidgetCache::buildDiscriminator($Options, $Parameters) . '"]';
-        $this->assertEquals(1 , $Crawler->filterXpath($Xpath)->count() );
-        
-    }   
-    
+        $xPath = '//*[@id="'.$type.'-'.WidgetCache::buildDiscriminator($options, $parameters).'"]';
+        $this->assertEquals(1, $crawler->filterXpath($xPath)->count());
+    }
+
     /**
-     * @abstract    Check Widget is Delayed Rendering
+     * Check Widget is Delayed Rendering
+     *
      * @dataProvider widgetDemoNamesProvider
-     */    
-    public function testViewAjax($Service, $Type, $Options, $Parameters)
+     *
+     * @param string $service
+     * @param string $type
+     * @param array  $options
+     * @param array  $parameters
+     */
+    public function testViewDelayed(string $service, string $type, array $options, array $parameters) : void
     {
-        
         //====================================================================//
-        // Build Route Parameters 
-        $Params =   array(
-            "Service"   =>  $Service,
-            "Type"      =>  $Type,
-            "Options"   =>  json_encode($Options),
-            "Parameters"=>  json_encode($Parameters),
+        // Build Route Parameters
+        $params = array(
+            "service" => $service,
+            "type" => $type,
+            "options" => json_encode($options),
+            "parameters" => json_encode($parameters),
         );
-        
+
         //====================================================================//
-        // Render Forced 
-        $Crawler    =   $this->assertRouteWorks("splash_widgets_render_widget",  $Params);
+        // Render Forced
+        $crawler = $this->assertRouteWorks("splash_widgets_test_view_delayed", $params);
+
+        //====================================================================//
+        // Verify Right Widget is Here
+        $xPath = '//*[@id="'.$type.'-'.WidgetCache::buildDiscriminator($options, $parameters).'"]';
+        $this->assertEquals(1, $crawler->filterXpath($xPath)->count());
+    }
+
+    /**
+     * Check Widget is Delayed Rendering
+     *
+     * @dataProvider widgetDemoNamesProvider
+     *
+     * @param string $service
+     * @param string $type
+     * @param array  $options
+     * @param array  $parameters
+     */
+    public function testViewAjax(string $service, string $type, array $options, array $parameters) : void
+    {
+        //====================================================================//
+        // Build Route Parameters
+        $params = array(
+            "service" => $service,
+            "type" => $type,
+            "options" => json_encode($options),
+            "parameters" => json_encode($parameters),
+        );
+
+        //====================================================================//
+        // Render Forced
+        $crawler = $this->assertRouteWorks("splash_widgets_render_widget", $params);
         //====================================================================//
         // Verify No Enevloppe
-        $Xpath  =   '//*[@data-id="' . $Type . '"]';
-        $this->assertEquals(0 , $Crawler->filterXpath($Xpath)->count() );
-        
-    } 
-    
-    /**
-     * @abstract    Check Widget is Rendered Even if Wrong Service
-     */    
-    public function assertViewFailed($Parameters)
-    {
-        $Xpath  =   '//*[@data-id="' . $Parameters["Type"] . '"]';
-        
-        //====================================================================//
-        // Render Forced 
-        $Crawler    =   $this->assertRouteWorks("splash_widgets_test_view_forced",  $Parameters);
-        //====================================================================//
-        // Verify Right Widget is Here
-        $this->assertEquals(1 , $Crawler->filterXpath($Xpath)->count() );
-        //====================================================================//
-        // Verify Error Alert is Here
-        $this->assertEquals(1 , $Crawler->filterXpath('//*[@class="alert alert-danger no-margin fade in"]')->count() );
-        //====================================================================//
-        // Render Forced 
-        $Crawler    =   $this->assertRouteWorks("splash_widgets_test_view_delayed", $Parameters);
-        //====================================================================//
-        // Verify Right Widget is Here
-        $this->assertEquals(1 , $Crawler->filterXpath($Xpath)->count() );
-        //====================================================================//
-        // Verify Error Alert is Here
-        $this->assertEquals(1 , $Crawler->filterXpath('//*[@class="alert alert-danger no-margin fade in"]')->count() );
-    }   
+        $xPath = '//*[@data-id="'.$type.'"]';
+        $this->assertEquals(0, $crawler->filterXpath($xPath)->count());
+    }
 
-        
-    public function widgetDemoNamesProvider()
+    /**
+     * Check Widget is Rendered Even if Wrong Service
+     *
+     * @param array $parameters
+     */
+    public function assertViewFailed(array $parameters) : void
     {
-        $this->client   =   self::createClient();
-        
+        $xPath = '//*[@data-id="'.$parameters["Type"].'"]';
         //====================================================================//
-        // Link to Widget Manager Service
-        $this->Manager = static::$kernel->getContainer()->get('Splash.Widgets.Manager');
+        // Render Forced
+        $forcedCrawler = $this->assertRouteWorks("splash_widgets_test_view_forced", $parameters);
+        //====================================================================//
+        // Verify Right Widget is Here
+        $this->assertEquals(1, $forcedCrawler->filterXpath($xPath)->count());
+        //====================================================================//
+        // Verify Error Alert is Here
+        $this->assertEquals(1, $forcedCrawler->filterXpath('//*[@class="alert alert-danger no-margin fade in"]')->count());
+        //====================================================================//
+        // Render Forced
+        $delayedCrawler = $this->assertRouteWorks("splash_widgets_test_view_delayed", $parameters);
+        //====================================================================//
+        // Verify Right Widget is Here
+        $this->assertEquals(1, $delayedCrawler->filterXpath($xPath)->count());
+        //====================================================================//
+        // Verify Error Alert is Here
+        $this->assertEquals(1, $delayedCrawler->filterXpath('//*[@class="alert alert-danger no-margin fade in"]')->count());
+    }
+
+    /**
+     * Demo Widgets Names & Parameters Data Provider
+     *
+     * @return array
+     */
+    public function widgetDemoNamesProvider() : array
+    {
+        $this->client = self::createClient();
 
         //====================================================================//
         // Get Demo List
-        $List   =   array();
-        foreach ( $this->Manager->getList(ManagerService::DEMO_WIDGETS) as $Widget ) {
-            $List[]     =   array(
-                "Service"       =>  $Widget->getService(),
-                "Type"          =>  $Widget->getType(),
-                "Options"       =>  $this->Manager->getWidgetOptions($Widget->getService(), $Widget->getType()),
-                "Parameters"    =>  $this->Manager->getWidgetParameters($Widget->getService(), $Widget->getType())
-                    );
+        $widgetsList = array();
+        foreach ($this->getManager()->getList(ManagerService::DEMO_WIDGETS) as $widget) {
+            $widgetsList[] = array(
+                "service" => $widget->getService(),
+                "type" => $widget->getType(),
+                "options" => $this->getManager()->getWidgetOptions($widget->getService(), $widget->getType()),
+                "parameters" => $this->getManager()->getWidgetParameters($widget->getService(), $widget->getType()),
+            );
         }
 
-        return $List;        
-    }      
-    
+        return $widgetsList;
+    }
 }

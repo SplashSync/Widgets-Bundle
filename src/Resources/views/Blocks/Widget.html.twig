@@ -1,1 +1,6 @@
-{{ render(controller('SplashWidgetsBundle:View:delayed', { 'Service' : Service,  'Type' : Type , 'Options' : Options | json_encode() , 'Parameters' : Parameters | json_encode() })) }}
+{{ render(controller('SplashWidgetsBundle:View:delayed', { 
+    'service' : Service,  
+    'type' : Type , 
+    'options' : Options | json_encode() , 
+    'parameters' : Parameters | json_encode() 
+})) }}

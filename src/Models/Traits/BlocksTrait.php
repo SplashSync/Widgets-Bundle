@@ -1,47 +1,51 @@
 <?php
 
 /*
- * This file is part of the Splash Sync project.
+ *  This file is part of SplashSync Project.
  *
- * (c) Bernard Paquier <pro@bernard-paquier.fr>
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
 
 namespace Splash\Widgets\Models\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Splash\Widgets\Models\Blocks\BaseBlock;
 
 /**
- * @abstract Widget Blocks Collection Trait 
- * 
+ * Widget Blocks Collection Trait
+ *
  * @author Bernard Paquier <pro@bernard-paquier.fr>
  */
 trait BlocksTrait
 {
-    
     //==============================================================================
-    //      Variables  
+    //      Variables
     //==============================================================================
-    
+
     /**
      * @var ArrayCollection
      */
-    protected $blocks;      
-    
+    protected $blocks;
+
     //==============================================================================
-    //      Getters & Setters  
+    //      Getters & Setters
     //==============================================================================
-    
+
     /**
      * Add Widget Block
      *
-     * @param  $block
+     * @param BaseBlock $block
      *
-     * @return Widget
+     * @return $this
      */
-    public function addBlock( $block )
+    public function addBlock(BaseBlock $block) : self
     {
         $this->blocks[] = $block;
 
@@ -51,21 +55,24 @@ trait BlocksTrait
     /**
      * Remove Widget Block
      *
-     * @param $block
+     * @param BaseBlock $block
+     *
+     * @return $this
      */
-    public function removeBlock( $block ) 
+    public function removeBlock(BaseBlock $block) : self
     {
         $this->blocks->removeElement($block);
+
+        return $this;
     }
 
     /**
      * Get Widget Blocks
      *
-     * @return Collection
+     * @return ArrayCollection
      */
-    public function getBlocks()
+    public function getBlocks() : ArrayCollection
     {
         return $this->blocks;
     }
-    
 }

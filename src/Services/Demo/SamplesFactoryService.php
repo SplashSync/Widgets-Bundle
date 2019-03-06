@@ -1,207 +1,196 @@
 <?php
 
+/*
+ *  This file is part of SplashSync Project.
+ *
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Splash\Widgets\Services\Demo;
 
+use Splash\Widgets\Entity\Widget;
+use Splash\Widgets\Models\Blocks\SparkBarChartBlock;
+use Splash\Widgets\Models\Interfaces\WidgetProviderInterface;
+use Splash\Widgets\Services\FactoryService;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormBuilderInterface;
 
-use Splash\Widgets\Entity\Widget;
-
-use Symfony\Component\EventDispatcher\GenericEvent;
-
-use Splash\Widgets\Services\FactoryService;
-
-use Splash\Widgets\Models\Interfaces\WidgetProviderInterface;
-
-use Splash\Widgets\Models\Blocks\SparkBarChartBlock;
-
-/*
+/**
  * Demo Widgets Factory Service
  */
 class SamplesFactoryService implements WidgetProviderInterface
 {
-    const PREFIX    =   "Splash\Widgets\Models\Demo\Blocks\\";
-    const SERVICE   =   "Splash.Widgets.Demo.Factory";
+    const PREFIX = "Splash\\Widgets\\Models\\Demo\\Blocks\\";
+    const SERVICE = "Splash.Widgets.Demo.Factory";
+    const ORIGIN = "<i class='fa fa-flask text-success' aria-hidden='true'>&nbsp;</i>Demo Factory";
 
-    const ORIGIN    =   "<i class='fa fa-flask text-success' aria-hidden='true'>&nbsp;</i>Demo Factory";
-    
     /**
      * WidgetFactory Service
-     * 
-     * @var Splash\Widgets\Services\FactoryService 
-     */    
-    private $Factory;
-    
-    /*
-     *  Fault String
+     *
+     * @var FactoryService
      */
-    public $fault_str;    
+    private $factory;
 
-//====================================================================//
-//  CONSTRUCTOR
-//====================================================================//
-    
+    //====================================================================//
+    //  CONSTRUCTOR
+    //====================================================================//
+
     /**
-     *      @abstract    Class Constructor
-     */    
-    public function __construct(FactoryService $WidgetFactory) { 
+     * Class Constructor
+     *
+     * @param FactoryService $widgetFactory
+     */
+    public function __construct(FactoryService $widgetFactory)
+    {
         //====================================================================//
         // Link to WidgetFactory Service
-        $this->Factory = $WidgetFactory;
-        return True;
-    }    
-
+        $this->factory = $widgetFactory;
+    }
 
     /**
-     * @abstract    Widgets Listing
-     */    
-    public function onListingAction( GenericEvent $Event ) { 
-        
-        $Event["Text"]                  =   $this->buildWidgetDefinition("Text")->getWidget();
-        $Event["Table"]                 =   $this->buildWidgetDefinition("Table")->getWidget();
-        $Event["Notifications"]         =   $this->buildWidgetDefinition("Notifications")->getWidget();
-        $Event["SparkInfos"]            =   $this->buildWidgetDefinition("SparkInfos")->getWidget();
-        $Event["SparkBar"]              =   $this->buildWidgetDefinition("SparkBar")->getWidget();
-        $Event["SparkLine"]             =   $this->buildWidgetDefinition("SparkLine")->getWidget();
-        $Event["Dates"]                 =   $this->buildWidgetDefinition("Dates")->getWidget();
-        $Event["MorrisLine"]            =   $this->buildWidgetDefinition("MorrisLine")->getWidget();
-        $Event["MorrisDonut"]           =   $this->buildWidgetDefinition("MorrisDonut")->getWidget();
-        $Event["MorrisArea"]            =   $this->buildWidgetDefinition("MorrisArea")->getWidget();
-        $Event["MorrisBar"]             =   $this->buildWidgetDefinition("MorrisBar")->getWidget();
-        
-        return True;
-    }  
-    
+     * Widgets Listing
+     *
+     * @param GenericEvent $event
+     */
+    public function onListingAction(GenericEvent $event) : void
+    {
+        $event["Text"] = $this->buildWidgetDefinition("Text")->getWidget();
+        $event["Table"] = $this->buildWidgetDefinition("Table")->getWidget();
+        $event["Notifications"] = $this->buildWidgetDefinition("Notifications")->getWidget();
+        $event["SparkInfos"] = $this->buildWidgetDefinition("SparkInfos")->getWidget();
+        $event["SparkBar"] = $this->buildWidgetDefinition("SparkBar")->getWidget();
+        $event["SparkLine"] = $this->buildWidgetDefinition("SparkLine")->getWidget();
+        $event["Dates"] = $this->buildWidgetDefinition("Dates")->getWidget();
+        $event["MorrisLine"] = $this->buildWidgetDefinition("MorrisLine")->getWidget();
+        $event["MorrisDonut"] = $this->buildWidgetDefinition("MorrisDonut")->getWidget();
+        $event["MorrisArea"] = $this->buildWidgetDefinition("MorrisArea")->getWidget();
+        $event["MorrisBar"] = $this->buildWidgetDefinition("MorrisBar")->getWidget();
+    }
+
     /**
-     * @abstract    Widgets Listing
-     */    
-    public function buildWidgetDefinition( $Type , $Name = Null, $Desc = Null, $Options = array()) { 
+     * Build Sample Widgets Definitions
+     *
+     * @param string $type
+     * @param string $name
+     * @param string $desc
+     * @param array  $options
+     *
+     * @return FactoryService
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function buildWidgetDefinition(string $type, string $name = null, string $desc = null, array $options = array()) : FactoryService
+    {
+        $blockClass = self::PREFIX.$type;
 
-        $BlockClass = self::PREFIX . $Type;
-
-        if (class_exists($BlockClass)) {
-            $this->Factory
-                    ->Create($Type)
-                    ->setService(self::SERVICE)
-                    ->setType($BlockClass::TYPE)
-                    ->setTitle($BlockClass::TITLE)
-                    ->setIcon($BlockClass::ICON)
-                    ->setName($BlockClass::TITLE)
-                    ->setDescription($BlockClass::DESCRIPTION)
-                    ->setOrigin(self::ORIGIN)
-                    ->setOptions($this->getWidgetOptions($Type))
-                ;                
+        if (class_exists($blockClass)) {
+            $this->factory
+                ->create()
+                ->setService(self::SERVICE)
+                ->setType($blockClass::TYPE)
+                ->setTitle($blockClass::TITLE)
+                ->setIcon($blockClass::ICON)
+                ->setName($blockClass::TITLE)
+                ->setDescription($blockClass::DESCRIPTION)
+                ->setOrigin(self::ORIGIN)
+                ->setOptions($this->getWidgetOptions($type))
+                ;
         }
 
-        return $this->Factory;
-    } 
-    
-    /**
-     * @abstract   Read Widget Contents
-     * 
-     * @param      string   $Type               Widgets Type Identifier 
-     * @param      array    $Parameters         Widget Parameters
-     * 
-     * @return     Widget 
-     */    
-    public function getWidget(string $Type, $Parameters = Null)
-    {
-        //====================================================================//
-        // If Widget Exists               
-        $BlockClass = self::PREFIX . $Type;
-        if (class_exists($BlockClass)) {
-            
-            $this->buildWidgetDefinition( $Type );
-            
-            $BlockClass::build($this->Factory,(is_null($Parameters) ? array() : $Parameters));
-            
-            return $this->Factory->getWidget();
-        }
-        
-        return Null;
-    }      
-    
-    /**
-     * @abstract   Return Widget Options Array 
-     * 
-     * @param      string   $Type               Widgets Type Identifier 
-     * 
-     * @return     array
-     */    
-    public function getWidgetOptions(string $Type) : array
-    {
-        //====================================================================//
-        // If Widget Exists               
-        $BlockClass = self::PREFIX . $Type;
+        return $this->factory;
+    }
 
-        if (class_exists($BlockClass) && method_exists($BlockClass, "getOptions")) {
-            return $BlockClass::getOptions();
-        }        
-                
+    /**
+     * {@inheritdoc}
+     */
+    public function getWidget(string $type, array $parameters = null): ?Widget
+    {
+        //====================================================================//
+        // If Widget Exists
+        $blockClass = self::PREFIX.$type;
+        if (class_exists($blockClass)) {
+            $this->buildWidgetDefinition($type);
+
+            $blockClass::build($this->factory, (is_null($parameters) ? array() : $parameters));
+
+            return $this->factory->getWidget();
+        }
+
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getWidgetOptions(string $type) : array
+    {
+        //====================================================================//
+        // If Widget Exists
+        $blockClass = self::PREFIX.$type;
+        if (class_exists($blockClass)) {
+            $class = new $blockClass();
+            if (method_exists($class, "getOptions")) {
+                return $blockClass::getOptions();
+            }
+        }
+
         return Widget::getDefaultOptions();
     }
 
     /**
-     * @abstract   Update Widget Options Array 
-     * 
-     * @param      string   $Type               Widgets Type Identifier 
-     * @param      array    $Options            Updated Options 
-     * 
-     * @return     array
-     */    
-    public function setWidgetOptions(string $Type, array $Options) : bool
+     * {@inheritdoc}
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function setWidgetOptions(string $type, array $options) : bool
     {
-        return True;
+        return true;
     }
-    
+
     /**
-     * @abstract   Return Widget Parameters Array 
-     * 
-     * @param      string   $Type               Widgets Type Identifier 
-     * 
-     * @return     array
-     */    
-    public function getWidgetParameters(string $Type) : array
+     * {@inheritdoc}
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function getWidgetParameters(string $type) : array
     {
         return array();
     }
-        
-    
+
     /**
-     * @abstract   Update Widget Parameters Array 
-     * 
-     * @param      string   $Type               Widgets Type Identifier 
-     * @param      array    $Parameters         Updated Parameters 
-     * 
-     * @return     array
-     */    
-    public function setWidgetParameters(string $Type, array $Parameters) : bool
+     * {@inheritdoc}
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function setWidgetParameters(string $type, array $parameters) : bool
     {
-        return True;
+        return true;
     }
-    
+
     /**
-     * @abstract   Return Widget Parameters Fields Array 
-     * 
-     * @param FormBuilderInterface  $builder
-     * @param      string           $Type           Widgets Type Identifier 
-     * 
-     * @return     array
-     */    
-    public function populateWidgetForm(FormBuilderInterface $builder, string $Type)
+     * {@inheritdoc}
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function populateWidgetForm(FormBuilderInterface $builder, string $type) : void
     {
-        $BlockClass = self::PREFIX . $Type;
-        
-        if (class_exists($BlockClass)) {
-            $BlockClass::populateWidgetForm($builder);
+        $blockClass = self::PREFIX.$type;
+
+        if (class_exists($blockClass)) {
+            $blockClass::populateWidgetForm($builder);
         }
-        
-        if ( $Type == "SparkBar" ) {
+
+        if ("SparkBar" == $type) {
             SparkBarChartBlock::addHeightFormRow($builder);
             SparkBarChartBlock::addBarWidthFormRow($builder);
             SparkBarChartBlock::addBarColorFormRow($builder);
-        } 
-        
-        return;
+        }
     }
-
 }

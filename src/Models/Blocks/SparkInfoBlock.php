@@ -1,28 +1,28 @@
 <?php
 
 /*
- * This file is part of the Splash Sync project.
+ *  This file is part of SplashSync Project.
  *
- * (c) Bernard Paquier <pro@bernard-paquier.fr>
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
 
 namespace Splash\Widgets\Models\Blocks;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
-use Splash\Widgets\Entity\Widget;
+use ArrayObject;
 
 /**
- * @Abstact Widget Model 
- * 
- * @author Bernard Paquier <pro@bernard-paquier.fr>
+ * Widget SparkInfo Block
+ * Render a Simple Spark Info (i.e. Ico + Number) Block
  */
 class SparkInfoBlock extends BaseBlock
 {
-
     //====================================================================//
     // *******************************************************************//
     //  BLOCK GENERICS PARAMETERS
@@ -31,241 +31,244 @@ class SparkInfoBlock extends BaseBlock
 
     //====================================================================//
     // Define Standard Data Fields for this Widget Block
-    static $DATA          = array(
-        "color"             => "defaut",
-        "title"             => "Title",
-        "fa_icon"           => Null,
-        "glyph_icon"        => Null,
-        "value"             => "100%",
-        "chart"             => array(),
-        "pie"               => array(),
+    public static $DATA = array(
+        "color" => "defaut",
+        "title" => "Title",
+        "fa_icon" => null,
+        "glyph_icon" => null,
+        "value" => "100%",
+        "chart" => array(),
+        "pie" => array(),
     );
 
     //====================================================================//
     // Define Standard Options for this Widget Block
     // Uncomment to override défault options
-    static $OPTIONS       = array(
-        'Width'             => "col-sm-12 col-md-12 col-lg-12",
-        "AllowHtml"         => False,    
-        "ChartOptions"      => array(
-            "height"    =>  "60",
-            "barwidth"  =>  "10",
-            "piesize"   =>  "60",
-            
-            
-            
+    public static $OPTIONS = array(
+        'Width' => "col-sm-12 col-md-12 col-lg-12",
+        "AllowHtml" => false,
+        "ChartOptions" => array(
+            "height" => "60",
+            "barwidth" => "10",
+            "piesize" => "60",
         ),
     );
 
-        
     /**
      * @var string
      */
     protected $type = "SparkInfoBlock";
-    
+
     /**
      * Set Block Contents
      *
-     * @param array $Contents
+     * @param null|array|ArrayObject $contents
      *
-     * @return Widget
+     * @return $this
      */
-    public function setContents($Contents)
+    public function setContents($contents) : self
     {
         //==============================================================================
         //  Safety Check
-        if ( !is_array($Contents) && !is_a($Contents, "ArrayObject") ){
+        if (!is_array($contents) && !($contents instanceof ArrayObject)) {
             return $this;
-        } 
-        
+        }
+
         //==============================================================================
         //  Import Title
-        if ( !empty($Contents["title"]) ){
-            $this->setTitle($Contents["title"]);
-        }         
+        if (!empty($contents["title"])) {
+            $this->setTitle($contents["title"]);
+        }
         //==============================================================================
         //  Import Value
-        if ( !empty($Contents["value"]) ){
-            $this->setValue($Contents["value"]);
-        }         
+        if (!empty($contents["value"])) {
+            $this->setValue($contents["value"]);
+        }
         //==============================================================================
         //  Import Fa Icon
-        if ( !empty($Contents["fa_icon"]) ){
-            $this->setFaIcon($Contents["fa_icon"]);
-        }         
+        if (!empty($contents["fa_icon"])) {
+            $this->setFaIcon($contents["fa_icon"]);
+        }
         //==============================================================================
         //  Import Glyph Icon
-        if ( !empty($Contents["glyph_icon"]) ){
-            $this->setGlyphIcon($Contents["glyph_icon"]);
-        }         
+        if (!empty($contents["glyph_icon"])) {
+            $this->setGlyphIcon($contents["glyph_icon"]);
+        }
         //==============================================================================
         //  Import Chart Values
-        if ( !empty($Contents["chart"]) ){
-            $this->setChart($Contents["chart"]);
-        }            
+        if (!empty($contents["chart"])) {
+            $this->setChart($contents["chart"]);
+        }
         //==============================================================================
         //  Import Pie Values
-        if ( !empty($Contents["pie"]) ){
-            $this->setChart($Contents["pie"]);
-        }            
-     
+        if (!empty($contents["pie"])) {
+            $this->setChart($contents["pie"]);
+        }
+
         return $this;
-    }       
-    
+    }
+
     //====================================================================//
     // *******************************************************************//
     //  Block Getter & Setter Functions
     // *******************************************************************//
     //====================================================================//
-    
+
     /**
      * Set Title
-     * 
-     * @param   $text
-     * 
-     * @return  Widget
+     *
+     * @param string $text
+     *
+     * @return $this
      */
-    public function setTitle($text)
+    public function setTitle(string $text) : self
     {
-        $this->data["title"]     =   $text;
+        $this->data["title"] = $text;
+
         return $this;
     }
-    
+
     /**
      * Get Title
-     * 
-     * @return  String
+     *
+     * @return String
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->data["title"];
-    }   
-       
+    }
+
     /**
      * Set FontAwesome Icon
-     * 
-     * @param   $text
-     * 
-     * @return  Widget
+     *
+     * @param string $text
+     *
+     * @return $this
      */
-    public function setFaIcon($text)
+    public function setFaIcon(string $text) : self
     {
-        $this->data["fa_icon"]     =   $text;
+        $this->data["fa_icon"] = $text;
+
         return $this;
     }
-    
+
     /**
      * Get FontAwesome Icon
-     * 
-     * @return  String
+     *
+     * @return null|string
      */
-    public function getFaIcon()
+    public function getFaIcon() : ?string
     {
         return $this->data["fa_icon"];
-    }   
-    
+    }
+
     /**
      * Set Glyph Icon
-     * 
-     * @param   $text
-     * 
-     * @return  Widget
+     *
+     * @param string $text
+     *
+     * @return $this
      */
-    public function setGlyphIcon($text)
+    public function setGlyphIcon(string $text) : self
     {
-        $this->data["glyph_icon"]     =   $text;
+        $this->data["glyph_icon"] = $text;
+
         return $this;
     }
-    
+
     /**
      * Get Glyph Icon
-     * 
-     * @return  String
+     *
+     * @return null|string
      */
-    public function getGlyphIcon()
+    public function getGlyphIcon() : ?string
     {
         return $this->data["glyph_icon"];
-    }  
-    
+    }
+
     /**
      * Set Value
-     * 
-     * @param   $text
-     * 
-     * @return  Widget
+     *
+     * @param string $text
+     *
+     * @return $this
      */
-    public function setValue($text)
+    public function setValue(string $text) : self
     {
-        $this->data["value"]     =   $text;
+        $this->data["value"] = $text;
+
         return $this;
     }
-    
+
     /**
      * Get Value
-     * 
-     * @return  String
+     *
+     * @return String
      */
-    public function getValue()
+    public function getValue() : string
     {
         return $this->data["value"];
-    }     
-    
+    }
+
     /**
      * Set Chart
-     * 
-     * @param   $array
-     * 
-     * @return  Widget
+     *
+     * @param array $array
+     *
+     * @return $this
      */
-    public function setChart($array)
+    public function setChart(array $array) : self
     {
-        $this->data["chart"]     =   $array;
+        $this->data["chart"] = $array;
+
         return $this;
     }
-    
+
     /**
      * Get Chart
-     * 
-     * @return  Array
+     *
+     * @return Array
      */
-    public function getChart()
+    public function getChart() : array
     {
         return $this->data["chart"];
-    }       
-    
+    }
+
     /**
      * Set Pie
-     * 
-     * @param   $array
-     * 
-     * @return  Widget
+     *
+     * @param array $array
+     *
+     * @return $this
      */
-    public function setPie($array)
+    public function setPie(array $array) : self
     {
-        $this->data["pie"]     =   $array;
+        $this->data["pie"] = $array;
+
         return $this;
     }
-    
+
     /**
      * Get Pie
-     * 
-     * @return  Array
+     *
+     * @return array
      */
-    public function getPie()
+    public function getPie() : array
     {
         return $this->data["pie"];
-    } 
-    
+    }
+
     /**
      * Set Separator
-     * 
-     * @param   $bool
-     * 
-     * @return  Widget
+     *
+     * @param bool $bool
+     *
+     * @return $this
      */
-    public function setSeparator($bool)
+    public function setSeparator(bool $bool) : self
     {
-        $this->options["Separator"]     =   $bool;
+        $this->options["Separator"] = $bool;
+
         return $this;
-    }    
+    }
 }

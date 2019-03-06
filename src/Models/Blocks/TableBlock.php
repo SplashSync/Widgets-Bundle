@@ -1,26 +1,28 @@
 <?php
 
 /*
- * This file is part of the Splash Sync project.
+ *  This file is part of SplashSync Project.
  *
- * (c) Bernard Paquier <pro@bernard-paquier.fr>
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
 
 namespace Splash\Widgets\Models\Blocks;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use ArrayObject;
 
 /**
- * Abstact Widget Model 
- * 
- * @author Bernard Paquier <pro@bernard-paquier.fr>
+ * Widget Table Block
+ * Render an Html Table wit Escaped or Raw Html Cells
  */
 class TableBlock extends BaseBlock
 {
-
     //====================================================================//
     // *******************************************************************//
     //  BLOCK GENERICS PARAMETERS
@@ -29,116 +31,117 @@ class TableBlock extends BaseBlock
 
     //====================================================================//
     // Define Standard Data Fields for this Widget Block
-    static $DATA          = array(
-        "rows"              => Null
+    public static $DATA = array(
+        "rows" => null,
     );
 
     //====================================================================//
     // Define Standard Options for this Widget Block
     // Uncomment to override défault options
-    static $OPTIONS       = array(
-        'Width'             => "col-xs-12 col-sm-12 col-md-12 col-lg-12",
-        "Layout"            => "table-bordered table-hover",
-        "HeadingRows"       => 1,
-        "HeadingColumns"    => 0,
-        "AllowHtml"         => False,                    
+    public static $OPTIONS = array(
+        'Width' => "col-xs-12 col-sm-12 col-md-12 col-lg-12",
+        "Layout" => "table-bordered table-hover",
+        "HeadingRows" => 1,
+        "HeadingColumns" => 0,
+        "AllowHtml" => false,
     );
 
-        
     /**
      * @var string
      */
     protected $type = "TableBlock";
-    
+
     //====================================================================//
     // *******************************************************************//
     //  Block Getter & Setter Functions
     // *******************************************************************//
     //====================================================================//
-    
+
     /**
      * Add a Row to Table
-     * 
-     * @param   array $Row
-     * 
-     * @return  Widget
+     *
+     * @param array $row
+     *
+     * @return $this
      */
-    public function addRow($Row)
+    public function addRow(array $row) : self
     {
-        $this->data["rows"][]     =   $Row;
+        $this->data["rows"][] = $row;
+
         return $this;
     }
-    
+
     /**
      * Add Multiple Rows to Table
-     * 
-     * @param   array $Rows
-     * 
-     * @return  Widget
+     *
+     * @param array $rows
+     *
+     * @return $this
      */
-    public function addRows($Rows)
+    public function addRows(array $rows) : self
     {
-        foreach ($Rows as $Row) {
-            $this->addRow($Row);
+        foreach ($rows as $row) {
+            if (!is_array($row)) {
+                continue;
+            }
+            $this->addRow($row);
         }
+
         return $this;
     }
-       
+
     /**
      * Set Block Contents
      *
-     * @param array $Contents
+     * @param null|array|ArrayObject $contents
      *
-     * @return Widget
+     * @return $this
      */
-    public function setContents($Contents)
+    public function setContents($contents) : self
     {
         //==============================================================================
         //  Safety Check
-        if ( !is_array($Contents) && !is_a($Contents, "ArrayObject") ){
+        if (!is_array($contents) && !($contents instanceof ArrayObject)) {
             return $this;
-        } 
-        
+        }
+
         //==============================================================================
-        //  Safety Check - Verify Rows 
-        if ( isset($Contents["rows"]) && $this->ValidateRows($Contents["rows"]) ){
+        //  Safety Check - Verify Rows
+        if (isset($contents["rows"]) && $this->validateRows($contents["rows"])) {
             //==============================================================================
-            //  Import Rows   
-            $this->setData(["rows" => $Contents["rows"]]);
-        }  
-     
+            //  Import Rows
+            $this->setData(array("rows" => $contents["rows"]));
+        }
+
         return $this;
-    }   
-    
+    }
+
     /**
      * Verify Rows are Valid
      *
-     * @param array $Rows
+     * @param iterable $rows
      *
-     * @return Widget
+     * @return bool
      */
-    public function ValidateRows($Rows)
+    private function validateRows(iterable $rows) : bool
     {
         //==============================================================================
         //  Verify Rows are inside an Array
-        if ( !is_array($Rows) && !is_a($Rows, "ArrayObject") ){
-            return False;
-        } 
-        foreach ($Rows as $Row) {
+        foreach ($rows as $row) {
             //==============================================================================
             //  Verify Cells are inside an Array
-            if ( !is_array($Row) && !is_a($Row, "ArrayObject") ){
-                return False;
+            if (!is_array($row) && !($row instanceof ArrayObject)) {
+                return false;
             }
-            foreach ($Row as $Cell) {
+            foreach ($row as $cell) {
                 //==============================================================================
                 //  Verify Cell is scalar
-                if ( !is_scalar($Cell) ){
-                    return False;
-                } 
-            } 
+                if (!is_scalar($cell)) {
+                    return false;
+                }
+            }
         }
-        return True;
-    }   
-    
+
+        return true;
+    }
 }

@@ -1,74 +1,80 @@
 <?php
 
+/*
+ *  This file is part of SplashSync Project.
+ *
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
 
 namespace Splash\Widgets\Block;
 
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\BlockContextInterface;
+use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
+use Sonata\BlockBundle\Meta\Metadata;
 use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\CoreBundle\Model\Metadata;
+use Splash\Widgets\Models\Traits\ParametersTrait;
+use Splash\Widgets\Services\FactoryService;
+use Splash\Widgets\Services\ManagerService;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-
-use Doctrine\ORM\EntityManager;
-
-use Splash\Widgets\Entity\WidgetCollection;
-use Splash\Widgets\Services\ManagerService;
-use Splash\Widgets\Services\FactoryService;
-
-use Splash\Widgets\Models\Traits\ParametersTrait; 
-
-use Splash\Widgets\Entity\WidgetCache;
 
 /**
  * @author Bernard Paquier <eshop.bpaquier@gmail.com>
  */
 class WidgetBlock extends AbstractAdminBlockService
 {
-    
     use ParametersTrait;
-    
+
     /**
-     * @abstract    Splash Widgets Manager
+     * Splash Widgets Manager
+     *
      * @var ManagerService
      */
-    private $WidgetsManager;
-    
+    private $manager;
+
     /**
-     * @abstract    Splash Widgets Factory
+     * Splash Widgets Factory
+     *
      * @var FactoryService
      */
-    private $WidgetFactory;
-    
+    private $factory;
+
     /**
-     * @param string                $name
-     * @param EngineInterface       $templating
-     * @param ManagerService        $WidgetsManager
-     * @param FactoryService        $WidgetFactory
+     * Class Constructor
+     *
+     * @param string          $name
+     * @param EngineInterface $templating
+     * @param ManagerService  $widgetsManager
+     * @param FactoryService  $widgetFactory
      */
-    public function __construct($name, EngineInterface $templating, ManagerService $WidgetsManager, FactoryService $WidgetFactory)
+    public function __construct(string $name, EngineInterface $templating, ManagerService $widgetsManager, FactoryService $widgetFactory)
     {
         parent::__construct($name, $templating);
-        
-        $this->WidgetsManager   =   $WidgetsManager;
-        $this->WidgetFactory    =   $WidgetFactory;
+
+        $this->manager = $widgetsManager;
+        $this->factory = $widgetFactory;
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function configureSettings(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'service'   => null,
-            'type'      => null,
-            'template'  => 'SplashWidgetsBundle:Blocks:Widget.html.twig',
-            'parameters'=> array(),
-            'options'   => array(),
+            'service' => null,
+            'type' => null,
+            'template' => 'SplashWidgetsBundle:Blocks:Widget.html.twig',
+            'parameters' => array(),
+            'options' => array(),
         ));
     }
 
@@ -92,24 +98,24 @@ class WidgetBlock extends AbstractAdminBlockService
     {
         //==============================================================================
         // Get Block Settings
-        $Settings = $blockContext->getSettings();
-        
-        //==============================================================================
-        // Merge Passed Rendering Options to Widget Options
-        $Options    =   array_merge( $this->WidgetsManager->getWidgetOptions($Settings["service"], $Settings["type"]) , $Settings["options"] );
-        
-        //==============================================================================
-        // Merge Passed Parameters 
-        $Parameters =   array_merge( $this->WidgetsManager->getWidgetParameters($Settings["service"], $Settings["type"]) , $Settings["parameters"] );
+        $settings = $blockContext->getSettings();
 
         //==============================================================================
-        // Render Response 
+        // Merge Passed Rendering Options to Widget Options
+        $options = array_merge($this->manager->getWidgetOptions($settings["service"], $settings["type"]), $settings["options"]);
+
+        //==============================================================================
+        // Merge Passed Parameters
+        $parameters = array_merge($this->manager->getWidgetParameters($settings["service"], $settings["type"]), $settings["parameters"]);
+
+        //==============================================================================
+        // Render Response
         return $this->renderResponse($blockContext->getTemplate(), array(
-                "Service"   =>  $Settings["service"],
-                "Type"      =>  $Settings["type"],
-                "Options"   =>  $Options,
-                "Parameters"=>  $Parameters,
-            ));
+            "Service" => $settings["service"],
+            "Type" => $settings["type"],
+            "Options" => $options,
+            "Parameters" => $parameters,
+        ));
     }
 
     /**
@@ -117,7 +123,7 @@ class WidgetBlock extends AbstractAdminBlockService
      */
     public function getBlockMetadata($code = null)
     {
-        return new Metadata($this->getName(), (!is_null($code) ? $code : $this->getName()), false, 'SplashWidgetsBundle', array(
+        return new Metadata($this->getName(), (!is_null($code) ? $code : $this->getName()), null, 'SplashWidgetsBundle', array(
             'class' => 'fa fa-television',
         ));
     }

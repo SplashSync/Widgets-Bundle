@@ -1,206 +1,218 @@
 <?php
 
 /*
- * This file is part of the Splash Sync project.
+ *  This file is part of SplashSync Project.
  *
- * (c) Bernard Paquier <pro@bernard-paquier.fr>
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
 
 namespace Splash\Widgets\Models\Traits;
 
-use Doctrine\ORM\Mapping                        as ORM;
-
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
-use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
-
+use ArrayObject;
 use DateTime;
+use Doctrine\ORM\Mapping                        as ORM;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
+use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * @abstract Widget Options Trait 
- * 
+ * Widget Options Trait
+ *
  * @author Bernard Paquier <pro@bernard-paquier.fr>
  */
 trait OptionsTrait
 {
     //==============================================================================
-    //      Constants  
+    //      Constants
     //==============================================================================
 
     //==============================================================================
-    //      Widgets Width  
-    static $WIDTH_XS       = "col-sm-6 col-md-4 col-lg-3";
-    static $WIDTH_SM       = "col-sm-6 col-md-6 col-lg-4";
-    static $WIDTH_DEFAULT  = "col-sm-12 col-md-6 col-lg-6";
-    static $WIDTH_M        = "col-sm-12 col-md-6 col-lg-6";
-    static $WIDTH_L        = "col-sm-12 col-md-6 col-lg-8";
-    static $WIDTH_XL       = "col-sm-12 col-md-12 col-lg-12";
+    //      Widgets Width
+    public static $widthXs = "col-sm-6 col-md-4 col-lg-3";
+    public static $widthSm = "col-sm-6 col-md-6 col-lg-4";
+    public static $widthDefault = "col-sm-12 col-md-6 col-lg-6";
+    public static $widthM = "col-sm-12 col-md-6 col-lg-6";
+    public static $widthL = "col-sm-12 col-md-6 col-lg-8";
+    public static $widthXl = "col-sm-12 col-md-12 col-lg-12";
 
     //==============================================================================
-    //      Widgets Color 
-    static $COLOR_NONE      = " ";
-    static $COLOR_DEFAULT   = "panel panel-default";
-    static $COLOR_PRIMARY   = "panel panel-primary";
-    static $COLOR_SUCCESS   = "panel panel-success";
-    static $COLOR_INFO      = "panel panel-info";
-    static $COLOR_WARNING   = "panel panel-warning";
-    static $COLOR_DANGER    = "panel panel-danger";
-    
+    //      Widgets Color
+    public static $colorNone = " ";
+    public static $colorDefault = "panel panel-default";
+    public static $colorPrimary = "panel panel-primary";
+    public static $colorSuccess = "panel panel-success";
+    public static $colorInfo = "panel panel-info";
+    public static $colorWarning = "panel panel-warning";
+    public static $colorDanger = "panel panel-danger";
+
     //==============================================================================
-    //      Variables  
+    //      Variables
     //==============================================================================
-    
+
     /**
-     * @abstract    Widget Options Array
-     * @var         array
+     * Widget Options Array
+     *
+     * @var array
+     *
      * @ORM\Column(name="Options", type="array")
      */
-    protected $options;    
-    
+    protected $options;
+
     //==============================================================================
-    //      Data Operations  
+    //      Data Operations
     //==============================================================================
-    
+
     /**
-     * Set Width 
-     * 
-     * @param   $width
-     * 
-     * @return  Widget
+     * Set Width
+     *
+     * @param string $width Widget Width Code
+     *
+     * @return $this
      */
-    public function setWidth($width)
+    public function setWidth(string $width) : self
     {
         if (empty($width)) {
-            $this->options["Width"]     =   static::$WIDTH_DEFAULT;
+            $this->options["Width"] = static::$widthDefault;
+
             return $this;
-        } 
-        
-        switch ($width)
-        {
+        }
+
+        switch ($width) {
             case "xs":
-                $this->options["Width"]     =   static::$WIDTH_XS;
+                $this->options["Width"] = static::$widthXs;
+
                 break;
             case "sm":
-                $this->options["Width"]     =   static::$WIDTH_SM;
+                $this->options["Width"] = static::$widthSm;
+
                 break;
             case "m":
-                $this->options["Width"]     =   static::$WIDTH_M;
+                $this->options["Width"] = static::$widthM;
+
                 break;
             case "l":
-                $this->options["Width"]     =   static::$WIDTH_L;
+                $this->options["Width"] = static::$widthL;
+
                 break;
             case "xl":
-                $this->options["Width"]     =   static::$WIDTH_XL;
+                $this->options["Width"] = static::$widthXl;
+
                 break;
-            default :
-                $this->options["Width"]     =   $width;
+            default:
+                $this->options["Width"] = $width;
+
                 break;
         }
-        
+
         return $this;
     }
-    
+
     /**
      * Set Header Status
-     * 
-     * @param   bool $state
-     * 
-     * @return  Widget
+     *
+     * @param bool $state
+     *
+     * @return $this
      */
-    public function setHeader(bool $state = True)
+    public function setHeader(bool $state = null) : self
     {
-        $this->options["Header"]     =   $state;
+        $this->options["Header"] = is_null($state) ? true : $state;
+
         return $this;
-    }    
-    
+    }
+
     /**
      * Set Footer Status
-     * 
-     * @param   bool $state
-     * 
-     * @return  Widget
+     *
+     * @param bool $state
+     *
+     * @return $this
      */
-    public function setFooter(bool $state = True)
+    public function setFooter(bool $state = null) : self
     {
-        $this->options["Footer"]     =   $state;
+        $this->options["Footer"] = is_null($state) ? true : $state;
+
         return $this;
-    }    
-    
+    }
+
     /**
-     * @abstract    Get Widget Max Cache Date
-     * 
-     * @return  \DateTime
+     * Get Widget Max Cache Date
+     *
+     * @return DateTime
      */
-    public function getCacheMaxDate()
+    public function getCacheMaxDate() : DateTime
     {
-        if ( !isset($this->options['UseCache']) || !isset($this->options['CacheLifeTime']) || !$this->options['UseCache'] ) {
+        if (!isset($this->options['UseCache']) || !isset($this->options['CacheLifeTime']) || !$this->options['UseCache']) {
             return new DateTime();
-        } 
-        return new DateTime($this->options['CacheLifeTime']  . "minutes");
-    }       
-    
-    
+        }
+
+        return new DateTime($this->options['CacheLifeTime']."minutes");
+    }
+
     //==============================================================================
-    //      Getters & Setters  
+    //      Getters & Setters
     //==============================================================================
-    
+
     /**
      * Set Widget Options
      *
-     * @param array $options        User Defined Options
+     * @param array|ArrayObject $options User Defined Options
      *
-     * @return self
+     * @return $this
      */
-    public function setOptions($options = Null)
+    public function setOptions($options = null) : self
     {
-        
         //==============================================================================
-        //  Update Options Array using OptionResolver 
-        $this->options  =   $this->validateOptions($options);
-        
+        //  Update Options Array using OptionResolver
+        $this->options = $this->validateOptions($options);
+
         return $this;
-    }    
-    
+    }
+
     /**
      * Get Widget Options
-     * 
-     * @return  Array
+     *
+     * @return Array
      */
-    public function getOptions()
+    public function getOptions() : array
     {
         return $this->validateOptions($this->options);
-    }    
-    
+    }
+
     /**
-     * validate Widget Options
+     * Validate Widget Options
      *
-     * @param array $options        User Defined Options
+     * @param array|ArrayObject $options User Defined Options
      *
      * @return array
      */
-    public function validateOptions($options = Null) : array
+    public function validateOptions($options = null) : array
     {
         //==============================================================================
         //  Check Options is ArrayObject
-        if ( is_a($options, "ArrayObject") ) {
+        if ($options instanceof ArrayObject) {
             $options = $options->getArrayCopy();
-        }             
+        }
         //==============================================================================
         //  Check Options Array not Empty or Not an Array
-        if ( empty($options) || !is_array($options) ) {
+        if (empty($options) || !is_array($options)) {
             return  $this->getDefaultOptions();
-        }         
+        }
         //==============================================================================
         //  Init Options Array using OptionResolver
         $resolver = new OptionsResolver();
         //==============================================================================
         //  Configure OptionResolver
-        $resolver->setDefaults( $this->getDefaultOptions() );
+        $resolver->setDefaults($this->getDefaultOptions());
         //==============================================================================
-        //  Update Options Array using OptionResolver        
+        //  Update Options Array using OptionResolver
         try {
             return  $resolver->resolve($options);
         } catch (UndefinedOptionsException $ex) {
@@ -208,41 +220,40 @@ trait OptionsTrait
         } catch (InvalidOptionsException $ex) {
             return $this->getDefaultOptions();
         }
-        
+
         return $this->getDefaultOptions();
-    }    
-    
+    }
+
     /**
      * Update Widget Options With Given Values
-     * 
-     * @param array $Options        User Defined Options
-     * 
-     * @return  Array
+     *
+     * @param array $options User Defined Options
+     *
+     * @return $this
      */
-    public function mergeOptions($Options = array())
+    public function mergeOptions(array $options = array()) : self
     {
-        return $this->setOptions(array_merge($this->getOptions(), $Options));
-    }     
-    
+        return $this->setOptions(array_replace_recursive($this->getOptions(), $options));
+    }
+
     /**
      * Get Widget Defaults Options
-     * 
-     * @return  Array
+     *
+     * @return array
      */
-    public static function getDefaultOptions()
+    public static function getDefaultOptions() : array
     {
         return array(
-            'Width'         =>  static::$WIDTH_DEFAULT,
-            'Color'         =>  static::$COLOR_DEFAULT,
-            'Header'        =>  True,
-            'Footer'        =>  True,
-            'Border'        =>  True,
-            'DatePreset'    =>  "M",
-            'UseCache'      =>  True,
-            'CacheLifeTime' =>  10,
-            'Editable'      =>  False,
-            'EditMode'      =>  False,
-        );    
-    }     
-    
+            'Width' => static::$widthDefault,
+            'Color' => static::$colorDefault,
+            'Header' => true,
+            'Footer' => true,
+            'Border' => true,
+            'DatePreset' => "M",
+            'UseCache' => true,
+            'CacheLifeTime' => 10,
+            'Editable' => false,
+            'EditMode' => false,
+        );
+    }
 }

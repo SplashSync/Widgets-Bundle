@@ -1,30 +1,31 @@
 <?php
 
 /*
- * This file is part of the Splash Sync project.
+ *  This file is part of SplashSync Project.
  *
- * (c) Bernard Paquier <pro@bernard-paquier.fr>
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
 
 namespace Splash\Widgets\Models\Blocks;
 
-use Splash\Widgets\Entity\Widget;
-
-use Symfony\Component\Form\FormBuilderInterface;
+use ArrayObject;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Abstact Widget Model 
- * 
- * @author Bernard Paquier <pro@bernard-paquier.fr>
+ * Widget Spark Bar Chart Block
+ * Simple Bar Chart
  */
 class SparkBarChartBlock extends BaseBlock
 {
-
     //====================================================================//
     // *******************************************************************//
     //  BLOCK GENERICS PARAMETERS
@@ -33,185 +34,207 @@ class SparkBarChartBlock extends BaseBlock
 
     //====================================================================//
     // Define Standard Data Fields for this Widget Block
-    static $DATA          = array(
-        "title"             => "Title",
-        "values"            => array(),
+    public static $DATA = array(
+        "title" => "Title",
+        "values" => array(),
     );
 
     //====================================================================//
     // Define Standard Options for this Widget Block
     // Uncomment to override défault options
-    static $OPTIONS       = array(
-        'Width'             => "col-sm-12 col-md-12 col-lg-12",
-        "AllowHtml"         => False,    
-        "ChartOptions"             => array(
+    public static $OPTIONS = array(
+        'Width' => "col-sm-12 col-md-12 col-lg-12",
+        "AllowHtml" => false,
+        "ChartOptions" => array(
         ),
     );
-
-        
     /**
      * @var string
      */
     protected $type = "SparkBarChartBlock";
-    
+
     /**
      * Set Block Contents from Array
      *
-     * @param array $Contents
+     * @param null|array|ArrayObject $contents
      *
-     * @return Widget
+     * @return $this
      */
-    public function setContents($Contents)
+    public function setContents($contents) : self
     {
         //==============================================================================
         //  Safety Check
-        if ( !is_array($Contents) && !is_a($Contents, "ArrayObject") ){
+        if (!is_array($contents) && !($contents instanceof ArrayObject)) {
             return $this;
-        } 
-        
+        }
+
         //==============================================================================
         //  Import Title
-        if ( !empty($Contents["title"]) ){
-            $this->setTitle($Contents["title"]);
-        }         
+        if (!empty($contents["title"])) {
+            $this->setTitle($contents["title"]);
+        }
         //==============================================================================
         //  Import Values
-        if ( !empty($Contents["values"]) ){
-            $this->setValues($Contents["values"]);
-        }         
-     
+        if (!empty($contents["values"])) {
+            $this->setValues($contents["values"]);
+        }
+
         return $this;
-    }      
-    
+    }
+
     /**
-     * @abstract   Add SparkBar Height Parameter to Widget Form
-     */    
-    public static function addHeightFormRow(FormBuilderInterface $builder)
+     * Add SparkBar Height Parameter to Widget Form
+     *
+     * @param FormBuilderInterface $builder
+     */
+    public static function addHeightFormRow(FormBuilderInterface $builder) : void
     {
         $builder->add('SparkLineHeight', IntegerType::class, array(
-            'label'                 => "blocks.sparkbar.height.label",
-            'help_block'            => "blocks.sparkbar.height.tooltip",
-            'translation_domain'    => "SplashWidgetsBundle",
-            'property_path'         => 'parameters[sparkbar_height]',
-            'required'              => False,
+            'label' => "blocks.sparkbar.height.label",
+            'help_block' => "blocks.sparkbar.height.tooltip",
+            'translation_domain' => "SplashWidgetsBundle",
+            'property_path' => 'parameters[sparkbar_height]',
+            'required' => false,
         ));
     }
-    
+
     /**
-     * @abstract   Add SparkBar Bar Width Parameter to Widget Form
-     */    
-    public static function addBarWidthFormRow(FormBuilderInterface $builder)
+     * Add SparkBar Bar Width Parameter to Widget Form
+     *
+     * @param FormBuilderInterface $builder
+     */
+    public static function addBarWidthFormRow(FormBuilderInterface $builder) : void
     {
         $builder->add('SparkLineBarWidth', IntegerType::class, array(
-            'label'                 => "blocks.sparkbar.barwidth.label",
-            'help_block'            => "blocks.sparkbar.barwidth.tooltip",
-            'translation_domain'    => "SplashWidgetsBundle",
-            'property_path'         => 'parameters[sparkbar_barwidth]',
-            'required'              => False,
+            'label' => "blocks.sparkbar.barwidth.label",
+            'help_block' => "blocks.sparkbar.barwidth.tooltip",
+            'translation_domain' => "SplashWidgetsBundle",
+            'property_path' => 'parameters[sparkbar_barwidth]',
+            'required' => false,
         ));
     }
-    
+
     /**
-     * @abstract   Add SparkBar Bar Color Parameter to Widget Form
-     */    
-    public static function addBarColorFormRow(FormBuilderInterface $builder)
+     * Add SparkBar Bar Color Parameter to Widget Form
+     *
+     * @param FormBuilderInterface $builder
+     */
+    public static function addBarColorFormRow(FormBuilderInterface $builder) : void
     {
         $builder->add('SparkLineBarColor', TextType::class, array(
-            'label'                 => "blocks.sparkbar.barcolor.label",
-            'help_block'            => "blocks.sparkbar.barcolor.tooltip",
-            'translation_domain'    => "SplashWidgetsBundle",
-            'property_path'         => 'parameters[sparkbar_barcolor]',
-            'required'              => False,
+            'label' => "blocks.sparkbar.barcolor.label",
+            'help_block' => "blocks.sparkbar.barcolor.tooltip",
+            'translation_domain' => "SplashWidgetsBundle",
+            'property_path' => 'parameters[sparkbar_barcolor]',
+            'required' => false,
         ));
     }
-    
+
     //====================================================================//
-    // *******************************************************************//
     //  Block Getter & Setter Functions
-    // *******************************************************************//
     //====================================================================//
-    
+
     /**
      * Set Title
-     * 
-     * @param   $text
-     * 
-     * @return  Widget
+     *
+     * @param string $text
+     *
+     * @return $this
      */
-    public function setTitle($text)
+    public function setTitle(string $text) : self
     {
-        $this->data["title"]     =   $text;
+        $this->data["title"] = $text;
+
         return $this;
     }
-    
+
     /**
      * Get Title
-     * 
-     * @return  String
+     *
+     * @return String
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->data["title"];
-    }   
-       
-    
+    }
+
     /**
      * Set Values
-     * 
-     * @param   $text
-     * 
-     * @return  Widget
+     *
+     * @param array $values
+     *
+     * @return $this
      */
-    public function setValues($text)
+    public function setValues(array $values) : self
     {
-        $this->data["values"]     =   $text;
+        $this->data["values"] = $values;
+
         return $this;
     }
-    
+
     /**
      * Get Values
-     * 
-     * @return  String
+     *
+     * @return array
      */
-    public function getValues()
+    public function getValues() : array
     {
         return $this->data["values"];
-    }    
+    }
 
     /**
      * Set Chart Height
+     *
+     * @param int $value
+     *
+     * @return $this
      */
-    public function setChartHeight($value)
+    public function setChartHeight(int $value) : self
     {
-        $this->options["ChartOptions"]["height"]     =   $value;
+        $this->options["Graph"]["height"] = $value;
+
         return $this;
     }
-    
+
     /**
-     * Set Bar Width
+     * Set Chart Width
+     *
+     * @param int $value
+     *
+     * @return $this
      */
-    public function setChartWidth($value)
+    public function setChartWidth(int $value) : self
     {
-        $this->options["ChartOptions"]["width"]     =   $value;
-        return $this;
-    }
-    
-    /**
-     * Set Bar Width
-     */
-    public function setBarWidth($value)
-    {
-        $this->options["ChartOptions"]["barwidth"]     =   $value;
+        $this->options["Graph"]["width"] = $value;
+
         return $this;
     }
 
     /**
      * Set Bar Width
+     *
+     * @param int $value
+     *
+     * @return $this
      */
-    public function setBarColor($value)
+    public function setBarWidth(int $value) : self
     {
-        $this->options["ChartOptions"]["bar-color"]     =   $value;
+        $this->options["Graph"]["barwidth"] = $value;
+
         return $this;
     }
-    
+
+    /**
+     * Set Bar Color
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setBarColor(string $value) : self
+    {
+        $this->options["Graph"]["bar-color"] = $value;
+
+        return $this;
+    }
 }

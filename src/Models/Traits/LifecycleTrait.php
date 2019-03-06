@@ -1,81 +1,88 @@
 <?php
 
 /*
- * This file is part of the Splash Sync project.
+ *  This file is part of SplashSync Project.
  *
- * (c) Bernard Paquier <pro@bernard-paquier.fr>
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
 
 namespace Splash\Widgets\Models\Traits;
 
+use DateTime;
 use Doctrine\ORM\Mapping                        as ORM;
 
 /**
- * @abstract Widget Lifecycle Trait 
- * 
+ * Widget Lifecycle Trait
+ *
  * @author Bernard Paquier <pro@bernard-paquier.fr>
  */
 trait LifecycleTrait
 {
     //==============================================================================
-    //      Variables  
+    //      Variables
     //==============================================================================
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="createdAt", type="datetime")
      */
     protected $createdAt;
-    
+
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="updatedAt", type="datetime")
      */
     protected $updatedAt;
-    
+
     /**
-     * @var \DateTime
+     * @var null|DateTime
      */
-    protected $refreshAt       =    Null;    
-    
+    protected $refreshAt;
+
     //==============================================================================
-    //      LIFECYCLES FUNCTIONS  
-    //==============================================================================       
-    
-    /** @ORM\PrePersist() */    
+    //      LIFECYCLES FUNCTIONS
+    //==============================================================================
+
+    /** @ORM\PrePersist() */
     public function prePersist()
     {
+        $now = new DateTime();
         //====================================================================//
         // Set Dates
-        $this->setCreatedAt(new \DateTime);
-        $this->setUpdatedAt(new \DateTime);
+        $this->setCreatedAt($now);
+        $this->setUpdatedAt($now);
     }
-    
-    /** @ORM\PreUpdate() */    
+
+    /** @ORM\PreUpdate() */
     public function preUpdate()
     {
+        $now = new DateTime();
         //====================================================================//
         // Set Dates
-        $this->setUpdatedAt(new \DateTime);
-    }    
-    
+        $this->setUpdatedAt($now);
+    }
+
     //==============================================================================
-    //      Getters & Setters  
+    //      Getters & Setters
     //==============================================================================
 
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param DateTime $createdAt
      *
-     * @return Report
+     * @return $this
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt($createdAt) : self
     {
         $this->createdAt = $createdAt;
 
@@ -85,9 +92,9 @@ trait LifecycleTrait
     /**
      * Get createdAt
      *
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getCreatedAt()
+    public function getCreatedAt() : DateTime
     {
         return $this->createdAt;
     }
@@ -95,11 +102,11 @@ trait LifecycleTrait
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
+     * @param DateTime $updatedAt
      *
-     * @return Report
+     * @return $this
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt($updatedAt) : self
     {
         $this->updatedAt = $updatedAt;
 
@@ -109,38 +116,34 @@ trait LifecycleTrait
     /**
      * Get updatedAt
      *
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt() : DateTime
     {
         return $this->updatedAt;
     }
-    
+
     /**
      * Set refreshAt
      *
-     * @param \DateTime $refreshAt
+     * @param DateTime $refreshAt
      *
-     * @return Report
+     * @return $this
      */
-    public function setRefreshAt($refreshAt = Null)
+    public function setRefreshAt(DateTime $refreshAt = null) : self
     {
-        if ( $refreshAt ) {
-            $this->refreshAt = $refreshAt;
-        } else {
-            $this->refreshAt = new \DateTime();
-        }
+        $this->refreshAt = $refreshAt ? $refreshAt : new DateTime();
+
         return $this;
     }
 
     /**
      * Get refreshAt
      *
-     * @return \DateTime
+     * @return null|DateTime
      */
-    public function getRefreshAt()
+    public function getRefreshAt() : ?DateTime
     {
         return $this->refreshAt;
-    }    
-    
+    }
 }

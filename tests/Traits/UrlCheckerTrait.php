@@ -1,171 +1,247 @@
 <?php
 
+/*
+ *  This file is part of SplashSync Project.
+ *
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Splash\Widgets\Tests\Traits;
 
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
- * @abstract    Verify Pages Loading is Ok
+ * Verify Pages Loading is Ok
  */
-trait UrlCheckerTrait {
-    
+trait UrlCheckerTrait
+{
     /**
      * @var RouterInterface
      */
     private $router;
 
-    public function generateUrl( $Route, $Parameters, $Locale )
+    /**
+     * @var Client
+     */
+    private $client;
+
+    /**
+     * Generate Relative Url
+     *
+     * @param string $route
+     * @param array  $parameters
+     *
+     * @return string
+     */
+    public function generateUrl(string $route, array $parameters) : string
     {
         //====================================================================//
         // Link to Symfony Router
-        if ( empty($this->router) ) {
-            $this->router   =   $this->client->getContainer()->get('router');
+        if (!isset($this->router)) {
+            $container = $this->client->getContainer();
+            $this->assertNotNull($container);
+            $router = $container->get('router');
+            $this->assertInstanceOf(RouterInterface::class, $router);
+            $this->router = $router;
         }
         //====================================================================//
         // Generate Url
-        return $this->router->generate($Route, $Parameters );
+        $this->assertInstanceOf(RouterInterface::class, $this->router);
+
+        return $this->router->generate($route, $parameters);
     }
-    
-    private function ensureClientIsLoaded()
-    {
-        $this->assertTrue(isset($this->client),                 "Test Client Not Found ( this->client )");
-        $this->assertInstanceOf(Client::class , $this->client,  "Invalid Test Client Not Found ( " . get_class($this->client) . " )");  
-    }  
-    
-    public function assertUrlWorks($Url, $Method = "GET")
+
+    /**
+     * Verify if an Url Works and return Crawler
+     *
+     * @param string $url
+     * @param string $method
+     *
+     * @return Crawler
+     */
+    public function assertUrlWorks(string $url, string $method = "GET") : Crawler
     {
         $this->ensureClientIsLoaded();
-        
+
         //====================================================================//
         // Execute Client Request
         $this->client->followRedirects();
         $this->client->setMaxRedirects(3);
-        $Crawler = $this->client->request($Method, $Url);
+        $crawler = $this->client->request($method, $url);
 
-        if ( !$this->client->getResponse()->isSuccessful() ) {
-            dump( substr($this->client->getResponse()->getContent(), 0, 1000));
+        //====================================================================//
+        // Verify Response
+        $response = $this->client->getResponse();
+        $this->assertInstanceOf(Response::class, $response);
+        if (!$response->isSuccessful()) {
+            var_dump(substr($response->getContent(), 0, 1000));
         }
-        //====================================================================//
-        // Verify Response
-        $this->assertTrue($this->client->getResponse()->isSuccessful(), "This Url Fail : " . $Url . " Status Code : " . $this->client->getResponse()->getStatusCode());
-        
-        return $Crawler;
-    }  
-    
-    public function assertUrlFail($Url, $Method = "GET")
+        $this->assertTrue(
+            $response->isSuccessful(),
+            "This Url Fail : ".$url." Status Code : ".$response->getStatusCode()
+        );
+
+        return $crawler;
+    }
+
+    /**
+     * Verify if an Url Fail and return Crawler
+     *
+     * @param string $url
+     * @param string $method
+     *
+     * @return Crawler
+     */
+    public function assertUrlFail(string $url, string $method = "GET") : Crawler
     {
         $this->ensureClientIsLoaded();
-        
+
         //====================================================================//
         // Execute Client Request
         $this->client->followRedirects();
         $this->client->setMaxRedirects(3);
-        $Crawler    =   $this->client->request($Method, $Url);
+        $crawler = $this->client->request($method, $url);
 
         //====================================================================//
         // Verify Response
-        $this->assertFalse($this->client->getResponse()->isSuccessful(), "This Url Should Fail but Works : " . $Url . " Status Code : " . $this->client->getResponse()->getStatusCode());
+        $response = $this->client->getResponse();
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertFalse(
+            $response->isSuccessful(),
+            "This Url Should Fail but Works : ".$url." Status Code : ".$response->getStatusCode()
+        );
 
-        return $Crawler;
-    }      
+        return $crawler;
+    }
 
-    public function assertUrlRedirects($Url, $Target = Null, $Method = "GET")
+    /**
+     * Verify if an Url Redirect to An Url and return Crawler
+     *
+     * @param string $url
+     * @param string $target
+     * @param string $method
+     *
+     * @return Crawler
+     */
+    public function assertUrlRedirects(string $url, string $target = null, string $method = "GET") : Crawler
     {
         $this->ensureClientIsLoaded();
-        
+
         //====================================================================//
         // Execute Client Request
-        $this->client->followRedirects(False);
-        $Crawler = $this->client->request($Method, $Url);
+        $this->client->followRedirects(false);
+        $crawler = $this->client->request($method, $url);
 
         //====================================================================//
         // Verify Response
-        $this->assertTrue($this->client->getResponse()->isRedirection(), "This Url Should Redirect but Doesn't : " . $Url . " Status Code : " . $this->client->getResponse()->getStatusCode());
-        
-        if ( $Target ) {
-//            $this->client->followRedirect();
+        $response = $this->client->getResponse();
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertTrue(
+            $response->isRedirection(),
+            "This Url Should Redirect but Doesn't : ".$url." Status Code : ".$response->getStatusCode()
+        );
+
+        if ($target) {
             $this->assertEquals(
-                    parse_url($this->client->getResponse()->getTargetUrl(), PHP_URL_PATH), 
-                    parse_url($Target, PHP_URL_PATH), 
-                    "This Url Should Redirect to " . $Target . " but redirect to : " . $Url . " Status Code : " . $this->client->getResponse()->getStatusCode());
-        } 
-        
-        return $Crawler;
-    }      
-    
-    public function assertSubmitWorks($Form)
+                parse_url($response->getTargetUrl(), PHP_URL_PATH),
+                parse_url($target, PHP_URL_PATH),
+                "This Url Should Redirect to ".$target." but redirect to : ".$url." Status Code : ".$response->getStatusCode()
+            );
+        }
+
+        return $crawler;
+    }
+
+    /**
+     * Verify if an Submit of a Form Works
+     *
+     * @param mixed $form
+     */
+    public function assertSubmitWorks($form)
     {
         $this->ensureClientIsLoaded();
-     
+
         //====================================================================//
         // submit that form
         $this->client->followRedirects();
-        $this->client->submit($Form);
+        $this->client->submit($form);
         //====================================================================//
         // Verify Submit Was Successfull
         $this->client->followRedirects();
-        $this->assertTrue($this->client->getResponse()->isSuccessful(), "Form Submit Failled");
-    }  
+        $response = $this->client->getResponse();
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertTrue($response->isSuccessful(), "Form Submit Failled");
+    }
 
-    public function assertRouteWorks($Route, $Parameters = [], $Locale = Null, $Method = "GET")
+    /**
+     * Verify if a Route Works and return Crawler
+     *
+     * @param string $route
+     * @param array  $parameters
+     * @param string $method
+     *
+     * @return Crawler
+     */
+    public function assertRouteWorks(string $route, array $parameters = array(), string $method = "GET") : Crawler
     {
         $this->ensureClientIsLoaded();
-        
-        if ( !is_null($Locale) ) {
-            return $this->assertUrlWorks($this->generateUrl($Route, $Parameters, $Locale ), $Method);
-        } 
-        
-        //====================================================================//
-        // Get List Of Locales
-        $Locales    =   static::$kernel->getContainer()->getParameter('locales');
-        $this->assertNotEmpty($Locales);
-        foreach($Locales as $Locale) {
-            $Crawler = $this->assertUrlWorks($this->generateUrl($Route, $Parameters, $Locale ), $Method);
-        }
-        return $Crawler;
-    }  
-    
-    public function assertRouteFail($Route, $Parameters = [], $Locale = Null, $Method = "GET")
-    {
-        $this->ensureClientIsLoaded();
-        
-        if ( !is_null($Locale) ) {
-            return $this->assertUrlFail($this->generateUrl($Route, $Parameters, $Locale ), $Method);
-        } 
-        
-        //====================================================================//
-        // Get List Of Locales
-        $Locales    =   static::$kernel->getContainer()->getParameter('locales');
-        $this->assertNotEmpty($Locales);
-        foreach($Locales as $Locale) {
-            $Crawler = $this->assertUrlFail($this->generateUrl($Route, $Parameters, $Locale ), $Method);
-        }
-        return $Crawler;
-    } 
 
-    public function assertRouteRedirects($Route, $Parameters = [], $Locale = Null, $Target = Null, $TargetParams = [])
+        return $this->assertUrlWorks($this->generateUrl($route, $parameters), $method);
+    }
+
+    /**
+     * Verify if a Route Fails and return Crawler
+     *
+     * @param string $route
+     * @param array  $parameters
+     * @param string $method
+     *
+     * @return Crawler
+     */
+    public function assertRouteFail(string $route, array $parameters = array(), string $method = "GET") : Crawler
     {
         $this->ensureClientIsLoaded();
-        
-        if ( !is_null($Locale) ) {
-            return $this->assertUrlRedirects(
-                    $this->generateUrl($Route,  $Parameters,    $Locale ),
-                    $this->generateUrl($Target, $TargetParams,  $Locale )
-                    );
-        } 
-        
-        //====================================================================//
-        // Get List Of Locales
-        $Locales    =   static::$kernel->getContainer()->getParameter('locales');
-        $this->assertNotEmpty($Locales);
-        foreach($Locales as $Locale) {
-            $Crawler    =   $this->assertUrlRedirects(
-                    $this->generateUrl($Route,  $Parameters,    $Locale ),
-                    $this->generateUrl($Target, $TargetParams,  $Locale )
-                    );
-        }
-        return $Crawler;
-    } 
-    
+
+        return $this->assertUrlFail($this->generateUrl($route, $parameters), $method);
+    }
+
+    /**
+     * Verify if A Route Redirect to Another
+     *
+     * @param string $route
+     * @param array  $parameters
+     * @param string $target
+     * @param array  $targetParams
+     *
+     * @return Crawler
+     */
+    public function assertRouteRedirects(string $route, array $parameters = array(), string $target = null, array $targetParams = array())
+    {
+        $this->ensureClientIsLoaded();
+
+        return $this->assertUrlRedirects(
+            $this->generateUrl($route, $parameters),
+            $this->generateUrl((string) $target, $targetParams)
+        );
+    }
+
+    /**
+     * Ensure BrowserKit Client is Loaded
+     */
+    private function ensureClientIsLoaded()
+    {
+        $this->assertTrue(isset($this->client), "Test Client Not Found ( this->client )");
+        $this->assertInstanceOf(Client::class, $this->client, "Invalid Test Client Not Found ( ".get_class($this->client)." )");
+    }
 }

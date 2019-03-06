@@ -1,73 +1,98 @@
 <?php
 
+/*
+ *  This file is part of SplashSync Project.
+ *
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Splash\Widgets\Models\Demo\Blocks;
 
 use Splash\Widgets\Entity\Widget;
 use Splash\Widgets\Services\FactoryService;
-
 use Symfony\Component\Form\FormBuilderInterface;
 
-/*
+/**
  * Demo Morris Area Chart Block definition
  */
 class MorrisArea
 {
-    const TYPE          =   "MorrisArea";
-    const ICON          =   "fa fa-fw fa-area-chart";
-    const TITLE         =   "Morris Area Chart Block";
-    const DESCRIPTION   =   "Demonstration Morris Area Chart";
-    
-    public static function build(FactoryService $Factory, array $Parameters)
+    const TYPE = "MorrisArea";
+    const ICON = "fa fa-fw fa-area-chart";
+    const TITLE = "Morris Area Chart Block";
+    const DESCRIPTION = "Demonstration Morris Area Chart";
+
+    /**
+     * Build Block
+     *
+     * @param FactoryService $factory
+     * @param array          $parameters
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public static function build(FactoryService $factory, array $parameters) : void
     {
-        $Next = rand(0,100);
-        $Next2 = rand(0,100);
-        $Values = array(); 
-        for ($i=1 ; $i<25 ; $i++) {
-            $Values[] = array( 
-                "label"     => "2017 W" . $i, 
-                "value"     => $Next,
-                "value2"    => $Next2
-                ); 
-            $Next += rand(-50,50);
-            $Next2 += rand(-50,50);
+        $next = rand(0, 100);
+        $next2 = rand(0, 100);
+        $values = array();
+        for ($i = 1; $i < 25; $i++) {
+            $values[] = array(
+                "label" => "2017 W".$i,
+                "value" => $next,
+                "value2" => $next2,
+            );
+            $next += rand(-50, 50);
+            $next2 += rand(-50, 50);
         }
 
-        $Factory
-                
-        //==============================================================================
-        // Create Morris Line Chart Block 
-                ->addBlock("MorrisAreaBlock", self::blockOptions() )
-                    ->setTitle("Morris Area Chart")
-                    ->setDataSet($Values)
-                    ->setYKeys(["value","value2"])
-                    ->setLabels(["Serie 1", "Serie 2"])
-                    ->setChartOptions(array(
-                        "lineColors" => ["DeepPink","RoyalBlue","green"]
-                    ))
-                ->end()
-                            
-            ;
+        $factory
+            //==============================================================================
+            // Create Morris Line Chart Block
+            ->addBlock("MorrisAreaBlock", self::blockOptions())
+            ->setTitle("Morris Area Chart")
+            ->setDataSet($values)
+            ->setYKeys(array("value", "value2"))
+            ->setLabels(array("Serie 1", "Serie 2"))
+            ->setChartOptions(array(
+                "lineColors" => array("DeepPink", "RoyalBlue", "green"),
+            ))
+            ->end()
+        ;
     }
 
-    
-    public static function populateWidgetForm(FormBuilderInterface $builder)
+    /**
+     * Populate Block on Widget Form
+     *
+     * @param FormBuilderInterface $builder
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public static function populateWidgetForm(FormBuilderInterface $builder) : void
     {
-        return;
-    }    
+    }
 
-    
-    public static function blockOptions()
+    /**
+     * Get Block Options
+     *
+     * @return array
+     */
+    public static function blockOptions() : array
     {
         //==============================================================================
-        // Create Block Options 
+        // Create Block Options
         return array(
-            "Width"                 => Widget::$WIDTH_XL,
-            "AllowHtml"             => False,
-            "ChartOptions"          => array(
-//                "fill-color"    => "Silver" 
+            "Width" => Widget::$widthXl,
+            "AllowHtml" => false,
+            "ChartOptions" => array(
+                //                "fill-color"    => "Silver"
             ),
-            
-        );  
-    }        
-    
+        );
+    }
 }

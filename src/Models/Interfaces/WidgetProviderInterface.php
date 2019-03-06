@@ -1,71 +1,81 @@
 <?php
 
+/*
+ *  This file is part of SplashSync Project.
+ *
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Splash\Widgets\Models\Interfaces;
 
+use Splash\Widgets\Entity\Widget;
 use Symfony\Component\Form\FormBuilderInterface;
 
-/*
- * @abstract    Widget provider Interface
+/**
+ * Widget provider Interface
  */
-interface WidgetProviderInterface 
+interface WidgetProviderInterface
 {
-    
     /**
-     * @abstract   Read Widget Contents
-     * 
-     * @param      string   $Type               Widgets Type Identifier 
-     * @param      array    $Parameters         Widget Parameters
-     * 
-     * @return     Widget 
-     */    
-    public function getWidget(string $Type, $Parameters = Null);
+     * Read Widget Contents
+     *
+     * @param string $type       Widgets Type Identifier
+     * @param array  $parameters Widget Parameters
+     *
+     * @return null|Widget
+     */
+    public function getWidget(string $type, array $parameters = null): ?Widget;
 
     /**
-     * @abstract   Return Widget Options Array 
-     * 
-     * @param      string   $Type               Widgets Type Identifier 
-     * 
-     * @return     array
-     */    
-    public function getWidgetOptions(string $Type) : array;    
+     * Return Widget Options Array
+     *
+     * @param string $type Widgets Type Identifier
+     *
+     * @return array
+     */
+    public function getWidgetOptions(string $type) : array;
 
     /**
-     * @abstract   Update Widget Options Array 
-     * 
-     * @param      string   $Type               Widgets Type Identifier 
-     * @param      array    $Options            Updated Options 
-     * 
-     * @return     array
-     */    
-    public function setWidgetOptions(string $Type, array $Options) : bool;  
-    
+     * Update Widget Options Array
+     *
+     * @param string $type    Widgets Type Identifier
+     * @param array  $options Updated Options
+     *
+     * @return bool
+     */
+    public function setWidgetOptions(string $type, array $options) : bool;
+
     /**
-     * @abstract   Return Widget Parameters Array 
-     * 
-     * @param      string   $Type               Widgets Type Identifier 
-     * 
-     * @return     array
-     */    
-    public function getWidgetParameters(string $Type) : array;  
-    
+     * Return Widget Parameters Array
+     *
+     * @param string $type Widgets Type Identifier
+     *
+     * @return array
+     */
+    public function getWidgetParameters(string $type) : array;
+
     /**
-     * @abstract   Update Widget Parameters Array 
-     * 
-     * @param      string   $Type               Widgets Type Identifier 
-     * @param      array    $Parameters         Updated Parameters 
-     * 
-     * @return     array
-     */    
-    public function setWidgetParameters(string $Type, array $Parameters) : bool;  
-    
-    
+     * Update Widget Parameters Array
+     *
+     * @param string $type       Widgets Type Identifier
+     * @param array  $parameters Updated Parameters
+     *
+     * @return bool
+     */
+    public function setWidgetParameters(string $type, array $parameters) : bool;
+
     /**
-     * @abstract   Return Widget Parameters Fields Array 
-     * 
-     * @param FormBuilderInterface  $builder
-     * @param      string           $Type           Widgets Type Identifier 
-     * 
-     * @return     array
-     */    
-    public function populateWidgetForm(FormBuilderInterface $builder, string $Type);      
+     * Return Widget Parameters Fields Array
+     *
+     * @param FormBuilderInterface $builder
+     * @param string               $type    Widgets Type Identifier
+     */
+    public function populateWidgetForm(FormBuilderInterface $builder, string $type) : void;
 }

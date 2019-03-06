@@ -1,24 +1,27 @@
 <?php
 
 /*
- * This file is part of the Splash Sync project.
+ *  This file is part of SplashSync Project.
  *
- * (c) Bernard Paquier <pro@bernard-paquier.fr>
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
 
 namespace Splash\Widgets\Models\Blocks;
 
+use ArrayObject;
+
 /**
- * Abstact Widget Model 
- * 
- * @author Bernard Paquier <pro@bernard-paquier.fr>
+ * Morris Js Donut Chart Block Model
  */
 class MorrisDonutBlock extends BaseBlock
 {
-
     //====================================================================//
     // *******************************************************************//
     //  BLOCK GENERICS PARAMETERS
@@ -27,139 +30,141 @@ class MorrisDonutBlock extends BaseBlock
 
     //====================================================================//
     // Define Standard Data Fields for this Widget Block
-    static $DATA          = array(
-        "title"             => "Title",
-        "dataset"           => array(),
+    public static $DATA = array(
+        "title" => "Title",
+        "dataset" => array(),
     );
 
     //====================================================================//
     // Define Standard Options for this Widget Block
     // Uncomment to override défault options
-    static $OPTIONS       = array(
-        'Width'             => "col-sm-12 col-md-12 col-lg-12",
-        "AllowHtml"         => False,    
-        "ChartOptions"      => array(
+    public static $OPTIONS = array(
+        'Width' => "col-sm-12 col-md-12 col-lg-12",
+        "AllowHtml" => false,
+        "ChartOptions" => array(
         ),
     );
 
-        
     /**
      * @var string
      */
     protected $type = "MorrisDonutBlock";
-    
+
     /**
      * Set Block Contents from Array
      *
-     * @param array $Contents
+     * @param null|array|ArrayObject $contents
      *
-     * @return MorrisLineBlock
+     * @return $this
      */
-    public function setContents($Contents)
+    public function setContents($contents) : self
     {
         //==============================================================================
         //  Safety Check
-        if ( !is_array($Contents) && !is_a($Contents, "ArrayObject") ){
+        if (!is_array($contents) && !($contents instanceof ArrayObject)) {
             return $this;
-        } 
-        
+        }
+
         //==============================================================================
         //  Import Title
-        if ( !empty($Contents["title"]) ){
-            $this->setTitle($Contents["title"]);
-        }         
+        if (!empty($contents["title"])) {
+            $this->setTitle($contents["title"]);
+        }
         //==============================================================================
         //  Import Data
-        if ( !empty($Contents["data"]) ){
-            $this->setDataSet($Contents["data"]);
-        }         
+        if (!empty($contents["data"])) {
+            $this->setDataSet($contents["data"]);
+        }
         //==============================================================================
         //  Import Data
-        if ( !empty($Contents["dataset"]) ){
-            $this->setDataSet($Contents["dataset"]);
-        }     
-     
+        if (!empty($contents["dataset"])) {
+            $this->setDataSet($contents["dataset"]);
+        }
+
         return $this;
-    }      
-    
-    /**
-     * @abstract    Parse Array Data for Morris Charts
-     * 
-     * @param   mixed   $In
-     * 
-     * @return  array
-     */
-    protected function filterArray($In)
-    {
-        if ( is_a($In, "ArrayObject")) {
-            return array_values($In->getArrayCopy());
-        } 
-        return array_values($In);
     }
-    
+
     //====================================================================//
     // *******************************************************************//
     //  Block Getter & Setter Functions
     // *******************************************************************//
     //====================================================================//
-    
+
     /**
      * Set Title
-     * 
-     * @param   $text
-     * 
-     * @return  MorrisLineBlock
+     *
+     * @param string $text
+     *
+     * @return $this
      */
-    public function setTitle($text)
+    public function setTitle(string $text) : self
     {
-        $this->data["title"]     =   $text;
+        $this->data["title"] = $text;
+
         return $this;
     }
-    
+
     /**
      * Get Title
-     * 
-     * @return  String
+     *
+     * @return String
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->data["title"];
-    }   
-       
-    
+    }
+
     /**
      * Set Chart Data
-     * 
-     * @param   array $data
-     * 
-     * @return  MorrisLineBlock
+     *
+     * @param array $data
+     *
+     * @return $this
      */
-    public function setDataSet($data)
+    public function setDataSet(array $data) : self
     {
-        $this->data["dataset"]     =   $this->filterArray($data);
+        $this->data["dataset"] = $this->filterArray($data);
+
         return $this;
     }
-    
+
     /**
      * Get Data
-     * 
-     * @return  array
+     *
+     * @return array
      */
-    public function getDataSet()
+    public function getDataSet() : array
     {
         return $this->data["dataset"];
     }
-        
+
     /**
      * Set Chart Options
-     * 
-     * @param   array $options
-     * 
-     * @return  MorrisLineBlock
+     *
+     * @param array $options
+     *
+     * @return $this
      */
-    public function setChartOptions($options)
+    public function setChartOptions(array $options) : self
     {
-        $this->options["ChartOptions"]     =   $options;
+        $this->options["ChartOptions"] = $options;
+
         return $this;
-    }    
+    }
+
+    /**
+     * Parse Array Data for Morris Charts
+     *
+     * @param array|ArrayObject $data
+     *
+     * @return array
+     */
+    protected function filterArray($data) : array
+    {
+        if ($data instanceof ArrayObject) {
+            return array_values($data->getArrayCopy());
+        }
+
+        return array_values($data);
+    }
 }

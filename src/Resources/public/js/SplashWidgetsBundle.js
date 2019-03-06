@@ -30,7 +30,7 @@ function SplashWidgets_LoadEditModal(Service, Type)
      */
     $.ajax({
         type:   "POST",
-        url:    Routing.generate("splash_widgets_edit_widget", {Service : Service, Type : Type }),
+        url:    Routing.generate("splash_widgets_edit_widget", {service : Service, type : Type }),
         data:   false,
         cache:  true,
         success: function(data){
@@ -110,7 +110,7 @@ function SplashWidgets_UpdatePositions(CollectionId,Ordering){
 
     $.ajax({
             type: "POST",
-            url: Routing.generate('splash_widgets_collections_reorder', { CollectionId: CollectionId , Ordering: Ordering }),
+            url: Routing.generate('splash_widgets_collections_reorder', { collectionId: CollectionId , ordering: Ordering }),
             data: false,
             cache: true,
             error: function(data){
@@ -127,7 +127,7 @@ function SplashWidgets_UpdateDatesPreset(CollectionId,Preset){
 
     $.ajax({
             type: "POST",
-            url: Routing.generate('splash_widgets_collections_preset', { CollectionId: CollectionId , Preset: Preset }),
+            url: Routing.generate('splash_widgets_collections_preset', { collectionId: CollectionId , preset: Preset }),
             data: false,
             cache: true,
             error: function(data){
@@ -145,7 +145,7 @@ function SplashWidgets_AddToCollection(CollectionId, Service, Type){
 
     $.ajax({
             type: "POST",
-            url: Routing.generate('splash_widgets_collections_add_widget', { CollectionId: CollectionId , Service: Service, Type : Type }),
+            url: Routing.generate('splash_widgets_collections_add_widget', { collectionId: CollectionId , service: Service, type : Type }),
             data: false,
             cache: true,
             error: function(data){
@@ -164,7 +164,7 @@ function SplashWidgets_RemoveFromCollection(Service, Type){
 
     $.ajax({
             type: "POST",
-            url: Routing.generate('splash_widgets_collections_remove_widget', { Service: Service , Type : Type }),
+            url: Routing.generate('splash_widgets_collections_remove_widget', { service: Service , type : Type }),
             data: false,
             cache: true,
             error: function(data){
@@ -186,7 +186,7 @@ function SplashWidgets_LoadAddModal(CollectionId, Channel)
      */
     $.ajax({
         type:   "POST",
-        url:    Routing.generate("splash_widgets_collections_list_widget", { CollectionId : CollectionId , Channel : Channel}),
+        url:    Routing.generate("splash_widgets_collections_list_widget", { collectionId : CollectionId , channel : Channel}),
         data:   false,
         cache:  true,
         success: function(data){

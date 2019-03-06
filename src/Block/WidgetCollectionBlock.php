@@ -1,72 +1,100 @@
 <?php
 
+/*
+ *  This file is part of SplashSync Project.
+ *
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
 
 namespace Splash\Widgets\Block;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Exception;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\BlockContextInterface;
+use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
+use Sonata\BlockBundle\Meta\Metadata;
 use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\CoreBundle\Model\Metadata;
+use Splash\Widgets\Entity\WidgetCollection;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-
-use Doctrine\ORM\EntityManager;
-
-use Splash\Widgets\Entity\WidgetCollection;
 
 /**
  * @author Bernard Paquier <eshop.bpaquier@gmail.com>
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class WidgetCollectionBlock extends AbstractAdminBlockService
 {
     /**
-     * @abstract    Widget Collections Repository
+     * @var EntityManager
      */
-    private $Repository;
-    
+    private $manager;
+
     /**
-     * @abstract    Symfony Request
+     * Widget Collections Repository
+     *
+     * @var EntityRepository
+     */
+    private $repository;
+
+    /**
+     * Symfony Request
+     *
      * @var Request
      */
-    private $Request;
+    private $request;
 
     /**
-     * @param string                $name
-     * @param EngineInterface       $templating
-     * @param EntityManager         $Manager
+     * @param string          $name
+     * @param EngineInterface $templating
+     * @param EntityManager   $manager
+     * @param RequestStack    $requestStack
      */
-    public function __construct($name, EngineInterface $templating, EntityManager $Manager, RequestStack $RequestStack)
+    public function __construct(string $name, EngineInterface $templating, EntityManager $manager, RequestStack $requestStack)
     {
         parent::__construct($name, $templating);
-        
-        $this->Manager      =   $Manager;
-        $this->Repository   =   $Manager->getRepository('SplashWidgetsBundle:WidgetCollection');
 
-        $this->Request      =   $RequestStack->getCurrentRequest();        
+        $this->manager = $manager;
+        $this->repository = $manager->getRepository('SplashWidgetsBundle:WidgetCollection');
+        $request = $requestStack->getCurrentRequest();
+        if (null === $request) {
+            throw new Exception("Unable to Load Current Request");
+        }
+        $this->request = $request;
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function configureSettings(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'url'       => false,
-            'title'     => 'Splash Widget Collection Block',
-            'collection'=> 'demo-block',
-            'channel'   => 'demo',
-            'template'  => 'SplashWidgetsBundle:Blocks:Collection.html.twig',
-            'editable'  => True,
-            'menu'      => True,
+            'url' => false,
+            'title' => 'Splash Widget Collection Block',
+            'collection' => 'demo-block',
+            'channel' => 'demo',
+            'template' => 'SplashWidgetsBundle:Blocks:Collection.html.twig',
+            'editable' => true,
+            'menu' => true,
         ));
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
@@ -88,40 +116,40 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
     {
         //==============================================================================
         // Get Block Settings
-        $Settings = $blockContext->getSettings();
+        $settings = $blockContext->getSettings();
         //==============================================================================
         // Load Collection from DataBase
-        $Collection =   $this->Repository->findOneByType($Settings["collection"]);         
+        $collection = $this->repository->findOneByType($settings["collection"]);
         //==============================================================================
         // Create Collection if not found
-        if ( !$Collection ) {
-            $Collection =   new WidgetCollection();
-            $this->Manager->persist($Collection);
-        } 
+        if (!$collection) {
+            $collection = new WidgetCollection();
+            $this->manager->persist($collection);
+        }
         //==============================================================================
         // Update Collection Parameters
-        $Collection->setType($Settings["collection"]);
-        $this->Manager->flush();
+        $collection->setType($settings["collection"]);
+        $this->manager->flush();
         //==============================================================================
         // Is Edit Mode?
-        $Edit = ($Settings["editable"] & ($this->Request->get("widget-edit") == $Collection->getId()) ) ? True : False;
+        $edit = ($settings["editable"] & ($this->request->get("widget-edit") == $collection->getId())) ? true : false;
 
-        foreach ($Collection->getWidgets() as &$Widget) {
-            $Widget->mergeOptions( [ 
-                "Editable" => $Settings["editable"],
-                "EditMode" => (($this->Request->get("widget-edit") == $Collection->getId()) ? True : False)
-                    ]);
-        }          
-        
+        foreach ($collection->getWidgets() as &$widget) {
+            $widget->mergeOptions(array(
+                "Editable" => $settings["editable"],
+                "EditMode" => (($this->request->get("widget-edit") == $collection->getId()) ? true : false),
+            ));
+        }
+
         //==============================================================================
         // Render Response
         return $this->renderResponse($blockContext->getTemplate(), array(
-            "Collection"    =>  $Collection,
-            "Title"         =>  $Settings["title"],
-            "Channel"       =>  $Settings["channel"],
-            "Menu"          =>  $Settings["menu"],
-            "Edit"          =>  $Edit,
-            "Editable"      =>  $Settings["editable"],
+            "Collection" => $collection,
+            "Title" => $settings["title"],
+            "Channel" => $settings["channel"],
+            "Menu" => $settings["menu"],
+            "Edit" => $edit,
+            "Editable" => $settings["editable"],
         ), $response);
     }
 
@@ -130,7 +158,7 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
      */
     public function getBlockMetadata($code = null)
     {
-        return new Metadata($this->getName(), (!is_null($code) ? $code : $this->getName()), false, 'SplashWidgetsBundle', array(
+        return new Metadata($this->getName(), (!is_null($code) ? $code : $this->getName()), null, 'SplashWidgetsBundle', array(
             'class' => 'fa fa-television',
         ));
     }

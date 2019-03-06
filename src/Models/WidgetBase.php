@@ -1,18 +1,23 @@
 <?php
 
 /*
- * This file is part of the Splash Sync project.
+ *  This file is part of SplashSync Project.
  *
- * (c) Bernard Paquier <pro@bernard-paquier.fr>
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
 
 namespace Splash\Widgets\Models;
 
+use ArrayObject;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-
 use Splash\Widgets\Models\Traits\AccessTrait;
 use Splash\Widgets\Models\Traits\ActionsTrait;
 use Splash\Widgets\Models\Traits\BlocksTrait;
@@ -23,13 +28,12 @@ use Splash\Widgets\Models\Traits\ParametersTrait;
 use Splash\Widgets\Models\Traits\PositionTrait;
 
 /**
- * Widget Model 
- * 
+ * Widget Model
+ *
  * @author Bernard Paquier <pro@bernard-paquier.fr>
  */
 class WidgetBase
 {
-    
     use AccessTrait;
     use DefinitionTrait;
     use ActionsTrait;
@@ -38,90 +42,128 @@ class WidgetBase
     use OptionsTrait;
     use ParametersTrait;
     use PositionTrait;
-    
-    //====================================================================//
-    // *******************************************************************//
-    //  Variables Definition
-    // *******************************************************************//
-    //====================================================================//
-    
+
+    //==============================================================================
+    //      CONSTRUCTOR
+    //==============================================================================
+
+    /**
+     * Class Cosntructor
+     */
     public function __construct()
     {
         $this->setRefreshAt();
         $this->setOptions();
         $this->blocks = new ArrayCollection();
-    }    
+    }
 
     //====================================================================//
-    // *******************************************************************//
-    //  Widget Data Operations
-    // *******************************************************************//
+    //  Widget Getter & Setter Functions
     //====================================================================//
-    
+
+    /**
+     * Magic Getter to Access Parameters
+     *
+     * @param string $key
+     *
+     * @return null|mixed
+     */
+    public function __get(string $key)
+    {
+        if (array_key_exists($key, $this->parameters)) {
+            return $this->parameters[$key];
+        }
+
+        return null;
+    }
+
+    /**
+     * Magic Setter to Update Parameters
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return $this
+     */
+    public function __set(string $key, $value) : self
+    {
+        $this->parameters[$key] = $value;
+
+        return $this;
+    }
+
+    //====================================================================//
+    //  Widget Data Operations
+    //====================================================================//
+
     /**
      * Set Widget Contents
      *
-     * @param array $Contents
+     * @param null|array|ArrayObject $contents
      *
-     * @return Widget
+     * @return $this
      */
-    public function setContents($Contents)
+    public function setContents($contents) : self
     {
         //==============================================================================
         //  Safety Check
-        if ( !is_array($Contents) && !is_a($Contents, "ArrayObject") ){
+        if (!is_array($contents) && !($contents instanceof ArrayObject)) {
             return $this;
-        } 
+        }
         //==============================================================================
-        //  Import Title
-        if ( !empty($Contents["title"]) ){
-            $this->setTitle($Contents["title"]);
-        } 
-        //==============================================================================
-        //  Import SubTitle
-        if ( !empty($Contents["subtitle"]) ){
-            $this->setSubTitle($Contents["subtitle"]);
-        } 
-        //==============================================================================
-        //  Import Icon
-        if ( !empty($Contents["icon"]) ){
-            $this->setIcon($Contents["icon"]);
-        } 
-        //==============================================================================
-        //  Import Origin
-        if ( !empty($Contents["origin"]) ){
-            $this->setOrigin($Contents["origin"]);
-        } 
+        //  Import Main
+        $this->importMainContents($contents);
         //==============================================================================
         //  Import Date
-        if ( !empty($Contents["date"]) ){
-            if ( is_a($Contents["date"],"DateTime") ){
-                $this->setRefreshAt($Contents["date"]);
-            } else if ( is_scalar($Contents["date"]) ){
-                $this->setRefreshAt(new \DateTime($Contents["date"]));
-            }
-        } 
-        return $this;
-    }       
+        $this->importDateContents($contents);
 
-    //====================================================================//
-    // *******************************************************************//
-    //  Widget Getter & Setter Functions
-    // *******************************************************************//
-    //====================================================================//
-    
-    public function __get($Key)
+        return $this;
+    }
+
+    /**
+     * Import Widget Main Contents
+     *
+     * @param array|ArrayObject $contents
+     */
+    private function importMainContents($contents) : void
     {
-        if (array_key_exists($Key, $this->parameters)) {
-            return $this->parameters[$Key];
+        //==============================================================================
+        //  Import Title
+        if (!empty($contents["title"])) {
+            $this->setTitle($contents["title"]);
         }
-        return NUll;         
+        //==============================================================================
+        //  Import SubTitle
+        if (!empty($contents["subtitle"])) {
+            $this->setSubTitle($contents["subtitle"]);
+        }
+        //==============================================================================
+        //  Import Icon
+        if (!empty($contents["icon"])) {
+            $this->setIcon($contents["icon"]);
+        }
+        //==============================================================================
+        //  Import Origin
+        if (!empty($contents["origin"])) {
+            $this->setOrigin($contents["origin"]);
+        }
     }
-    
-    public function __set($Key,$Value)
+
+    /**
+     * Import Widget Date Contents
+     *
+     * @param array|ArrayObject $contents
+     */
+    private function importDateContents($contents) : void
     {
-        $this->parameters[$Key] = $Value;
-        return $this;         
+        //==============================================================================
+        //  Import Date
+        if (!empty($contents["date"])) {
+            if ($contents["date"] instanceof DateTime) {
+                $this->setRefreshAt($contents["date"]);
+            } elseif (is_scalar($contents["date"])) {
+                $this->setRefreshAt(new DateTime((string) $contents["date"]));
+            }
+        }
     }
-        
 }

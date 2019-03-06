@@ -1,51 +1,75 @@
 <?php
 
-namespace Splash\Widgets\Models\Demo\Blocks;
+/*
+ *  This file is part of SplashSync Project.
+ *
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
 
-use Symfony\Component\Form\FormBuilderInterface;
+namespace Splash\Widgets\Models\Demo\Blocks;
 
 use Splash\Widgets\Entity\Widget;
 use Splash\Widgets\Services\FactoryService;
+use Symfony\Component\Form\FormBuilderInterface;
 
-/*
+/**
  * Demo Text Block definition
  */
 class Text
 {
-    const TYPE          =   "Text";
-    const ICON          =   "fa fa-fw fa-font";
-    const TITLE         =   "Text Block";
-    const DESCRIPTION   =   "Demonstration Text Widget";
-    
-    public static function build(FactoryService $Factory, array $Parameters)
+    const TYPE = "Text";
+    const ICON = "fa fa-fw fa-font";
+    const TITLE = "Text Block";
+    const DESCRIPTION = "Demonstration Text Widget";
+
+    /**
+     * Build Block
+     *
+     * @param FactoryService $factory
+     * @param array          $parameters
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public static function build(FactoryService $factory, array $parameters) : void
     {
-        $Factory
-                
         //==============================================================================
-        // Create Text Block 
-            ->addBlock("TextBlock", self::blockOptions() )
-                ->setText("<p>This is demo Simple Text Block. You can use it to render <b>Raw HTML Contents</b>.</p>")
-            ->end()
-                
-            ;
+        // Create Text Block
+        $factory
+            ->addBlock("TextBlock", self::blockOptions())
+            ->setText("<p>This is demo Simple Text Block. You can use it to render <b>Raw HTML Contents</b>.</p>")
+            ->end();
     }
 
-    
-    public static function populateWidgetForm(FormBuilderInterface $builder)
+    /**
+     * Populate Block on Widget Form
+     *
+     * @param FormBuilderInterface $builder
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public static function populateWidgetForm(FormBuilderInterface $builder) : void
     {
-        return;
-    }    
+    }
 
-    
-    public static function blockOptions()
+    /**
+     * Get Block Options
+     *
+     * @return array
+     */
+    public static function blockOptions() : array
     {
         //==============================================================================
-        // Create Block Options 
+        // Create Block Options
         return array(
-            "Width"                 => Widget::$WIDTH_XL,
-            "AllowHtml"             => True,
-            
-        );  
-    }        
-    
+            "Width" => Widget::$widthXl,
+            "AllowHtml" => true,
+        );
+    }
 }

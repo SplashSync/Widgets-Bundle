@@ -1,12 +1,16 @@
 <?php
 
 /*
- * This file is part of the Splash Sync project.
+ *  This file is part of SplashSync Project.
  *
- * (c) Bernard Paquier <pro@bernard-paquier.fr>
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
 
 namespace Splash\Widgets\Models\Traits;
@@ -14,74 +18,75 @@ namespace Splash\Widgets\Models\Traits;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @abstract Widget Access Trait - Defin access to a Widget 
- * 
- * @author Bernard Paquier <pro@bernard-paquier.fr>
+ * Widget Access Trait - Define access to a Widget
  */
 trait AccessTrait
 {
-    
     /**
-     * @abstract    Widget Provider Service Name
-     * @var         string
+     * Widget Provider Service Name
+     *
+     * @var string
+     *
      * @ORM\Column(name="service", type="string", length=250)
      */
-    protected $service   =   Null;
-    
+    protected $service;
+
     /**
-     * @abstract    Widget Type Name
-     * @var         string
+     * Widget Type Name
+     *
+     * @var string
+     *
      * @ORM\Column(name="type", type="string", length=250)
      */
     protected $type;
 
     /**
-     * @abstract    Widget Definition Extras
-     * @var         array
+     * Widget Definition Extras
+     *
+     * @var array
+     *
      * @ORM\Column(name="Settings", type="array")
      */
-    protected $extras;    
-    
+    protected $extras = array();
 
-    
     //====================================================================//
     // *******************************************************************//
     //  Widget Getter & Setter Functions
     // *******************************************************************//
     //====================================================================//
-    
+
     /**
      * Set Service Name
-     * 
-     * @param   $service
-     * 
-     * @return  WidgetAccessTrait
+     *
+     * @param string $service
+     *
+     * @return $this
      */
-    public function setService($service)
+    public function setService(string $service) : self
     {
         $this->service = $service;
+
         return $this;
     }
-    
+
     /**
      * Get Service Name
-     * 
-     * @return  String
+     *
+     * @return string
      */
-    public function getService()
+    public function getService() : string
     {
         return $this->service;
-    } 
-    
-    
+    }
+
     /**
      * Set Widget Type
      *
      * @param string $type
      *
-     * @return  WidgetAccessTrait
+     * @return $this
      */
-    public function setType($type)
+    public function setType($type) : self
     {
         $this->type = $type;
 
@@ -93,7 +98,7 @@ trait AccessTrait
      *
      * @return string
      */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
@@ -103,9 +108,9 @@ trait AccessTrait
      *
      * @param array $extras
      *
-     * @return  WidgetAccessTrait
+     * @return $this
      */
-    public function setExtras($extras)
+    public function setExtras(array $extras) : self
     {
         $this->extras = $extras;
 
@@ -115,11 +120,10 @@ trait AccessTrait
     /**
      * Get Widget Extra Parameters
      *
-     * @return string
+     * @return array
      */
-    public function getExtras()
+    public function getExtras() : array
     {
         return $this->extras;
-    }    
-    
+    }
 }

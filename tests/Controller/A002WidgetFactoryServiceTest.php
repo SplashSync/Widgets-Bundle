@@ -1,204 +1,200 @@
 <?php
 
+/*
+ *  This file is part of SplashSync Project.
+ *
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Splash\Widgets\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-
+use Splash\Widgets\Models\Blocks\BaseBlock;
+use Splash\Widgets\Models\WidgetBase as Widget;
 use Splash\Widgets\Services\FactoryService;
 use Splash\Widgets\Services\ManagerService;
-
-use Splash\Widgets\Tests\Services\SamplesFactoryService as SamplesFactory;
-
 use Splash\Widgets\Tests\Blocks\Test;
-use Splash\Widgets\Models\Blocks\BaseBlock;
+use Splash\Widgets\Tests\Services\SamplesFactoryService as SamplesFactory;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-use Splash\Widgets\Models\WidgetBase as Widget;
-
+/**
+ * Test of Splash Widget Factory Service
+ */
 class A002WidgetFactoryServiceTest extends KernelTestCase
 {
-    /**
-     * @var FactoryService
-     */
-    private $Factory;    
-    
+    use \Splash\Widgets\Tests\Traits\ContainerAwareTrait;
+
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp() : void
     {
         self::bootKernel();
-    }        
+    }
 
     /**
-     * @abstract    Check Factory Class
-     */    
-    public function testFactoryClass()
+     * Check Factory Class
+     */
+    public function testFactoryClass() : void
     {
-        //====================================================================//
-        // Link to Widget Factory Service
-        $this->Factory = static::$kernel->getContainer()->get('Splash.Widgets.Factory');
         //====================================================================//
         // Check Class
-        $this->assertInstanceOf(FactoryService::class, $this->Factory);
-    }      
+        $this->assertInstanceOf(FactoryService::class, $this->getFactory());
+    }
 
-    
     /**
-     * @abstract    Check Factory Functions
-     */    
-    public function testFactoryCreateProcess()
+     * Check Factory Functions
+     */
+    public function testFactoryCreateProcess() : void
     {
         //====================================================================//
-        // Link to Widget Factory Service
-        $this->Factory = static::$kernel->getContainer()->get('Splash.Widgets.Factory');
-        
-        //====================================================================//
         // Create a New Widget
-        $this->Factory->Create();
-        
+        $this->getFactory()->create();
+
         //====================================================================//
         // Check Widget
-        $this->assertInstanceOf(Widget::class,          $this->Factory->getWidget());            
-        $this->assertEquals(Null,                       $this->Factory->getWidget()->getType());            
+        $this->assertInstanceOf(Widget::class, $this->getFactory()->getWidget());
+        $this->assertEquals(null, $this->getFactory()->getWidget()->getType());
 
         //====================================================================//
         // Setup Widget Options
-        $this->Factory
-                ->setService(SamplesFactory::SERVICE)
-                ->setType(Test::TYPE)
-                ->setTitle(Test::TITLE)
-                ->setIcon(Test::ICON)
-                ->setName(Test::TITLE)
-                ->setDescription(Test::DESCRIPTION)
-                ->setOrigin(SamplesFactory::ORIGIN)
-            ;  
-        
+        $this->getFactory()
+            ->setService(SamplesFactory::SERVICE)
+            ->setType(Test::TYPE)
+            ->setTitle(Test::TITLE)
+            ->setIcon(Test::ICON)
+            ->setName(Test::TITLE)
+            ->setDescription(Test::DESCRIPTION)
+            ->setOrigin(SamplesFactory::ORIGIN)
+            ;
+
         //====================================================================//
         // Check Widget
-        $this->assertInstanceOf(Widget::class,          $this->Factory->getWidget());            
-        $this->assertEquals(Test::TYPE,                 $this->Factory->getWidget()->getType());            
-        $this->assertEquals(SamplesFactory::SERVICE,    $this->Factory->getWidget()->getService());            
-        $this->assertEquals(Test::TITLE,                $this->Factory->getWidget()->getTitle());            
-        $this->assertEquals(Test::ICON,                 $this->Factory->getWidget()->getIcon());            
-        $this->assertEquals(Test::TITLE,                $this->Factory->getWidget()->getName());            
-        $this->assertEquals(Test::DESCRIPTION,          $this->Factory->getWidget()->getDescription());            
-        
-    }      
-    
+        $this->assertInstanceOf(Widget::class, $this->getFactory()->getWidget());
+        $this->assertEquals(Test::TYPE, $this->getFactory()->getWidget()->getType());
+        $this->assertEquals(SamplesFactory::SERVICE, $this->getFactory()->getWidget()->getService());
+        $this->assertEquals(Test::TITLE, $this->getFactory()->getWidget()->getTitle());
+        $this->assertEquals(Test::ICON, $this->getFactory()->getWidget()->getIcon());
+        $this->assertEquals(Test::TITLE, $this->getFactory()->getWidget()->getName());
+        $this->assertEquals(Test::DESCRIPTION, $this->getFactory()->getWidget()->getDescription());
+    }
+
     /**
-     * @abstract    Check Factory Functions
-     */    
-    public function testFactoryWidgetOptions()
+     * Check Factory Functions
+     */
+    public function testFactoryWidgetOptions() : void
     {
         //====================================================================//
-        // Link to Widget Factory Service
-        $this->Factory = static::$kernel->getContainer()->get('Splash.Widgets.Factory');
-        
-        //====================================================================//
         // Create a New Widget
-        $this->Factory->Create();
-        
+        $this->getFactory()->Create();
+
         //====================================================================//
         // Check Widget
-        $this->assertInstanceOf(Widget::class,              $this->Factory->getWidget());            
-        $this->assertEquals(Widget::getDefaultOptions(),    $this->Factory->getWidget()->getOptions());            
+        $this->assertInstanceOf(Widget::class, $this->getFactory()->getWidget());
+        $this->assertEquals(Widget::getDefaultOptions(), $this->getFactory()->getWidget()->getOptions());
 
         //====================================================================//
         // Setup Empty Options
-        $this->Factory->setOptions([]);
-        
+        $this->getFactory()->setOptions(array());
+
         //====================================================================//
         // Check Widget
-        $this->assertInstanceOf(Widget::class,              $this->Factory->getWidget());            
-        $this->assertEquals(Widget::getDefaultOptions(),    $this->Factory->getWidget()->getOptions());            
+        $this->assertInstanceOf(Widget::class, $this->getFactory()->getWidget());
+        $this->assertEquals(Widget::getDefaultOptions(), $this->getFactory()->getWidget()->getOptions());
 
         //====================================================================//
         // Setup Wrong Options
-        $this->Factory->setOptions(["ThisOptionDoNotExists" => "This Key is Uselless"]);
-        
+        $this->getFactory()->setOptions(array("ThisOptionDoNotExists" => "This Key is Uselless"));
+
         //====================================================================//
         // Check Widget
-        $this->assertInstanceOf(Widget::class,              $this->Factory->getWidget());            
-        $this->assertEquals(Widget::getDefaultOptions(),    $this->Factory->getWidget()->getOptions());            
-        
+        $this->assertInstanceOf(Widget::class, $this->getFactory()->getWidget());
+        $this->assertEquals(Widget::getDefaultOptions(), $this->getFactory()->getWidget()->getOptions());
+
         //====================================================================//
         // Setup All Options
-        $this->Factory
-                ->setWidth("col-test-12")
-                ->setHeader(False)
-                ->setFooter(False)
-                ->mergeOptions(array(
-                    "Color"         =>  "#666666",
-                    "DatePreset"    =>  "D",
-                    "UseCache"      =>  False,
-                    "CacheLifeTime" =>  3,
-                    "Editable"      =>  True,
-                    "EditMode"      =>  True,
-                ))
+        $this->getFactory()
+            ->setWidth("col-test-12")
+            ->setHeader(false)
+            ->setFooter(false)
+            ->mergeOptions(array(
+                "Color" => "#666666",
+                "DatePreset" => "D",
+                "UseCache" => false,
+                "CacheLifeTime" => 3,
+                "Editable" => true,
+                "EditMode" => true,
+            ))
             ;
-        
+
         //====================================================================//
         // Check Widget
-        $this->assertInstanceOf(Widget::class,              $this->Factory->getWidget());            
+        $this->assertInstanceOf(Widget::class, $this->getFactory()->getWidget());
         $this->assertEquals(array(
-            'Width'         =>  "col-test-12",
-            'Color'         =>  "#666666",
-            'Header'        =>  False,
-            'Footer'        =>  False,
-            'Border'        =>  True,
-            'DatePreset'    =>  "D",
-            'UseCache'      =>  False,
-            'CacheLifeTime' =>  3,
-            'Editable'      =>  True,
-            'EditMode'      =>  True,
-        ),    $this->Factory->getWidget()->getOptions());            
-        
-        
-    }    
-    
-    
+            'Width' => "col-test-12",
+            'Color' => "#666666",
+            'Header' => false,
+            'Footer' => false,
+            'Border' => true,
+            'DatePreset' => "D",
+            'UseCache' => false,
+            'CacheLifeTime' => 3,
+            'Editable' => true,
+            'EditMode' => true,
+        ), $this->getFactory()->getWidget()->getOptions());
+    }
+
     /**
-     * @abstract    Check Factory Functions
-     * @dataProvider BlocksNamesProvider  
-     */    
-    public function testFactoryWidgetBlocks($Name)
+     * Check Factory Functions
+     *
+     * @dataProvider blocksNamesProvider
+     *
+     * @param string $name
+     */
+    public function testFactoryWidgetBlocks(string $name) : void
     {
-        //====================================================================//
-        // Link to Widget Factory Service
-        $this->Factory = static::$kernel->getContainer()->get('Splash.Widgets.Factory');
-        
         //====================================================================//
         // Create a New Widget
-        $this->Factory->Create();
-        
+        $this->getFactory()->Create();
+
         //====================================================================//
         // Add Block
-        $Block  =   $this->Factory->addBlock($Name);
-        
+        $block = $this->getFactory()->addBlock($name);
+
         //====================================================================//
         // Build Block Type ClassName
-        $BlockClassName  =    '\Splash\Widgets\Models\Blocks\\' . $Name;
-        
+        $blockClassName = '\Splash\Widgets\Models\Blocks\\'.$name;
+
         //====================================================================//
         // Check Block
-        $this->assertInstanceOf(BaseBlock::class,           $Block);  
-        $this->assertInstanceOf($BlockClassName,            $Block);            
-        
+        $this->assertInstanceOf(BaseBlock::class, $block);
+        $this->assertInstanceOf($blockClassName, $block);
+
         //====================================================================//
         // Check Widget
-        $this->assertNotEmpty($this->Factory->getWidget()->getBlocks());            
-        $this->assertEquals(1,                              $this->Factory->getWidget()->getBlocks()->count());            
-        $this->assertInstanceOf($BlockClassName,            $this->Factory->getWidget()->getBlocks()->first());           
- 
-    }        
-    
-    public function BlocksNamesProvider()
-    {
-        $List   =   array();
-        foreach ( ManagerService::AVAILABLE_BLOCKS as $BlockName ) {
-            $List[]     =   array($BlockName);
-        }
-        return $List;        
-    } 
+        $this->assertNotEmpty($this->getFactory()->getWidget()->getBlocks());
+        $this->assertEquals(1, $this->getFactory()->getWidget()->getBlocks()->count());
+        $this->assertInstanceOf($blockClassName, $this->getFactory()->getWidget()->getBlocks()->first());
+    }
 
+    /**
+     * Tests Blocks Names Data Provider
+     *
+     * @return array
+     */
+    public function blocksNamesProvider() : array
+    {
+        $list = array();
+        foreach (ManagerService::AVAILABLE_BLOCKS as $blockName) {
+            $list[] = array($blockName);
+        }
+
+        return $list;
+    }
 }

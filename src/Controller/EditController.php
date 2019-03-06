@@ -1,192 +1,219 @@
 <?php
 
+/*
+ *  This file is part of SplashSync Project.
+ *
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Splash\Widgets\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-
 use Splash\Widgets\Entity\Widget;
-
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Splash\Widgets\Form\WidgetOptionsType;
 use Splash\Widgets\Form\WidgetDatesType;
+use Splash\Widgets\Form\WidgetOptionsType;
+use Splash\Widgets\Services\FactoryService;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-
+/**
+ * Manage Widget Parameters Edition
+ */
 class EditController extends Controller
 {
-
     /**
      * WidgetFactory Service
-     * 
-     * @var Splash\Widgets\Services\FactoryService
-     */    
-    private $Factory;    
-    
-    /**
-     * WidgetInterface Service
-     * 
-     * @var Splash\Widgets\Models\Interfaces\WidgetProviderInterface
-     */    
-    private $Service = Null;
+     *
+     * @var FactoryService
+     */
+    private $factory;
 
     /**
      * Class Initialization
-     * 
-     * @return bool 
-     */    
-    public function initialize() {
-        
-        $this->Factory = $this->get("Splash.Widgets.Factory");
-        
-        return True;
-    }   
-   
+     *
+     * @param string $service
+     *
+     * @return bool
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function initialize(string $service) : bool
+    {
+        $this->factory = $this->get("Splash.Widgets.Factory");
+
+        return true;
+    }
+
     //==============================================================================
     // AJAX MODALS
     //==============================================================================
-    
+
     /**
-     * @abstract Displays a form to edit a Widget.
+     * Displays a Modal with Form to edit a Widget.
+     *
+     * @param Request $request
+     * @param string  $service
+     * @param string  $type
+     *
+     * @return Response
      */
-    public function modalAction(Request $request, $Service, $Type)
+    public function modalAction(Request $request, string $service, string $type) : Response
     {
         //==============================================================================
-        // Init & Safety Check 
-        if (!$this->initialize($Service)) {
+        // Init & Safety Check
+        if (!$this->initialize($service)) {
             return new Response("Error... ", 400);
-        }   
+        }
         //==============================================================================
-        // Import Form Data & Prepare Data for Form Display   
-        $Params = $this->prepare($request, $Service, $Type);
+        // Import Form Data & Prepare Data for Form Display
+        $params = $this->prepare($request, $service, $type);
         //==============================================================================
-        // Render Widget Edit Modal   
-        return $this->render('SplashWidgetsBundle:Edit:modal.html.twig', $Params );
+        // Render Widget Edit Modal
+        return $this->render('SplashWidgetsBundle:Edit:modal.html.twig', $params);
     }
 
     //==============================================================================
     // NON-AJAX ACTIONS
     //==============================================================================
-    
+
     /**
-     * @abstract Displays a form to edit a Widget.
+     * Displays a Panel with Form to edit a Widget.
+     *
+     * @param Request $request
+     * @param string  $service
+     * @param string  $type
+     *
+     * @return Response
      */
-    public function panelAction(Request $request, $Service, $Type)
+    public function panelAction(Request $request, string $service, string $type) : Response
     {
         //==============================================================================
-        // Init & Safety Check 
-        if ($this->initialize($Service) != True) {
+        // Init & Safety Check
+        if (true != $this->initialize($service)) {
             return new Response("Error... ", 400);
         }
         //==============================================================================
-        // Import Form Data & Prepare Data for Form Display   
-        $Params = $this->prepare($request, $Service, $Type);
+        // Import Form Data & Prepare Data for Form Display
+        $params = $this->prepare($request, $service, $type);
         //==============================================================================
-        // Render Widget Edit Well   
-        return $this->render('SplashWidgetsBundle:Edit:panel.html.twig', $Params );
-    }    
-    
-    
+        // Render Widget Edit Well
+        return $this->render('SplashWidgetsBundle:Edit:panel.html.twig', $params);
+    }
+
     //==============================================================================
     // LOW LEVEL FUNCTIONS
     //==============================================================================
 
     /**
-     * @abstract Prepare Data to Display Edit form on a Widget
+     * Prepare Data to Display Edit form on a Widget
+     *
+     * @param Request $request
+     * @param string  $service
+     * @param string  $type
+     *
+     * @return array
      */
-    public function prepare(Request $request, $Service, $Type)
+    private function prepare(Request $request, string $service, string $type) : array
     {
-        $Manager = $this->get("Splash.Widgets.Manager");
-        
         //==============================================================================
-        // Read Current Widget Options 
-        $Options    =   $Manager->getWidgetOptions($Service, $Type);
+        // Connect to Widgets Manager
+        $manager = $this->get("Splash.Widgets.Manager");
         //==============================================================================
-        // Read Current Widget Parameters 
-        $Parameters =   $Manager->getWidgetParameters($Service, $Type);
+        // Read Current Widget Options
+        $options = $manager->getWidgetOptions($service, $type);
         //==============================================================================
-        // Create Widget Object for Form 
-        $Widget = $this->Factory
-            ->Create($Type)
-                ->setOptions($Options)
-                ->setParameters($Parameters)
-                ->getWidget();
+        // Read Current Widget Parameters
+        $parameters = $manager->getWidgetParameters($service, $type);
+        //==============================================================================
+        // Create Widget Object for Form
+        $widget = $this->factory
+            ->create()
+            ->setOptions($options)
+            ->setParameters($parameters)
+            ->getWidget();
         //==============================================================================
         // Ajax => Setup Action for Ajax Submit
-        if ($request->isXmlHttpRequest()) {
-            $Action = $this->generateUrl('splash_widgets_edit_widget',['Service' => $Service, "Type" => $Type]);
-        } else {
-            $Action = Null;
-        }
+        $action = $request->isXmlHttpRequest()
+                ? $this->generateUrl('splash_widgets_edit_widget', array('service' => $service, "type" => $type))
+                : null;
         //==============================================================================
         // Create Edit Form
-        $this->EditForm = $this->createEditForm($Widget, $Service, $Type, $Action);
+        $editForm = $this->createEditForm($widget, $service, $type, $action);
         //==============================================================================
         // Handle User Posted Data
-        $this->EditForm->handleRequest($request);
+        $editForm->handleRequest($request);
         //==============================================================================
         // Verify Data is Valid
-        if ( $this->EditForm->isSubmitted() && $this->EditForm->isValid() ) {
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
             //==============================================================================
             // Save Changes
-            $Manager->setWidgetOptions($Service, $Type, $Widget->getOptions());
-            $Manager->setWidgetParameters($Service, $Type, $Widget->getParameters());
+            $manager->setWidgetOptions($service, $type, $widget->getOptions());
+            $manager->setWidgetParameters($service, $type, $widget->getParameters());
         }
-
         //==============================================================================
         // Prepare Template Parameters
         return array(
-                'Widget'        => $Widget,
-                'Form'          => $this->EditForm->createView()
-            );
+            'Widget' => $widget,
+            'Form' => $editForm->createView(),
+        );
     }
-    
+
     /**
-    * Creates a form to edit a Remote Widget/Item Parameters.
-    *
-    * @param WsWidget     $Widget     The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Widget $Widget, $Service, $Type, $Action = Null)
+     * Creates a form to edit a Remote Widget/Item Parameters.
+     *
+     * @param Widget      $widget  The entity
+     * @param string      $service
+     * @param string      $type
+     * @param null|string $action
+     *
+     * @return FormInterface
+     */
+    private function createEditForm(Widget $widget, string $service, string $type, ?string $action) : FormInterface
     {
         //====================================================================//
         // Create Form Builder
-        $builder =   $this->get('form.factory')
-            ->createNamedBuilder('splash_widgets_settings_form', FormType::class, $Widget);
-        if ( $Action ) {
-            $builder->setAction($Action);
+        $builder = $this->get('form.factory')
+            ->createNamedBuilder('splash_widgets_settings_form', FormType::class, $widget);
+        if ($action) {
+            $builder->setAction($action);
         }
-        
-        //====================================================================//
-        // Populate Widget Rendering Option Form Tab
-        $WidgetOptionsForm = new WidgetOptionsType();
-        $WidgetOptionsForm->buildForm($builder, []);
 
         //====================================================================//
         // Populate Widget Rendering Option Form Tab
-        $WidgetDatesForm = new WidgetDatesType();
-        $WidgetDatesForm->buildForm($builder, []);
-        
-        $WidgetTab = $builder->create('parameters', \Mopa\Bundle\BootstrapBundle\Form\Type\TabType::class, array(
-            'label'                 => 'widget.params',
-            'translation_domain'    => "SplashWidgetsBundle",
-            'icon'                  => ' fa fa-cogs',
-            'inherit_data'          => true,
-            'attr'              => array (
+        $widgetOptionsForm = new WidgetOptionsType();
+        $widgetOptionsForm->buildForm($builder, array());
+
+        //====================================================================//
+        // Populate Widget Rendering Option Form Tab
+        $widgetDatesForm = new WidgetDatesType();
+        $widgetDatesForm->buildForm($builder, array());
+
+        $widgetTab = $builder->create('parameters', \Mopa\Bundle\BootstrapBundle\Form\Type\TabType::class, array(
+            'label' => 'widget.params',
+            'translation_domain' => "SplashWidgetsBundle",
+            'icon' => ' fa fa-cogs',
+            'inherit_data' => true,
+            'attr' => array(
                 'class' => 'well-sm',
-            )
+            ),
         ));
-        
+
         //====================================================================//
         // Import Widget Option Form Fields
-        $this->get("Splash.Widgets.Manager")->populateWidgetForm($WidgetTab, $Service, $Type);
-        if (count($WidgetTab->all())) {
-            $builder->add($WidgetTab);
+        $this->get("Splash.Widgets.Manager")->populateWidgetForm($widgetTab, $service, $type);
+        if (count($widgetTab->all())) {
+            $builder->add($widgetTab);
         }
-                
+
         return $builder->getForm();
-        
     }
-    
 }

@@ -1,34 +1,35 @@
 <?php
 
 /*
- * This file is part of the Splash Sync project.
+ *  This file is part of SplashSync Project.
  *
- * (c) Bernard Paquier <pro@bernard-paquier.fr>
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
 
 namespace Splash\Widgets\Models\Traits;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping                        as ORM;
 use Splash\Widgets\Entity\Widget;
 
 /**
- * @abstract Widget Collection Trait 
- * 
+ * Widget Collection Trait
+ *
  * @author Bernard Paquier <pro@bernard-paquier.fr>
  */
 trait CollectionTrait
 {
-    static $SERVICE    =   "Splash.Widgets.Collection";
+    public static $SERVICE = "Splash.Widgets.Collection";
 
     //==============================================================================
-    //      Constants  
-    //==============================================================================
-
-    //==============================================================================
-    //      Variables  
+    //      Variables
     //==============================================================================
 
     /**
@@ -36,50 +37,50 @@ trait CollectionTrait
      * @ORM\OrderBy({"position" = "ASC"})
      */
     protected $widgets;
-    
+
     //==============================================================================
-    //      Getters & Setters  
+    //      Getters & Setters
     //==============================================================================
 
     /**
      * Get Service Name
-     * 
-     * @return  String
+     *
+     * @return string
      */
-    public function getService()
+    public function getService() : string
     {
         return static::$SERVICE;
     }
-    
+
     /**
      * Add Widget
      *
-     * @param   Widget  $Widget
+     * @param Widget $widget
      *
-     * @return Report
+     * @return $this
      */
-    public function addWidget(Widget $Widget)
+    public function addWidget(Widget $widget) : self
     {
         //==============================================================================
-        //      Setup Widget  
-        $Widget->setParent($this);
-        $Widget->setPosition($this->widgets->count());
-                
-        if ( $this->getPreset()  ) {
-            $Widget->setParameter("DatePreset" , $this->getPreset());
-        }   
-        
-        $this->widgets[] = $Widget;
+        //      Setup Widget
+        $widget->setParent($this);
+        $widget->setPosition($this->widgets->count());
+
+        if ($this->getPreset()) {
+            $widget->setParameter("DatePreset", $this->getPreset());
+        }
+
+        $this->widgets[] = $widget;
 
         return $this;
-    }    
-    
+    }
+
     /**
      * Get All Widgets
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
-    public function getWidgets()
+    public function getWidgets() : Collection
     {
         return $this->widgets;
     }
@@ -87,62 +88,63 @@ trait CollectionTrait
     /**
      * Get an Widget by Type
      *
-     * @param   string      $Type        Widget Identifier
-     * 
-     * @return  Widget
+     * @param string $type Widget Identifier
+     *
+     * @return Widget
      */
-    public function getWidget($Type)
+    public function getWidget(string $type) : ?Widget
     {
-        foreach ($this->widgets as $Widget ) {
-            if ( $Widget->getId() == $Type ) {
-                return $Widget;
+        foreach ($this->widgets as $widget) {
+            if ($widget->getId() == $type) {
+                return $widget;
             }
-        }        
-        return Null;
-    } 
+        }
+
+        return null;
+    }
 
     /**
      * Remove Widget
      *
-     * @param Widget $Widget
+     * @param Widget $widget
+     *
+     * @return $this
      */
-    public function removeWidget(Widget $Widget)
+    public function removeWidget(Widget $widget) : self
     {
-        $this->widgets->removeElement($Widget);
+        $this->widgets->removeElement($widget);
+
+        return $this;
     }
-    
+
     /**
      * Re-Order Widgets using their Id
-     * 
-     * @param array $OrderArray         Array of Item Ids
-     * 
-     * @return Report
+     *
+     * @param array $orderArray Array of Item Ids
+     *
+     * @return bool
      */
-    public function reorder($OrderArray)
+    public function reorder($orderArray) : bool
     {
         //==============================================================================
         // Safety Check of Input Value
-        if ( !is_array($OrderArray) || empty($OrderArray)) {
-            return False;
+        if (!is_array($orderArray) || empty($orderArray)) {
+            return false;
         }
         //==============================================================================
         // Check Widget Count is Similar
-        if ( count($OrderArray) !== $this->getWidgets()->count()) {
-            return False;
-        }        
-        
+        if (count($orderArray) !== $this->getWidgets()->count()) {
+            return false;
+        }
         //==============================================================================
         // Re-Order Items
-        foreach ($OrderArray as $Index => $Id) {
-            $Widget = $this->getWidget($Id);
-            if ( $Widget ) {
-                $Widget->setPosition($Index);
+        foreach ($orderArray as $index => $widgetId) {
+            $widget = $this->getWidget($widgetId);
+            if ($widget) {
+                $widget->setPosition((int) $index);
             }
         }
-        return True;
-    }
-    
-    
-    
 
+        return true;
+    }
 }

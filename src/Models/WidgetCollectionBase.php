@@ -1,31 +1,37 @@
 <?php
 
+/*
+ *  This file is part of SplashSync Project.
+ *
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Splash\Widgets\Models;
 
-use Doctrine\ORM\Mapping                        as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
-use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
-
-use Splash\Widgets\Models\Traits\LifecycleTrait;
-use Splash\Widgets\Models\Traits\OptionsTrait;
+use Doctrine\ORM\Mapping                        as ORM;
 use Splash\Widgets\Models\Traits\CollectionTrait;
+use Splash\Widgets\Models\Traits\LifecycleTrait;
 
 /**
- * @abstract    Widgets Collection Base Object
+ * Widgets Collection Base Object
  */
 class WidgetCollectionBase
 {
-
     use CollectionTrait;
     use LifecycleTrait;
-    
+
     //==============================================================================
-    //      Definition           
+    //      Definition
     //==============================================================================
-        
+
     /**
      * @var string
      *
@@ -46,37 +52,45 @@ class WidgetCollectionBase
      * @ORM\Column(name="preset", type="string", length=255, nullable=TRUE)
      */
     protected $preset = "M";
-    
+
     //==============================================================================
-    //      CONSTRUCTOR  
-    //==============================================================================   
-    
+    //      CONSTRUCTOR
+    //==============================================================================
+
+    /**
+     * Class Cosntructor
+     */
     public function __construct()
     {
-        $this->widgets    =   new ArrayCollection();
+        $this->widgets = new ArrayCollection();
     }
 
     //==============================================================================
-    //      DATA OPERATIONS  
-    //==============================================================================   
+    //      DATA OPERATIONS
+    //==============================================================================
 
-    public function __toString()
+    /**
+     * Magic Getter to String
+     *
+     * @return string
+     */
+    public function __toString() : string
     {
-        return $this->getName();         
+        return $this->getName();
     }
-    
+
     //==============================================================================
-    //      GETTERS & SETTERS 
-    //==============================================================================       
+    //      GETTERS & SETTERS
+    //==============================================================================
 
     /**
      * Set name
      *
      * @param string $name
      *
-     * @return WidgetCollectionBase
+     * @return $this
      */
-    public function setName($name)
+    public function setName(string $name) : self
     {
         $this->name = $name;
 
@@ -88,9 +102,9 @@ class WidgetCollectionBase
      *
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
-        return $this->name;
+        return (string) $this->name;
     }
 
     /**
@@ -98,9 +112,9 @@ class WidgetCollectionBase
      *
      * @param string $type
      *
-     * @return WidgetCollectionBase
+     * @return $this
      */
-    public function setType($type)
+    public function setType($type) : self
     {
         $this->type = $type;
 
@@ -112,7 +126,7 @@ class WidgetCollectionBase
      *
      * @return string
      */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
@@ -122,11 +136,11 @@ class WidgetCollectionBase
      *
      * @param string $preset
      *
-     * @return WidgetCollectionBase
+     * @return $this
      */
-    public function setPreset($preset)
+    public function setPreset($preset) : self
     {
-        $this->preset   = $preset;
+        $this->preset = $preset;
 
         return $this;
     }
@@ -136,11 +150,8 @@ class WidgetCollectionBase
      *
      * @return string
      */
-    public function getPreset()
+    public function getPreset() : string
     {
         return $this->preset;
     }
-
-
-
 }

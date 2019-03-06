@@ -1,26 +1,28 @@
 <?php
 
 /*
- * This file is part of the Splash Sync project.
+ *  This file is part of SplashSync Project.
  *
- * (c) Bernard Paquier <pro@bernard-paquier.fr>
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
 
 namespace Splash\Widgets\Models\Blocks;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use ArrayObject;
 
 /**
- * Abstact Widget Model 
- * 
- * @author Bernard Paquier <pro@bernard-paquier.fr>
+ * Widget Notification Block
+ * Render Notifs & Messages as Bootstrap Alerts
  */
 class NotificationsBlock extends BaseBlock
 {
-
     //====================================================================//
     // *******************************************************************//
     //  BLOCK GENERICS PARAMETERS
@@ -29,158 +31,155 @@ class NotificationsBlock extends BaseBlock
 
     //====================================================================//
     // Define Standard Data Fields for this Widget Block
-    static $DATA          = array(
-        'error'                     => Null,
-        'warning'                   => Null,
-        'info'                      => Null,
-        'success'                   => Null
+    public static $DATA = array(
+        'error' => null,
+        'warning' => null,
+        'info' => null,
+        'success' => null,
     );
 
-    //====================================================================//
-    // Define Standard Options for this Widget Block
-    // Uncomment to override défault options
-//    static $OPTIONS       = array(
-//            'Width'          =>      "col-xs-12 col-sm-12 col-md-12 col-lg-12"
-//    );
-
-        
     /**
      * @var string
      */
     protected $type = "NotificationsBlock";
-    
+
     //====================================================================//
     // *******************************************************************//
     //  Block Getter & Setter Functions
     // *******************************************************************//
     //====================================================================//
-    
+
     /**
      * Set Error
-     * 
-     * @param   $text
-     * 
-     * @return  Widget
+     *
+     * @param string $text
+     *
+     * @return $this
      */
-    public function setError($text)
+    public function setError(string $text) : self
     {
-        $this->data["error"]       =   $text;
+        $this->data["error"] = $text;
+
         return $this;
-    }    
+    }
 
     /**
      * Get Error
-     * 
-     * @return  String
+     *
+     * @return null|string
      */
-    public function getError()
+    public function getError() : ?string
     {
         return $this->data["error"];
-    }        
+    }
 
     /**
      * Set Warning
-     * 
-     * @param   $text
-     * 
-     * @return  Widget
+     *
+     * @param string $text
+     *
+     * @return $this
      */
-    public function setWarning($text)
+    public function setWarning(string $text) : self
     {
-        $this->data["warning"]     =   $text;
+        $this->data["warning"] = $text;
+
         return $this;
-    }    
+    }
 
     /**
      * Get Warning
-     * 
-     * @return  String
+     *
+     * @return null|string
      */
-    public function getWarning()
+    public function getWarning() : ?string
     {
         return $this->data["warning"];
-    }     
-    
+    }
+
     /**
      * Set Info
-     * 
-     * @param   $text
-     * 
-     * @return  Widget
+     *
+     * @param string $text
+     *
+     * @return $this
      */
-    public function setInfo($text)
+    public function setInfo(string $text) : self
     {
-        $this->data["info"]        =   $text;
+        $this->data["info"] = $text;
+
         return $this;
-    }   
+    }
 
     /**
      * Get Info
-     * 
-     * @return  String
+     *
+     * @return null|string
      */
-    public function getInfo()
+    public function getInfo() : ?string
     {
         return $this->data["info"];
-    }     
-    
+    }
+
     /**
      * Set Success
-     * 
-     * @param   $text
-     * 
-     * @return  Widget
+     *
+     * @param string $text
+     *
+     * @return $this
      */
-    public function setSuccess($text)
+    public function setSuccess(string $text) : self
     {
-        $this->data["success"]      =   $text;
+        $this->data["success"] = $text;
+
         return $this;
-    }   
+    }
 
     /**
      * Get Success
-     * 
-     * @return  String
+     *
+     * @return null|string
      */
-    public function getSuccess()
+    public function getSuccess() : ?string
     {
         return $this->data["success"];
-    }     
-    
+    }
+
     /**
      * Set Block Contents
      *
-     * @param array $Contents
+     * @param null|array|ArrayObject $contents
      *
-     * @return Widget
+     * @return $this
      */
-    public function setContents($Contents)
+    public function setContents($contents) : self
     {
         //==============================================================================
         //  Safety Check
-        if ( !is_array($Contents) && !is_a($Contents, "ArrayObject") ){
+        if (!is_array($contents) && !($contents instanceof ArrayObject)) {
             return $this;
-        } 
+        }
         //==============================================================================
         //  Import Error
-        if ( !empty($Contents["error"]) ){
-            $this->setError($Contents["error"]);
-        } 
+        if (!empty($contents["error"])) {
+            $this->setError($contents["error"]);
+        }
         //==============================================================================
         //  Import Warning
-        if ( !empty($Contents["warning"]) ){
-            $this->setWarning($Contents["warning"]);
-        } 
+        if (!empty($contents["warning"])) {
+            $this->setWarning($contents["warning"]);
+        }
         //==============================================================================
         //  Import Info
-        if ( !empty($Contents["info"]) ){
-            $this->setInfo($Contents["info"]);
-        } 
+        if (!empty($contents["info"])) {
+            $this->setInfo($contents["info"]);
+        }
         //==============================================================================
         //  Import Success
-        if ( !empty($Contents["success"]) ){
-            $this->setSuccess($Contents["success"]);
-        } 
+        if (!empty($contents["success"])) {
+            $this->setSuccess($contents["success"]);
+        }
+
         return $this;
-    }      
+    }
 }

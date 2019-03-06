@@ -1,115 +1,132 @@
 <?php
 
+/*
+ *  This file is part of SplashSync Project.
+ *
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Splash\Widgets\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Build & Display Lists of Avaimlable Widgets
+ */
 class ListController extends Controller
 {
-    
     /**
-     * @abstract    Class Initialization
-     * @return bool 
-     */    
-    public function initialize() {
-        return True;
-    }    
-    
+     * Class Initialization
+     * Used in Secured Apps to Ensure User is Logged
+     *
+     * @return bool
+     */
+    public function initialize()
+    {
+        return true;
+    }
+
     //==============================================================================
     // PANEL
     //==============================================================================
-    
+
     /**
-     * @abstract    Render List of Collection available Widgets
-     * 
-     * @param int       $CollectionId   Widgets Collection Identifier
-     * @param string    $Channel        Widgets Listening Channel Name
+     * Render List of Collection Available Widgets
+     *
+     * @param int    $collectionId Widgets Collection Identifier
+     * @param string $channel      Widgets Listening Channel Name
+     *
+     * @return Response
      */
-    public function panelAction(Request $request, int $CollectionId, string $Channel)
+    public function panelAction(int $collectionId, string $channel) : Response
     {
         //==============================================================================
-        // Init & Safety Check 
+        // Init & Safety Check
         if (!$this->initialize()) {
             return new Response("You are not logged... ", 400);
-        }   
-        
+        }
         //==============================================================================
-        // Read List of Available Widgets & Prepare Response Array 
-        $Params = $this->prepare($CollectionId, $Channel);
-        
+        // Read List of Available Widgets & Prepare Response Array
+        $params = $this->prepare($collectionId, $channel);
         //==============================================================================
-        // Render Panel List  
-        return $this->render('SplashWidgetsBundle:List:panel.html.twig', $Params );
+        // Render Panel List
+        return $this->render('SplashWidgetsBundle:List:panel.html.twig', $params);
     }
-    
-    
-    
+
     //==============================================================================
     // AJAX MODALS
     //==============================================================================
-    
+
     /**
-     * @abstract    Render Modal List of Collection available Widgets
-     * 
-     * @param int       $CollectionId   Widgets Collection Identifier
-     * @param string    $Channel        Widgets Listening Channel Name
+     * Render Modal List of Collection available Widgets
+     *
+     * @param int    $collectionId Widgets Collection Identifier
+     * @param string $channel      Widgets Listening Channel Name
+     *
+     * @return Response
      */
-    public function modalAction(Request $request, int $CollectionId, string $Channel)    
+    public function modalAction(int $collectionId, string $channel) : Response
     {
         //==============================================================================
-        // Init & Safety Check 
+        // Init & Safety Check
         if (!$this->initialize()) {
             return new Response("You are not logged... ", 400);
-        }   
+        }
         //==============================================================================
-        // Import Form Data & Prepare Data for Form Display   
-        $Params = $this->prepare($CollectionId, $Channel);
+        // Import Form Data & Prepare Data for Form Display
+        $params = $this->prepare($collectionId, $channel);
         //==============================================================================
-        //Render Modal List  
-        return $this->render('SplashWidgetsBundle:List:modal.html.twig', $Params );
+        //Render Modal List
+        return $this->render('SplashWidgetsBundle:List:modal.html.twig', $params);
     }
-    
-    
+
     /**
-     * @abstract Read List of Available Widgets & Prepare Response Array 
-     * 
-     * @param int       $CollectionId   Widgets Collection Identifier
-     * @param string    $Channel        Widgets Listening Channel Name
+     * Read List of Available Widgets & Prepare Response Array
+     *
+     * @param int    $collectionId Widgets Collection Identifier
+     * @param string $channel      Widgets Listening Channel Name
+     *
+     * @return array
      */
-    public function prepare(int $CollectionId, string $Channel)
+    private function prepare(int $collectionId, string $channel) : array
     {
-        
         //==============================================================================
         // Get List of Widgets
-        $Widgets = $this->get("Splash.Widgets.Manager")->getList( "splash.widgets.list." . $Channel);
-        
-        $Tabs = array();
-        foreach ($Widgets as $Key => $Widget) {
-            $TabId = md5(base64_encode($Widget->getOrigin()));
+        $widgets = $this->get("Splash.Widgets.Manager")->getList("splash.widgets.list.".$channel);
+
+        //==============================================================================
+        // Prepare Tabs List
+        $tabs = array();
+        foreach ($widgets as $key => $widget) {
+            $tabId = md5(base64_encode($widget->getOrigin()));
             //==============================================================================
             // Create Tab
-            if (!isset($Tabs[ $TabId ])) {
-                $Tabs[$TabId] = array(
-                    "label"     =>  $Widget->getOrigin(),
-                    "id"        =>  $TabId,
-                    "widgets"   =>  [$Key]
+            if (!isset($tabs[$tabId])) {
+                $tabs[$tabId] = array(
+                    "label" => $widget->getOrigin(),
+                    "id" => $tabId,
+                    "widgets" => array(),
                 );
+            }
             //==============================================================================
             // Add To Tab
-            } else {
-                $Tabs[$TabId]["widgets"][] = $Key;
-            }
+            $tabs[$tabId]["widgets"][] = $key;
         }
-        
+
         //==============================================================================
         // Prepare Rendering Parameters
         return array(
-                'CollectionId'  =>  $CollectionId,
-                'Widgets'       =>  $Widgets,
-                'Tabs'          =>  $Tabs,
-            );
+            'CollectionId' => $collectionId,
+            'Widgets' => $widgets,
+            'Tabs' => $tabs,
+        );
     }
-    
 }

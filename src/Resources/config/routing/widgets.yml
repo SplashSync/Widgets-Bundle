@@ -2,18 +2,18 @@
 #################################################################################
 ## WIDGET : AJAX RENDER
 splash_widgets_render_widget:
-    path:     /view/{Service}/{Type}/{Options}/{Parameters}
+    path:     /view/{service}/{type}/{options}/{parameters}
     defaults: 
         _controller:    SplashWidgetsBundle:View:ajax
-        Options:        null
-        Parameters:     null      
+        options:        null
+        parameters:     null      
     options:
         expose: true
         
 #################################################################################
 ## WIDGET : AJAX EDIT MODAL
 splash_widgets_edit_widget:
-    path:     /edit/{Service}/{Type}
+    path:     /edit/{service}/{type}
     defaults: 
         _controller: SplashWidgetsBundle:Edit:modal
     options:

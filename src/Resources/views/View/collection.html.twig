@@ -5,10 +5,10 @@
     {% for Widget in Collection.Widgets %}
         {% set Type = Widget.id ~ "@" ~ Collection.id %}
         {{ render(controller('SplashWidgetsBundle:View:delayed', { 
-                    'Service'   : Collection.service,  
-                    'Type'      : Type,
-                    'Options'   : Widget.Options    | json_encode(),
-                    'Parameters': Widget.Parameters | json_encode()
+                    'service'   : Collection.service,  
+                    'type'      : Type,
+                    'options'   : Widget.Options    | json_encode(),
+                    'parameters': Widget.Parameters | json_encode()
         })) }}
     {% endfor %}
 </div>     

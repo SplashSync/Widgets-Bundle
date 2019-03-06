@@ -1,7 +1,7 @@
 #################################################################################
 ## COLLECTIONS : AJAX ORDERING UPDATE
 splash_widgets_collections_reorder:
-    path:     /reorder/{CollectionId}/{Ordering}
+    path:     /reorder/{collectionId}/{ordering}
     defaults: { _controller: SplashWidgetsBundle:Collection:reorder }
     options:
         expose: true
@@ -9,7 +9,7 @@ splash_widgets_collections_reorder:
 #################################################################################
 ## COLLECTIONS : AJAX DATE PRESET UPDATE
 splash_widgets_collections_preset:
-    path:     /preset/{CollectionId}/{Preset}
+    path:     /preset/{collectionId}/{preset}
     defaults: { _controller: SplashWidgetsBundle:Collection:preset }
     options:
         expose: true 
@@ -17,7 +17,7 @@ splash_widgets_collections_preset:
 #################################################################################
 ## COLLECTIONS : AJAX ADD WIDGET
 splash_widgets_collections_add_widget:
-    path:     /add/{CollectionId}/{Service}/{Type}
+    path:     /add/{collectionId}/{service}/{type}
     defaults: { _controller: SplashWidgetsBundle:Collection:add }
     options:
         expose: true    
@@ -25,7 +25,7 @@ splash_widgets_collections_add_widget:
 #################################################################################
 ## COLLECTIONS : AJAX REMOVE WIDGET
 splash_widgets_collections_remove_widget:
-    path:     /remove/{Service}/{Type}
+    path:     /remove/{service}/{type}
     defaults: { _controller: SplashWidgetsBundle:Collection:remove }
     options:
         expose: true          
@@ -33,7 +33,7 @@ splash_widgets_collections_remove_widget:
 #################################################################################
 ## COLLECTIONS : AJAX WIDGETS LIST MODAL
 splash_widgets_collections_list_widget:
-    path:     /list/{CollectionId}/{Channel}
+    path:     /list/{collectionId}/{channel}
     defaults: { _controller: SplashWidgetsBundle:List:modal }
     options:
         expose: true          

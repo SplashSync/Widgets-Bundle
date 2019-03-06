@@ -1,44 +1,42 @@
 <?php
 
 /*
- * This file is part of the Splash Sync project.
+ *  This file is part of SplashSync Project.
  *
- * (c) Bernard Paquier <pro@bernard-paquier.fr>
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
 
 namespace Splash\Widgets\Models\Traits;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
-use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
-
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
-
 use Doctrine\ORM\Mapping as ORM;
+use Splash\Widgets\Entity\WidgetCollection;
 
 /**
- * @abstract Widget Actions Trait - Define Widget Actions Js Functions 
- * 
- * @author Bernard Paquier <pro@bernard-paquier.fr>
+ * Widget Actions Trait - Define Widget Actions Js Functions
  */
 trait ActionsTrait
 {
-    
     /**
-     * @var string
+     * @var array
      */
-    protected $actions   =   array(
-        "insert"                =>  "OWReports_InsertWidget",
-        "delete"                =>  "OWReports_DeleteWidget",
-        "update_parameters"     =>  "OWReports_UpdateWidgetParameters",
-        "update_options"        =>  "OWReports_UpdateWidgetOptions",
+    protected $actions = array(
+        "insert" => "OWReports_InsertWidget",
+        "delete" => "OWReports_DeleteWidget",
+        "update_parameters" => "OWReports_UpdateWidgetParameters",
+        "update_options" => "OWReports_UpdateWidgetOptions",
     );
 
     /**
+     * @var WidgetCollection
+     *
      * @ORM\ManyToOne(targetEntity="Splash\Widgets\Entity\WidgetCollection", inversedBy="widgets")
      */
     protected $parent;
@@ -48,69 +46,70 @@ trait ActionsTrait
     //  Widget Getter & Setter Functions
     // *******************************************************************//
     //====================================================================//
-    
+
     /**
      * Set Widget Actions JS Functions
-     * 
-     * @param   string      $type
-     * @param   string      $function
-     * 
-     * @return  WidgetActionsTrait
+     *
+     * @param string $type
+     * @param string $function
+     *
+     * @return $this
      */
-    public function setAction(string $type, string $function)
+    public function setAction(string $type, string $function) : self
     {
         if (isset($this->actions[$type])) {
             $this->actions[$type] = $function;
-        } 
+        }
+
         return $this;
     }
-    
+
     /**
      * Get Widget Action JS Function
-     * 
-     * @param   string      $type
-     * 
-     * @return  String
+     *
+     * @param string $type
+     *
+     * @return null|String
      */
-    public function getAction($type)
+    public function getAction($type) : ?string
     {
         if (isset($this->actions[$type])) {
             return $this->actions[$type];
-        } 
+        }
+
         return null;
-    } 
-    
+    }
+
     /**
      * Get Widget Actions JS Functions
-     * 
-     * @return  array
+     *
+     * @return array
      */
-    public function getActions()
+    public function getActions() : array
     {
         return $this->actions;
-    } 
-    
-    
+    }
+
     /**
      * Set Widget Parent Collection
      *
-     * @param string $Parent
+     * @param WidgetCollectionBase $parent
      *
-     * @return  WidgetActionsTrait
+     * @return $this
      */
-    public function setParent($Parent)
+    public function setParent($parent) : self
     {
-        $this->parent = $Parent;
+        $this->parent = $parent;
 
         return $this;
     }
 
     /**
      * Get Widget Parent Collection
-     * 
-     * @return mixed
+     *
+     * @return null|WidgetCollection
      */
-    public function getParent()
+    public function getParent() : ?WidgetCollection
     {
         return $this->parent;
     }

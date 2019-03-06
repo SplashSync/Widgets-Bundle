@@ -1,197 +1,40 @@
 <?php
 
+/*
+ *  This file is part of SplashSync Project.
+ *
+ *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Splash\Widgets\Tests\Services;
 
-use Symfony\Component\Form\FormBuilderInterface;
-
-use Splash\Widgets\Entity\Widget;
-
+use Splash\Widgets\Services\Demo\SamplesFactoryService as Base;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-use Splash\Widgets\Services\FactoryService;
-
-use Splash\Widgets\Models\Interfaces\WidgetProviderInterface;
-
-use Splash\Widgets\Models\Blocks\SparkBarChartBlock;
-
-/*
+/**
  * Demo Widgets Factory Service
  */
-class SamplesFactoryService implements WidgetProviderInterface
+class SamplesFactoryService extends Base
 {
-    const PREFIX    =   "Splash\Widgets\Tests\Blocks\\";
-    const SERVICE   =   "Splash.Widgets.Test.Factory";
+    const PREFIX = "Splash\\Widgets\\Tests\\Blocks\\";
+    const SERVICE = "Splash.Widgets.Test.Factory";
 
-    const ORIGIN    =   "<i class='fa fa-github text-success' aria-hidden='true'>&nbsp;</i>Tests Factory";
-    
+    const ORIGIN = "<i class='fa fa-github text-success' aria-hidden='true'>&nbsp;</i>Tests Factory";
+
     /**
-     * WidgetFactory Service
-     * 
-     * @var Splash\Widgets\Services\FactoryService 
-     */    
-    private $Factory;
-    
-    /*
-     *  Fault String
+     * Widgets Listing
+     *
+     * @param GenericEvent $event
      */
-    public $fault_str;    
-
-//====================================================================//
-//  CONSTRUCTOR
-//====================================================================//
-    
-    /**
-     *      @abstract    Class Constructor
-     */    
-    public function __construct(FactoryService $WidgetFactory) { 
-        //====================================================================//
-        // Link to WidgetFactory Service
-        $this->Factory = $WidgetFactory;
-        return True;
-    }    
-
-
-    /**
-     * @abstract    Widgets Listing
-     */    
-    public function onListingAction( GenericEvent $Event ) { 
-           
-        $Event["Test"]                  =   $this->buildWidgetDefinition("Test")->getWidget();
-        
-        return True;
-    }  
-    
-    /**
-     * @abstract    Widgets Listing
-     */    
-    public function buildWidgetDefinition( $Type , $Name = Null, $Desc = Null, $Options = array()) { 
-
-        $BlockClass = self::PREFIX . $Type;
-
-        if (class_exists($BlockClass)) {
-            $this->Factory
-                    ->Create($Type)
-                    ->setService(self::SERVICE)
-                    ->setType($BlockClass::TYPE)
-                    ->setTitle($BlockClass::TITLE)
-                    ->setIcon($BlockClass::ICON)
-                    ->setName($BlockClass::TITLE)
-                    ->setDescription($BlockClass::DESCRIPTION)
-                    ->setOrigin(self::ORIGIN)
-                    ->setOptions($this->getWidgetOptions($Type))
-                ;                
-        }
-
-        return $this->Factory;
-    } 
-    
-    /**
-     * @abstract   Read Widget Contents
-     * 
-     * @param      string   $Type               Widgets Type Identifier 
-     * @param      array    $Parameters         Widget Parameters
-     * 
-     * @return     Widget 
-     */    
-    public function getWidget(string $Type, $Parameters = Null)
+    public function onListingAction(GenericEvent $event) : void
     {
-        //====================================================================//
-        // If Widget Exists               
-        $BlockClass = self::PREFIX . $Type;
-        if (class_exists($BlockClass)) {
-            
-            $this->buildWidgetDefinition( $Type );
-            
-            $BlockClass::build($this->Factory,(is_null($Parameters) ? array() : $Parameters));
-            
-            return $this->Factory->getWidget();
-        }
-        
-        return Null;
-    }      
-    
-    /**
-     * @abstract   Return Widget Options Array 
-     * 
-     * @param      string   $Type               Widgets Type Identifier 
-     * 
-     * @return     array
-     */    
-    public function getWidgetOptions(string $Type) : array
-    {
-        //====================================================================//
-        // If Widget Exists               
-        $BlockClass = self::PREFIX . $Type;
-
-        if (class_exists($BlockClass) && method_exists($BlockClass, "getOptions")) {
-            return $BlockClass::getOptions();
-        }        
-                
-        return Widget::getDefaultOptions();
+        $event["Test"] = $this->buildWidgetDefinition("Test")->getWidget();
     }
-
-    /**
-     * @abstract   Update Widget Options Array 
-     * 
-     * @param      string   $Type               Widgets Type Identifier 
-     * @param      array    $Options            Updated Options 
-     * 
-     * @return     array
-     */    
-    public function setWidgetOptions(string $Type, array $Options) : bool
-    {
-        return True;
-    }
-    
-    /**
-     * @abstract   Return Widget Parameters Array 
-     * 
-     * @param      string   $Type               Widgets Type Identifier 
-     * 
-     * @return     array
-     */    
-    public function getWidgetParameters(string $Type) : array
-    {
-        return array();
-    }
-        
-    
-    /**
-     * @abstract   Update Widget Parameters Array 
-     * 
-     * @param      string   $Type               Widgets Type Identifier 
-     * @param      array    $Parameters         Updated Parameters 
-     * 
-     * @return     array
-     */    
-    public function setWidgetParameters(string $Type, array $Parameters) : bool
-    {
-        return True;
-    }
-    
-    /**
-     * @abstract   Return Widget Parameters Fields Array 
-     * 
-     * @param FormBuilderInterface  $builder
-     * @param      string           $Type           Widgets Type Identifier 
-     * 
-     * @return     array
-     */    
-    public function populateWidgetForm(FormBuilderInterface $builder, string $Type)
-    {
-        $BlockClass = self::PREFIX . $Type;
-        
-        if (class_exists($BlockClass)) {
-            $BlockClass::populateWidgetForm($builder);
-        }
-        
-        if ( $Type == "SparkBar" ) {
-            SparkBarChartBlock::addHeightFormRow($builder);
-            SparkBarChartBlock::addBarWidthFormRow($builder);
-            SparkBarChartBlock::addBarColorFormRow($builder);
-        } 
-        
-        return;
-    }
-
 }

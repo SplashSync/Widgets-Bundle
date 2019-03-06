@@ -28,10 +28,10 @@
     </br></br>
     
     {% if Edit %}
-        {{ render(controller('SplashWidgetsBundle:Collection:edit', { 'request' : app.request, 'CollectionId' : Collection.id })) }}
-        {{ render(controller('SplashWidgetsBundle:List:panel', { 'CollectionId' : Collection.id, 'Channel' : 'demo' })) }}
+        {{ render(controller('SplashWidgetsBundle:Collection:edit', { 'request' : app.request, 'collectionId' : Collection.id })) }}
+        {{ render(controller('SplashWidgetsBundle:List:panel', { 'collectionId' : Collection.id, 'channel' : 'demo' })) }}
     {% else %}
-        {{ render(controller('SplashWidgetsBundle:Collection:view', { 'CollectionId' : Collection.id })) }}
+        {{ render(controller('SplashWidgetsBundle:Collection:view', { 'collectionId' : Collection.id })) }}
     {% endif %}
     
 

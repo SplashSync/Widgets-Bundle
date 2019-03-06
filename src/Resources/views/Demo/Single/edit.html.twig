@@ -18,14 +18,14 @@
     </p>
     <code>
         Example
-        <PRE>render(controller('SplashWidgetsBundle:Edit:panel', { 'Service' : "Splash.Widgets.Demo.Factory",  'Type' : "Text" }))</PRE>
+        <PRE>render(controller('SplashWidgetsBundle:Edit:panel', { 'service' : "Splash.Widgets.Demo.Factory",  'type' : "Text", "request" : app.request }))</PRE>
     </code>
 
  
     
     <div class="row">
         <div class="col-xs-12 col-md-6">
-            {{ render(controller('SplashWidgetsBundle:Edit:panel', { 'Service' : "Splash.Widgets.Demo.Factory", 'Type' : "Text", "request" : app.request })) }}
+            {{ render(controller('SplashWidgetsBundle:Edit:panel', { 'service' : "Splash.Widgets.Demo.Factory", 'type' : "Text", "request" : app.request })) }}
         </div>
         <div class="col-xs-12 col-md-6">
             
@@ -40,10 +40,10 @@
                 {% endif %}
                     
                 {{ render(controller('SplashWidgetsBundle:View:forced', { 
-                        'Service' :     "Splash.Widgets.Demo.Factory",  
-                        'Type' :        "Text",
-                        'Options':      Options | json_encode,
-                        'Parameters':   Parameters | json_encode,
+                        'service' :     "Splash.Widgets.Demo.Factory",  
+                        'type' :        "Text",
+                        'options':      Options | json_encode,
+                        'parameters':   Parameters | json_encode,
                 })) }}
             </div>   
     
