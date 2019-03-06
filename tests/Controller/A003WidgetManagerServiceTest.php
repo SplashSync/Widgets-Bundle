@@ -61,7 +61,7 @@ class A003WidgetManagerServiceTest extends KernelTestCase
 
         //====================================================================//
         // Check List
-        $this->assertIisArray($wrongList);
+        $this->assertIsArray($wrongList);
         $this->assertCount(0, $wrongList);
 
         //====================================================================//
@@ -70,7 +70,7 @@ class A003WidgetManagerServiceTest extends KernelTestCase
 
         //====================================================================//
         // Check List
-        $this->assertIisArray($testList);
+        $this->assertIsArray($testList);
         $this->assertCount(1, $testList);
 
         //====================================================================//
@@ -79,7 +79,7 @@ class A003WidgetManagerServiceTest extends KernelTestCase
 
         //====================================================================//
         // Check List
-        $this->assertIisArray($demoList);
+        $this->assertIsArray($demoList);
         $this->assertGreaterThan(1, count($demoList));
     }
 
