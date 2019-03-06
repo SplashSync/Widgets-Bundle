@@ -51,18 +51,12 @@ matrix:
 before_script:
     - phpenv config-rm xdebug.ini
   
-before_install:
-#    # Update composer
-#    - composer self-update
-#    # Setup Travis PHP     
-#    - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then echo "memory_limit = -1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; fi
-#    # Setup Composer Stability if Required   
-#    - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
-#    # Setup Symfony Version if Required    
-#    - if [ "$SF_VERSION" != "" ]; then composer require --no-update symfony/symfony=$SF_VERSION; fi;
-#    # Create Database
-#    - mysql -e 'CREATE DATABASE IF NOT EXISTS symfony;'
-
+# Install composer dependencies,
+# Create database, schema and fixtures
+install:   
+    # Copy Parameters
+    - echo "Configuring The Bundles"
+    - cp app/parameters.yml.dist app/parameters.yml
     # Setup Travis
     - curl -s https://raw.githubusercontent.com/SplashSync/Php-Bundle/master/src/Resources/travis/configure.sh  | bash
     # Setup Symfony Version if Required
@@ -71,31 +65,9 @@ before_install:
     - curl -s https://raw.githubusercontent.com/SplashSync/Php-Bundle/master/src/Resources/travis/build_grumphp.sh  | bash
     # Install Symfony
     - curl -s https://raw.githubusercontent.com/SplashSync/Php-Bundle/master/src/Resources/travis/install.sh  | bash      
-      
-# Install composer dependencies,
-# Create database, schema and fixtures
-install:   
-    - echo "Configuring The Bundles"
-    - cp app/parameters.yml.dist app/parameters.yml
-    
-    - echo "Build Dependencies"
-    - composer update --prefer-dist --no-interaction    
-    
-    - echo "List Console Commands"
-    - php bin/console list
-
-    - echo "List Container Services"
-    - php bin/console debug:container
-    
-    - echo "Install Symfony"
-    - php bin/console doctrine:schema:update --force  --no-interaction --no-debug
-
+    # Copy Assets
     - echo "Dump & Install Assets"
     - php bin/console assetic:dump --no-interaction --no-debug
-#    - php bin/console assets:install --no-interaction --no-debug
-    
-    - echo "Start Web Server"
-    - php bin/console server:start
 
 # Run script
 script:
