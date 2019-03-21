@@ -35,7 +35,7 @@
         "doctrine/doctrine-bundle":                     "^1.6",
         "doctrine/doctrine-cache-bundle":               "^1.2",
         
-        "knplabs/knp-time-bundle":                      "~1.6.0",
+        "knplabs/knp-time-bundle":                      "~1.6",
         "knplabs/knp-menu-bundle":                      "~2.0",
         
         "friendsofsymfony/jsrouting-bundle":            "~2.0",
