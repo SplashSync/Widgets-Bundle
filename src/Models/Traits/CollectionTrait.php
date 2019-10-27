@@ -26,7 +26,7 @@ use Splash\Widgets\Entity\Widget;
  */
 trait CollectionTrait
 {
-    public static $SERVICE = "Splash.Widgets.Collection";
+    public static $SERVICE = "splash.widgets.collection";
 
     //==============================================================================
     //      Variables

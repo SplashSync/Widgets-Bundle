@@ -1,0 +1,29 @@
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
+            Use the Widget Factory to create an Empty Widget
+        </h6>
+    </div>
+    <div class="card-body">
+        
+        <p>
+            Factory service is: <b>splash.widgets.factory</b>
+        </p>
+        
+        <code><PRE>
+        $this->Factory
+            ->Create($Type)
+            ->setService(self::SERVICE)
+            ->setType($BlockClass::TYPE)
+            ->setTitle($BlockClass::TITLE)
+            ->setIcon($BlockClass::ICON)
+            ->setName($BlockClass::TITLE)
+            ->setDescription($BlockClass::DESCRIPTION)
+            ->setOrigin(self::ORIGIN)
+            ->setOptions($this->getWidgetOptions($Type))
+        ;  
+        </PRE></code>
+        
+    </div>
+</div>

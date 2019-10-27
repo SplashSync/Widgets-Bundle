@@ -28,7 +28,7 @@ class Dates
     use ParametersTrait;
 
     const TYPE = "Dates";
-    const ICON = "fa fa-fw fa-clock-o";
+    const ICON = "fa fa-fw far fa-clock";
     const TITLE = "Dates Block";
     const DESCRIPTION = "Demonstration of Dates Widget";
 

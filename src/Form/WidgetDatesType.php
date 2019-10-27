@@ -34,25 +34,14 @@ class WidgetDatesType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
-        $datesTab = $builder->create('dates', \Mopa\Bundle\BootstrapBundle\Form\Type\TabType::class, array(
-            'label' => 'dates.label',
-            'translation_domain' => "SplashWidgetsBundle",
-            'icon' => ' fa fa-clock-o',
-            'inherit_data' => true,
-            'attr' => array(
-                'class' => 'well-sm',
-            ),
-        ));
-
         //====================================================================//
         // Widget Option - Select Dates
         //====================================================================//
 
-        $datesTab->add("Dates", ChoiceType::class, array(
+        $builder->add("DatePreset", ChoiceType::class, array(
             'required' => true,
-            'property_path' => 'parameters[DatePreset]',
-            'label' => "dates.label",
-            'help_block' => "dates.tooltip",
+            'property_path' => '[DatePreset]',
+            'label' => "dates.tooltip",
             'choices' => array(
                 "dates.D" => "D",
                 "dates.W" => "W",
@@ -74,8 +63,6 @@ class WidgetDatesType extends AbstractType
             'expanded' => false,
             //                'choices_as_values'         => True,
         ));
-
-        $builder->add($datesTab);
     }
 
     /**

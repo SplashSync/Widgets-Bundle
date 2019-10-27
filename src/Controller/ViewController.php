@@ -42,11 +42,11 @@ class ViewController extends Controller
     {
         //==============================================================================
         // Read Widget Contents
-        $widget = $this->get("Splash.Widgets.Manager")->getWidget($service, $type, self::jsonToArray($parameters));
+        $widget = $this->get("splash.widgets.manager")->getWidget($service, $type, self::jsonToArray($parameters));
         //==============================================================================
         // Validate Widget Contents
         if (is_null($widget)) {
-            $widget = $this->get("Splash.Widgets.Factory")->buildErrorWidget($service, $type, "An Error Occured During Widget Loading");
+            $widget = $this->get("splash.widgets.factory")->buildErrorWidget($service, $type, "An Error Occured During Widget Loading");
         }
         //==============================================================================
         // Setup Widget Options
@@ -79,7 +79,7 @@ class ViewController extends Controller
         if (empty($widgetOptions)) {
             $widgetOptions = empty($service)
                 ? Widget::getDefaultOptions()
-                : $this->get("Splash.Widgets.Manager")->getWidgetOptions($service, $type);
+                : $this->get("splash.widgets.manager")->getWidgetOptions($service, $type);
         }
 
         //==============================================================================
@@ -88,7 +88,7 @@ class ViewController extends Controller
 
         //==============================================================================
         // Load From cache if Available
-        $cache = $this->get("Splash.Widgets.Manager")->getCache($service, $type, $widgetOptions, $widgetParameters);
+        $cache = $this->get("splash.widgets.manager")->getCache($service, $type, $widgetOptions, $widgetParameters);
         if ($cache) {
             //==============================================================================
             // Setup Widget Options
@@ -131,7 +131,7 @@ class ViewController extends Controller
 
         //==============================================================================
         // Read Widget Contents
-        $widget = $this->get("Splash.Widgets.Manager")->getWidget($service, $type, $widgetParameters);
+        $widget = $this->get("splash.widgets.manager")->getWidget($service, $type, $widgetParameters);
 
         //==============================================================================
         // Fetch Widget Options
@@ -142,7 +142,7 @@ class ViewController extends Controller
         //==============================================================================
         // Validate Widget Contents
         if (!($widget instanceof Widget)) {
-            $widget = $this->get("Splash.Widgets.Factory")->buildErrorWidget($service, $type, "An Error Occured During Widget Loading");
+            $widget = $this->get("splash.widgets.factory")->buildErrorWidget($service, $type, "An Error Occured During Widget Loading");
 
             return $this->render('SplashWidgetsBundle:Widget:contents.html.twig', array(
                 "WidgetId" => WidgetCache::buildDiscriminator($widgetOptions, $widgetParameters),
@@ -166,7 +166,7 @@ class ViewController extends Controller
                 "Widget" => $widget,
                 "Options" => $widgetOptions,
             ));
-            $this->get("Splash.Widgets.Manager")->setCacheContents($widget, $contents);
+            $this->get("splash.widgets.manager")->setCacheContents($widget, $contents);
         }
 
         //==============================================================================

@@ -15,33 +15,37 @@
 
 namespace Splash\Widgets\Controller;
 
-use Splash\Widgets\Services\FactoryService;
+use Splash\Widgets\Entity\Widget;
 use Splash\Widgets\Services\ManagerService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Widgets Bundle Demonstration Pages Controller
  */
-class DemoController extends Controller
+class DemoController extends EditController
 {
     /**
-     * WidgetFactory Service
+     * Widget Manager Service
      *
-     * @var FactoryService
+     * @var ManagerService
      */
-    private $factory;
+    private $manager;
 
     /**
      * Class Initialization
      *
+     * @param string $service
+     *
      * @return bool
      */
-    public function initialize() : bool
+    public function initialize(string $service = null) : bool
     {
+        parent::initialize((string) $service);
         //====================================================================//
-        // Get WidgetFactory Service
-        $this->factory = $this->get("Splash.Widgets.Factory");
+        // Get Widget Manager Service
+        $this->manager = $this->get("splash.widgets.manager");
 
         return true;
     }
@@ -56,7 +60,7 @@ class DemoController extends Controller
         $this->initialize();
         //==============================================================================
         // Load Demo Widgets from Channel List
-        $widgets = $this->get("Splash.Widgets.Manager")->getList(ManagerService::DEMO_WIDGETS);
+        $widgets = $this->manager->getList(ManagerService::DEMO_WIDGETS);
         //==============================================================================
         // Init Demo Widgets Collection
         $demoCollection = $this->getDemoCollection();
@@ -74,10 +78,10 @@ class DemoController extends Controller
     {
         //==============================================================================
         // Init & Safety Check
-        $this->Initialize();
+        $this->initialize();
         //==============================================================================
         // Load Demo Widgets from Channel List
-        $widgets = $this->get("Splash.Widgets.Manager")->getList(ManagerService::DEMO_WIDGETS);
+        $widgets = $this->manager->getList(ManagerService::DEMO_WIDGETS);
 
         return $this->render('@SplashWidgets/Demo/List/index.html.twig', array(
             'Widgets' => $widgets,
@@ -89,8 +93,12 @@ class DemoController extends Controller
      */
     public function forcedAction() : Response
     {
+        //==============================================================================
+        // Init & Safety Check
+        $this->initialize();
+
         return $this->render('@SplashWidgets/Demo/Single/forced.html.twig', array(
-            'Widgets' => $this->get("Splash.Widgets.Manager")->getList(ManagerService::DEMO_WIDGETS),
+            'Widgets' => $this->manager->getList(ManagerService::DEMO_WIDGETS),
         ));
     }
 
@@ -99,17 +107,40 @@ class DemoController extends Controller
      */
     public function delayedAction() : Response
     {
+        //==============================================================================
+        // Init & Safety Check
+        $this->initialize();
+
         return $this->render('@SplashWidgets/Demo/Single/delayed.html.twig', array(
-            'Widgets' => $this->get("Splash.Widgets.Manager")->getList(ManagerService::DEMO_WIDGETS),
+            'Widgets' => $this->manager->getList(ManagerService::DEMO_WIDGETS),
         ));
     }
 
     /**
+     * @param Request $request
+     * @param string  $widgetType
+     *
      * @return Response
      */
-    public function editAction() : Response
+    public function editAction(Request $request, string $widgetType = "Text") : Response
     {
-        return $this->render('@SplashWidgets/Demo/Single/edit.html.twig', array());
+        //==============================================================================
+        // Init & Safety Check
+        $this->initialize();
+
+        //==============================================================================
+        // Load Demo Widget from Demo Factory
+        $widget = $this->manager->getWidget("Splash.Widgets.Demo.Factory", $widgetType);
+        if (!$widget) {
+            return $this->redirectToRoute("splash_widgets_demo_list");
+        }
+        $widget->setWidth(Widget::$widthXl);
+
+        //==============================================================================
+        // Import Form Data & Prepare Data for Form Display
+        $params = $this->prepare($request, "Splash.Widgets.Demo.Factory", $widgetType, $widget);
+
+        return $this->render('@SplashWidgets/Demo/Single/edit.html.twig', $params);
     }
 
     /**
@@ -122,7 +153,7 @@ class DemoController extends Controller
         $this->Initialize();
         //==============================================================================
         // Load Demo Widgets from Channel List
-        $widgets = $this->get("Splash.Widgets.Manager")->getList(ManagerService::DEMO_WIDGETS);
+        $widgets = $this->manager->getList(ManagerService::DEMO_WIDGETS);
         //==============================================================================
         // Init Demo Widgets Collection
         $demoCollection = $this->getDemoCollection();
@@ -144,7 +175,7 @@ class DemoController extends Controller
         $this->Initialize();
         //==============================================================================
         // Load Demo Widgets from Channel List
-        $widgets = $this->get("Splash.Widgets.Manager")->getList(ManagerService::DEMO_WIDGETS);
+        $widgets = $this->manager->getList(ManagerService::DEMO_WIDGETS);
         //==============================================================================
         // Init Demo Widgets Collection
         $demoCollection = $this->getDemoCollection();
@@ -178,7 +209,7 @@ class DemoController extends Controller
 
             //==============================================================================
             // Load Demo Widgets from Channel List
-            $widgets = $this->get("Splash.Widgets.Manager")->getList(ManagerService::DEMO_WIDGETS);
+            $widgets = $this->manager->getList(ManagerService::DEMO_WIDGETS);
 
             foreach ($widgets as $widget) {
                 $demoCollection->addWidget($widget);

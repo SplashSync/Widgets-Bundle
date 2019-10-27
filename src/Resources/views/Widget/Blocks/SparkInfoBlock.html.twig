@@ -26,20 +26,10 @@
     
 {% if Block.Chart is not empty %}
     {{ Wid.SparkLine( "bar", Block.Options.ChartOptions, Block.Chart ) }}
-    <script>
-        $(document).ready(function() {
-            SplashWidgets_SparkLineBarCharts();
-        });
-    </script>   
 {% endif %}
     
 {% if Block.Pie is not empty %}                
     {{ Wid.SparkLine( "pie", Block.Options.ChartOptions, Block.Pie ) }}
-    <script>
-        $(document).ready(function() {
-            SplashWidgets_SparkLinePieCharts();
-        });
-    </script>   
 {% endif %}
 
 </div>

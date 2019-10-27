@@ -4,19 +4,24 @@
 {% elseif Options is defined %}
     {% set Width = Options.Width %}
 {% else %}
-    {% set Width = "col-sm-12 col-md-6 col-lg-6" %}
+    {% set Width = "col-12 col-sm-12 col-md-6 col-lg-6" %}
 {% endif %}
+
+{% set Mode = Widget.Options.Mode | default("bs4")  %}
 
 {% if Widget is defined %}
     {% set WidgetType = Widget.Type %}
     {% set Options    = Widget.Options %}
-    {% set Parameters = Widget.Parameters | json_encode %}
+    {% set Parameters = Widget.Parameters | json_encode %}  
 {% endif %}
 
-<div class="{{ Width  }} " id="{{ WidgetType ~ "-" ~ WidgetId }}" data-id="{{ WidgetType }}"> 
+<div    class="splash-widget mb-3 {{ Width }} " id="{{ WidgetType ~ "-" ~ WidgetId }}" 
+        data-id="{{ WidgetType }}"
+    >
+    
     {#  Widget Contents Envelope #}
     {% block widget_box %}
-        {% include 'SplashWidgetsBundle:Widget:contents.html.twig' %}  
+        {% include '@SplashWidgets/Widget/contents.'~Mode~'.twig' %}  
     {% endblock %}                 
 </div> 
         

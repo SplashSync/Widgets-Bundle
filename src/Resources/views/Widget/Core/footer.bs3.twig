@@ -9,7 +9,7 @@
             {% if Widget.Origin is not empty %} | {{ Widget.Origin | raw }}{% endif %}
             
             &nbsp;|&nbsp;
-            {% include 'SplashWidgetsBundle:Widget/Buttons:reload.html.twig'  %} 
+            {% include 'SplashWidgetsBundle:Widget/Buttons:reload.bs3.twig'  %} 
 
             {% if Widget.Options.Editable | default(false) %}
                 &nbsp;|&nbsp;

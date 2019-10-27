@@ -1,6 +1,10 @@
 {% trans_default_domain "SplashWidgetsBundle" %}   
 {% extends "@SplashWidgets/Demo/Layout/base.html.twig" %}   
 
+{% block headline %}
+    Splash Widgets Demo
+{% endblock %}    
+
 {% block head_style %}
     {{ parent() }}
     {% include 'SplashWidgetsBundle:Layout:stylesheets.html.twig' %}  
@@ -16,24 +20,7 @@
     {% include 'SplashWidgetsBundle:Layout:javascripts_bottom.html.twig' %}          
 {% endblock foot_script %}
 
-{#
-    Display Node Profile Title
-#}
-{% block headline %}
-    OpenWidgets Layout Base
-{% endblock %}    
+
     
-{% block body_start %}
-    {% include '@SplashWidgets/Demo/Menu/index.html.twig' %}     
-{% endblock body_start %}
 
-{#
-    Display Node Profile Contents
-#}
-
-{% block content_row %}
-
-    Empty Contents!
-    
-{% endblock %}
 

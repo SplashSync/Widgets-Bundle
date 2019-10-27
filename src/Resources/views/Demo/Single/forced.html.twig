@@ -10,22 +10,23 @@
     
 {% block content_row %}
 
-   <h3 class="page-title txt-color-blueDark"><i class="fa fa-fw fa-info-circle "></i>
-        In Forced Mode, Widget is rendered directly during page Loading. 
-    </h3>    
-    <p>
-        This could be long if some of your Widgets have a need time to compute. 
-        Moreover, this is done without caching, so widget will be reloaded on each page loading.
-    </p>
-    <code>
-        Example
-        <PRE>render(controller('SplashWidgetsBundle:View:forced', { 'service' : "Splash.Widgets.Demo.Factory",  'type' : "Text" }))</PRE>
-    </code>
-    
-    <div class="row">
-        {% for Widget in Widgets %}
-            {{ render(controller('SplashWidgetsBundle:View:forced', { 'service' : Widget.service,  'type' : Widget.type })) }}
-        {% endfor %} 
+    <div class="col-12 text-center p-3">
+        <h3 class="page-title txt-color-blueDark"><i class="fa fa-fw fa-info-circle "></i>
+             In Forced Mode, Widget is rendered directly during page Loading. 
+         </h3>    
+         <p>
+             This could be long if some of your Widgets have a need time to compute. 
+             Moreover, this is done without caching, so widget will be reloaded on each page loading.
+         </p>
+         <code>
+             Example
+             <PRE>render(controller('SplashWidgetsBundle:View:forced', { 'service' : "Splash.Widgets.Demo.Factory",  'type' : "Text" }))</PRE>
+         </code>
     </div>
+    
+    {% for Widget in Widgets %}
+        {{ render(controller('SplashWidgetsBundle:View:forced', { 'service' : Widget.service,  'type' : Widget.type })) }}
+    {% endfor %} 
+    
 {% endblock %}
 

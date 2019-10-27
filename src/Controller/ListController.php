@@ -100,7 +100,7 @@ class ListController extends Controller
     {
         //==============================================================================
         // Get List of Widgets
-        $widgets = $this->get("Splash.Widgets.Manager")->getList("splash.widgets.list.".$channel);
+        $widgets = $this->get("splash.widgets.manager")->getList("splash.widgets.list.".$channel);
 
         //==============================================================================
         // Prepare Tabs List

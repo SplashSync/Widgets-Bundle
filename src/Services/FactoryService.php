@@ -280,8 +280,6 @@ class FactoryService
      * Normalize Block Contents to Array
      *
      * @param array|ArrayObject $block
-     *
-     * @return array
      */
     private static function toArray(&$block) : void
     {

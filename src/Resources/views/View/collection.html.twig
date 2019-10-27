@@ -1,7 +1,14 @@
 
 {% set CollectionId = "widgets-collection-" ~ Collection.id %}
 
-<div class="row padding-10 " id="{{ CollectionId }}">
+{% set sortUrl = path('splash_widgets_collections_reorder', { 
+    'collectionId': Collection.id,  
+}) %}
+        
+<div class="row padding-10 {% if Edit %}splash-widget-sortable-collection{% endif %}" 
+     id="{{ CollectionId }}"
+     data-sort="{{ sortUrl }}"
+    >
     {% for Widget in Collection.Widgets %}
         {% set Type = Widget.id ~ "@" ~ Collection.id %}
         {{ render(controller('SplashWidgetsBundle:View:delayed', { 
@@ -16,7 +23,7 @@
 {% if Edit %}
     <script>
 
-        $(document).ready(function() {
+{#        $(document).ready(function() {
 
             $(function() {
                 $('#{{ CollectionId }}').sortable({
@@ -29,7 +36,7 @@
                 });
             });
 
-        });
+        });#}
 
     </script>    
 {% endif %} 

@@ -2,9 +2,9 @@
 {% import _self as btns %}
 
 <!-- Single button -->
-<div class="btn-group">
-    <button type="button" class="btn dropdown-toggle  {{ Class | default("btn-default") }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fa fa-clock-o" aria-hidden="true"></i>
+<div class="btn-group dropdown">
+    <button type="button" class="btn dropdown-toggle  {{ Class | default("btn-primary") }}" id="splashWidgetPresetButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fa fas fa-clock" aria-hidden="true"></i>
         &nbsp;
         {% if Collection.Preset is not empty %}
             {{ ('dates.' ~ Collection.Preset)  | trans }}
@@ -14,7 +14,7 @@
         &nbsp;
         <span class="caret"></span>
     </button>
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu" aria-labelledby="splashWidgetPresetButton">
         
         {# Preset Day Button #}
         <li>{{ btns.Preset_Btn(Collection, "D")}}</li>
@@ -63,17 +63,19 @@
     Generate Date Preset Button
 #}
 {% macro Preset_Btn(Collection, Value) %}
-    
-    
+        
     {% set isCurrent = (Collection.Preset == Value) %}
     
-    {% set Action = "SplashWidgets_UpdateDatesPreset('" ~ Collection.Id ~ "','" ~ Value ~ "')" %}
-    <a  href="#"
-        class="{% if isCurrent | default(false)%}btn-info{% endif %}" 
-        onclick="{{ Action }}">
+    {% set presetUrl = path('splash_widgets_collections_preset', { 
+        'collectionId': Collection.id,  
+        'preset' : Value
+    }) %}
+        
+    <a  href="{{ presetUrl }}" class="dropdown-item {% if isCurrent %}bg-primary text-white{% endif %}">
         {{ ('dates.' ~ Value)  | trans }}
-        {% if isCurrent | default(false)%}<i class="fa fa-fw fa-star text-warning" aria-hidden="true"></i>{% endif %}
+        {% if isCurrent %}<i class="fa fa-fw fa-star text-warning" aria-hidden="true"></i>{% endif %}
     </a>
+        
 {% endmacro %}
 
     

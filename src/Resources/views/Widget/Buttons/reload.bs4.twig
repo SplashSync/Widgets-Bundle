@@ -1,0 +1,17 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+
+{% set loadingUrl = path('splash_widgets_render_widget', { 
+    'service': Widget.Service,  
+    'type' : Widget.Type, 
+    'options' : (Widget.Options | json_encode()), 
+    "parameters" : (Widget.Parameters | json_encode()) 
+}) %}
+
+<button class="btn btn-xs px-1 btn-info text-xs small splash-widget-reloader" 
+        data-target="{{ Widget.Type ~ "-" ~ WidgetId }}"
+        data-reload="{{ loadingUrl }}"    
+        >
+    <i class="fas fa-fw fa-sync"></i>
+</button>
+
+    

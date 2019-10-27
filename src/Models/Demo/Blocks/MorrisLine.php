@@ -25,7 +25,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 class MorrisLine
 {
     const TYPE = "MorrisLine";
-    const ICON = "fa fa-fw fa-line-chart";
+    const ICON = "fa fa-fw fa-area-chart fas fa-chart-area";
     const TITLE = "Morris Line Chart Block";
     const DESCRIPTION = "Demonstration Morris Line Chart";
 

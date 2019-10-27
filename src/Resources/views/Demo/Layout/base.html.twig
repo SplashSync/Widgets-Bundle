@@ -1,96 +1,45 @@
-{% extends 'MopaBootstrapBundle::base' ~ theme_type|default('_less')~ '.html.twig' %}
 
-{% block head_style %}
-    {% stylesheets
-            '@MopaBootstrapBundle/Resources/public/less/mopabootstrapbundle.less'
-            '@MopaBootstrapBundle/Resources/public/bootstrap/docs/assets/css/docs.min.css'
-            '@MopaBootstrapBundle/Resources/public/components/smalot-bootstrap-datetimepicker/build/build_standalone.less'
-            '@MopaBootstrapBundle/Resources/public/bootstrap/dist/css/bootstrap.min.css'
-    %}
-        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
-    {% endstylesheets %}
-{% endblock head_style %}
+<html lang="en">
+    
+    {% include "@SplashWidgets/Demo/Layout/head.html.twig" %}   
 
-{% block body_tag %}
-<body data-spy="scroll" data-target="#navbar-example">
-{% endblock body_tag %}
+    <body id="page-top" cz-shortcut-listen="true">
 
-{% block head_script %}
-{% javascripts
-    'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'
-    'http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'
-%}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-{% endjavascripts %}
-{% endblock head_script %}
+      <!-- Page Wrapper -->
+      <div id="wrapper">
 
+        {% include "@SplashWidgets/Demo/Layout/sidebar.html.twig" %} 
 
-{% block body %}
-    {{ parent() }}
-{% endblock body%}
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Begin Page Content -->
+            <div class="container-fluid mt-4">
+                
+                <!-- Page Title -->
+                <h1 class="h3 mb-2 text-gray-800">
+                    {% block headline %}{% endblock %} 
+                </h1>
+                <!-- End Page Title -->
+                    
+                {% block body %}
+                {% endblock body%}
 
-{% block content_row %}
-    {{ parent() }}
-{% endblock content_row %}
+                <!-- Content Row -->
+                <div class="row justify-content-around">
+                    {% block content_row %}
+                    {% endblock content_row %}
+                </div>
+                <!-- End of Content Row -->
+                
+            </div>
+            <!-- End of Page Content -->
+        </div>
+        <!-- End of Content Wrapper -->
 
-{% block foot_script %}
-    {% javascripts
-    '@MopaBootstrapBundle/Resources/public/bootstrap/js/tooltip.js'
-    '@MopaBootstrapBundle/Resources/public/bootstrap/js/*.js'
-    '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-collection.js'
-    '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-subnav.js'
-    '@FOSJsRoutingBundle/Resources/public/js/router.js'
-    %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-    {{ parent() }}
+      </div>
+      <!-- End of Page Wrapper -->
 
-    {% javascripts
-    '@MopaBootstrapBundle/Resources/public/components/smalot-bootstrap-datetimepicker/js/bootstrap-datetimepicker.js'
-    '@MopaBootstrapBundle/Resources/public/components/smalot-bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js'
-    %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    {% include "@SplashWidgets/Demo/Layout/footer.html.twig" %}   
 
-    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-
-    <script type="text/javascript">
-        $(function(){
-
-            $('[data-provider="datepicker"]').datetimepicker({
-                autoclose: true,
-                format: 'dd/mm/yyyy',
-                language: 'fr',
-                minView: 'month',
-                pickerPosition: 'bottom-left',
-                todayBtn: true,
-                startView: 'month'
-            });
-
-            $('[data-provider="datetimepicker"]').datetimepicker({
-                autoclose: true,
-                format: 'dd/mm/yyyy hh:ii',
-                pickerPosition: 'bottom-left',
-                todayBtn: true
-            });
-
-            $('[data-provider="timepicker"]').datetimepicker({
-                autoclose: true,
-                format: 'hh:ii',
-                formatViewType: 'time',
-                maxView: 'day',
-                minView: 'hour',
-                pickerPosition: 'bottom-left',
-                startView: 'day'
-            });
-
-            // Restore value from hidden input
-            $('input[type=hidden]', '.date').each(function(){
-                if($(this).val()) {
-                    $(this).parent().datetimepicker('setValue');
-                }
-            });
-
-        });
-    </script>
-{% endblock foot_script %}
+    </body>
+</html>

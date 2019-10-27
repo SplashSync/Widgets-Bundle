@@ -25,7 +25,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 class MorrisBar
 {
     const TYPE = "MorrisBar";
-    const ICON = "fa fa-fw fa-bar-chart";
+    const ICON = "fa fa-bar-chart fas fa-chart-bar";
     const TITLE = "Morris Bar Chart Block";
     const DESCRIPTION = "Demonstration Morris Bar Chart";
 

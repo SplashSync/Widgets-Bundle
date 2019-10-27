@@ -11,19 +11,57 @@
 {#
     Display Node Profile Contents
 #}
-
 {% block content_row %}
     
-    {{ sonata_block_render({ 'type': 'Splash.Widgets.Blocks.Collection' }, {
-        "title" :   "Sample Widget Block"
-            }) }}
-
-{#    {{ sonata_block_render({ 'type': 'Splash.Widgets.Blocks.Collection' }, {
-        "title" :   "Sample Widget Block 2",
-        "collection" : "demo-block",
-        "menu" :    true,
-        "editable" :false,
-            }) }}#}
+    <div class="col-12 text-center p-3">
+        <h3 class="page-title txt-color-blueDark"><i class="fa fa-fw fa-info-circle "></i>
+            You can use Sonata Blocks to render a widget Collection 
+        </h3>   
+        
+        <p>
+            Just pass a title, a channel code and your collection code, that's all...
+            <br />
+            If collection code is new, it will be create & persisted to database. So you can create new widget collections on the demand. 
+            <br />
+            In addition, you can pass few option to hide the menu, disable édition.
+        </p>
+         
+        <div class="text-left">
+             
+            <code>
+                Example
+            </code>
             
+            <pre><code>
+    sonata_block_render({ 'type': 'splash.widgets.blocks.collection' }, {
+        "title" :   "Title for Collection Header",
+        "collection" : "my-collection-name",
+        'channel':      'all',
+        "menu" :    false,
+        "editable" :false,
+    }) 
+            </code></pre>
+             
+        </div>
+         
+    </div>
+    
+    <div class="col-12 p-3">
+        {{ sonata_block_render({ 'type': 'splash.widgets.blocks.collection' }, {
+            "title" :       "Sample Widget Block",
+            "collection" :  "demo-custom",
+            'channel':      'demo',
+        }) }}
+    </div>
+
+    <div class="col-12 p-3">
+        {{ sonata_block_render({ 'type': 'splash.widgets.blocks.collection' }, {
+            "title" :   "Sample Widget Block 2",
+            "collection" : "demo-block",
+            "menu" :    true,
+            "editable" :false,
+        }) }}
+    </div>       
+        
 {% endblock %}
 

@@ -1,17 +1,20 @@
-{% trans_default_domain "SplashWidgetsBundle" %}   
-{% form_theme Form 'MopaBootstrapBundle:Form:fields.html.twig' %}
+{% trans_default_domain "SplashWidgetsBundle" %} 
 
-<div class="panel panel-default">
+{% form_theme Form 'bootstrap_4_layout.html.twig' %}
+
+<div class="card panel panel-default">
     {{ form_start(Form) }}
-    <div class="panel-heading">
+    <div class="panel-heading card-header">
         {{ "parameters.title" | trans }}
     </div>
     
-    <div class="panel-body">
-        {{ form_widget(Form, { 'show_legend': false}) }}
+    <div class="panel-body card-body">
+        
+        {{ form_widget(Form, { 'show_legend': true}) }}
+        
     </div>
 
-    <div class="panel-footer text-right">
+    <div class="panel-footer card-footer text-right">
         <button type="submit" class="btn btn-primary">Save changes</button>
     </div>
     {{ form_end(Form) }}

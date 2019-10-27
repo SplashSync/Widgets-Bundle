@@ -16,6 +16,7 @@
 namespace Splash\Widgets\Models\Demo\Blocks;
 
 use Splash\Widgets\Entity\Widget;
+use Splash\Widgets\Models\Blocks\SparkBarChartBlock;
 use Splash\Widgets\Services\FactoryService;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -25,7 +26,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 class SparkBar
 {
     const TYPE = "SparkBar";
-    const ICON = "fa fa-bar-chart";
+    const ICON = "fa fa-bar-chart fas fa-chart-bar";
     const TITLE = "Sparline Bar Chart Block";
     const DESCRIPTION = "Demonstration Sparline Bar Chart";
 
@@ -51,7 +52,8 @@ class SparkBar
         $barGraph
             ->setTitle("Sparkline Bar Chart")
             ->setValues($values)
-            ;
+            ->setParameters($parameters)
+        ;
     }
 
     /**
@@ -63,6 +65,9 @@ class SparkBar
      */
     public static function populateWidgetForm(FormBuilderInterface $builder) : void
     {
+        SparkBarChartBlock::addHeightFormRow($builder);
+        SparkBarChartBlock::addBarWidthFormRow($builder);
+        SparkBarChartBlock::addBarColorFormRow($builder);
     }
 
     /**

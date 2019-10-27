@@ -1,9 +1,18 @@
 {% trans_default_domain "SplashWidgetsBundle" %}   
 
 {% if Widget.Options.Editable | default(false) %}
+    
+    {% set removeUrl = path('splash_widgets_collections_remove_widget', { 
+        'service': Widget.Service,  
+        'type' : Widget.Type,
+    }) %}
+    
     {% set RemoveAction = "SplashWidgets_RemoveFromCollection('" ~ Widget.Service ~ "','" ~ Widget.Type ~ "')" %}
-    <button class="btn btn-xs btn-danger" onclick="{{ RemoveAction }}">
-        <i class="fa fa-fw fa-times-circle-o"></i>
+    <button class="btn btn-xs btn-danger text-xs py-1 px-2 splash-widget-remover" 
+        data-target="{{ Widget.Type ~ "-" ~ WidgetId }}"
+        data-remove="{{ removeUrl }}"
+        >
+        <i class="fa fa-fw fa-trash"></i>
         {{ "remove.label" | trans }}
     </button>
 {% endif %}        

@@ -25,7 +25,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 class SparkLine
 {
     const TYPE = "SparkLine";
-    const ICON = "fa fa-fw fa-area-chart";
+    const ICON = "fa fa-fw fa-area-chart fas fa-chart-area";
     const TITLE = "Sparline Line Chart Block";
     const DESCRIPTION = "Demonstration Sparline Line Chart";
 

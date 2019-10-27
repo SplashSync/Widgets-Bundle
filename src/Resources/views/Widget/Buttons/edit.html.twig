@@ -1,10 +1,18 @@
 {% trans_default_domain "SplashWidgetsBundle" %}   
 
 {% if Widget.Options.EditMode | default(false) %}
-    {% set EditAction = "SplashWidgets_LoadEditModal('" ~ Widget.Service ~ "','" ~ Widget.Type ~ "')" %}
-    <button class="btn btn-xs btn-primary" onclick="{{ EditAction }}">
-        <i class="fa fa-fw fa-gear"></i>
-        {{ "widget.params" | trans }}
+    
+    {% set editUrl = path('splash_widgets_edit_widget', { 
+        'service': Widget.Service,  
+        'type' : Widget.Type,
+    }) %}
+    
+    <button class="btn btn-xs btn-primary splash-widget-edit text-xs py-1 px-2" 
+        data-target="{{ Widget.Type ~ "-" ~ WidgetId }}"
+        data-edit="{{ editUrl }}"
+        >
+        <i class="fa fa-fw fa-cog"></i>
+            {{ "widget.params" | trans }}
     </button>
 {% endif %}        
 

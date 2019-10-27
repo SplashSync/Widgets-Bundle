@@ -1,79 +1,52 @@
 {% trans_default_domain "SplashWidgetsBundle" %}   
 
-    <p>
-        This is the list of Widgets Definitions returned by Sample Widget Factory Service. 
-    </p>
-    
-    <p>
-        You can create as many Widgets Lists as needed. Here we use demo list to collect demonstrations widgets. 
-        List is retreived by sending the event <b>"splash.widgets.list.demo"</b>
-    </p>
-    
-    <hr>
-
-    <table class="table table-bordered">
-        
-        <thead>
-            <td>Service</td>
-            <td>Type</td>
-            <td>Icon</td>
-            <td>Title</td>
-            <td>Description</td>
-        </thead>
-        
-        {% for Widget in Widgets %}
-
-        <tr>
-            <td>
-                {{ Widget.service }}
-            </td>
-            <td>
-                {{ Widget.type }}
-            </td>
-            <td>
-                <i class="{{ Widget.icon }}"></i>
-            </td>
-            <td>
-                {{ Widget.title }}
-            </td>
-            <td>
-                {{ Widget.description }}
-            </td>
-        <tr>
-
-        {% endfor %}
-    </table>
-
-    <h3 class="page-title txt-color-blueDark"><i class="fa fa-fw fa-info-circle "></i>
-        Sample Array returned for listing
-    </h3>
-    
-    <div class="row">
-        
-        <div class="col-xs-12 col-md-6">
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
             Use the Widget Factory to create an Empty Widget
-            <br>
-            <code>
-<PRE>
-$this->Factory
-        ->Create($Type)
-        ->setService(self::SERVICE)
-        ->setType($BlockClass::TYPE)
-        ->setTitle($BlockClass::TITLE)
-        ->setIcon($BlockClass::ICON)
-        ->setName($BlockClass::TITLE)
-        ->setDescription($BlockClass::DESCRIPTION)
-        ->setOrigin(self::ORIGIN)
-        ->setOptions($this->getWidgetOptions($Type))
-    ;  
-</PRE>
-            </code>
-        </div>
-        
-        <div class="col-xs-12 col-md-6">
-            Widget Definition returned
-            <br><br>
-            {{ dump(Widgets.Text) }}
-        </div>
-    
+        </h6>
     </div>
+    <div class="card-body">
+
+        <table class="table table-bordered">
+
+            <thead>
+                <td>Service</td>
+                <td>Type</td>
+                <td>Icon</td>
+                <td>Title</td>
+                <td>Description</td>
+                <td>Try it!!</td>
+            </thead>
+
+            {% for Widget in Widgets %}
+
+            <tr>
+                <td>
+                    {{ Widget.service }}
+                </td>
+                <td>
+                    {{ Widget.type }}
+                </td>
+                <td>
+                    <i class="{{ Widget.icon }}"></i>
+                </td>
+                <td>
+                    {{ Widget.title }}
+                </td>
+                <td>
+                    {{ Widget.description }}
+                </td>
+                <td>                    
+                    <a href="{{ path("splash_widgets_demo_single_edit", {"widgetType": Widget.type}) }}" class="btn btn-labeled btn-primary pull-right"> 
+                        <i class="far fa-smile-wink"></i>
+                        Test me! 
+                    </a>
+                </td>
+            <tr>
+
+            {% endfor %}
+        </table>
+
+    </div>
+</div>

@@ -10,21 +10,25 @@
     
 {% block content_row %}
 
-   <h3 class="page-title txt-color-blueDark"><i class="fa fa-fw fa-info-circle "></i>
-        In Delayed Mode, Widget is rendered by Javascript, once page is fully loaded. 
-    </h3>    
-    <p>
-        This method is better if your widgets have computing, because this method allow caching of widget contents.
-    </p>
-    <code>
-        Example
-        <PRE>render(controller('SplashWidgetsBundle:View:delayed', { 'service' : "Splash.Widgets.Demo.Factory",  'type' : "Text" }))</PRE>
-    </code>
-    
-    <div class="row">
-        {% for Widget in Widgets %}
-            {{ render(controller('SplashWidgetsBundle:View:delayed', { 'service' : Widget.service,  'type' : Widget.type })) }}
-        {% endfor %} 
+    <div class="col-12 text-center p-3">
+        
+        <h3 class="page-title txt-color-blueDark"><i class="fa fa-fw fa-info-circle "></i>
+            In Delayed Mode, Widget is rendered by Javascript, once page is fully loaded. 
+        </h3>    
+        <p>
+            This method is better if your widgets have computing, because this method allow caching of widget contents.
+        </p>
+        <code>
+            Example
+            <PRE>render(controller('SplashWidgetsBundle:View:delayed', { 'service' : "Splash.Widgets.Demo.Factory",  'type' : "Text" }))</PRE>
+        </code>
+        
     </div>
+    
+
+    {% for Widget in Widgets %}
+        {{ render(controller('SplashWidgetsBundle:View:delayed', { 'service' : Widget.service,  'type' : Widget.type })) }}
+    {% endfor %} 
+    
 {% endblock %}
 

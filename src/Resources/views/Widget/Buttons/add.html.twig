@@ -8,13 +8,18 @@
 {% endif %}
 
 {% if CollectionId %}
-    {% set EditAction = "SplashWidgets_LoadAddModal('" ~ CollectionId ~ "','" ~ Channel | default("all") ~ "')" %}
-    <a class="btn {{ Class | default("btn-default") }}" onclick="{{ EditAction }}">
+
+    {% set listUrl = path('splash_widgets_collections_list_widget', { 
+        'collectionId': CollectionId,  
+        'channel' : Channel | default("all"),
+    }) %}
+    
+    <button class="btn {{ Class | default("btn-info") }} splash-widget-list" role="button" data-list="{{ listUrl }}">
         <i class="fa fa-fw fa-plus-circle"></i>
         {% if Minified is not defined %}
             {{ "widget.add" | trans }}
         {% endif %}
-    </a>
+    </button>
 {% endif %}
 
 

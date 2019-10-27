@@ -45,12 +45,18 @@ trait OptionsTrait
     //==============================================================================
     //      Widgets Color
     public static $colorNone = " ";
-    public static $colorDefault = "panel panel-default";
-    public static $colorPrimary = "panel panel-primary";
-    public static $colorSuccess = "panel panel-success";
-    public static $colorInfo = "panel panel-info";
-    public static $colorWarning = "panel panel-warning";
-    public static $colorDanger = "panel panel-danger";
+    public static $colorDefault = "default";
+    public static $colorPrimary = "primary";
+    public static $colorSuccess = "success";
+    public static $colorInfo = "info";
+    public static $colorWarning = "warning";
+    public static $colorDanger = "danger";
+
+    //==============================================================================
+    //      Rendering Mode
+    public static $modeDefault = "bs4";
+    public static $modeBootstrap3 = "bs3";
+    public static $modeBootstrap4 = "bs4";
 
     //==============================================================================
     //      Variables
@@ -246,6 +252,7 @@ trait OptionsTrait
         return array(
             'Width' => static::$widthDefault,
             'Color' => static::$colorDefault,
+            'Mode' => static::$modeDefault,
             'Header' => true,
             'Footer' => true,
             'Border' => true,

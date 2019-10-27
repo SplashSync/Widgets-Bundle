@@ -1,0 +1,20 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+
+{% if Widget.Options.Header %}
+    
+    {% if Widget.Options.Color | default("default") == "default" %}
+        {% set txtColor = "primary" %}
+    {% elseif Widget.Options.Color | default("default") == " " %}
+        {% set txtColor = "primary" %}
+    {% else %}
+        {% set txtColor = "white" %}
+    {% endif %}      
+    
+    <div class="card-header py-1 bg-{{ Widget.Options.Color | default("default") }} text-{{ txtColor }}">
+        {% if Widget.icon is defined and not null %}<i class="{{ Widget.icon }}">&nbsp;</i>{% endif %}
+        {{ Widget.title | default ("Widget Title") }}
+        <small>&nbsp;{{ Widget.subtitle | default ("") }}</small>
+    </div>    
+{% endif %}
+
+    

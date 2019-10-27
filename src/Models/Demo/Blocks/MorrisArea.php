@@ -25,7 +25,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 class MorrisArea
 {
     const TYPE = "MorrisArea";
-    const ICON = "fa fa-fw fa-area-chart";
+    const ICON = "fa fa-fw fa-area-chart fas fa-chart-area";
     const TITLE = "Morris Area Chart Block";
     const DESCRIPTION = "Demonstration Morris Area Chart";
 

@@ -46,7 +46,7 @@ class EditController extends Controller
      */
     public function initialize(string $service) : bool
     {
-        $this->factory = $this->get("Splash.Widgets.Factory");
+        $this->factory = $this->get("splash.widgets.factory");
 
         return !empty($service);
     }
@@ -117,14 +117,15 @@ class EditController extends Controller
      * @param Request $request
      * @param string  $service
      * @param string  $type
+     * @param Widget  $widget
      *
      * @return array
      */
-    private function prepare(Request $request, string $service, string $type) : array
+    protected function prepare(Request $request, string $service, string $type, Widget $widget = null) : array
     {
         //==============================================================================
         // Connect to Widgets Manager
-        $manager = $this->get("Splash.Widgets.Manager");
+        $manager = $this->get("splash.widgets.manager");
         //==============================================================================
         // Read Current Widget Options
         $options = $manager->getWidgetOptions($service, $type);
@@ -133,11 +134,13 @@ class EditController extends Controller
         $parameters = $manager->getWidgetParameters($service, $type);
         //==============================================================================
         // Create Widget Object for Form
-        $widget = $this->factory
-            ->create()
-            ->setOptions($options)
-            ->setParameters($parameters)
-            ->getWidget();
+        if (null == $widget) {
+            $widget = $this->factory
+                ->create()
+                ->setOptions($options)
+                ->setParameters($parameters)
+                ->getWidget();
+        }
         //==============================================================================
         // Ajax => Setup Action for Ajax Submit
         $action = $request->isXmlHttpRequest()
@@ -187,30 +190,19 @@ class EditController extends Controller
 
         //====================================================================//
         // Populate Widget Rendering Option Form Tab
-        $widgetOptionsForm = new WidgetOptionsType();
-        $widgetOptionsForm->buildForm($builder, array());
+        $builder->add('options', WidgetOptionsType::class, array(
+            'label' => false,
+        ));
 
         //====================================================================//
         // Populate Widget Rendering Option Form Tab
-        $widgetDatesForm = new WidgetDatesType();
-        $widgetDatesForm->buildForm($builder, array());
-
-        $widgetTab = $builder->create('parameters', \Mopa\Bundle\BootstrapBundle\Form\Type\TabType::class, array(
-            'label' => 'widget.params',
-            'translation_domain' => "SplashWidgetsBundle",
-            'icon' => ' fa fa-cogs',
-            'inherit_data' => true,
-            'attr' => array(
-                'class' => 'well-sm',
-            ),
+        $paramForm = $builder->add('parameters', WidgetDatesType::class, array(
+            'label' => false,
         ));
 
         //====================================================================//
         // Import Widget Option Form Fields
-        $this->get("Splash.Widgets.Manager")->populateWidgetForm($widgetTab, $service, $type);
-        if (count($widgetTab->all())) {
-            $builder->add($widgetTab);
-        }
+        $this->get("splash.widgets.manager")->populateWidgetForm($paramForm, $service, $type);
 
         return $builder->getForm();
     }

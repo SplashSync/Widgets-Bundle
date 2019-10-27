@@ -83,6 +83,38 @@ class SparkBarChartBlock extends BaseBlock
     }
 
     /**
+     * Set Block Configuration from Parameters
+     *
+     * @param array $parameters
+     *
+     * @return $this
+     */
+    public function setParameters(array $parameters) : self
+    {
+        //==============================================================================
+        //  Import Chart Height
+        if (isset($parameters["sparkbar_height"])) {
+            $this->setChartHeight($parameters["sparkbar_height"]);
+        }
+        //==============================================================================
+        //  Import Bar Width
+        if (isset($parameters["sparkbar_barwidth"])) {
+            $this->setBarWidth($parameters["sparkbar_barwidth"]);
+        }
+        //==============================================================================
+        //  Import Bar Color
+        if (isset($parameters["sparkbar_barcolor"])) {
+            $this->setBarColor($parameters["sparkbar_barcolor"]);
+        }
+
+        return $this;
+    }
+
+    //====================================================================//
+    //  Block Form Builders for Customization
+    //====================================================================//
+
+    /**
      * Add SparkBar Height Parameter to Widget Form
      *
      * @param FormBuilderInterface $builder
@@ -191,7 +223,7 @@ class SparkBarChartBlock extends BaseBlock
      */
     public function setChartHeight(int $value) : self
     {
-        $this->options["Graph"]["height"] = $value;
+        $this->options["ChartOptions"]["height"] = $value;
 
         return $this;
     }
@@ -205,7 +237,7 @@ class SparkBarChartBlock extends BaseBlock
      */
     public function setChartWidth(int $value) : self
     {
-        $this->options["Graph"]["width"] = $value;
+        $this->options["ChartOptions"]["width"] = $value;
 
         return $this;
     }
@@ -219,7 +251,7 @@ class SparkBarChartBlock extends BaseBlock
      */
     public function setBarWidth(int $value) : self
     {
-        $this->options["Graph"]["barwidth"] = $value;
+        $this->options["ChartOptions"]["barwidth"] = $value;
 
         return $this;
     }
@@ -233,7 +265,7 @@ class SparkBarChartBlock extends BaseBlock
      */
     public function setBarColor(string $value) : self
     {
-        $this->options["Graph"]["bar-color"] = $value;
+        $this->options["ChartOptions"]["bar-color"] = $value;
 
         return $this;
     }

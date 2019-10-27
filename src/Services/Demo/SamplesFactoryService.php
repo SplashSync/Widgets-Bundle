@@ -16,7 +16,6 @@
 namespace Splash\Widgets\Services\Demo;
 
 use Splash\Widgets\Entity\Widget;
-use Splash\Widgets\Models\Blocks\SparkBarChartBlock;
 use Splash\Widgets\Models\Interfaces\WidgetProviderInterface;
 use Splash\Widgets\Services\FactoryService;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -185,12 +184,6 @@ class SamplesFactoryService implements WidgetProviderInterface
 
         if (class_exists($blockClass)) {
             $blockClass::populateWidgetForm($builder);
-        }
-
-        if ("SparkBar" == $type) {
-            SparkBarChartBlock::addHeightFormRow($builder);
-            SparkBarChartBlock::addBarWidthFormRow($builder);
-            SparkBarChartBlock::addBarColorFormRow($builder);
         }
     }
 }

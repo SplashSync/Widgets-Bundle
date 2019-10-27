@@ -1,16 +1,16 @@
 {% trans_default_domain "SplashWidgetsBundle" %}   
 
-    <h3 class="page-title txt-color-blueDark"><i class="fa fa-fw fa-info-circle "></i>
+<div class="col-6 p-3">
+    <h3 class="page-title text-center"><i class="fa fa-fw fa-info-circle "></i>
         Widget Collections Displays
-
-        {% include 'SplashWidgetsBundle:Edit:dates_selector.html.twig' with {"Collection" : Collection } %} 
-        &nbsp;
-
-            
-        <div class="pull-right">
-            {% include 'SplashWidgetsBundle:Widget/Buttons:add.html.twig' with {"CollectionId" : Collection.id , "Channel" : "demo" } %} 
-            &nbsp;
+    </h3>
+</div>
         
+<div class="col-6 p-3 text-center">
+    <div class="btn-group">
+        {% include 'SplashWidgetsBundle:Edit:dates_selector.html.twig' with {"Collection" : Collection } %} 
+        {% include 'SplashWidgetsBundle:Widget/Buttons:add.html.twig' with {"CollectionId" : Collection.id , "Channel" : "demo" } %} 
+
         {% if Edit %}
             <a href="{{ path("splash_widgets_demo_collection") }}" class="btn btn-labeled btn-success pull-right"> 
                 <span class="btn-label"><i class="fa fa-fw fa-eye"></i></span>
@@ -22,16 +22,14 @@
                 Edit 
             </a>
         {% endif %}
-        </div>
-    </h3>
+    </div>
+</div>
     
-    </br></br>
-    
-    {% if Edit %}
-        {{ render(controller('SplashWidgetsBundle:Collection:edit', { 'request' : app.request, 'collectionId' : Collection.id })) }}
-        {{ render(controller('SplashWidgetsBundle:List:panel', { 'collectionId' : Collection.id, 'channel' : 'demo' })) }}
-    {% else %}
-        {{ render(controller('SplashWidgetsBundle:Collection:view', { 'collectionId' : Collection.id })) }}
-    {% endif %}
+{% if Edit %}
+    {{ render(controller('SplashWidgetsBundle:Collection:edit', { 'request' : app.request, 'collectionId' : Collection.id })) }}
+    {{ render(controller('SplashWidgetsBundle:List:panel', { 'collectionId' : Collection.id, 'channel' : 'demo' })) }}
+{% else %}
+    {{ render(controller('SplashWidgetsBundle:Collection:view', { 'collectionId' : Collection.id })) }}
+{% endif %}
     
 

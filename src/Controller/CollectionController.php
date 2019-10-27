@@ -17,6 +17,8 @@ namespace Splash\Widgets\Controller;
 
 use Splash\Widgets\Entity\WidgetCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -119,12 +121,12 @@ class CollectionController extends Controller
     /**
      * Update Collection Widget Ordering from Ajax Request
      *
-     * @param int    $collectionId
-     * @param string $ordering
+     * @param Request $request
+     * @param int     $collectionId
      *
      * @return Response
      */
-    public function reorderAction(int $collectionId, string $ordering) : Response
+    public function reorderAction(Request $request, int $collectionId) : Response
     {
         //==============================================================================
         // Init & Safety Check
@@ -132,8 +134,8 @@ class CollectionController extends Controller
             return new Response("Splash Widgets : Init Failed", 500);
         }
         //==============================================================================
-        // Decode Json Value
-        $orderArray = json_decode($ordering);
+        // Retreive New Order from Post
+        $orderArray = $request->request->get("ordering");
         //==============================================================================
         // Apply
         if (!$this->collection->reorder($orderArray)) {
@@ -149,17 +151,18 @@ class CollectionController extends Controller
     /**
      * Update Collection Dates Preset from Ajax Request
      *
-     * @param int    $collectionId
-     * @param string $preset
+     * @param Request $request
+     * @param int     $collectionId
+     * @param string  $preset
      *
      * @return Response
      */
-    public function presetAction(int $collectionId, string $preset = "M") : Response
+    public function presetAction(Request $request, int $collectionId, string $preset = "M") : Response
     {
         //==============================================================================
         // Init & Safety Check
         if (!$this->initialize($collectionId)) {
-            return new Response("Splash Widgets : Init Failed", 500);
+            return $this->redirectToReferer($request);
         }
 
         //==============================================================================
@@ -171,43 +174,44 @@ class CollectionController extends Controller
             }
 
             $this
-                ->get("Splash.Widgets.Manager")
+                ->get("splash.widgets.manager")
                 ->setWidgetParameter(
                     $this->collection->getService(),
                     $widget->getId()."@".$this->collection->getid(),
                     "DatePreset",
                     $preset
                 )
-                    ;
+            ;
         }
         //==============================================================================
         // Save Changes
         $this->getDoctrine()->getManager()->Flush();
 
-        return new Response("Widget Collection Dates Preset Updated", 200);
+        return $this->redirectToReferer($request);
     }
 
     /**
      * Add Widget to Collection from Ajax Request
      *
-     * @param int    $collectionId
-     * @param string $service
-     * @param string $type
+     * @param Request $request
+     * @param int     $collectionId
+     * @param string  $service
+     * @param string  $type
      *
      * @return Response
      */
-    public function addAction(int $collectionId, string $service, string $type) : Response
+    public function addAction(Request $request, int $collectionId, string $service, string $type) : Response
     {
         //==============================================================================
         // Init & Safety Check
         if (!$this->initialize($collectionId)) {
-            return new Response("Splash Widgets : Init Failed", 500);
+            return $this->redirectToReferer($request);
         }
         //==============================================================================
         // Load Widget
-        $widget = $this->get("Splash.Widgets.Manager")->getWidget($service, $type);
+        $widget = $this->get("splash.widgets.manager")->getWidget($service, $type);
         if (is_null($widget)) {
-            return new Response("Widget NOT Added to Collection", 400);
+            return $this->redirectToReferer($request);
         }
         //==============================================================================
         // Add Widget To Collection
@@ -216,7 +220,7 @@ class CollectionController extends Controller
         // Save Changes
         $this->getDoctrine()->getManager()->Flush();
 
-        return new Response("Widget Added to Collection : ".$this->collection->getName(), 200);
+        return $this->redirectToReferer($request);
     }
 
     /**
@@ -233,7 +237,7 @@ class CollectionController extends Controller
         // Init & Safety Check
         $manager = $this->has($service)
                 ? $this->get($service)
-                : $this->get("Splash.Widgets.Collection");
+                : $this->get("splash.widgets.collection");
         if (empty($manager) || !method_exists($manager, "getDefinition")) {
             return new Response("Splash Widgets : Init Failed", 500);
         }
@@ -252,5 +256,26 @@ class CollectionController extends Controller
         $this->getDoctrine()->getManager()->Flush();
 
         return new Response("Widget Removed to Collection : ".$widget->getParent()->getName(), 200);
+    }
+
+    //==============================================================================
+    // OTHER ACTIONS
+    //==============================================================================
+
+    /**
+     * Redirect to Action Referer.
+     *
+     * @param Request $request
+     *
+     * @return RedirectResponse
+     */
+    protected function redirectToReferer(Request $request): RedirectResponse
+    {
+        //====================================================================//
+        // Build Redirect Response
+        /** @var string $referer */
+        $referer = $request->headers->get('referer');
+
+        return new RedirectResponse($referer);
     }
 }

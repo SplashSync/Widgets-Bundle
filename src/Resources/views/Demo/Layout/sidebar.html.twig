@@ -1,0 +1,124 @@
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ path("splash_widgets_demo_list") }}">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Widgets Demo</div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Home
+    </div>
+
+    <!-- Nav Item - Widgets List -->
+    <li class="nav-item">
+        <a href="{{ path("splash_widgets_demo_list") }}" class="nav-link">
+            <i class="fas fa-fw fa-list-alt"></i>
+            Widgets List
+        </a>
+    </li>       
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Simple Widgets
+    </div>        
+
+    <!-- Nav Item - Forced Rendering -->
+    <li class="nav-item">
+        <a href="{{ path("splash_widgets_demo_single_forced") }}" class="nav-link">
+            <i class="fas fa-fw fa-eye"></i>
+            Raw Rendering
+        </a>
+    </li>        
+
+    <!-- Nav Item - Delayed Rendering -->
+    <li class="nav-item">
+        <a href="{{ path("splash_widgets_demo_single_delayed") }}" class="nav-link">
+            <i class="fas fa-fw fa-clock"></i>
+            Ajax Rendering
+        </a>
+    </li>        
+
+    <!-- Nav Item - Widget Edit -->
+    <li class="nav-item">
+        <a href="{{ path("splash_widgets_demo_single_edit") }}" class="nav-link">
+            <i class="fas fa-fw fa-pencil-alt"></i>
+            Configuration
+        </a>
+    </li>        
+
+    <!-- Nav Item - Widget Sonata Block Edit -->
+    <li class="nav-item">
+        <a href="{{ path("splash_widgets_demo_single_blocks") }}" class="nav-link">
+            <i class="fas fa-fw fa-pencil-alt"></i>
+            Sonata Block
+        </a>
+    </li>        
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Widgets Collections
+    </div>        
+
+    <!-- Nav Item - Controller Collections -->
+    <li class="nav-item">
+        <a href="{{ path("splash_widgets_demo_home") }}" class="nav-link">
+            <i class="fas fa-fw fa-database"></i>
+            Controller
+        </a>
+    </li>        
+
+    <!-- Nav Item - Sonata Block Collections -->
+    <li class="nav-item">
+        <a href="{{ path("splash_widgets_demo_blocks") }}" class="nav-link">
+            <i class="fas fa-fw fa-database"></i>
+            Sonata Block
+        </a>
+    </li>        
+
+{#      <!-- Nav Item - Pages Collapse Menu -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+      <i class="fas fa-fw fa-folder"></i>
+      <span>Pages</span>
+    </a>
+    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <h6 class="collapse-header">Login Screens:</h6>
+        <a class="collapse-item" href="login.html">Login</a>
+        <a class="collapse-item" href="register.html">Register</a>
+        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+        <div class="collapse-divider"></div>
+        <h6 class="collapse-header">Other Pages:</h6>
+        <a class="collapse-item" href="404.html">404 Page</a>
+        <a class="collapse-item" href="blank.html">Blank Page</a>
+      </div>
+    </div>
+  </li>#}
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+</ul>
+<!-- End of Sidebar -->

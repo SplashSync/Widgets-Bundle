@@ -1,30 +1,39 @@
 {% trans_default_domain "SplashWidgetsBundle" %}
 
-<h3 class="page-title txt-color-blueDark"><i class="fa fa-fw fa-info-circle "></i>
-    {{ Title | default("Splash Widget Collection Block") }}
-
-    <div class="pull-right btn-group">
-        
-        {% include 'SplashWidgetsBundle:Edit:dates_selector.html.twig' %} 
-
-        {% if Editable %}
-            
-            {% include 'SplashWidgetsBundle:Widget/Buttons:add.html.twig' %} 
-        
-            {% if Edit %}
-                {% set ViewUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params') | merge({"widget-edit" : "no"})) %}
-                <a href="{{ ViewUrl }}" class="btn btn-labeled btn-default pull-right"> 
-                    <span class="btn-label"><i class="fa fa-fw fa-eye"></i></span>
-                    {{ "widget.view" | trans }}
-                </a>
-            {% else %}
-                {% set EditUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params') | merge({"widget-edit" : Collection.id})) %}
-                <a href="{{ EditUrl }}" class="btn btn-labeled btn-default pull-right"> 
-                    <span class="btn-label"><i class="fa fa-fw fa-cogs"></i></span>
-                    {{ "widget.edit" | trans }}
-                </a>
-            {% endif %}
-        {% endif %}
-        
+<div class="row mb-4">
+    
+    <div class="col-12 col-md-6">
+        <div class="h3">
+            <i class="fa fa-fw fa-info-circle "></i>
+            {{ Title | default("Splash Widget Collection Block") }}
+        </div>
     </div>
-</h3>
+    
+    <div class="col-12 col-md-6 pull-right text-right">
+        <div class="btn-group">
+        
+            {% include 'SplashWidgetsBundle:Edit:dates_selector.html.twig' %} 
+
+            {% if Editable %}
+
+                {% include 'SplashWidgetsBundle:Widget/Buttons:add.html.twig' %} 
+
+                {% if Edit %}
+                    {% set ViewUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params') | merge({"widget-edit" : "no"})) %}
+                    <a href="{{ ViewUrl }}" class="btn btn-labeled btn-success pull-right"> 
+                        <span class="btn-label"><i class="fa fa-fw fa-eye"></i></span>
+                        {{ "widget.view" | trans }}
+                    </a>
+                {% else %}
+                    {% set EditUrl = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params') | merge({"widget-edit" : Collection.id})) %}
+                    <a href="{{ EditUrl }}" class="btn btn-labeled btn-primary pull-right"> 
+                        <span class="btn-label"><i class="fa fa-fw fa-cogs"></i></span>
+                        {{ "widget.edit" | trans }}
+                    </a>
+                {% endif %}
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+        

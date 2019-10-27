@@ -32,7 +32,7 @@ options:
     label:          Rendering
     width:
         label:      Width
-        tooltip:    Select the perfect width of you widget and we will adjust its size on all your device.
+        tooltip:    Select width of you widget and we will adjust its size on all devices.
         xs:         Extra Small !! - 25% on large screens
         sm:         Small - 33% on large screens
         m:          Medium (Default) - 50% on large screens

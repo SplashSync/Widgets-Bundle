@@ -1,20 +1,33 @@
 {% trans_default_domain "SplashWidgetsBundle" %}   
 {% extends "@SplashWidgets/Demo/layout.html.twig" %}   
 
-{#
-    Display Node Profile Title
-#}
 {% block headline %}
     List of Available Widgets in "demo" listing
 {% endblock %}    
-    
-{#
-    Display Node Profile Contents
-#}
 
+{% block body %}
+    <p>
+        This is the list of Widgets Definitions returned by Sample Widget Factory Service. 
+    </p>
+
+    <p>
+        You can create as many Widgets Lists as needed. Here we use demo list to collect demonstrations widgets. 
+        List is retreived by sending the event <b>"splash.widgets.list.demo"</b>
+    </p>
+
+    <hr>
+{% endblock %}    
+        
+    
 {% block content_row %}
-
-    {% include '@SplashWidgets/Demo/List/contents.html.twig' %}  
-    
+    <div class='col-12 col-md-10'>
+        {% include '@SplashWidgets/Demo/List/contents.html.twig' %}  
+    </div>
+    <div class='col-12 col-md-6'>
+        {% include '@SplashWidgets/Demo/List/factory.html.twig' %}  
+    </div>
+    <div class='col-12 col-md-6'>
+        {% include '@SplashWidgets/Demo/List/definition.html.twig' %}  
+    </div>
 {% endblock %}
 

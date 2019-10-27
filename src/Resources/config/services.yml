@@ -1,12 +1,12 @@
 services:
 
-# Widget Parser & Creation Service
-    Splash.Widgets.Factory:
+    # Widget Parser & Creation Service
+    splash.widgets.factory:
         class:      Splash\Widgets\Services\FactoryService
         public:     true
 
-# Widgets Manager Service
-    Splash.Widgets.Manager:
+    # Widgets Manager Service
+    splash.widgets.manager:
         class:      Splash\Widgets\Services\ManagerService
         public:     true
         arguments:  
@@ -14,11 +14,11 @@ services:
             - "@event_dispatcher"
             - "@=service('doctrine.orm.entity_manager').getRepository('SplashWidgetsBundle:WidgetCache')"
 
-# Widgets Collection Service
-    Splash.Widgets.Collection:
+    # Widgets Collection Service
+    splash.widgets.collection:
         class: Splash\Widgets\Services\CollectionService
         arguments: 
-            - "@Splash.Widgets.Factory"
+            - "@splash.widgets.factory"
             - "@=service('doctrine.orm.entity_manager').getRepository('SplashWidgetsBundle:WidgetCollection')"
             - "@service_container"
 

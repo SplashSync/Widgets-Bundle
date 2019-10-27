@@ -25,7 +25,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 class MorrisDonut
 {
     const TYPE = "MorrisDonut";
-    const ICON = "fa fa-fw fa-pie-chart ";
+    const ICON = "fa fa-fw fa-pie-chart fas fa-chart-pie ";
     const TITLE = "Morris Donut Chart Block";
     const DESCRIPTION = "Demonstration Morris Donut Chart";
 

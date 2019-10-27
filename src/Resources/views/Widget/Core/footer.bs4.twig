@@ -1,0 +1,32 @@
+{% trans_default_domain "SplashWidgetsBundle" %}   
+
+{% if Widget.Options.Footer %}
+    
+    {% if Widget.Options.Color | default("default") == "default" %}
+        {% set txtColor = "primary" %}
+    {% elseif Widget.Options.Color | default("default") == " " %}
+        {% set txtColor = "primary" %}
+    {% else %}
+        {% set txtColor = Widget.Options.Color %}
+    {% endif %}    
+    
+    <div class="card-footer py-1 text-right text-{{ txtColor }}">
+        <small>
+            {% if Widget.refreshAt is not empty %}{{ Widget.refreshAt | ago | default("Now") }}{% endif %}
+            &nbsp;
+            
+            {% if Widget.Origin is not empty %}|&nbsp;{{ Widget.Origin | raw }}{% endif %}
+            
+            &nbsp;
+            {% include 'SplashWidgetsBundle:Widget/Buttons:reload.bs4.twig'  %} 
+
+            {% if Widget.Options.Editable | default(false) %}
+                &nbsp;
+                {% include 'SplashWidgetsBundle:Widget/Buttons:editable.html.twig'  %} 
+            {% endif %}
+            
+        </small>
+    </div>    
+{% endif %}
+                        
+    

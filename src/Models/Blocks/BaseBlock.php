@@ -34,12 +34,12 @@ class BaseBlock
     // *******************************************************************//
     //====================================================================//
 
-    const SIZE_XS = "col-sm-6 col-md-4 col-lg-3";
-    const SIZE_SM = "col-sm-6 col-md-6 col-lg-4";
-    const SIZE_DEFAULT = "col-sm-12 col-md-12 col-lg-12";
-    const SIZE_M = "col-sm-12 col-md-6 col-lg-6";
-    const SIZE_L = "col-sm-12 col-md-6 col-lg-8";
-    const SIZE_XL = "col-sm-12 col-md-12 col-lg-12";
+    const SIZE_XS = "col-6 col-sm-6 col-md-4 col-lg-3";
+    const SIZE_SM = "col-12 col-sm-6 col-md-6 col-lg-4";
+    const SIZE_DEFAULT = "col-12 col-sm-12 col-md-12 col-lg-12";
+    const SIZE_M = "col-12 col-sm-12 col-md-6 col-lg-6";
+    const SIZE_L = "col-12 col-sm-12 col-md-6 col-lg-8";
+    const SIZE_XL = "col-12 col-sm-12 col-md-12 col-lg-12";
 
     //====================================================================//
     // Define Standard Data Fields for this Widget Block

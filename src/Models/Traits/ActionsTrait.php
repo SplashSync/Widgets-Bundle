@@ -71,7 +71,7 @@ trait ActionsTrait
      *
      * @return null|String
      */
-    public function getAction($type) : ?string
+    public function getAction(string $type) : ?string
     {
         if (isset($this->actions[$type])) {
             return $this->actions[$type];
@@ -93,7 +93,7 @@ trait ActionsTrait
     /**
      * Set Widget Parent Collection
      *
-     * @param WidgetCollectionBase $parent
+     * @param WidgetCollection $parent
      *
      * @return $this
      */
