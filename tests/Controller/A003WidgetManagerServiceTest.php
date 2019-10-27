@@ -44,7 +44,7 @@ class A003WidgetManagerServiceTest extends KernelTestCase
     {
         //====================================================================//
         // Link to Widget Manager Service
-        $manager = $this->getContainer()->get('Splash.Widgets.Manager');
+        $manager = $this->getContainer()->get('splash.widgets.manager');
         //====================================================================//
         // Check Class
         $this->assertInstanceOf(ManagerService::class, $manager);

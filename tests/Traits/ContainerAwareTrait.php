@@ -15,7 +15,7 @@
 
 namespace Splash\Widgets\Tests\Traits;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
 use Splash\Widgets\Services\FactoryService;
 use Splash\Widgets\Services\ManagerService;
@@ -41,7 +41,7 @@ trait ContainerAwareTrait
     /**
      * Doctrine Entity Manager
      *
-     * @var EntityManager
+     * @var ObjectManager
      */
     private $entityManager;
 
@@ -67,13 +67,13 @@ trait ContainerAwareTrait
      *
      * @throws Exception
      *
-     * @return EntityManager
+     * @return ObjectManager
      */
-    protected function getEntityManager() : EntityManager
+    protected function getEntityManager() : ObjectManager
     {
         if (!isset($this->entityManager)) {
             $this->entityManager = $this->getContainer()->get('doctrine')->getManager();
-            if (!($this->entityManager instanceof EntityManager)) {
+            if (!($this->entityManager instanceof ObjectManager)) {
                 throw new Exception("Unable to Load Entity Manager Service");
             }
         }
@@ -91,7 +91,7 @@ trait ContainerAwareTrait
     protected function getManager() : ManagerService
     {
         if (!isset($this->manager)) {
-            $this->manager = $this->getContainer()->get('Splash.Widgets.Manager');
+            $this->manager = $this->getContainer()->get('splash.widgets.manager');
             if (!($this->manager instanceof ManagerService)) {
                 throw new Exception("Unable to Load Widget Manager Service");
             }
@@ -110,10 +110,11 @@ trait ContainerAwareTrait
     protected function getFactory() : FactoryService
     {
         if (!isset($this->factory)) {
-            $this->factory = $this->getContainer()->get('Splash.Widgets.Factory');
-            if (!($this->factory instanceof FactoryService)) {
+            $factory = $this->getContainer()->get('splash.widgets.factory');
+            if (!($factory instanceof FactoryService)) {
                 throw new Exception("Unable to Load Widget Factory Service");
             }
+            $this->factory = $factory;
         }
 
         return $this->factory;
