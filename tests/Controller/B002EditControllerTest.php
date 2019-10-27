@@ -59,15 +59,14 @@ class B002EditControllerTest extends WebTestCase
         //====================================================================//
         // Verify Form is Here
         $this->assertEquals(1, $crawler->filterXpath('//*[@name="splash_widgets_settings_form"]')->count());
-        $this->assertEquals(1, $crawler->filterXpath('//*[@id="splash_widgets_settings_form_rendering"]')->count());
-        $this->assertEquals(1, $crawler->filterXpath('//*[@id="splash_widgets_settings_form_rendering_Width"]')->count());
-        $this->assertEquals(1, $crawler->filterXpath('//*[@id="splash_widgets_settings_form_rendering_Color"]')->count());
-        $this->assertEquals(2, $crawler->filterXpath('//*[@name="splash_widgets_settings_form[rendering][Header]"]')->count());
-        $this->assertEquals(2, $crawler->filterXpath('//*[@name="splash_widgets_settings_form[rendering][Footer]"]')->count());
-        $this->assertEquals(2, $crawler->filterXpath('//*[@name="splash_widgets_settings_form[rendering][UseCache]"]')->count());
+        $this->assertEquals(1, $crawler->filterXpath('//*[@id="splash_widgets_settings_form_options_Width"]')->count());
+        $this->assertEquals(1, $crawler->filterXpath('//*[@id="splash_widgets_settings_form_options_Color"]')->count());
+        $this->assertEquals(1, $crawler->filterXpath('//*[@name="splash_widgets_settings_form[options][Header]"]')->count());
+        $this->assertEquals(1, $crawler->filterXpath('//*[@name="splash_widgets_settings_form[options][Footer]"]')->count());
+        $this->assertEquals(1, $crawler->filterXpath('//*[@name="splash_widgets_settings_form[options][UseCache]"]')->count());
 
-        $this->assertEquals(1, $crawler->filterXpath('//*[@id="splash_widgets_settings_form_dates"]')->count());
-        $this->assertEquals(1, $crawler->filterXpath('//*[@id="splash_widgets_settings_form_dates_Dates"]')->count());
+        $this->assertEquals(1, $crawler->filterXpath('//*[@id="splash_widgets_settings_form_parameters"]')->count());
+        $this->assertEquals(1, $crawler->filterXpath('//*[@id="splash_widgets_settings_form_parameters_DatePreset"]')->count());
     }
 
     /**

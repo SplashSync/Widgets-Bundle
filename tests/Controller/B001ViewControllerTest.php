@@ -164,7 +164,7 @@ class B001ViewControllerTest extends WebTestCase
         $this->assertEquals(1, $forcedCrawler->filterXpath($xPath)->count());
         //====================================================================//
         // Verify Error Alert is Here
-        $this->assertEquals(1, $forcedCrawler->filterXpath('//*[@class="alert alert-danger no-margin fade in"]')->count());
+        $this->assertEquals(1, $forcedCrawler->filterXpath('//*[@class="alert alert-danger no-margin"]')->count());
         //====================================================================//
         // Render Forced
         $delayedCrawler = $this->assertRouteWorks("splash_widgets_test_view_delayed", $parameters);
@@ -173,7 +173,7 @@ class B001ViewControllerTest extends WebTestCase
         $this->assertEquals(1, $delayedCrawler->filterXpath($xPath)->count());
         //====================================================================//
         // Verify Error Alert is Here
-        $this->assertEquals(1, $delayedCrawler->filterXpath('//*[@class="alert alert-danger no-margin fade in"]')->count());
+        $this->assertEquals(1, $delayedCrawler->filterXpath('//*[@class="alert alert-danger no-margin"]')->count());
     }
 
     /**
