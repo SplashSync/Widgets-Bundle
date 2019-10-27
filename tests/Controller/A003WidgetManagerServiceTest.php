@@ -15,6 +15,7 @@
 
 namespace Splash\Widgets\Tests\Controller;
 
+use DateTime;
 use Splash\Widgets\Entity\WidgetCache;
 use Splash\Widgets\Models\WidgetBase        as Widget;
 use Splash\Widgets\Services\ManagerService;
@@ -166,7 +167,7 @@ class A003WidgetManagerServiceTest extends KernelTestCase
 
         //====================================================================//
         // Set Cache1 as Expired
-        $cache1->setExpireAt(new \DateTime("-10 minute"));
+        $cache1->setExpireAt(new DateTime("-10 minute"));
         $entityManager->flush();
 
         //====================================================================//
