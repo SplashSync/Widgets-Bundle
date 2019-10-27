@@ -50,8 +50,8 @@
         "symfony/phpunit-bridge":                       "^3.0",
         "twig/twig":                                    "~2.6.0",
         
-        "sensio/distribution-bundle":                   ">=5",
-        "sensio/framework-extra-bundle":                ">=3",
+        "sensio/distribution-bundle":                   "*",
+        "sensio/framework-extra-bundle":                "*",
 
         "sonata-project/admin-bundle":                  ">=3.0",
         
