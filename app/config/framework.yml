@@ -1,0 +1,10 @@
+# Framework Configuration
+framework:
+    translator:      { fallbacks: ["%locale%"] }
+    router:
+        resource:   "%kernel.root_dir%/routing.yml"
+    templating:
+        engines: ['twig']  
+    form:           ~
+    session:        ~    
+    profiler: { only_exceptions: false }

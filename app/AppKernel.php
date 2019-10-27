@@ -33,36 +33,19 @@ class AppKernel extends Kernel
         $bundles[] = new Symfony\Bundle\FrameworkBundle\FrameworkBundle();
         $bundles[] = new Symfony\Bundle\SecurityBundle\SecurityBundle();
         $bundles[] = new Symfony\Bundle\TwigBundle\TwigBundle();
-        $bundles[] = new Symfony\Bundle\AsseticBundle\AsseticBundle();
+        $bundles[] = new Symfony\WebpackEncoreBundle\WebpackEncoreBundle();
         $bundles[] = new Symfony\Bundle\MonologBundle\MonologBundle();
-
         //==============================================================================
         // DOCTRINE CORE
         $bundles[] = new Doctrine\Bundle\DoctrineBundle\DoctrineBundle();
-
         //==============================================================================
-        // FOS JS ROUTING
-        $bundles[] = new FOS\JsRoutingBundle\FOSJsRoutingBundle();
-
-        //==============================================================================
-        // KNP TIME
+        // KNP BUNDLES
         $bundles[] = new Knp\Bundle\TimeBundle\KnpTimeBundle();
-
-        //==============================================================================
-        // KNP MENU
         $bundles[] = new Knp\Bundle\MenuBundle\KnpMenuBundle();
-
         //==============================================================================
-        // SONATA CORE
+        // SONATA BUNDLES
         $bundles[] = new Sonata\CoreBundle\SonataCoreBundle();
-
-        //==============================================================================
-        // SONATA BLOCKS
         $bundles[] = new Sonata\BlockBundle\SonataBlockBundle();
-
-        //==============================================================================
-        // MOPA BOOTSTRAP
-        $bundles[] = new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle();
 
         //==============================================================================
         // SPLASH WIDGETS

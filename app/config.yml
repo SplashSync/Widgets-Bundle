@@ -1,46 +1,13 @@
 imports:
     - { resource: parameters.yml }
+    - { resource: config/framework.yml }
+    - { resource: config/doctrine.yml }
+    - { resource: config/twig.yml }
+    - { resource: config/webpack_encore.yml }
     - { resource: "@SplashWidgetsBundle/Resources/config/blocks.yml" }
     - { resource: "@SplashWidgetsBundle/Resources/config/demo.yml" }
     
-# Framework Configuration
-framework:
-    translator:      { fallbacks: ["%locale%"] }
-    router:
-        resource:   "%kernel.root_dir%/routing.yml"
-    templating:
-        engines: ['twig']  
-    form:           ~
-    session:        ~    
-    profiler: { only_exceptions: false }
-
-# Doctrine Configuration
-doctrine:
-    dbal:
-        driver:   pdo_mysql
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
-        charset:  UTF8
-
-    orm:
-        auto_generate_proxy_classes: "%kernel.debug%"
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
-
-# Mopa Bootstrap
-mopa_bootstrap:
-    menu: ~
-    form: ~
-    
-# Twig Configuration
-twig:
-    debug:            "%kernel.debug%"
-    strict_variables: true
-    
 # Debug Toolbar    
-web_profiler:
-    toolbar:             true
+#web_profiler:
+#    toolbar:             true
     
