@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e7ca8c8bb1dd917c9914553960c91d3b",
+    "content-hash": "cf0c1b89a10f1df63f2bd023d56c0617",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -6083,12 +6083,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SplashSync/Php-Bundle.git",
-                "reference": "eeb3838053c07d2e038e70d78f11e65eb82a1636"
+                "reference": "ebc1f8d0e2a2c865b38c082aad430d6a1e00bbae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SplashSync/Php-Bundle/zipball/eeb3838053c07d2e038e70d78f11e65eb82a1636",
-                "reference": "eeb3838053c07d2e038e70d78f11e65eb82a1636",
+                "url": "https://api.github.com/repos/SplashSync/Php-Bundle/zipball/ebc1f8d0e2a2c865b38c082aad430d6a1e00bbae",
+                "reference": "ebc1f8d0e2a2c865b38c082aad430d6a1e00bbae",
                 "shasum": ""
             },
             "require": {
@@ -6147,7 +6147,7 @@
                 }
             ],
             "description": "Splash Core Bundle for Symfony Applications",
-            "time": "2019-10-27T17:30:58+00:00"
+            "time": "2019-10-15T13:11:37+00:00"
         },
         {
             "name": "splash/phpcore",

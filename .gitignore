@@ -10,3 +10,4 @@
 /.gh-pages/
 /web/build/
 /yarn.lock
+/reboot.sh
