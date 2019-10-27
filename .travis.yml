@@ -40,9 +40,6 @@ install:
     - curl -s https://raw.githubusercontent.com/SplashSync/Php-Bundle/master/src/Resources/travis/build_grumphp.sh  | bash
     # Install Symfony
     - curl -s https://raw.githubusercontent.com/SplashSync/Php-Bundle/master/src/Resources/travis/install.sh  | bash      
-#    # Copy Assets
-#    - echo "Dump & Install Assets"
-#    - php bin/console assetic:dump --no-interaction --no-debug
 
 # Run script
 script:
