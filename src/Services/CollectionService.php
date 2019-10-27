@@ -168,7 +168,8 @@ class CollectionService implements WidgetProviderInterface
     {
         //==============================================================================
         // Load Widget Definition
-        if (!($definition = $this->getDefinition($type))) {
+        $definition = $this->getDefinition($type);
+        if (!$definition) {
             return array();
         }
 
