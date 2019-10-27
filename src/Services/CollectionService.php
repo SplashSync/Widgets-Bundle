@@ -116,7 +116,8 @@ class CollectionService implements WidgetProviderInterface
     {
         //==============================================================================
         // Load Widget Definition
-        if (!($definition = $this->getDefinition($type))) {
+        $definition = $this->getDefinition($type);
+        if (!$definition) {
             return $this->factory->buildErrorWidget("Collections", $type, "Unable to Find Widget Definition");
         }
         //==============================================================================
@@ -186,7 +187,8 @@ class CollectionService implements WidgetProviderInterface
     {
         //==============================================================================
         // Load Widget Definition
-        if (!($definition = $this->getDefinition($type))) {
+        $definition = $this->getDefinition($type);
+        if (!$definition) {
             return false;
         }
         //==============================================================================
@@ -208,7 +210,8 @@ class CollectionService implements WidgetProviderInterface
     {
         //==============================================================================
         // Load Widget Definition
-        if (!($definition = $this->getDefinition($type))) {
+        $definition = $this->getDefinition($type);
+        if (!$definition) {
             return array();
         }
 
@@ -227,7 +230,8 @@ class CollectionService implements WidgetProviderInterface
     {
         //==============================================================================
         // Load Widget Definition
-        if (!($definition = $this->getDefinition($type))) {
+        $definition = $this->getDefinition($type);
+        if (!$definition) {
             return false;
         }
 
@@ -247,7 +251,8 @@ class CollectionService implements WidgetProviderInterface
     {
         //==============================================================================
         // Load Widget Definition
-        if (!($definition = $this->getDefinition($type))) {
+        $definition = $this->getDefinition($type);
+        if (!$definition) {
             return;
         }
         //==============================================================================
