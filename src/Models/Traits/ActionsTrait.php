@@ -18,8 +18,7 @@ namespace Splash\Widgets\Models\Traits;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Splash\Widgets\Entity\WidgetCollection;
-use Splash\Widgets\Entity\WidgetCollectionBase;
-
+use Splash\Widgets\Models\WidgetCollectionBase;
 
 /**
  * Widget Actions Trait - Define Widget Actions Js Functions
