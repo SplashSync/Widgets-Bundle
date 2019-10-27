@@ -15,6 +15,7 @@
 
 namespace Splash\Widgets\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping                        as ORM;
 use Splash\Widgets\Models\Traits\CollectionTrait;
 use Splash\Widgets\Models\Traits\LifecycleTrait;
@@ -40,6 +41,22 @@ class WidgetCollection extends WidgetCollectionBase
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    //==============================================================================
+    //      CONSTRUCTOR
+    //==============================================================================
+
+    /**
+     * Class Cosntructor
+     */
+    public function __construct()
+    {
+        $this->widgets = new ArrayCollection();
+    }
+
+    //==============================================================================
+    //      GETTERS & SETTERS
+    //==============================================================================
 
     /**
      * Get Entity Id

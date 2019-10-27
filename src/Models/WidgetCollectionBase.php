@@ -15,7 +15,6 @@
 
 namespace Splash\Widgets\Models;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping                        as ORM;
 
 /**
@@ -47,18 +46,6 @@ class WidgetCollectionBase
      * @ORM\Column(name="preset", type="string", length=255, nullable=TRUE)
      */
     protected $preset = "M";
-
-    //==============================================================================
-    //      CONSTRUCTOR
-    //==============================================================================
-
-    /**
-     * Class Cosntructor
-     */
-    public function __construct()
-    {
-        $this->widgets = new ArrayCollection();
-    }
 
     //==============================================================================
     //      DATA OPERATIONS
