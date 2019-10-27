@@ -17,17 +17,12 @@ namespace Splash\Widgets\Models;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping                        as ORM;
-use Splash\Widgets\Models\Traits\CollectionTrait;
-use Splash\Widgets\Models\Traits\LifecycleTrait;
 
 /**
  * Widgets Collection Base Object
  */
 class WidgetCollectionBase
 {
-    use CollectionTrait;
-    use LifecycleTrait;
-
     //==============================================================================
     //      Definition
     //==============================================================================

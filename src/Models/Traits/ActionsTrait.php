@@ -15,10 +15,8 @@
 
 namespace Splash\Widgets\Models\Traits;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Splash\Widgets\Entity\WidgetCollection;
-use Splash\Widgets\Models\WidgetCollectionBase;
 
 /**
  * Widget Actions Trait - Define Widget Actions Js Functions
@@ -36,7 +34,7 @@ trait ActionsTrait
     );
 
     /**
-     * @var WidgetCollectionBase
+     * @var WidgetCollection
      *
      * @ORM\ManyToOne(targetEntity="Splash\Widgets\Entity\WidgetCollection", inversedBy="widgets")
      */
@@ -94,11 +92,11 @@ trait ActionsTrait
     /**
      * Set Widget Parent Collection
      *
-     * @param WidgetCollectionBase $parent
+     * @param WidgetCollection $parent
      *
      * @return $this
      */
-    public function setParent($parent) : self
+    public function setParent(WidgetCollection $parent) : self
     {
         $this->parent = $parent;
 
