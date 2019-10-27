@@ -4,6 +4,7 @@ imports:
     
 # Framework Configuration
 framework:
+    test: ~
     router:
         resource:   "%kernel.root_dir%/routing_test.yml"
     

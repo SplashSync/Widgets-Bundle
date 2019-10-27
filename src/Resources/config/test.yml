@@ -1,7 +1,7 @@
 services:
 
     # Test Widgets Factroy Service
-    Splash.Widgets.Test.Factory:
+    splash.widgets.test.factory:
         class: Splash\Widgets\Tests\Services\SamplesFactoryService
         arguments: ["@splash.widgets.factory"]             
         public:     true

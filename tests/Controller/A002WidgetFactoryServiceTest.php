@@ -147,6 +147,7 @@ class A002WidgetFactoryServiceTest extends KernelTestCase
             'CacheLifeTime' => 3,
             'Editable' => true,
             'EditMode' => true,
+            'Mode' => "bs4",
         ), $this->getFactory()->getWidget()->getOptions());
     }
 

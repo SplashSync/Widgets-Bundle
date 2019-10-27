@@ -1,10 +1,5 @@
 
 ################################################################################
-# FOS JS Routing Routes
-fos_js_routing:
-    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
-
-################################################################################
 # SPLASH Widget Bundle Core Routes
 splash_widgets_bundle_core:
     resource: "@SplashWidgetsBundle/Resources/config/routing.yml"
