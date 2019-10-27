@@ -15,6 +15,7 @@
 
 namespace Splash\Widgets\Models\Traits;
 
+use DateTime;
 use Doctrine\ORM\Mapping                        as ORM;
 
 /**
@@ -148,9 +149,9 @@ trait ParametersTrait
         }
         //==============================================================================
         //  Prepare Dates
-        $dateStart = new \DateTime(static::$presets[$preset]["DateStart"]);
+        $dateStart = new DateTime(static::$presets[$preset]["DateStart"]);
         $dateStart->setTime(0, 0, 0);
-        $dateEnd = new \DateTime(static::$presets[$preset]["DateEnd"]);
+        $dateEnd = new DateTime(static::$presets[$preset]["DateEnd"]);
         $dateEnd->setTime(23, 59, 59);
         $dateFormat = static::$presets[$preset]["DateFormat"];
         $groupBy = static::$presets[$preset]["GroupBy"];

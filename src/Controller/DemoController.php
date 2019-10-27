@@ -16,6 +16,7 @@
 namespace Splash\Widgets\Controller;
 
 use Splash\Widgets\Entity\Widget;
+use Splash\Widgets\Entity\WidgetCollection;
 use Splash\Widgets\Services\ManagerService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -202,7 +203,7 @@ class DemoController extends EditController
         //==============================================================================
         // Create Demo Collection
         if (!$demoCollection) {
-            $demoCollection = new \Splash\Widgets\Entity\WidgetCollection();
+            $demoCollection = new WidgetCollection();
             $demoCollection
                 ->setName("Bundle Demonstration")
                 ->setType("demo-collection");
