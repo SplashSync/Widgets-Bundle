@@ -122,8 +122,7 @@ class SparkBarChartBlock extends BaseBlock
     public static function addHeightFormRow(FormBuilderInterface $builder) : void
     {
         $builder->add('SparkLineHeight', IntegerType::class, array(
-            'label' => "blocks.sparkbar.height.label",
-            'help_block' => "blocks.sparkbar.height.tooltip",
+            'label' => "blocks.sparkbar.height.tooltip",
             'translation_domain' => "SplashWidgetsBundle",
             'property_path' => 'parameters[sparkbar_height]',
             'required' => false,
@@ -138,8 +137,7 @@ class SparkBarChartBlock extends BaseBlock
     public static function addBarWidthFormRow(FormBuilderInterface $builder) : void
     {
         $builder->add('SparkLineBarWidth', IntegerType::class, array(
-            'label' => "blocks.sparkbar.barwidth.label",
-            'help_block' => "blocks.sparkbar.barwidth.tooltip",
+            'label' => "blocks.sparkbar.barwidth.tooltip",
             'translation_domain' => "SplashWidgetsBundle",
             'property_path' => 'parameters[sparkbar_barwidth]',
             'required' => false,
@@ -154,8 +152,7 @@ class SparkBarChartBlock extends BaseBlock
     public static function addBarColorFormRow(FormBuilderInterface $builder) : void
     {
         $builder->add('SparkLineBarColor', TextType::class, array(
-            'label' => "blocks.sparkbar.barcolor.label",
-            'help_block' => "blocks.sparkbar.barcolor.tooltip",
+            'label' => "blocks.sparkbar.barcolor.tooltip",
             'translation_domain' => "SplashWidgetsBundle",
             'property_path' => 'parameters[sparkbar_barcolor]',
             'required' => false,
