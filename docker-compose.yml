@@ -1,0 +1,69 @@
+################################################################################
+#
+#  This file is part of SplashSync Project.
+# 
+#  Copyright (C) Splash Sync <www.splashsync.com>
+# 
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# 
+#  For the full copyright and license information, please view the LICENSE
+#  file that was distributed with this source code.
+# 
+#  @author Bernard Paquier <contact@splashsync.com>
+#
+################################################################################
+
+################################################################################
+# Docker Compose File
+#
+# This Docker File intend to Create a Complete Widget Envirenement 
+# for Developpement or Tests of Widget Bundle
+#
+# You can to add host to /etc/hosts
+# 
+# 172.169.1.1           widgets.splashsync.local
+#
+################################################################################
+
+version: '3.4'
+
+services:
+    
+    ################################################################################
+    # Symfony Server Container   
+    symfony:
+        build:
+            context: ./docker
+            dockerfile: Dockerfile
+        container_name: widgets-php
+        volumes:
+            - './:/app'
+            - ~/.composer:/home/docker/.composer            
+        hostname: widgets.splashsync.local
+        command:            ["php", "/app/bin/console", "server:run", "172.169.1.10:80"]
+        networks:
+            widgets:        { ipv4_address: 172.169.1.10 }
+            
+    ################################################################################
+    # Node JS Container    
+    node:
+        image: 'node:8-slim'
+        user: 'node'
+        container_name: widgets-nodeJs
+        volumes:
+            - './:/app'
+            - ~/.cache/yarn:/home/node/.yarn-cache
+        working_dir: '/app'
+        networks:
+          - 'widgets'
+          
+networks:
+    ################################################################################
+    # Default Private Network
+    widgets:
+        driver: bridge
+        ipam:
+            config:
+                - subnet: 172.169.1.0/24

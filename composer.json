@@ -6,6 +6,7 @@
     "homepage":         "http://www.splashsync.com",
     "license":          "MIT",
     "prefer-stable":    true,
+    "minimum-stability": "dev",
 
     "authors": [
         {
@@ -38,18 +39,14 @@
         "knplabs/knp-time-bundle":                      "~1.6",
         "knplabs/knp-menu-bundle":                      "~2.0",
         
-        "friendsofsymfony/jsrouting-bundle":            "~2.0",
-        
         "sonata-project/block-bundle":                  "~3.0",
         
-        "mopa/bootstrap-bundle":                        "~3.0",
-        "twbs/bootstrap":                               "~3.3.0"
+        "symfony/webpack-encore-bundle":                "^1.7"
 
     },
     
     "require-dev": {
-        "symfony/symfony":                              "~3.0  | ~3.4 | ~4.0",
-        "symfony/assetic-bundle":                       ">=2.8",        
+        "symfony/symfony":                              "~3.0  | ~3.4 | ~4.0",     
         "symfony/phpunit-bridge":                       "^3.0",
         "twig/twig":                                    "~2.6.0",
         
@@ -60,16 +57,14 @@
         
         "phpunit/phpunit":                              "~7.0|~8.0",
         
-        "bmatzner/fontawesome-bundle":                  "~4.7",
-        
-        "splash/php-bundle":                            "dev-master",
-        "splash/phpcore":                               "dev-master",
+        "splash/php-bundle":                            "dev-master@dev",
+        "splash/console":                               "dev-master@dev",
         
         "composer/composer":                            "^1.5",
         "j13k/yaml-lint":                               "^1.1",
         "jakub-onderka/php-parallel-lint":              "^1.0",
-        "phpmd/phpmd":                                  "^2.6",
-        "phpro/grumphp":                                "^0.14.0",
+        "phpmd/phpmd":                                  "*",
+        "phpro/grumphp":                                "~0.14",
         "sclable/xml-lint":                             "^0.2.4",
         "sebastian/phpcpd":                             ">3.0",
         "seld/jsonlint":                                "^1.7",
@@ -78,10 +73,10 @@
         "escapestudios/symfony2-coding-standard":       "^3.4",
         "friendsofphp/php-cs-fixer":                    "*",        
         
-        "phpstan/phpstan-shim":                         "^0.11",
-        "phpstan/phpstan-doctrine":                     "^0.11",
-        "phpstan/phpstan-phpunit":                      "^0.11",
-        "phpstan/phpstan-symfony":                      "^0.11"        
+        "phpstan/phpstan-shim":                         "~0.11",
+        "phpstan/phpstan-doctrine":                     "~0.11",
+        "phpstan/phpstan-phpunit":                      "~0.11",
+        "phpstan/phpstan-symfony":                      "~0.11"        
     },
     
     "scripts": {
