@@ -85,7 +85,7 @@ trait UrlCheckerTrait
         $response = $this->client->getResponse();
         $this->assertInstanceOf(Response::class, $response);
         if (!$response->isSuccessful()) {
-            var_dump(substr($response->getContent(), 0, 1000));
+            var_dump(substr((string) $response->getContent(), 0, 1000));
         }
         $this->assertTrue(
             $response->isSuccessful(),
