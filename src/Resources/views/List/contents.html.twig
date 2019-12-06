@@ -1,10 +1,10 @@
 {% trans_default_domain "SplashWidgetsBundle" %} 
 
 <!-- Nav tabs -->
-<ul class="nav nav-pills nav-justified nav-fill">
+<ul class="nav nav-pills nav-justified nav-fill mb-2">
     {% for Tab in Tabs %}
         <li class="nav-item {% if loop.first %}active{% endif %}">
-            <a class="nav-link" href="#{{ Tab.id }}" aria-controls="{{ Tab.id }}" role="tab" data-toggle="tab">
+            <a class="nav-link" href="#tab-{{ Tab.id }}" aria-controls="tab-{{ Tab.id }}" role="tab" data-toggle="tab">
                 {{ Tab.label | raw }}
             </a>
         </li>
@@ -15,7 +15,7 @@
 <div class="tab-content">
     
     {% for Tab in Tabs %}
-        <div role="tabpanel" class="tab-pane {% if loop.first %}active{% endif %}" id="{{ Tab.id }}">
+        <div role="tabpanel" class="tab-pane {% if loop.first %}active{% endif %}" id="tab-{{ Tab.id }}">
 
             <table class="table table-bordered table-striped no-padding"  role="content" id='splash-widgets-list'>
                 <thead>
