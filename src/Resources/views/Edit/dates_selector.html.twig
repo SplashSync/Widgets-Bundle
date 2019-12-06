@@ -71,7 +71,7 @@
         'preset' : Value
     }) %}
         
-    <a  href="{{ presetUrl }}" class="dropdown-item {% if isCurrent %}bg-primary text-white{% endif %}">
+    <a  href="{{ presetUrl }}" class="dropdown-item py-1 {% if isCurrent %}bg-primary text-white{% endif %}">
         {{ ('dates.' ~ Value)  | trans }}
         {% if isCurrent %}<i class="fa fa-fw fa-star text-warning" aria-hidden="true"></i>{% endif %}
     </a>

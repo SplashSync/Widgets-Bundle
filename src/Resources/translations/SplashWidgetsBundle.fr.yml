@@ -63,7 +63,7 @@ options:
 ################################################################################ 
 dates:  
     label:      Dates
-    tooltip:    Selctrionnez la plage de dates pour le vue 
+    tooltip:    Sélectionnez la plage de dates pour le vue 
     D:          Aujourd'hui
     W:          Cette Semaine
     M:          Ce Mois

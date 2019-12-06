@@ -1,11 +1,10 @@
 {% trans_default_domain "SplashWidgetsBundle" %} 
 
-
 <!-- Nav tabs -->
-<ul class="nav nav-pills nav-justified">
+<ul class="nav nav-pills nav-justified nav-fill">
     {% for Tab in Tabs %}
-        <li class="{% if loop.first %}active{% endif %}">
-            <a href="#{{ Tab.id }}" aria-controls="{{ Tab.id }}" role="tab" data-toggle="tab">
+        <li class="nav-item {% if loop.first %}active{% endif %}">
+            <a class="nav-link" href="#{{ Tab.id }}" aria-controls="{{ Tab.id }}" role="tab" data-toggle="tab">
                 {{ Tab.label | raw }}
             </a>
         </li>
@@ -19,29 +18,25 @@
         <div role="tabpanel" class="tab-pane {% if loop.first %}active{% endif %}" id="{{ Tab.id }}">
 
             <table class="table table-bordered table-striped no-padding"  role="content" id='splash-widgets-list'>
-                    <thead>
-                        <tr>
-{#                            <th> 
-                                {{ 'list.origin'|trans }}
-                            </th>#}
-                            <th> 
-                                {{ 'list.name'|trans }}
-                            </th>
-                            <th> 
-                                {{ 'list.desc'|trans }}
-                            </th>
-                            <th class="text-center">
-                                {{ 'list.actions'|trans }}
-                            </th>
-                        </tr>
-                    </thead>
+                <thead>
+                    <tr>
+                        <th> 
+                            {{ 'list.name'|trans }}
+                        </th>
+                        <th> 
+                            {{ 'list.desc'|trans }}
+                        </th>
+                        <th class="text-center">
+                            {{ 'list.actions'|trans }}
+                        </th>
+                    </tr>
+                </thead>
                 <tbody>
                     {% for Index in Tab.widgets %}
                         {% include 'SplashWidgetsBundle:List:item.html.twig' with {'Widget': Widgets[Index] } %} 
                     {% endfor %}
                 </tbody>
             </table>
-            
             
         </div>
     {% endfor %}

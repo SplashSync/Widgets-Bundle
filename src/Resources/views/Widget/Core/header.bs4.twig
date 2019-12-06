@@ -11,7 +11,7 @@
     {% endif %}      
     
     <div class="card-header py-1 bg-{{ Widget.Options.Color | default("default") }} text-{{ txtColor }}">
-        {% if Widget.icon is defined and not null %}<i class="{{ Widget.icon }}">&nbsp;</i>{% endif %}
+        {% if Widget.icon is defined and not null %}<i class="{{ Widget.icon }}"></i>{% endif %}
         {{ Widget.title | default ("Widget Title") }}
         <small>&nbsp;{{ Widget.subtitle | default ("") }}</small>
     </div>    

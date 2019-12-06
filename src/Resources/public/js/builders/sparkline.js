@@ -37,7 +37,7 @@ export default class sparkline {
     }
     
     /**
-     * Iinit All Sparkline Charts
+     * Init All Sparkline Charts
      */
     buildAll() 
     {
