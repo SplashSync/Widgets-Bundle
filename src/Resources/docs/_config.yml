@@ -24,7 +24,7 @@ title: Widgets Bundle
 # Subtitle of the Site (Generaly DOC)
 subtitle: DOC
 # the subpath of your site, e.g. /blog
-baseurl: "/Toolkit" 
+baseurl: "/Widgets-Bundle" 
 # Description of the Bundle/Module
 description:    "A full stack bundle for fast integration generic dashboard widgets on Symfony applications."
 # Package Code on Packagist

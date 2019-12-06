@@ -11,3 +11,4 @@
 /web/build/
 /yarn.lock
 /reboot.sh
+/docs/yarn.lock
