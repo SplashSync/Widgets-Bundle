@@ -45,12 +45,11 @@
     },
     
     "require-dev": {
-        "symfony/symfony":                              "~3.4 | ~4.0",     
+        "symfony/symfony":                              "~3.4",     
         "symfony/phpunit-bridge":                       "^3.0",
         "twig/twig":                                    "~2.6",
         
         "sensio/distribution-bundle":                   "*",
-        "sensio/framework-extra-bundle":                "*",
 
         "sonata-project/admin-bundle":                  ">=3.0",
         
