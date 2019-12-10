@@ -39,15 +39,15 @@
         "knplabs/knp-time-bundle":                      "~1.6",
         "knplabs/knp-menu-bundle":                      "~2.0",
         
-        "sonata-project/block-bundle":                  "~3.0"
+        "sonata-project/block-bundle":                  "~3.0",
+        
+        "symfony/webpack-encore-bundle":                "^1.7"
     },
     
     "require-dev": {
         "symfony/symfony":                              "~3.0  | ~3.4 | ~4.0",     
         "symfony/phpunit-bridge":                       "^3.0",
         "twig/twig":                                    "~2.6",
-        
-        "symfony/webpack-encore-bundle":                "^1.7",
         
         "sensio/distribution-bundle":                   "*",
         "sensio/framework-extra-bundle":                "*",
