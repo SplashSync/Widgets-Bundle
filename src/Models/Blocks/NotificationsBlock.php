@@ -29,8 +29,11 @@ class NotificationsBlock extends BaseBlock
     // *******************************************************************//
     //====================================================================//
 
-    //====================================================================//
-    // Define Standard Data Fields for this Widget Block
+    /**
+     * Define Standard Data Fields for this Widget Block
+     *
+     * @var array
+     */
     public static $DATA = array(
         'error' => null,
         'warning' => null,

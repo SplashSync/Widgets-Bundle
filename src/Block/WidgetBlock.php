@@ -28,7 +28,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * @author Bernard Paquier <eshop.bpaquier@gmail.com>
+ * Sonata Block to render just a Widget
  */
 class WidgetBlock extends AbstractAdminBlockService
 {
@@ -67,7 +67,7 @@ class WidgetBlock extends AbstractAdminBlockService
     /**
      * {@inheritdoc}
      */
-    public function configureSettings(OptionsResolver $resolver)
+    public function configureSettings(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'service' => null,
@@ -81,7 +81,7 @@ class WidgetBlock extends AbstractAdminBlockService
     /**
      * {@inheritdoc}
      */
-    public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
+    public function buildEditForm(FormMapper $formMapper, BlockInterface $block): void
     {
         $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => array(

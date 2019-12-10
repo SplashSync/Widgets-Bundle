@@ -25,6 +25,9 @@ use Doctrine\ORM\Mapping                        as ORM;
  */
 trait ParametersTrait
 {
+    /**
+     * @var array
+     */
     public static $presets = array(
         "Y" => array(
             "DateStart" => "first day of january this year",

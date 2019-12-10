@@ -46,7 +46,7 @@ class CollectionController extends Controller
         // Load Collection
         $collection = $this->get("doctrine")
             ->getManager()
-            ->getRepository("SplashWidgetsBundle:WidgetCollection")
+            ->getRepository(WidgetCollection::class)
             ->find($collectionId);
         //==============================================================================
         // Store Collection if Found

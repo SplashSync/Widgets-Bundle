@@ -131,7 +131,7 @@ class DemoController extends EditController
 
         //==============================================================================
         // Load Demo Widget from Demo Factory
-        $widget = $this->manager->getWidget("Splash.Widgets.Demo.Factory", $widgetType);
+        $widget = $this->manager->getWidget("splash.widgets.demo.factory", $widgetType);
         if (!$widget) {
             return $this->redirectToRoute("splash_widgets_demo_list");
         }
@@ -139,7 +139,7 @@ class DemoController extends EditController
 
         //==============================================================================
         // Import Form Data & Prepare Data for Form Display
-        $params = $this->prepare($request, "Splash.Widgets.Demo.Factory", $widgetType, $widget);
+        $params = $this->prepare($request, "splash.widgets.demo.factory", $widgetType, $widget);
 
         return $this->render('@SplashWidgets/Demo/Single/edit.html.twig', $params);
     }
@@ -197,8 +197,8 @@ class DemoController extends EditController
         // Load Collection
         $demoCollection = $this->get("doctrine")
             ->getManager()
-            ->getRepository("SplashWidgetsBundle:WidgetCollection")
-            ->findOneByType("demo-collection");
+            ->getRepository(WidgetCollection::class)
+            ->findOneBy(array("type" => "demo-collection"));
 
         //==============================================================================
         // Create Demo Collection

@@ -35,27 +35,44 @@ trait OptionsTrait
 
     //==============================================================================
     //      Widgets Width
+    /** @var string */
     public static $widthXs = "col-sm-6 col-md-4 col-lg-3";
+    /** @var string */
     public static $widthSm = "col-sm-6 col-md-6 col-lg-4";
+    /** @var string */
     public static $widthDefault = "col-sm-12 col-md-6 col-lg-6";
+    /** @var string */
     public static $widthM = "col-sm-12 col-md-6 col-lg-6";
+    /** @var string */
     public static $widthL = "col-sm-12 col-md-6 col-lg-8";
+    /** @var string */
     public static $widthXl = "col-sm-12 col-md-12 col-lg-12";
 
     //==============================================================================
     //      Widgets Color
+    /** @var string */
     public static $colorNone = " ";
+    /** @var string */
     public static $colorDefault = "default";
+    /** @var string */
     public static $colorPrimary = "primary";
+    /** @var string */
     public static $colorSuccess = "success";
+    /** @var string */
+    /** @var string */
     public static $colorInfo = "info";
+    /** @var string */
     public static $colorWarning = "warning";
+    /** @var string */
     public static $colorDanger = "danger";
 
     //==============================================================================
     //      Rendering Mode
+    /** @var string */
     public static $modeDefault = "bs4";
+    /** @var string */
     public static $modeBootstrap3 = "bs3";
+    /** @var string */
     public static $modeBootstrap4 = "bs4";
 
     //==============================================================================
@@ -222,9 +239,9 @@ trait OptionsTrait
         try {
             return  $resolver->resolve($options);
         } catch (UndefinedOptionsException $ex) {
-            return  $this->getDefaultOptions();
+            $this->getDefaultOptions();
         } catch (InvalidOptionsException $ex) {
-            return $this->getDefaultOptions();
+            $this->getDefaultOptions();
         }
 
         return $this->getDefaultOptions();

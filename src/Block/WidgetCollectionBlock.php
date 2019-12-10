@@ -31,7 +31,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * @author Bernard Paquier <eshop.bpaquier@gmail.com>
+ * Sonata Block to render a Widget Collection
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -67,7 +67,7 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
         parent::__construct($name, $templating);
 
         $this->manager = $manager;
-        $this->repository = $manager->getRepository('SplashWidgetsBundle:WidgetCollection');
+        $this->repository = $manager->getRepository(WidgetCollection::class);
         $request = $requestStack->getCurrentRequest();
         if (null === $request) {
             throw new Exception("Unable to Load Current Request");
@@ -78,7 +78,7 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
     /**
      * {@inheritdoc}
      */
-    public function configureSettings(OptionsResolver $resolver)
+    public function configureSettings(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'url' => false,
@@ -96,7 +96,7 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
+    public function buildEditForm(FormMapper $formMapper, BlockInterface $block): void
     {
         $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
@@ -119,7 +119,7 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
         $settings = $blockContext->getSettings();
         //==============================================================================
         // Load Collection from DataBase
-        $collection = $this->repository->findOneByType($settings["collection"]);
+        $collection = $this->repository->findOneBy(array("type" => $settings["collection"]));
         //==============================================================================
         // Create Collection if not found
         if (!$collection) {

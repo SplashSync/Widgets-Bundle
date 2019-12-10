@@ -95,7 +95,7 @@ class AppKernel extends Kernel
     /**
      * {@inheritdoc}
      */
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         if ("test" == $this->getEnvironment()) {
             $loader->load($this->getRootDir().'/config_test.yml');

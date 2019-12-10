@@ -24,6 +24,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class D001DemoControllerTest extends WebTestCase
 {
     use UrlCheckerTrait;
+
     /**
      * @var array
      */
@@ -54,7 +55,7 @@ class D001DemoControllerTest extends WebTestCase
      *
      * @param mixed $route
      */
-    public function testDemoPages($route)
+    public function testDemoPages($route) : void
     {
         $this->assertRouteWorks($route);
     }

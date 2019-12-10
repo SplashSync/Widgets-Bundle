@@ -168,7 +168,7 @@ trait UrlCheckerTrait
      *
      * @param mixed $form
      */
-    public function assertSubmitWorks($form)
+    public function assertSubmitWorks($form) : void
     {
         $this->ensureClientIsLoaded();
 
@@ -239,7 +239,7 @@ trait UrlCheckerTrait
     /**
      * Ensure BrowserKit Client is Loaded
      */
-    private function ensureClientIsLoaded()
+    private function ensureClientIsLoaded() : void
     {
         $this->assertTrue(isset($this->client), "Test Client Not Found ( this->client )");
         $this->assertInstanceOf(Client::class, $this->client, "Invalid Test Client Not Found ( ".get_class($this->client)." )");

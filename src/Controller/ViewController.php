@@ -74,12 +74,16 @@ class ViewController extends Controller
     public function delayedAction(string $service, string $type, string $options = null, string $parameters = null) : Response
     {
         //==============================================================================
-        // Fetch Widget Options
-        $widgetOptions = self::jsonToArray($options);
-        if (empty($widgetOptions)) {
-            $widgetOptions = empty($service)
-                ? Widget::getDefaultOptions()
-                : $this->get("splash.widgets.manager")->getWidgetOptions($service, $type);
+        // Load Default Widget Options
+        $widgetOptions = empty($service)
+            ? Widget::getDefaultOptions()
+            : $this->get("splash.widgets.manager")->getWidgetOptions($service, $type);
+
+        //==============================================================================
+        // Fetch Passed Options
+        $passedOptions = self::jsonToArray($options);
+        if (empty($passedOptions)) {
+            $widgetOptions = (array) array_replace_recursive($widgetOptions, $passedOptions);
         }
 
         //==============================================================================

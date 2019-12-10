@@ -40,7 +40,7 @@ class B001ViewControllerTest extends WebTestCase
     /**
      * Check Widget is Rendered Even if Errors
      */
-    public function testViewErrors()
+    public function testViewErrors() : void
     {
         //====================================================================//
         // Wrong Service Name

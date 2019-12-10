@@ -43,7 +43,7 @@ class B002EditControllerTest extends WebTestCase
      * @param string $service
      * @param string $type
      */
-    public function testEditModal(string $service, string $type)
+    public function testEditModal(string $service, string $type) : void
     {
         //====================================================================//
         // Build Route Parameters

@@ -41,14 +41,20 @@ class BaseBlock
     const SIZE_L = "col-12 col-sm-12 col-md-6 col-lg-8";
     const SIZE_XL = "col-12 col-sm-12 col-md-12 col-lg-12";
 
-    //====================================================================//
-    // Define Standard Data Fields for this Widget Block
+    /**
+     * Define Standard Data Fields for this Widget Block
+     *
+     * @var array
+     */
     public static $DATA = array(
     );
 
-    //====================================================================//
-    // Define Standard Options for this Widget Block
-    // Uncomment to override défault options
+    /**
+     * Define Standard Options for this Widget Block
+     * Uncomment to override défault options
+     *
+     * @var array
+     */
     public static $OPTIONS = array(
         'Width' => self::SIZE_DEFAULT,
     );
@@ -94,7 +100,7 @@ class BaseBlock
      * @param string $name Function Name
      * @param array  $args Function Arguments
      */
-    public function __set($name, $args)
+    public function __set($name, $args): void
     {
         if (method_exists($this, $name)) {
             switch (count($args)) {
@@ -112,8 +118,6 @@ class BaseBlock
                     break;
             }
         }
-
-//        return $this;
     }
 
     //====================================================================//

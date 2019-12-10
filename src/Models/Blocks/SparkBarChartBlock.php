@@ -32,16 +32,22 @@ class SparkBarChartBlock extends BaseBlock
     // *******************************************************************//
     //====================================================================//
 
-    //====================================================================//
-    // Define Standard Data Fields for this Widget Block
+    /**
+     * Define Standard Data Fields for this Widget Block
+     *
+     * @var array
+     */
     public static $DATA = array(
         "title" => "Title",
         "values" => array(),
     );
 
-    //====================================================================//
-    // Define Standard Options for this Widget Block
-    // Uncomment to override défault options
+    /**
+     * Define Standard Options for this Widget Block
+     * Uncomment to override défault options
+     *
+     * @var array
+     */
     public static $OPTIONS = array(
         'Width' => "col-sm-12 col-md-12 col-lg-12",
         "AllowHtml" => false,

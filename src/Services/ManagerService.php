@@ -251,7 +251,7 @@ class ManagerService
      *
      * @return Array
      */
-    public function getWidgetParameters(string $service, string $type)
+    public function getWidgetParameters(string $service, string $type): array
     {
         if (!$this->Connect($service)) {
             return array();
@@ -298,14 +298,11 @@ class ManagerService
     public function setWidgetParameter(string $service, string $type, string $key, $value = null) : bool
     {
         $parameters = $this->getWidgetParameters($service, $type);
-        if (is_array($parameters)) {
-            $parameters[$key] = $value;
-            $this->setWidgetParameters($service, $type, $parameters);
 
-            return true;
-        }
+        $parameters[$key] = $value;
+        $this->setWidgetParameters($service, $type, $parameters);
 
-        return false;
+        return true;
     }
 
     /**

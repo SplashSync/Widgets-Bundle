@@ -187,11 +187,11 @@ class A003WidgetManagerServiceTest extends KernelTestCase
         //====================================================================//
         // ReLoad Both Widgets From Cache
         $this->assertNull(
-            $entityManager->getRepository("SplashWidgetsBundle:WidgetCache")->find($cache1->getId())
+            $entityManager->getRepository(WidgetCache::class)->find($cache1->getId())
         );
         $this->assertInstanceOf(
             WidgetCache::class,
-            $entityManager->getRepository("SplashWidgetsBundle:WidgetCache")->find($cache2->getId())
+            $entityManager->getRepository(WidgetCache::class)->find($cache2->getId())
         );
     }
 }

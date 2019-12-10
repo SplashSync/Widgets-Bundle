@@ -29,15 +29,21 @@ class TableBlock extends BaseBlock
     // *******************************************************************//
     //====================================================================//
 
-    //====================================================================//
-    // Define Standard Data Fields for this Widget Block
+    /**
+     * Define Standard Data Fields for this Widget Block
+     *
+     * @var array
+     */
     public static $DATA = array(
         "rows" => null,
     );
 
-    //====================================================================//
-    // Define Standard Options for this Widget Block
-    // Uncomment to override défault options
+    /**
+     * Define Standard Options for this Widget Block
+     * Uncomment to override défault options
+     *
+     * @var array
+     */
     public static $OPTIONS = array(
         'Width' => "col-xs-12 col-sm-12 col-md-12 col-lg-12",
         "Layout" => "table-bordered table-hover",

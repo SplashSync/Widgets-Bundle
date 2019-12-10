@@ -27,7 +27,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 class SamplesFactoryService implements WidgetProviderInterface
 {
     const PREFIX = "Splash\\Widgets\\Models\\Demo\\Blocks\\";
-    const SERVICE = "Splash.Widgets.Demo.Factory";
+    const SERVICE = "splash.widgets.demo.factory";
     const ORIGIN = "<i class='fa fa-flask text-success' aria-hidden='true'>&nbsp;</i>Demo Factory";
 
     /**

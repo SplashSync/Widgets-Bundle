@@ -1,14 +1,17 @@
 {% trans_default_domain "SplashWidgetsBundle" %}   
 
-{% set Url = path('splash_widgets_render_widget', { 
+{% set loadingUrl = path('splash_widgets_render_widget', { 
     'service': Widget.Service,  
     'type' : Widget.Type, 
     'options' : (Widget.Options | json_encode()), 
     "parameters" : (Widget.Parameters | json_encode()) 
 }) %}
 
-<button class="btn btn-xs btn-info" onclick="SplashWidgets_AjaxLoading('{{ Widget.Type ~ "-" ~ WidgetId }}','{{ Url }}');">
-    <i class="fas fa-fw fa-sync"></i>
+<button class="btn btn-xs btn-info splash-widget-reloader"
+        data-target="{{ Widget.Type ~ "-" ~ WidgetId }}"
+        data-reload="{{ loadingUrl }}"    
+    >
+    <i class="fa fa-fw fa-retweet"></i>
 </button>
 
     

@@ -53,7 +53,7 @@ trait LifecycleTrait
     //==============================================================================
 
     /** @ORM\PrePersist() */
-    public function prePersist()
+    public function prePersist(): void
     {
         $now = new DateTime();
         //====================================================================//
@@ -63,7 +63,7 @@ trait LifecycleTrait
     }
 
     /** @ORM\PreUpdate() */
-    public function preUpdate()
+    public function preUpdate(): void
     {
         $now = new DateTime();
         //====================================================================//
