@@ -82,7 +82,7 @@ class ViewController extends Controller
         //==============================================================================
         // Fetch Passed Options
         $passedOptions = self::jsonToArray($options);
-        if (empty($passedOptions)) {
+        if (!empty($passedOptions)) {
             $widgetOptions = (array) array_replace_recursive($widgetOptions, $passedOptions);
         }
 
