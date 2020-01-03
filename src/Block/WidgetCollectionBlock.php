@@ -86,6 +86,7 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
             'collection' => 'demo-block',
             'channel' => 'demo',
             'template' => 'SplashWidgetsBundle:Blocks:Collection.html.twig',
+            'options' => array(),
             'editable' => true,
             'menu' => true,
         ));
@@ -135,10 +136,13 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
         $edit = ($settings["editable"] & ($this->request->get("widget-edit") == $collection->getId())) ? true : false;
 
         foreach ($collection->getWidgets() as &$widget) {
+            // Merge Edition Options
             $widget->mergeOptions(array(
                 "Editable" => $settings["editable"],
                 "EditMode" => (($this->request->get("widget-edit") == $collection->getId()) ? true : false),
             ));
+            // Merge Global Options
+            $widget->mergeOptions($settings["options"]);
         }
 
         //==============================================================================

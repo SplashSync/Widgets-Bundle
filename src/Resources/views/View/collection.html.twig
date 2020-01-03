@@ -19,25 +19,3 @@
         })) }}
     {% endfor %}
 </div>     
-    
-{% if Edit %}
-    <script>
-
-{#        $(document).ready(function() {
-
-            $(function() {
-                $('#{{ CollectionId }}').sortable({
-                    update: function(event, ui) {
-
-                        Ordering = JSON.stringify($("#{{ CollectionId }}").sortable('toArray', { attribute: 'data-id' }));
-                        console.log(Ordering);
-                        SplashWidgets_UpdatePositions("{{ Collection.id }}",Ordering);
-                    }                
-                });
-            });
-
-        });#}
-
-    </script>    
-{% endif %} 
-    
