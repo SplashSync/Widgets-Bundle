@@ -46,7 +46,7 @@ class TableBlock extends BaseBlock
      */
     public static $OPTIONS = array(
         'Width' => "col-xs-12 col-sm-12 col-md-12 col-lg-12",
-        "Layout" => "table-bordered table-hover",
+        "Layout" => "table-bordered table-hover no-margin my-0",
         "HeadingRows" => 1,
         "HeadingColumns" => 0,
         "AllowHtml" => false,

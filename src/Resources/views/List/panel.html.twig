@@ -1,11 +1,11 @@
 {% trans_default_domain "SplashWidgetsBundle" %} 
 
-<div class="panel panel-default">
-  <div class="panel-heading">
+<div class="card panel panel-default">
+  <div class="card-header panel-heading">
       <h3>{{ 'list.title'|trans }}</h3>
       <small>{{ 'list.tooltip'|trans }}</small>
   </div>
-  <div class="panel-body no-padding" style="padding: 0px;">
+  <div class="card-body panel-body no-padding" style="padding: 0px;">
       {% include 'SplashWidgetsBundle:List:contents.html.twig' %} 
   </div>
 </div>
