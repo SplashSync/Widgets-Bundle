@@ -5,6 +5,9 @@ services:
         class:      Splash\Widgets\Services\FactoryService
         public:     true
 
+    # Auto Wiring
+    Splash\Widgets\Services\FactoryService: "@splash.widgets.factory"
+
     # Widgets Manager Service
     splash.widgets.manager:
         class:      Splash\Widgets\Services\ManagerService
