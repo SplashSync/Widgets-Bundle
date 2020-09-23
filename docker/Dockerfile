@@ -17,7 +17,7 @@
 
 FROM php:7.4-alpine
 EXPOSE 80
-WORKDIR /app
+WORKDIR /project
 
 ################################################################################
 # Install Required Libs
@@ -32,21 +32,5 @@ RUN docker-php-ext-install zip
 ENV COMPOSER_MEMORY_LIMIT: -1
 ENV COMPOSER_HOME: '/home/docker/.composer'
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer 
-#################################################################################
-## Clone Project
-#RUN git clone https://github.com/SplashSync/Toolkit.git --depth=1 /app
-#################################################################################
-## Configure Project
-#COPY .env /app/.env
-#COPY config/splash.yml /app/config/packages/splash.yml
-#################################################################################
-## Run Composer
-#RUN cd /app && php -d memory_limit=-1 /usr/bin/composer update
-##RUN cd /app && php -d memory_limit=-1 /usr/bin/composer install
-#################################################################################
-## Install Project
-#RUN php /app/bin/console assets:install --no-debug
-#RUN php /app/bin/console doctrine:schema:update --force
-#RUN php /app/bin/console cache:clear
 
-CMD ["php", "/app/bin/console", "server:run", "80"]
+CMD ["php", "/project/bin/console", "server:run", "80"]

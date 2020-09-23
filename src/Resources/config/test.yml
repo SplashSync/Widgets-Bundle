@@ -2,8 +2,8 @@ services:
 
     # Test Widgets Factory Service
     splash.widgets.test.factory:
-        class: Splash\Widgets\Tests\Services\SamplesFactoryService
-        arguments: ["@splash.widgets.factory"]             
+        class:      Splash\Widgets\Tests\Services\SamplesFactoryService
+        arguments:  ["@splash.widgets.factory"]
         public:     true
         tags:
             - { name: kernel.event_listener, event: Splash\Widgets\Event\ListingEvent,   method: onListingAction }

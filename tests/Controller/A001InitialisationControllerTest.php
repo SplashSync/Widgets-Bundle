@@ -69,7 +69,9 @@ class A001InitialisationControllerTest extends KernelTestCase
         //====================================================================//
         // Clean Working Dir
         $workingDirectory = (string) $process->getWorkingDirectory();
-        if (strrpos($workingDirectory, "/app") == (strlen($workingDirectory) - 4)) {
+        if (strrpos($workingDirectory, "/web") == (strlen($workingDirectory) - 4)) {
+            $process->setWorkingDirectory(substr($workingDirectory, 0, strlen($workingDirectory) - 4));
+        } elseif (strrpos($workingDirectory, "/app") == (strlen($workingDirectory) - 4)) {
             $process->setWorkingDirectory(substr($workingDirectory, 0, strlen($workingDirectory) - 4));
         }
 

@@ -39,10 +39,10 @@ services:
             dockerfile: Dockerfile
         container_name: widgets-php
         volumes:
-            - './:/app'
+            - './:/project'
             - ~/.composer:/home/docker/.composer            
         hostname: widgets.splashsync.local
-        command:            ["php", "/app/bin/console", "server:run", "172.169.1.10:80"]
+        command:            ["php", "/project/bin/console", "server:run", "-d/project/web", "172.169.1.10:80"]
         networks:
             widgets:        { ipv4_address: 172.169.1.10 }
             

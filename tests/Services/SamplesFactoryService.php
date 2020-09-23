@@ -26,6 +26,11 @@ class SamplesFactoryService extends Base
     const PREFIX = "Splash\\Widgets\\Tests\\Blocks\\";
     const SERVICE = "splash.widgets.test.factory";
     const ORIGIN = "<i class='fa fa-github text-success' aria-hidden='true'>&nbsp;</i>Tests Factory";
+    const MODES = array(
+        "splash.widgets.list.test",
+        "splash.widgets.list.tested",
+        "splash.widgets.list.demo",
+    );
 
     /**
      * Widgets Listing
@@ -35,7 +40,7 @@ class SamplesFactoryService extends Base
     public function onListingAction(GenericEvent $event) : void
     {
         $mode = $event->getSubject();
-        if (!is_string($mode) || !in_array($mode, array("test", "tested", "demo"), true)) {
+        if (!is_string($mode) || !in_array($mode, self::MODES, true)) {
             return;
         }
         $event["Test"] = $this->buildWidgetDefinition("Test")->getWidget();

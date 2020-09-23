@@ -26,8 +26,8 @@ echo "** Configure Symfony ..."
 echo "*************************************************************************"
 
 docker-compose exec symfony composer install
-docker-compose exec symfony php /app/bin/console doctrine:schema:update --force
-docker-compose exec symfony php /app/bin/console cache:clear
+docker-compose exec symfony php bin/console doctrine:schema:update --force
+docker-compose exec symfony php bin/console cache:clear
 
 echo "*************************************************************************"
 echo "** Install Webpack "

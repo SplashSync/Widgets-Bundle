@@ -1,9 +1,10 @@
 services:
 
-    # Demo Widgets Factroy Service
+    # Demo Widgets Factory Service
     splash.widgets.demo.factory:
-        class: Splash\Widgets\Services\Demo\SamplesFactoryService
-        arguments: ["@splash.widgets.factory"]             
+        class:      Splash\Widgets\Services\Demo\SamplesFactoryService
+        arguments:  ["@splash.widgets.factory"]
+        public:     true
         tags:
-            - { name: kernel.event_listener, event: splash.widgets.list.demo, method: onListingAction }
+            - { name: kernel.event_listener, event: Splash\Widgets\Event\ListingEvent, method: onListingAction }
 

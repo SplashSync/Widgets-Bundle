@@ -29,6 +29,9 @@ class SamplesFactoryService implements WidgetProviderInterface
     const PREFIX = "Splash\\Widgets\\Models\\Demo\\Blocks\\";
     const SERVICE = "splash.widgets.demo.factory";
     const ORIGIN = "<i class='fa fa-flask text-success' aria-hidden='true'>&nbsp;</i>Demo Factory";
+    const MODES = array(
+        "splash.widgets.list.demo",
+    );
 
     /**
      * WidgetFactory Service
@@ -60,6 +63,11 @@ class SamplesFactoryService implements WidgetProviderInterface
      */
     public function onListingAction(GenericEvent $event) : void
     {
+        $mode = $event->getSubject();
+        if (!is_string($mode) || !in_array($mode, self::MODES, true)) {
+            return;
+        }
+
         $event["Text"] = $this->buildWidgetDefinition("Text")->getWidget();
         $event["Table"] = $this->buildWidgetDefinition("Table")->getWidget();
         $event["Notifications"] = $this->buildWidgetDefinition("Notifications")->getWidget();

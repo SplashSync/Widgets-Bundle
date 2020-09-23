@@ -160,7 +160,7 @@ class ManagerService
     public function read(string $type, array $parameters = array()) : bool
     {
         //==============================================================================
-        // Check Servive is Defined
+        // Check Service is Defined
         if (!($this->service instanceof WidgetProviderInterface)) {
             return false;
         }
@@ -175,7 +175,7 @@ class ManagerService
         }
         $this->widget = $widget;
         //==============================================================================
-        // Store Paremeter in Widget From Rendering
+        // Store Parameter in Widget From Rendering
         if ($blockParameters) {
             $this->widget->setParameters($parameters);
         }
