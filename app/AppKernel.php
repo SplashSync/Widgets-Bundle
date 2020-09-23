@@ -44,7 +44,7 @@ class AppKernel extends Kernel
         $bundles[] = new Knp\Bundle\MenuBundle\KnpMenuBundle();
         //==============================================================================
         // SONATA BUNDLES
-        $bundles[] = new Sonata\CoreBundle\SonataCoreBundle();
+//        $bundles[] = new Sonata\CoreBundle\SonataCoreBundle();
         $bundles[] = new Sonata\BlockBundle\SonataBlockBundle();
 
         //==============================================================================
