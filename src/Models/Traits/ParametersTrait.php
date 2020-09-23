@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2019 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -152,12 +152,13 @@ trait ParametersTrait
         }
         //==============================================================================
         //  Prepare Dates
-        $dateStart = new DateTime(static::$presets[$preset]["DateStart"]);
+        $presets = static::$presets;
+        $dateStart = new DateTime($presets[$preset]["DateStart"]);
         $dateStart->setTime(0, 0, 0);
-        $dateEnd = new DateTime(static::$presets[$preset]["DateEnd"]);
+        $dateEnd = new DateTime($presets[$preset]["DateEnd"]);
         $dateEnd->setTime(23, 59, 59);
-        $dateFormat = static::$presets[$preset]["DateFormat"];
-        $groupBy = static::$presets[$preset]["GroupBy"];
+        $dateFormat = $presets[$preset]["DateFormat"];
+        $groupBy = $presets[$preset]["GroupBy"];
 
         //==============================================================================
         //  Return Dates Array
