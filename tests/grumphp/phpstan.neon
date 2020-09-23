@@ -15,4 +15,6 @@ parameters:
                 # Splash Widgets Blocks Methods 
                 - '#Call to an undefined method [a-zA-Z0-9\\_]+BaseBlock::[a-zA-Z0-9\\_]+().#'
                 - '#Call to an undefined method [a-zA-Z0-9\\_]+FactoryService::[a-zA-Z0-9\\_]+().#'
-
+               # For Compat with Symfony 3 & 4
+                - '#Parameter \#1 \$command of class [a-zA-Z0-9\\]+Process constructor expects array, string given.#'
+                - '#Call to an undefined static method [a-zA-Z0-9\\]+Process::fromShellCommandline().#'

@@ -34,6 +34,10 @@ class SamplesFactoryService extends Base
      */
     public function onListingAction(GenericEvent $event) : void
     {
+        $mode = $event->getSubject();
+        if (!is_string($mode) || !in_array($mode, array("test", "tested", "demo"), true)) {
+            return;
+        }
         $event["Test"] = $this->buildWidgetDefinition("Test")->getWidget();
     }
 }

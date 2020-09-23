@@ -56,8 +56,15 @@ class A001InitialisationControllerTest extends KernelTestCase
     public function testCacheClear(string $environement) : void
     {
         //====================================================================//
-        // Create Process
-        $process = new Process("php bin/console cache:clear --no-debug --env=".$environement);
+        // Create Command
+        $command = "php bin/console cache:clear --no-debug --env=".$environement;
+        //====================================================================//
+        // Execute Test (SF 3&4 Versions)
+        try {
+            $process = Process::fromShellCommandline($command);
+        } catch (\Error $exception) {
+            $process = new Process($command);
+        }
 
         //====================================================================//
         // Clean Working Dir

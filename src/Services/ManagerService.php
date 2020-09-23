@@ -16,8 +16,11 @@
 namespace Splash\Widgets\Services;
 
 use Exception;
+use ReflectionException;
+use ReflectionMethod;
 use Splash\Widgets\Entity\Widget;
 use Splash\Widgets\Entity\WidgetCache;
+use Splash\Widgets\Event\ListingEvent;
 use Splash\Widgets\Models\Interfaces\WidgetProviderInterface;
 use Splash\Widgets\Repository\WidgetCacheRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -342,7 +345,7 @@ class ManagerService
         //====================================================================//
         // Execute Listing Event
         /** @var GenericEvent $list */
-        $list = $this->dispatcher->dispatch($mode, new GenericEvent());
+        $list = $this->dispatch(new ListingEvent($mode));
         $widgets = $list->getArguments();
 
         //====================================================================//
@@ -433,5 +436,32 @@ class ManagerService
     public function cleanCache() : void
     {
         $this->cacheRep->cleanUp();
+    }
+
+    /**
+     * Dispatch an Event with Args Detection
+     *
+     * @param ListingEvent $event
+     *
+     * @return null|ListingEvent
+     */
+    private function dispatch(ListingEvent $event): ?ListingEvent
+    {
+        try {
+            $reflection = new ReflectionMethod($this->dispatcher, "dispatch");
+            $args = array();
+            foreach ($reflection->getParameters() as $param) {
+                if ("event" == $param->getName()) {
+                    $args[] = $event;
+                }
+                if ("eventName" == $param->getName()) {
+                    $args[] = get_class($event);
+                }
+            }
+        } catch (ReflectionException $ex) {
+            return null;
+        }
+
+        return $reflection->invokeArgs($this->dispatcher, $args);
     }
 }

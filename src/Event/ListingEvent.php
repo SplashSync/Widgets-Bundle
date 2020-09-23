@@ -13,15 +13,13 @@
  *  file that was distributed with this source code.
  */
 
-use Symfony\Component\HttpFoundation\Request;
+namespace Splash\Widgets\Event;
 
-umask(0000);
+use Symfony\Component\EventDispatcher\GenericEvent;
 
-/** @var \Composer\Autoload\ClassLoader $loader */
-$loader = require __DIR__.'/../app/autoload.php';
-$kernel = new AppKernel('dev', true);
-
-$request = Request::createFromGlobals();
-$response = $kernel->handle($request);
-$response->send();
-$kernel->terminate($request, $response);
+/**
+ * Splash Widget Listing Event
+ */
+class ListingEvent extends GenericEvent
+{
+}
