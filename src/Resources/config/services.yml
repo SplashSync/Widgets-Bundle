@@ -19,8 +19,9 @@ services:
 
     # Widgets Collection Service
     splash.widgets.collection:
-        class: Splash\Widgets\Services\CollectionService
-        arguments: 
+        class:      Splash\Widgets\Services\CollectionService
+        public:     true
+        arguments:
             - "@splash.widgets.factory"
             - "@=service('doctrine.orm.entity_manager').getRepository('SplashWidgetsBundle:WidgetCollection')"
             - "@service_container"
