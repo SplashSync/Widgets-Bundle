@@ -76,7 +76,7 @@ trait AccessTrait
      */
     public function getService() : string
     {
-        return $this->service;
+        return strtolower($this->service);
     }
 
     /**

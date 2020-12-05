@@ -135,10 +135,10 @@ class ManagerService
     {
         //==============================================================================
         // Link to Widget Interface Service if Available
-        if (!$service || !$this->container->has($service)) {
+        if (!$service || !$this->container->has(strtolower($service))) {
             return false;
         }
-        $sfService = $this->container->get($service);
+        $sfService = $this->container->get(strtolower($service));
         if (!($sfService instanceof WidgetProviderInterface)) {
             $msg = "Widget Service Provider must Implement  (".WidgetProviderInterface::class.")";
 

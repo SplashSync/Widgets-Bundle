@@ -25,7 +25,3 @@ services:
             - "@splash.widgets.factory"
             - "@=service('doctrine.orm.entity_manager').getRepository('SplashWidgetsBundle:WidgetCollection')"
             - "@service_container"
-
-          
-            
-            
