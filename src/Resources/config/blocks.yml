@@ -4,7 +4,7 @@ sonata_block:
             contexts:   [admin]
         splash.widgets.blocks.simple:
             contexts:   [admin]
-        
+
 services:
 
     #################################################################################
@@ -18,7 +18,7 @@ services:
             - "@request_stack"
         tags:
             - { name: sonata.block }
-            
+
     #################################################################################
     # Single Widget Sonata Block Service
     splash.widgets.blocks.simple:
@@ -29,4 +29,4 @@ services:
             - "@splash.widgets.manager"
             - "@splash.widgets.factory"
         tags:
-            - { name: sonata.block } 
+            - { name: sonata.block }
