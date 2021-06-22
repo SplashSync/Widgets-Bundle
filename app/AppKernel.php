@@ -1,9 +1,7 @@
 <?php
 
 /*
- *  This file is part of SplashSync Project.
- *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2021 BadPixxel <www.badpixxel.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,6 +18,8 @@ use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * Widgets Demo Symfony App Kernel
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class AppKernel extends Kernel
 {
@@ -60,7 +60,8 @@ class AppKernel extends Kernel
                 $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             }
 
-            if (('dev' === $this->getEnvironment()) && class_exists("\\Symfony\\Bundle\\WebServerBundle\\WebServerBundle")) {
+            if (('dev' === $this->getEnvironment())
+                && class_exists("\\Symfony\\Bundle\\WebServerBundle\\WebServerBundle")) {
                 $bundles[] = new Symfony\Bundle\WebServerBundle\WebServerBundle();
             }
         }

@@ -1,9 +1,7 @@
 <?php
 
 /*
- *  This file is part of SplashSync Project.
- *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2021 BadPixxel <www.badpixxel.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,6 +14,7 @@
 namespace Splash\Widgets\Tests\Controller;
 
 use DateTime;
+use Exception;
 use Splash\Widgets\Entity\WidgetCache;
 use Splash\Widgets\Models\WidgetBase        as Widget;
 use Splash\Widgets\Services\ManagerService;
@@ -40,6 +39,8 @@ class A003WidgetManagerServiceTest extends KernelTestCase
 
     /**
      * Check Manager Class
+     *
+     * @throws Exception
      */
     public function testManagerClass() : void
     {
@@ -53,6 +54,8 @@ class A003WidgetManagerServiceTest extends KernelTestCase
 
     /**
      * Check Manager Listing Functions
+     *
+     * @throws Exception
      */
     public function testManagerListing() : void
     {
@@ -86,29 +89,33 @@ class A003WidgetManagerServiceTest extends KernelTestCase
 
     /**
      * Check Manager Connect Functions
+     *
+     * @throws Exception
      */
     public function testManagerConnect() : void
     {
         //====================================================================//
         // Get Test Factory Service
         $this->assertTrue(
-            $this->getManager()->Connect(SamplesFactory::SERVICE)
+            $this->getManager()->connect(SamplesFactory::SERVICE)
         );
 
         //====================================================================//
         // Get Existant Factory Service
         $this->assertFalse(
-            $this->getManager()->Connect(SamplesFactory::SERVICE."Unknown")
+            $this->getManager()->connect(SamplesFactory::SERVICE."Unknown")
         );
 
         //====================================================================//
         // Get Existant Factory Service
-        $this->expectException(\Exception::class);
-        $this->getManager()->Connect("router");
+        $this->expectException(Exception::class);
+        $this->getManager()->connect("router");
     }
 
     /**
      * Check Manager Reading Widgets Contents
+     *
+     * @throws Exception
      */
     public function testManagerGetTestWidget() : void
     {
@@ -125,6 +132,8 @@ class A003WidgetManagerServiceTest extends KernelTestCase
 
     /**
      * Check Manager Widgets Cache Management
+     *
+     * @throws Exception
      */
     public function testManagerCache() : void
     {
@@ -146,8 +155,18 @@ class A003WidgetManagerServiceTest extends KernelTestCase
 
         //====================================================================//
         // Load Both Widgets From Cache
-        $cache1 = $this->getManager()->getCache($testWidget->getService(), $testWidget->getType(), $testWidget->getOptions(), array());
-        $cache2 = $this->getManager()->getCache($testWidget->getService(), $testWidget->getType(), $testWidget->getOptions(), array( Test::TYPE => SamplesFactory::SERVICE));
+        $cache1 = $this->getManager()->getCache(
+            $testWidget->getService(),
+            $testWidget->getType(),
+            $testWidget->getOptions(),
+            array()
+        );
+        $cache2 = $this->getManager()->getCache(
+            $testWidget->getService(),
+            $testWidget->getType(),
+            $testWidget->getOptions(),
+            array( Test::TYPE => SamplesFactory::SERVICE)
+        );
 
         //====================================================================//
         // Check Widgets Cache
@@ -173,11 +192,21 @@ class A003WidgetManagerServiceTest extends KernelTestCase
         //====================================================================//
         // ReLoad Both Widgets From Cache
         $this->assertNull(
-            $this->getManager()->getCache($testWidget->getService(), $testWidget->getType(), $testWidget->getOptions(), array())
+            $this->getManager()->getCache(
+                $testWidget->getService(),
+                $testWidget->getType(),
+                $testWidget->getOptions(),
+                array()
+            )
         );
         $this->assertInstanceOf(
             WidgetCache::class,
-            $this->getManager()->getCache($testWidget->getService(), $testWidget->getType(), $testWidget->getOptions(), array( Test::TYPE => SamplesFactory::SERVICE))
+            $this->getManager()->getCache(
+                $testWidget->getService(),
+                $testWidget->getType(),
+                $testWidget->getOptions(),
+                array( Test::TYPE => SamplesFactory::SERVICE)
+            )
         );
 
         //====================================================================//

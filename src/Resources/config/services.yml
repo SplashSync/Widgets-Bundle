@@ -1,27 +1,31 @@
 services:
 
+    _defaults:
+        autowire: true
+
+    ################################################################################
+    # AutoWire for Controllers
+    Splash\Widgets\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
+
     # Widget Parser & Creation Service
     splash.widgets.factory:
         class:      Splash\Widgets\Services\FactoryService
         public:     true
 
-    # Auto Wiring
-    Splash\Widgets\Services\FactoryService: "@splash.widgets.factory"
-
     # Widgets Manager Service
     splash.widgets.manager:
         class:      Splash\Widgets\Services\ManagerService
         public:     true
-        arguments:  
-            - "@service_container"
-            - "@event_dispatcher"
-            - "@=service('doctrine.orm.entity_manager').getRepository('SplashWidgetsBundle:WidgetCache')"
 
     # Widgets Collection Service
     splash.widgets.collection:
         class:      Splash\Widgets\Services\CollectionService
         public:     true
-        arguments:
-            - "@splash.widgets.factory"
-            - "@=service('doctrine.orm.entity_manager').getRepository('SplashWidgetsBundle:WidgetCollection')"
-            - "@service_container"
+
+    # Auto Wiring
+    Splash\Widgets\Services\FactoryService:     "@splash.widgets.factory"
+    Splash\Widgets\Services\ManagerService:     "@splash.widgets.manager"
+    Splash\Widgets\Services\CollectionService:  "@splash.widgets.collection"

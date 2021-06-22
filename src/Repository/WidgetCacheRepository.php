@@ -1,9 +1,7 @@
 <?php
 
 /*
- *  This file is part of SplashSync Project.
- *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2021 BadPixxel <www.badpixxel.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -17,6 +15,7 @@ namespace Splash\Widgets\Repository;
 
 use DateTime;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Splash\Widgets\Entity\WidgetCache;
 
 /**
@@ -30,6 +29,8 @@ class WidgetCacheRepository extends EntityRepository
      * @param string $service       Widget Provider Service Name
      * @param string $type          Widget Type Name
      * @param string $discriminator Widget Discriminator
+     *
+     * @throws NonUniqueResultException
      *
      * @return null|WidgetCache
      */
@@ -46,7 +47,7 @@ class WidgetCacheRepository extends EntityRepository
             ->setParameter(":expire", new DateTime())
             ->getQuery()
             ->getOneOrNullResult()
-                ;
+        ;
     }
 
     /**

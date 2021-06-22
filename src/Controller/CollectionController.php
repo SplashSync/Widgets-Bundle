@@ -1,9 +1,7 @@
 <?php
 
 /*
- *  This file is part of SplashSync Project.
- *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2021 BadPixxel <www.badpixxel.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,8 +13,11 @@
 
 namespace Splash\Widgets\Controller;
 
+use Exception;
 use Splash\Widgets\Entity\WidgetCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Splash\Widgets\Services\CollectionService;
+use Splash\Widgets\Services\ManagerService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Manage Widgets Collections
  */
-class CollectionController extends Controller
+class CollectionController extends AbstractController
 {
     /**
      * Widget Collection
@@ -36,7 +37,7 @@ class CollectionController extends Controller
     /**
      * Class Initialisation
      *
-     * @param int $collectionId Widget Collection Id
+     * @param null|int $collectionId Widget Collection Id
      *
      * @return bool
      */
@@ -44,7 +45,7 @@ class CollectionController extends Controller
     {
         //==============================================================================
         // Load Collection
-        $collection = $this->get("doctrine")
+        $collection = $this->getDoctrine()
             ->getManager()
             ->getRepository(WidgetCollection::class)
             ->find($collectionId);
@@ -134,16 +135,16 @@ class CollectionController extends Controller
             return new Response("Splash Widgets : Init Failed", 500);
         }
         //==============================================================================
-        // Retreive New Order from Post
+        // Retrieve New Order from Post
         $orderArray = $request->request->get("ordering");
         //==============================================================================
         // Apply
         if (!$this->collection->reorder($orderArray)) {
-            return new Response("Widget Collection ReOrder Failled", 400);
+            return new Response("Widget Collection ReOrder Failed", 400);
         }
         //==============================================================================
         // Save Changes
-        $this->getDoctrine()->getManager()->Flush();
+        $this->getDoctrine()->getManager()->flush();
 
         return new Response("Widget Collection ReOrder Done", 200);
     }
@@ -151,14 +152,21 @@ class CollectionController extends Controller
     /**
      * Update Collection Dates Preset from Ajax Request
      *
-     * @param Request $request
-     * @param int     $collectionId
-     * @param string  $preset
+     * @param Request        $request
+     * @param ManagerService $manager
+     * @param int            $collectionId
+     * @param string         $preset
+     *
+     * @throws Exception
      *
      * @return Response
      */
-    public function presetAction(Request $request, int $collectionId, string $preset = "M") : Response
-    {
+    public function presetAction(
+        Request $request,
+        ManagerService $manager,
+        int $collectionId,
+        string $preset = "M"
+    ) : Response {
         //==============================================================================
         // Init & Safety Check
         if (!$this->initialize($collectionId)) {
@@ -166,26 +174,23 @@ class CollectionController extends Controller
         }
 
         //==============================================================================
-        // Update CVollection Itself
+        // Update Collection Itself
         $this->collection->setPreset($preset);
         foreach ($this->collection->getWidgets() as $widget) {
             if (!$widget->isPreset($preset)) {
                 continue;
             }
 
-            $this
-                ->get("splash.widgets.manager")
-                ->setWidgetParameter(
-                    $this->collection->getService(),
-                    $widget->getId()."@".$this->collection->getid(),
-                    "DatePreset",
-                    $preset
-                )
-            ;
+            $manager->setWidgetParameter(
+                $this->collection->getService(),
+                $widget->getId()."@".$this->collection->getid(),
+                "DatePreset",
+                $preset
+            );
         }
         //==============================================================================
         // Save Changes
-        $this->getDoctrine()->getManager()->Flush();
+        $this->getDoctrine()->getManager()->flush();
 
         return $this->redirectToReferer($request);
     }
@@ -193,15 +198,23 @@ class CollectionController extends Controller
     /**
      * Add Widget to Collection from Ajax Request
      *
-     * @param Request $request
-     * @param int     $collectionId
-     * @param string  $service
-     * @param string  $type
+     * @param Request        $request
+     * @param ManagerService $manager
+     * @param int            $collectionId
+     * @param string         $service
+     * @param string         $type
+     *
+     * @throws Exception
      *
      * @return Response
      */
-    public function addAction(Request $request, int $collectionId, string $service, string $type) : Response
-    {
+    public function addAction(
+        Request $request,
+        ManagerService $manager,
+        int $collectionId,
+        string $service,
+        string $type
+    ) : Response {
         //==============================================================================
         // Init & Safety Check
         if (!$this->initialize($collectionId)) {
@@ -209,7 +222,7 @@ class CollectionController extends Controller
         }
         //==============================================================================
         // Load Widget
-        $widget = $this->get("splash.widgets.manager")->getWidget($service, $type);
+        $widget = $manager->getWidget($service, $type);
         if (is_null($widget)) {
             return $this->redirectToReferer($request);
         }
@@ -226,18 +239,17 @@ class CollectionController extends Controller
     /**
      * Remove Widget from Collection from Ajax Request
      *
-     * @param string $service
-     * @param string $type
+     * @param CollectionService $manager
+     * @param string            $service
+     * @param string            $type
      *
      * @return Response
      */
-    public function removeAction(string $service, string $type) : Response
+    public function removeAction(CollectionService $manager, string $service, string $type) : Response
     {
         //==============================================================================
         // Init & Safety Check
-        $manager = $this->has($service)
-                ? $this->get($service)
-                : $this->get("splash.widgets.collection");
+        $manager = $this->has($service) ? $this->get($service) : $manager;
         if (empty($manager) || !method_exists($manager, "getDefinition")) {
             return new Response("Splash Widgets : Init Failed", 500);
         }
@@ -250,7 +262,7 @@ class CollectionController extends Controller
         //==============================================================================
         // Add Widget To Collection
         $widget->getParent()->removeWidget($widget);
-        $this->getDoctrine()->getManager()->Remove($widget);
+        $this->getDoctrine()->getManager()->remove($widget);
         //==============================================================================
         // Save Changes
         $this->getDoctrine()->getManager()->Flush();

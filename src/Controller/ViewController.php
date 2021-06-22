@@ -1,9 +1,7 @@
 <?php
 
 /*
- *  This file is part of SplashSync Project.
- *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2021 BadPixxel <www.badpixxel.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,9 +13,12 @@
 
 namespace Splash\Widgets\Controller;
 
+use Exception;
 use Splash\Widgets\Entity\Widget;
 use Splash\Widgets\Entity\WidgetCache;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Splash\Widgets\Services\FactoryService;
+use Splash\Widgets\Services\ManagerService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -26,27 +27,37 @@ use Symfony\Component\HttpFoundation\Response;
  * - Delayed: Load Widget Basic infos & Ask for Ajax Rendering
  * - Ajax: Render Widget Contents from Ajax Request
  */
-class ViewController extends Controller
+class ViewController extends AbstractController
 {
     /**
      * Render Widget without Using Cache & Ajax Loading
      *
-     * @param string $service    Widget Provider Service Name
-     * @param string $type       Widget Type Name
-     * @param string $options    Widget Rendering Options
-     * @param string $parameters Widget Parameters
+     * @param ManagerService $manager
+     * @param FactoryService $factory
+     * @param string         $service    Widget Provider Service Name
+     * @param string         $type       Widget Type Name
+     * @param null|string    $options    Widget Rendering Options
+     * @param null|string    $parameters Widget Parameters
+     *
+     * @throws Exception
      *
      * @return Response
      */
-    public function forcedAction(string $service, string $type, string $options = null, string $parameters = null) : Response
-    {
+    public function forcedAction(
+        ManagerService $manager,
+        FactoryService $factory,
+        string $service,
+        string $type,
+        string $options = null,
+        string $parameters = null
+    ) : Response {
         //==============================================================================
         // Read Widget Contents
-        $widget = $this->get("splash.widgets.manager")->getWidget($service, $type, self::jsonToArray($parameters));
+        $widget = $manager->getWidget($service, $type, self::jsonToArray($parameters));
         //==============================================================================
         // Validate Widget Contents
         if (is_null($widget)) {
-            $widget = $this->get("splash.widgets.factory")->buildErrorWidget($service, $type, "An Error Occured During Widget Loading");
+            $widget = $factory->buildErrorWidget($service, $type, "An Error Occurred During Widget Loading");
         }
         //==============================================================================
         // Setup Widget Options
@@ -64,20 +75,28 @@ class ViewController extends Controller
     /**
      * Render Widget Using Cache & Ajax Loading
      *
-     * @param string $service    Widget Provider Service Name
-     * @param string $type       Widget Type Name
-     * @param string $options    Widget Rendering Options
-     * @param string $parameters Widget Parameters
+     * @param ManagerService $manager
+     * @param string         $service    Widget Provider Service Name
+     * @param string         $type       Widget Type Name
+     * @param null|string    $options    Widget Rendering Options
+     * @param null|string    $parameters Widget Parameters
+     *
+     * @throws Exception
      *
      * @return Response
      */
-    public function delayedAction(string $service, string $type, string $options = null, string $parameters = null) : Response
-    {
+    public function delayedAction(
+        ManagerService $manager,
+        string $service,
+        string $type,
+        string $options = null,
+        string $parameters = null
+    ) : Response {
         //==============================================================================
         // Load Default Widget Options
         $widgetOptions = empty($service)
             ? Widget::getDefaultOptions()
-            : $this->get("splash.widgets.manager")->getWidgetOptions($service, $type);
+            : $manager->getWidgetOptions($service, $type);
 
         //==============================================================================
         // Fetch Passed Options
@@ -92,7 +111,7 @@ class ViewController extends Controller
 
         //==============================================================================
         // Load From cache if Available
-        $cache = $this->get("splash.widgets.manager")->getCache($service, $type, $widgetOptions, $widgetParameters);
+        $cache = $manager->getCache($service, $type, $widgetOptions, $widgetParameters);
         if ($cache) {
             //==============================================================================
             // Setup Widget Options
@@ -120,22 +139,32 @@ class ViewController extends Controller
     /**
      * @abstract    Render Widget Contents
      *
-     * @param string $service    Widget Provider Service Name
-     * @param string $type       Widget Type Name
-     * @param string $options    Widget Rendering Options
-     * @param string $parameters Widget Parameters
+     * @param ManagerService $manager
+     * @param FactoryService $factory
+     * @param string         $service    Widget Provider Service Name
+     * @param string         $type       Widget Type Name
+     * @param null|string    $options    Widget Rendering Options
+     * @param null|string    $parameters Widget Parameters
+     *
+     * @throws Exception
      *
      * @return Response
      */
-    public function ajaxAction(string $service, string $type, string $options = null, string $parameters = null) : Response
-    {
+    public function ajaxAction(
+        ManagerService $manager,
+        FactoryService $factory,
+        string $service,
+        string $type,
+        string $options = null,
+        string $parameters = null
+    ) : Response {
         //==============================================================================
         // Decode Widget Parameters
         $widgetParameters = is_null($parameters)  ? array() : json_decode($parameters, true);
 
         //==============================================================================
         // Read Widget Contents
-        $widget = $this->get("splash.widgets.manager")->getWidget($service, $type, $widgetParameters);
+        $widget = $manager->getWidget($service, $type, $widgetParameters);
 
         //==============================================================================
         // Fetch Widget Options
@@ -146,7 +175,7 @@ class ViewController extends Controller
         //==============================================================================
         // Validate Widget Contents
         if (!($widget instanceof Widget)) {
-            $widget = $this->get("splash.widgets.factory")->buildErrorWidget($service, $type, "An Error Occured During Widget Loading");
+            $widget = $factory->buildErrorWidget($service, $type, "An Error Occurred During Widget Loading");
 
             return $this->render('SplashWidgetsBundle:Widget:contents.html.twig', array(
                 "WidgetId" => WidgetCache::buildDiscriminator($widgetOptions, $widgetParameters),
@@ -170,7 +199,7 @@ class ViewController extends Controller
                 "Widget" => $widget,
                 "Options" => $widgetOptions,
             ));
-            $this->get("splash.widgets.manager")->setCacheContents($widget, $contents);
+            $manager->setCacheContents($widget, $contents);
         }
 
         //==============================================================================

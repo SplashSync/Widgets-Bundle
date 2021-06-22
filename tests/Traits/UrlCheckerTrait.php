@@ -1,9 +1,7 @@
 <?php
 
 /*
- *  This file is part of SplashSync Project.
- *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2021 BadPixxel <www.badpixxel.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -128,9 +126,9 @@ trait UrlCheckerTrait
     /**
      * Verify if an Url Redirect to An Url and return Crawler
      *
-     * @param string $url
-     * @param string $target
-     * @param string $method
+     * @param string      $url
+     * @param null|string $target
+     * @param string      $method
      *
      * @return Crawler
      */
@@ -156,7 +154,8 @@ trait UrlCheckerTrait
             $this->assertEquals(
                 parse_url($response->getTargetUrl(), PHP_URL_PATH),
                 parse_url($target, PHP_URL_PATH),
-                "This Url Should Redirect to ".$target." but redirect to : ".$url." Status Code : ".$response->getStatusCode()
+                "This Url Should Redirect to ".$target
+                ." but redirect to : ".$url." Status Code : ".$response->getStatusCode()
             );
         }
 
@@ -177,7 +176,7 @@ trait UrlCheckerTrait
         $this->client->followRedirects();
         $this->client->submit($form);
         //====================================================================//
-        // Verify Submit Was Successfull
+        // Verify Submit Was Successful
         $this->client->followRedirects();
         $response = $this->client->getResponse();
         $this->assertInstanceOf(Response::class, $response);
@@ -219,15 +218,19 @@ trait UrlCheckerTrait
     /**
      * Verify if A Route Redirect to Another
      *
-     * @param string $route
-     * @param array  $parameters
-     * @param string $target
-     * @param array  $targetParams
+     * @param string      $route
+     * @param array       $parameters
+     * @param null|string $target
+     * @param array       $targetParams
      *
      * @return Crawler
      */
-    public function assertRouteRedirects(string $route, array $parameters = array(), string $target = null, array $targetParams = array())
-    {
+    public function assertRouteRedirects(
+        string $route,
+        array $parameters = array(),
+        string $target = null,
+        array $targetParams = array()
+    ): Crawler {
         $this->ensureClientIsLoaded();
 
         return $this->assertUrlRedirects(
@@ -242,6 +245,10 @@ trait UrlCheckerTrait
     private function ensureClientIsLoaded() : void
     {
         $this->assertTrue(isset($this->client), "Test Client Not Found ( this->client )");
-        $this->assertInstanceOf(Client::class, $this->client, "Invalid Test Client Not Found ( ".get_class($this->client)." )");
+        $this->assertInstanceOf(
+            Client::class,
+            $this->client,
+            "Invalid Test Client Not Found ( ".get_class($this->client)." )"
+        );
     }
 }

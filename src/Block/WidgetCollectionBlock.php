@@ -1,9 +1,7 @@
 <?php
 
 /*
- *  This file is part of SplashSync Project.
- *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2021 BadPixxel <www.badpixxel.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,7 +14,8 @@
 namespace Splash\Widgets\Block;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\ObjectRepository;
 use Exception;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\BlockContextInterface;
@@ -45,7 +44,7 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
     /**
      * Widget Collections Repository
      *
-     * @var EntityRepository
+     * @var ObjectRepository
      */
     private $repository;
 
@@ -61,9 +60,15 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
      * @param EngineInterface $templating
      * @param EntityManager   $manager
      * @param RequestStack    $requestStack
+     *
+     * @throws Exception
      */
-    public function __construct(string $name, EngineInterface $templating, EntityManager $manager, RequestStack $requestStack)
-    {
+    public function __construct(
+        string $name,
+        EngineInterface $templating,
+        EntityManager $manager,
+        RequestStack $requestStack
+    ) {
         parent::__construct($name, $templating);
 
         $this->manager = $manager;
@@ -93,7 +98,8 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
     }
 
     /**
-     * {@inheritdoc}
+     * @param FormMapper     $formMapper
+     * @param BlockInterface $block
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -112,14 +118,17 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
 
     /**
      * {@inheritdoc}
+     *
+     * @throws ORMException
      */
-    public function execute(BlockContextInterface $blockContext, Response $response = null)
+    public function execute(BlockContextInterface $blockContext, Response $response = null): ?Response
     {
         //==============================================================================
         // Get Block Settings
         $settings = $blockContext->getSettings();
         //==============================================================================
         // Load Collection from DataBase
+        /** @var null|WidgetCollection $collection */
         $collection = $this->repository->findOneBy(array("type" => $settings["collection"]));
         //==============================================================================
         // Create Collection if not found
@@ -133,13 +142,13 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
         $this->manager->flush();
         //==============================================================================
         // Is Edit Mode?
-        $edit = ($settings["editable"] & ($this->request->get("widget-edit") == $collection->getId())) ? true : false;
+        $edit = (bool)(($settings["editable"] & ($this->request->get("widget-edit") == $collection->getId())));
 
         foreach ($collection->getWidgets() as &$widget) {
             // Merge Edition Options
             $widget->mergeOptions(array(
                 "Editable" => $settings["editable"],
-                "EditMode" => (($this->request->get("widget-edit") == $collection->getId()) ? true : false),
+                "EditMode" => $this->request->get("widget-edit") == $collection->getId(),
             ));
             // Merge Global Options
             $widget->mergeOptions($settings["options"]);
@@ -160,10 +169,16 @@ class WidgetCollectionBlock extends AbstractAdminBlockService
     /**
      * {@inheritdoc}
      */
-    public function getBlockMetadata($code = null)
+    public function getBlockMetadata($code = null): Metadata
     {
-        return new Metadata($this->getName(), (!is_null($code) ? $code : $this->getName()), null, 'SplashWidgetsBundle', array(
-            'class' => 'fa fa-television',
-        ));
+        return new Metadata(
+            $this->getName(),
+            (!is_null($code) ? $code : $this->getName()),
+            null,
+            'SplashWidgetsBundle',
+            array(
+                'class' => 'fa fa-television',
+            )
+        );
     }
 }

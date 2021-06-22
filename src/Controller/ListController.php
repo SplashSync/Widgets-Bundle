@@ -1,9 +1,7 @@
 <?php
 
 /*
- *  This file is part of SplashSync Project.
- *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2021 BadPixxel <www.badpixxel.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,13 +13,15 @@
 
 namespace Splash\Widgets\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Exception;
+use Splash\Widgets\Services\ManagerService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Build & Display Lists of Avaimlable Widgets
+ * Build & Display Lists of Available Widgets
  */
-class ListController extends Controller
+class ListController extends AbstractController
 {
     /**
      * Class Initialization
@@ -29,7 +29,7 @@ class ListController extends Controller
      *
      * @return bool
      */
-    public function initialize()
+    public function initialize(): bool
     {
         return true;
     }
@@ -41,12 +41,15 @@ class ListController extends Controller
     /**
      * Render List of Collection Available Widgets
      *
-     * @param int    $collectionId Widgets Collection Identifier
-     * @param string $channel      Widgets Listening Channel Name
+     * @param ManagerService $manager
+     * @param int            $collectionId Widgets Collection Identifier
+     * @param string         $channel      Widgets Listening Channel Name
+     *
+     * @throws Exception
      *
      * @return Response
      */
-    public function panelAction(int $collectionId, string $channel) : Response
+    public function panelAction(ManagerService $manager, int $collectionId, string $channel) : Response
     {
         //==============================================================================
         // Init & Safety Check
@@ -55,7 +58,7 @@ class ListController extends Controller
         }
         //==============================================================================
         // Read List of Available Widgets & Prepare Response Array
-        $params = $this->prepare($collectionId, $channel);
+        $params = $this->prepare($manager, $collectionId, $channel);
         //==============================================================================
         // Render Panel List
         return $this->render('SplashWidgetsBundle:List:panel.html.twig', $params);
@@ -68,12 +71,15 @@ class ListController extends Controller
     /**
      * Render Modal List of Collection available Widgets
      *
-     * @param int    $collectionId Widgets Collection Identifier
-     * @param string $channel      Widgets Listening Channel Name
+     * @param ManagerService $manager
+     * @param int            $collectionId Widgets Collection Identifier
+     * @param string         $channel      Widgets Listening Channel Name
+     *
+     * @throws Exception
      *
      * @return Response
      */
-    public function modalAction(int $collectionId, string $channel) : Response
+    public function modalAction(ManagerService $manager, int $collectionId, string $channel) : Response
     {
         //==============================================================================
         // Init & Safety Check
@@ -82,7 +88,7 @@ class ListController extends Controller
         }
         //==============================================================================
         // Import Form Data & Prepare Data for Form Display
-        $params = $this->prepare($collectionId, $channel);
+        $params = $this->prepare($manager, $collectionId, $channel);
         //==============================================================================
         //Render Modal List
         return $this->render('SplashWidgetsBundle:List:modal.html.twig', $params);
@@ -91,16 +97,19 @@ class ListController extends Controller
     /**
      * Read List of Available Widgets & Prepare Response Array
      *
-     * @param int    $collectionId Widgets Collection Identifier
-     * @param string $channel      Widgets Listening Channel Name
+     * @param ManagerService $manager
+     * @param int            $collectionId Widgets Collection Identifier
+     * @param string         $channel      Widgets Listening Channel Name
+     *
+     * @throws Exception
      *
      * @return array
      */
-    private function prepare(int $collectionId, string $channel) : array
+    private function prepare(ManagerService $manager, int $collectionId, string $channel) : array
     {
         //==============================================================================
         // Get List of Widgets
-        $widgets = $this->get("splash.widgets.manager")->getList("splash.widgets.list.".$channel);
+        $widgets = $manager->getList("splash.widgets.list.".$channel);
 
         //==============================================================================
         // Prepare Tabs List

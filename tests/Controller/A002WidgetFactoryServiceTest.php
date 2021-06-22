@@ -1,9 +1,7 @@
 <?php
 
 /*
- *  This file is part of SplashSync Project.
- *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2021 BadPixxel <www.badpixxel.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,12 +13,14 @@
 
 namespace Splash\Widgets\Tests\Controller;
 
+use Exception;
 use Splash\Widgets\Models\Blocks\BaseBlock;
 use Splash\Widgets\Models\WidgetBase as Widget;
 use Splash\Widgets\Services\FactoryService;
 use Splash\Widgets\Services\ManagerService;
 use Splash\Widgets\Tests\Blocks\Test;
 use Splash\Widgets\Tests\Services\SamplesFactoryService as SamplesFactory;
+use Splash\Widgets\Tests\Traits\ContainerAwareTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
@@ -28,7 +28,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  */
 class A002WidgetFactoryServiceTest extends KernelTestCase
 {
-    use \Splash\Widgets\Tests\Traits\ContainerAwareTrait;
+    use ContainerAwareTrait;
 
     /**
      * {@inheritDoc}
@@ -40,6 +40,8 @@ class A002WidgetFactoryServiceTest extends KernelTestCase
 
     /**
      * Check Factory Class
+     *
+     * @throws Exception
      */
     public function testFactoryClass() : void
     {
@@ -50,6 +52,8 @@ class A002WidgetFactoryServiceTest extends KernelTestCase
 
     /**
      * Check Factory Functions
+     *
+     * @throws Exception
      */
     public function testFactoryCreateProcess() : void
     {
@@ -72,7 +76,7 @@ class A002WidgetFactoryServiceTest extends KernelTestCase
             ->setName(Test::TITLE)
             ->setDescription(Test::DESCRIPTION)
             ->setOrigin(SamplesFactory::ORIGIN)
-            ;
+        ;
 
         //====================================================================//
         // Check Widget
@@ -87,6 +91,8 @@ class A002WidgetFactoryServiceTest extends KernelTestCase
 
     /**
      * Check Factory Functions
+     *
+     * @throws Exception
      */
     public function testFactoryWidgetOptions() : void
     {
@@ -131,7 +137,7 @@ class A002WidgetFactoryServiceTest extends KernelTestCase
                 "Editable" => true,
                 "EditMode" => true,
             ))
-            ;
+        ;
 
         //====================================================================//
         // Check Widget
@@ -157,6 +163,8 @@ class A002WidgetFactoryServiceTest extends KernelTestCase
      * @dataProvider blocksNamesProvider
      *
      * @param string $name
+     *
+     * @throws Exception
      */
     public function testFactoryWidgetBlocks(string $name) : void
     {
@@ -175,6 +183,7 @@ class A002WidgetFactoryServiceTest extends KernelTestCase
         //====================================================================//
         // Check Block
         $this->assertInstanceOf(BaseBlock::class, $block);
+        $this->assertTrue(class_exists($blockClassName));
         $this->assertInstanceOf($blockClassName, $block);
 
         //====================================================================//

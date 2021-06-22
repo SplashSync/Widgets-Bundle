@@ -1,9 +1,7 @@
 <?php
 
 /*
- *  This file is part of SplashSync Project.
- *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2021 BadPixxel <www.badpixxel.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -18,6 +16,7 @@ namespace Splash\Widgets\Models\Traits;
 use ArrayObject;
 use DateTime;
 use Doctrine\ORM\Mapping                        as ORM;
+use Exception;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -168,11 +167,15 @@ trait OptionsTrait
     /**
      * Get Widget Max Cache Date
      *
+     * @throws Exception
+     *
      * @return DateTime
      */
     public function getCacheMaxDate() : DateTime
     {
-        if (!isset($this->options['UseCache']) || !isset($this->options['CacheLifeTime']) || !$this->options['UseCache']) {
+        if (!isset($this->options['UseCache'])
+            || !isset($this->options['CacheLifeTime'])
+            || !$this->options['UseCache']) {
             return new DateTime();
         }
 
@@ -275,7 +278,7 @@ trait OptionsTrait
             'Border' => true,
             'DatePreset' => "M",
             'UseCache' => true,
-            'CacheLifeTime' => 10,
+            'CacheLifeTime' => 120,
             'Editable' => false,
             'EditMode' => false,
         );

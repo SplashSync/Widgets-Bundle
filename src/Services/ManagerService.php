@@ -1,9 +1,7 @@
 <?php
 
 /*
- *  This file is part of SplashSync Project.
- *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2021 BadPixxel <www.badpixxel.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,6 +13,7 @@
 
 namespace Splash\Widgets\Services;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use ReflectionException;
 use ReflectionMethod;
@@ -37,9 +36,9 @@ class ManagerService
     //  GENERIC WIDGETS LISTING TAGS
     //====================================================================//
 
-    const ALL_WIDGETS = "splash.widgets.list.all";          // All Common Widgtets
+    const ALL_WIDGETS = "splash.widgets.list.all";          // All Common Widgets
     const USER_WIDGETS = "splash.widgets.list.user";        // All End User Widgets
-    const ADMIN_WIDGETS = "splash.widgets.list.admin";      // Administartor Widgets
+    const ADMIN_WIDGETS = "splash.widgets.list.admin";      // Administrator Widgets
     const STATS_WIDGETS = "splash.widgets.list.stats";      // Statistics Widgets
     const DEMO_WIDGETS = "splash.widgets.list.demo";        // Demo Widgets (Internal)
     const TEST_WIDGETS = "splash.widgets.list.test";        // Test Widgets (PhpUnit Only)
@@ -74,6 +73,13 @@ class ManagerService
     private $dispatcher;
 
     /**
+     * Symfony Entity Manager
+     *
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    /**
      * WidgetInterface Service
      *
      * @var WidgetProviderInterface
@@ -99,20 +105,28 @@ class ManagerService
     /**
      * Class Constructor
      *
+     * @param EntityManagerInterface   $doctrine
      * @param ContainerInterface       $serviceContainer
      * @param EventDispatcherInterface $eventDispatcher
-     * @param WidgetCacheRepository    $cacheRep
      */
-    public function __construct(ContainerInterface $serviceContainer, EventDispatcherInterface $eventDispatcher, WidgetCacheRepository $cacheRep)
-    {
+    public function __construct(
+        EntityManagerInterface $doctrine,
+        ContainerInterface $serviceContainer,
+        EventDispatcherInterface $eventDispatcher
+    ) {
         //====================================================================//
         // Link to Service Container
         $this->container = $serviceContainer;
+        //====================================================================//
+        // Link to Entity Manager
+        $this->entityManager = $doctrine;
         //====================================================================//
         // Link to Event Dispatcher Services
         $this->dispatcher = $eventDispatcher;
         //====================================================================//
         // Link to Widgets Cache Repository
+        /** @var WidgetCacheRepository $cacheRep */
+        $cacheRep = $doctrine->getRepository(WidgetCache::class);
         $this->cacheRep = $cacheRep;
     }
 
@@ -190,6 +204,8 @@ class ManagerService
      * @param string $type       Widget Type Name
      * @param array  $parameters Override Widget $Parameters
      *
+     * @throws Exception
+     *
      * @return null|Widget
      */
     public function getWidget(string $service, string $type, array $parameters = array()) : ?Widget
@@ -209,6 +225,8 @@ class ManagerService
      *
      * @param string $service Widget Provider Service Name
      * @param string $type    Widget Type Name
+     *
+     * @throws Exception
      *
      * @return array
      */
@@ -232,11 +250,13 @@ class ManagerService
      * @param string $type    Widgets Type Identifier
      * @param array  $options Updated Options
      *
+     * @throws Exception
+     *
      * @return bool
      */
     public function setWidgetOptions(string $service, string $type, array $options) : bool
     {
-        if (!$this->Connect($service)) {
+        if (!$this->connect($service)) {
             return false;
         }
         if ($this->service->setWidgetOptions($type, $options)) {
@@ -252,11 +272,13 @@ class ManagerService
      * @param string $service Widget Provider Service Name
      * @param string $type    Widget Type Name
      *
-     * @return Array
+     * @throws Exception
+     *
+     * @return array
      */
     public function getWidgetParameters(string $service, string $type): array
     {
-        if (!$this->Connect($service)) {
+        if (!$this->connect($service)) {
             return array();
         }
         $parameters = $this->service->getWidgetParameters($type);
@@ -274,11 +296,13 @@ class ManagerService
      * @param string $type       Widgets Type Identifier
      * @param array  $parameters Updated Parameters
      *
+     * @throws Exception
+     *
      * @return bool
      */
     public function setWidgetParameters(string $service, string $type, array $parameters) : bool
     {
-        if (!$this->Connect($service)) {
+        if (!$this->connect($service)) {
             return false;
         }
         if ($this->service->setWidgetParameters($type, $parameters)) {
@@ -295,6 +319,8 @@ class ManagerService
      * @param string $type    Widgets Type Identifier
      * @param string $key     Parameter Key
      * @param mixed  $value   Parameter Value
+     *
+     * @throws Exception
      *
      * @return bool
      */
@@ -314,6 +340,8 @@ class ManagerService
      * @param FormBuilderInterface $builder
      * @param string               $service Widget Provider Service Name
      * @param string               $type    Widgets Type Identifier
+     *
+     * @throws Exception
      *
      * @return bool
      */
@@ -337,6 +365,8 @@ class ManagerService
      * Get Widgets List
      *
      * @param string $mode
+     *
+     * @throws Exception
      *
      * @return array
      */
@@ -375,16 +405,21 @@ class ManagerService
      * @param array  $options    Widget Options Array
      * @param array  $parameters Widget Parameters Array
      *
+     * @throws Exception
+     *
      * @return null|WidgetCache
      */
-    public function getCache(string $service, string $type, array $options = array(), array $parameters = array()) : ?WidgetCache
-    {
-        return     $this->cacheRep
-            ->findCached(
-                $service,
-                $type,
-                WidgetCache::buildDiscriminator($options, $parameters)
-            );
+    public function getCache(
+        string $service,
+        string $type,
+        array $options = array(),
+        array $parameters = array()
+    ) : ?WidgetCache {
+        return     $this->cacheRep->findCached(
+            $service,
+            $type,
+            WidgetCache::buildDiscriminator($options, $parameters)
+        );
     }
 
     /**
@@ -392,17 +427,17 @@ class ManagerService
      *
      * @param Widget $widget   Widget Object
      * @param string $contents Widget Raw Contents
+     *
+     * @throws Exception
      */
     public function setCacheContents(Widget $widget, string $contents) : void
     {
-        //====================================================================//
-        // Load Entity Manager
-        $entityManager = $this->container->get('doctrine')->getManager();
         //====================================================================//
         // Build Discriminator
         $discriminator = WidgetCache::buildDiscriminator($widget->getOptions(), $widget->getParameters());
         //====================================================================//
         // Load Widget Cache Object
+        /** @var null|WidgetCache $cache */
         $cache = $this->cacheRep
             ->findOneBy(array(
                 "service" => $widget->getService(),
@@ -413,7 +448,7 @@ class ManagerService
         // No Exists => Create Cache Object
         if (!$cache) {
             $cache = new WidgetCache($widget);
-            $entityManager->persist($cache);
+            $this->entityManager->persist($cache);
         }
         //====================================================================//
         // Setup Cache Object
@@ -427,7 +462,7 @@ class ManagerService
             ->setExpireAt($widget->getCacheMaxDate());
         //====================================================================//
         // Flush Entity Manager
-        $entityManager->flush();
+        $this->entityManager->flush();
     }
 
     /**

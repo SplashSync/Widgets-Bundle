@@ -1,9 +1,7 @@
 <?php
 
 /*
- *  This file is part of SplashSync Project.
- *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2021 BadPixxel <www.badpixxel.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -84,17 +82,21 @@ class SamplesFactoryService implements WidgetProviderInterface
     /**
      * Build Sample Widgets Definitions
      *
-     * @param string $type
-     * @param string $name
-     * @param string $desc
-     * @param array  $options
+     * @param string      $type
+     * @param null|string $name
+     * @param null|string $desc
+     * @param array       $options
      *
      * @return FactoryService
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function buildWidgetDefinition(string $type, string $name = null, string $desc = null, array $options = array()) : FactoryService
-    {
+    public function buildWidgetDefinition(
+        string $type,
+        string $name = null,
+        string $desc = null,
+        array $options = array()
+    ) : FactoryService {
         $blockClass = static::PREFIX.$type;
 
         if (class_exists($blockClass)) {

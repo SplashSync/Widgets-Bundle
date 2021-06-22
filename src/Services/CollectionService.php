@@ -1,9 +1,7 @@
 <?php
 
 /*
- *  This file is part of SplashSync Project.
- *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2021 BadPixxel <www.badpixxel.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,9 +13,11 @@
 
 namespace Splash\Widgets\Services;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 use Exception;
 use Splash\Widgets\Entity\Widget;
+use Splash\Widgets\Entity\WidgetCollection;
 use Splash\Widgets\Models\Interfaces\WidgetProviderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -37,9 +37,16 @@ class CollectionService implements WidgetProviderInterface
     /**
      * Widgets Collections Repository
      *
-     * @var EntityRepository
+     * @var ObjectRepository
      */
     private $repository;
+
+    /**
+     * Symfony Entity Manager
+     *
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
 
     /**
      * Service Container
@@ -51,7 +58,7 @@ class CollectionService implements WidgetProviderInterface
     /**
      * Widget Collection
      *
-     * @var \Splash\Widgets\Entity\WidgetCollection
+     * @var WidgetCollection
      */
     private $collection;
 
@@ -62,20 +69,24 @@ class CollectionService implements WidgetProviderInterface
     /**
      * Class Constructor
      *
-     * @param FactoryService     $widgetFactory
-     * @param EntityRepository   $repository
-     * @param ContainerInterface $container
+     * @param EntityManagerInterface $doctrine
+     * @param FactoryService         $widgetFactory
+     * @param ContainerInterface     $container
      */
-    public function __construct(FactoryService $widgetFactory, EntityRepository $repository, ContainerInterface $container)
-    {
+    public function __construct(
+        EntityManagerInterface $doctrine,
+        FactoryService $widgetFactory,
+        ContainerInterface $container
+    ) {
         //====================================================================//
         // Link to WidgetFactory Service
         $this->factory = $widgetFactory;
         //====================================================================//
-        // Link to Service Container
+        // Link to Entity Manager
+        $this->entityManager = $doctrine;
         //====================================================================//
         // Link to Widget Repository
-        $this->repository = $repository;
+        $this->repository = $doctrine->getRepository(WidgetCollection::class);
         //====================================================================//
         // Link to Service Container
         $this->container = $container;
@@ -98,7 +109,9 @@ class CollectionService implements WidgetProviderInterface
         }
         //====================================================================//
         // Load Widget Collection
-        $this->collection = $this->repository->find($widgetId[1]);
+        /** @var WidgetCollection $collection */
+        $collection = $this->repository->find($widgetId[1]);
+        $this->collection = $collection;
         //====================================================================//
         // Load Widget Definition from Collection
         return $this->collection->getWidget($widgetId[0]);
@@ -107,8 +120,8 @@ class CollectionService implements WidgetProviderInterface
     /**
      * Read Widget Contents
      *
-     * @param string $type       Widgets Type Identifier
-     * @param array  $parameters Widget Parameters
+     * @param string     $type       Widgets Type Identifier
+     * @param null|array $parameters Widget Parameters
      *
      * @return null|Widget
      */
@@ -118,18 +131,30 @@ class CollectionService implements WidgetProviderInterface
         // Load Widget Definition
         $definition = $this->getDefinition($type);
         if (!$definition) {
-            return $this->factory->buildErrorWidget("Collections", $type, "Unable to Find Widget Definition");
+            return $this->factory->buildErrorWidget(
+                "Collections",
+                $type,
+                "Unable to Find Widget Definition"
+            );
         }
         //==============================================================================
         // Load Widget Provider Service
         if (!$this->container->has($definition->getService())) {
-            return $this->factory->buildErrorWidget($definition->getService(), $type, "Unable to Load Widget Provider");
+            return $this->factory->buildErrorWidget(
+                $definition->getService(),
+                $type,
+                "Unable to Load Widget Provider"
+            );
         }
         //==============================================================================
         // Load Widget Provider Service
         $sfService = $this->container->get($definition->getService());
         if (!($sfService instanceof WidgetProviderInterface)) {
-            return $this->factory->buildErrorWidget($definition->getService(), $type, "Unable to Load Widget Provider");
+            return $this->factory->buildErrorWidget(
+                $definition->getService(),
+                $type,
+                "Unable to Load Widget Provider"
+            );
         }
         //==============================================================================
         // Load Widget Parameters
@@ -142,15 +167,19 @@ class CollectionService implements WidgetProviderInterface
         //==============================================================================
         // Validate Widget Contents
         if (empty($widget) || !($widget instanceof Widget)) {
-            $widget = $this->factory->buildErrorWidget($definition->getService(), $type, "An Error Occured During Widget Loading");
+            $widget = $this->factory->buildErrorWidget(
+                $definition->getService(),
+                $type,
+                "An Error Occurred During Widget Loading"
+            );
         }
         //==============================================================================
-        // Overide Widget Options
+        // Override Widget Options
         if (!empty($definition->getOptions())) {
             $widget->setOptions($definition->getOptions());
         }
         //==============================================================================
-        // Overide Widget Service & Type
+        // Override Widget Service & Type
         $widget->setService($this->collection->getService());
         $widget->setType($type);
 
@@ -195,7 +224,7 @@ class CollectionService implements WidgetProviderInterface
         //==============================================================================
         // Update Widget Options
         $definition->setOptions($options);
-        $this->container->get("doctrine")->getManager()->flush();
+        $this->entityManager->flush();
 
         return true;
     }
@@ -237,7 +266,7 @@ class CollectionService implements WidgetProviderInterface
         }
 
         $definition->setParameters($parameters);
-        $this->container->get("doctrine")->getManager()->flush();
+        $this->entityManager->flush();
 
         return true;
     }
@@ -247,6 +276,8 @@ class CollectionService implements WidgetProviderInterface
      *
      * @param FormBuilderInterface $builder
      * @param string               $type    Widgets Type Identifier
+     *
+     * @throws Exception
      */
     public function populateWidgetForm(FormBuilderInterface $builder, string $type) : void
     {

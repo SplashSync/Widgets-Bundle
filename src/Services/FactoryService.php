@@ -1,9 +1,7 @@
 <?php
 
 /*
- *  This file is part of SplashSync Project.
- *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2021 BadPixxel <www.badpixxel.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -21,6 +19,22 @@ use Splash\Widgets\Models\Blocks\BaseBlock;
 
 /**
  * Widget Factory Service
+ *
+ * @method self setService(string $service)
+ * @method self setType(string $type)
+ * @method self setTitle(string $title)
+ * @method self setName(string $name)
+ * @method self setHeader(bool $header)
+ * @method self setFooter(bool $footer)
+ * @method self setIcon(string $icon)
+ * @method self setDescription(string $description)
+ * @method self setOrigin(string $origin)
+ * @method self setWidth(string $width)
+ * @method self setError(string $width)
+ * @method self setOptions(array $options)
+ * @method self mergeOptions(array $options)
+ * @method self setParameters(array $parameters)
+ * @method self end()
  */
 class FactoryService
 {
@@ -91,8 +105,8 @@ class FactoryService
     /**
      * Create New Widget
      *
-     * @param array $options
-     * @param array $contents
+     * @param null|array $options
+     * @param null|array $contents
      *
      * @return $this
      */
@@ -175,9 +189,9 @@ class FactoryService
     /**
      * Add New Block to Widget
      *
-     * @param string $type
-     * @param array  $options
-     * @param array  $contents
+     * @param string     $type
+     * @param null|array $options
+     * @param null|array $contents
      *
      * @return BaseBlock
      */

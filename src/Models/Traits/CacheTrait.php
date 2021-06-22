@@ -1,9 +1,7 @@
 <?php
 
 /*
- *  This file is part of SplashSync Project.
- *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2021 BadPixxel <www.badpixxel.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -21,8 +19,6 @@ use Splash\Widgets\Entity\Widget;
 
 /**
  * Widget Cache Access Trait - Define access to a Widget Cached Informations
- *
- * @author Bernard Paquier <pro@bernard-paquier.fr>
  */
 trait CacheTrait
 {
@@ -125,7 +121,7 @@ trait CacheTrait
     //==============================================================================
 
     /**
-     * Build Widget Disctriminator
+     * Build Widget Discriminator
      *
      * @param array $options    Widget Options Array
      * @param array $parameters Widget Parameters Array
@@ -142,7 +138,7 @@ trait CacheTrait
     //==============================================================================
 
     /**
-     * Set Widget Disctriminator
+     * Set Widget Discriminator
      *
      * @param string $discriminator
      *
@@ -156,7 +152,7 @@ trait CacheTrait
     }
 
     /**
-     * @abstract    Get Widget Disctriminator
+     *     Get Widget Discriminator
      *
      * @return string
      */
@@ -166,13 +162,13 @@ trait CacheTrait
     }
 
     /**
-     * @abstract    Set Widget Cached Contents
+     *     Set Widget Cached Contents
      *
      * @param string $contents
      *
      * @return self
      */
-    public function setContents($contents) : self
+    public function setContents(string $contents) : self
     {
         $this->contents = base64_encode($contents);
 
@@ -180,7 +176,7 @@ trait CacheTrait
     }
 
     /**
-     * @abstract    Get Widget Cached Contents
+     *     Get Widget Cached Contents
      *
      * @return string
      */
@@ -196,7 +192,7 @@ trait CacheTrait
      *
      * @return $this
      */
-    public function setRefreshAt($refreshAt = null) : self
+    public function setRefreshAt(DateTime $refreshAt = null) : self
     {
         $this->refreshAt = $refreshAt ? $refreshAt : new DateTime();
 

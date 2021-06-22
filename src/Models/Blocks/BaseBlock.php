@@ -1,9 +1,7 @@
 <?php
 
 /*
- *  This file is part of SplashSync Project.
- *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2021 BadPixxel <www.badpixxel.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -24,7 +22,31 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Widget Content Model
  *
- * @author Bernard Paquier <pro@bernard-paquier.fr>
+ * @method self setTitle(string $title)
+ * @method self setText(string $text)
+ * @method self setFaIcon(string $faIcon)
+ * @method self setGlyphIcon(string $glyphIcon)
+ * @method self setParameters(array $values)
+ * @method self setError(string $error)
+ * @method self setWarning(string $warning)
+ * @method self setInfo(string $info)
+ * @method self setSuccess(string $message)
+ *
+ * Table Blocks
+ * @method self addRow(array $columns)
+ * @method self setValue(string $value)
+ * @method self setValues(array $values)
+ *
+ * SparkInfos
+ * @method self setSeparator(bool $hasSeparator)
+ * @method self setChart(array $values)
+ * @method self setPie(array $values)
+ *
+ * Morris Charts
+ * @method self setDataSet(array $dataSet)
+ * @method self setLabels(array $data)
+ * @method self setYKeys(array $data)
+ * @method self setChartOptions(array $data)
  */
 class BaseBlock
 {
@@ -51,7 +73,7 @@ class BaseBlock
 
     /**
      * Define Standard Options for this Widget Block
-     * Uncomment to override défault options
+     * Uncomment to override default options
      *
      * @var array
      */
@@ -229,9 +251,9 @@ class BaseBlock
     /**
      * Get Widget Contents Block Options
      *
-     * @return Array
+     * @return array
      */
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->options;
     }

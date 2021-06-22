@@ -1,9 +1,7 @@
 <?php
 
 /*
- *  This file is part of SplashSync Project.
- *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2021 BadPixxel <www.badpixxel.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -58,15 +56,39 @@ class B002EditControllerTest extends WebTestCase
 
         //====================================================================//
         // Verify Form is Here
-        $this->assertEquals(1, $crawler->filterXpath('//*[@name="splash_widgets_settings_form"]')->count());
-        $this->assertEquals(1, $crawler->filterXpath('//*[@id="splash_widgets_settings_form_options_Width"]')->count());
-        $this->assertEquals(1, $crawler->filterXpath('//*[@id="splash_widgets_settings_form_options_Color"]')->count());
-        $this->assertEquals(1, $crawler->filterXpath('//*[@name="splash_widgets_settings_form[options][Header]"]')->count());
-        $this->assertEquals(1, $crawler->filterXpath('//*[@name="splash_widgets_settings_form[options][Footer]"]')->count());
-        $this->assertEquals(1, $crawler->filterXpath('//*[@name="splash_widgets_settings_form[options][UseCache]"]')->count());
+        $this->assertEquals(
+            1,
+            $crawler->filterXpath('//*[@name="splash_widgets_settings_form"]')->count()
+        );
+        $this->assertEquals(
+            1,
+            $crawler->filterXpath('//*[@id="splash_widgets_settings_form_options_Width"]')->count()
+        );
+        $this->assertEquals(
+            1,
+            $crawler->filterXpath('//*[@id="splash_widgets_settings_form_options_Color"]')->count()
+        );
+        $this->assertEquals(
+            1,
+            $crawler->filterXpath('//*[@name="splash_widgets_settings_form[options][Header]"]')->count()
+        );
+        $this->assertEquals(
+            1,
+            $crawler->filterXpath('//*[@name="splash_widgets_settings_form[options][Footer]"]')->count()
+        );
+        $this->assertEquals(
+            1,
+            $crawler->filterXpath('//*[@name="splash_widgets_settings_form[options][UseCache]"]')->count()
+        );
 
-        $this->assertEquals(1, $crawler->filterXpath('//*[@id="splash_widgets_settings_form_parameters"]')->count());
-        $this->assertEquals(1, $crawler->filterXpath('//*[@id="splash_widgets_settings_form_parameters_DatePreset"]')->count());
+        $this->assertEquals(
+            1,
+            $crawler->filterXpath('//*[@id="splash_widgets_settings_form_parameters"]')->count()
+        );
+        $this->assertEquals(
+            1,
+            $crawler->filterXpath('//*[@id="splash_widgets_settings_form_parameters_DatePreset"]')->count()
+        );
     }
 
     /**

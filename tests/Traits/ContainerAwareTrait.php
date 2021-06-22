@@ -1,9 +1,7 @@
 <?php
 
 /*
- *  This file is part of SplashSync Project.
- *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2021 BadPixxel <www.badpixxel.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,6 +13,7 @@
 
 namespace Splash\Widgets\Tests\Traits;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
 use Splash\Widgets\Services\FactoryService;
@@ -72,7 +71,9 @@ trait ContainerAwareTrait
     protected function getEntityManager() : ObjectManager
     {
         if (!isset($this->entityManager)) {
-            $this->entityManager = $this->getContainer()->get('doctrine')->getManager();
+            /** @var Registry $registry */
+            $registry = $this->getContainer()->get('doctrine');
+            $this->entityManager = $registry->getManager();
             if (!($this->entityManager instanceof ObjectManager)) {
                 throw new Exception("Unable to Load Entity Manager Service");
             }
@@ -91,10 +92,11 @@ trait ContainerAwareTrait
     protected function getManager() : ManagerService
     {
         if (!isset($this->manager)) {
-            $this->manager = $this->getContainer()->get('splash.widgets.manager');
-            if (!($this->manager instanceof ManagerService)) {
+            $manager = $this->getContainer()->get('splash.widgets.manager');
+            if (!($manager instanceof ManagerService)) {
                 throw new Exception("Unable to Load Widget Manager Service");
             }
+            $this->manager = $manager;
         }
 
         return $this->manager;

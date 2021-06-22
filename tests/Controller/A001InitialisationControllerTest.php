@@ -1,9 +1,7 @@
 <?php
 
 /*
- *  This file is part of SplashSync Project.
- *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2021 BadPixxel <www.badpixxel.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -97,8 +95,15 @@ class A001InitialisationControllerTest extends KernelTestCase
     public function testEnvironements(string $environement) : void
     {
         //====================================================================//
-        // Create Process
-        $process = new Process("php bin/console debug:router --no-debug --env=".$environement);
+        // Create Command
+        $command = "php bin/console debug:router --no-debug --env=".$environement;
+        //====================================================================//
+        // Execute Test (SF 3&4 Versions)
+        try {
+            $process = Process::fromShellCommandline($command);
+        } catch (\Error $exception) {
+            $process = new Process($command);
+        }
 
         //====================================================================//
         // Clean Working Dir
@@ -122,7 +127,7 @@ class A001InitialisationControllerTest extends KernelTestCase
     }
 
     /**
-     * Tested Environements Codes Provider
+     * Tested Environments Codes Provider
      *
      * @return array
      */

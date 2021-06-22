@@ -30,6 +30,8 @@
     
     "require": {
         "php":                                          "~7.2",
+        "ext-json":                                     "*",
+
         "symfony/monolog-bundle":                       "^2.0|^3.0",
         
         "doctrine/orm":                                 "^2.5",
@@ -55,24 +57,8 @@
         
         "splash/php-bundle":                            "dev-master",
         "splash/console":                               "dev-master",
-        
-        "composer/composer":                            "^1.5",
-        "j13k/yaml-lint":                               "^1.1",
-        "jakub-onderka/php-parallel-lint":              "^1.0",
-        "phpmd/phpmd":                                  "*",
-        "phpro/grumphp":                                "^0.16",
-        "sclable/xml-lint":                             "^0.2.4",
-        "sebastian/phpcpd":                             ">3.0",
-        "seld/jsonlint":                                "^1.7",
-        "sensiolabs/security-checker":                  "*",
-        "squizlabs/php_codesniffer":                    "^3.2",
-        "escapestudios/symfony2-coding-standard":       "^3.4",
-        "friendsofphp/php-cs-fixer":                    "*",        
-        
-        "phpstan/phpstan":                              "^0.12",
-        "phpstan/phpstan-doctrine":                     "^0.12",
-        "phpstan/phpstan-phpunit":                      "^0.12",
-        "phpstan/phpstan-symfony":                      "^0.12"        
+
+        "badpixxel/php-sdk":                            "dev-main"
     },
     
     "scripts": {

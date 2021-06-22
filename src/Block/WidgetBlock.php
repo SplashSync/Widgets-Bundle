@@ -1,9 +1,7 @@
 <?php
 
 /*
- *  This file is part of SplashSync Project.
- *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2021 BadPixxel <www.badpixxel.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,6 +13,7 @@
 
 namespace Splash\Widgets\Block;
 
+use Exception;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractAdminBlockService;
@@ -56,8 +55,12 @@ class WidgetBlock extends AbstractAdminBlockService
      * @param ManagerService  $widgetsManager
      * @param FactoryService  $widgetFactory
      */
-    public function __construct(string $name, EngineInterface $templating, ManagerService $widgetsManager, FactoryService $widgetFactory)
-    {
+    public function __construct(
+        string $name,
+        EngineInterface $templating,
+        ManagerService $widgetsManager,
+        FactoryService $widgetFactory
+    ) {
         parent::__construct($name, $templating);
 
         $this->manager = $widgetsManager;
@@ -93,8 +96,10 @@ class WidgetBlock extends AbstractAdminBlockService
 
     /**
      * {@inheritdoc}
+     *
+     * @throws Exception
      */
-    public function execute(BlockContextInterface $blockContext, Response $response = null)
+    public function execute(BlockContextInterface $blockContext, Response $response = null): ?Response
     {
         //==============================================================================
         // Get Block Settings
@@ -102,11 +107,17 @@ class WidgetBlock extends AbstractAdminBlockService
 
         //==============================================================================
         // Merge Passed Rendering Options to Widget Options
-        $options = array_merge($this->manager->getWidgetOptions($settings["service"], $settings["type"]), $settings["options"]);
+        $options = array_merge(
+            $this->manager->getWidgetOptions($settings["service"], $settings["type"]),
+            $settings["options"]
+        );
 
         //==============================================================================
         // Merge Passed Parameters
-        $parameters = array_merge($this->manager->getWidgetParameters($settings["service"], $settings["type"]), $settings["parameters"]);
+        $parameters = array_merge(
+            $this->manager->getWidgetParameters($settings["service"], $settings["type"]),
+            $settings["parameters"]
+        );
 
         //==============================================================================
         // Render Response
@@ -121,10 +132,16 @@ class WidgetBlock extends AbstractAdminBlockService
     /**
      * {@inheritdoc}
      */
-    public function getBlockMetadata($code = null)
+    public function getBlockMetadata($code = null): Metadata
     {
-        return new Metadata($this->getName(), (!is_null($code) ? $code : $this->getName()), null, 'SplashWidgetsBundle', array(
-            'class' => 'fa fa-television',
-        ));
+        return new Metadata(
+            $this->getName(),
+            (!is_null($code) ? $code : $this->getName()),
+            null,
+            'SplashWidgetsBundle',
+            array(
+                'class' => 'fa fa-television',
+            )
+        );
     }
 }

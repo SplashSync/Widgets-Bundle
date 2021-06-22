@@ -3,14 +3,15 @@ includes:
 	- ../../vendor/phpstan/phpstan-doctrine/extension.neon
 	- ../../vendor/phpstan/phpstan-symfony/extension.neon
 parameters:
-        bootstrap: "%currentWorkingDirectory%/vendor/splash/phpcore/Resources/grumphp/phpstan.php"
+        bootstrapFiles:
+                - "%currentWorkingDirectory%/vendor/splash/phpcore/Resources/grumphp/phpstan.php"
         checkMissingIterableValueType: false
         checkGenericClassInNonGenericObjectType: false
         inferPrivatePropertyTypeFromConstructor: true 
         universalObjectCratesClasses:
                 - ArrayObject
         symfony:
-                container_xml_path: %currentWorkingDirectory%/var/cache/dev/testContainer.xml # or srcDevDebugProjectContainer.xml for Symfony 4+
+                container_xml_path: %currentWorkingDirectory%/var/cache/test/appAppKernelTestDebugContainer.xml
         ignoreErrors:
                 # Splash Widgets Blocks Methods 
                 - '#Call to an undefined method [a-zA-Z0-9\\_]+BaseBlock::[a-zA-Z0-9\\_]+().#'
